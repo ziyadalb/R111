@@ -302,3 +302,13 @@ td .m { white-space: nowrap; }
 .plot .tick { paint-order: stroke; stroke: #ffffff; stroke-width: 3px; stroke-linejoin: round; }
 .pcard, .hint, .diff { display: flow-root; break-inside: avoid; page-break-inside: avoid; }
 .pcard .q-math { break-after: auto; }
+
+/* توفير صفحات: الدروس تكمل في نفس الصفحة، وكلمة «الجواب» جنب المعادلة */
+.pg-learn h1 { break-before: auto; margin-top: 1.1em; }
+.pg-learn h1:first-of-type { break-before: page; margin-top: 0; }
+.answer { display: flex; align-items: center; gap: 0.6em; }
+.answer .ans-label { flex: none; }
+.answer .eq { flex: 1; margin: 0.12em 0; }
+.hint-body p { margin: 0.08em 0; }
+.box-title { break-after: avoid; }
+.box-body > :first-child { break-before: avoid; }
