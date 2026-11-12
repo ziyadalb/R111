@@ -1,0 +1,947 @@
+<title>خطة اختبار ريض 111</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@500;700&display=swap">
+<style>
+/* Layout: one phone-first column (max 46rem), a sticky tab strip where each tab does one job,
+   and an exam-booklet feel: squared-paper header, marks in red brackets like the answer keys. */
+:root{
+  --bg:#F3F5F9; --surface:#FFFFFF; --ink:#16233B; --muted:#56637D; --line:#D7DDE9;
+  --accent:#1D4ED8; --accent-soft:#E4ECFF; --mark:#C0261F;
+  --ok:#17794A; --ok-soft:#DFF3E7; --warn:#855000; --warn-soft:#FFF1D2;
+  --f-body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,system-ui,sans-serif;
+  --f-head:"Readex Pro","IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1420; --surface:#161F30; --ink:#E7ECF6; --muted:#9BA8C0; --line:#2A364C;
+    --accent:#8FB0FF; --accent-soft:#1C2947; --mark:#FF9087;
+    --ok:#6FD3A0; --ok-soft:#14301F; --warn:#F2C26B; --warn-soft:#38290C; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1420; --surface:#161F30; --ink:#E7ECF6; --muted:#9BA8C0; --line:#2A364C;
+  --accent:#8FB0FF; --accent-soft:#1C2947; --mark:#FF9087;
+  --ok:#6FD3A0; --ok-soft:#14301F; --warn:#F2C26B; --warn-soft:#38290C; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.8}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:46rem;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-head);line-height:1.4;text-wrap:balance;margin:0}
+h1{font-size:1.5rem;font-weight:700}
+h2{font-size:1.2rem;font-weight:700;margin-top:2rem}
+h3{font-size:1rem;font-weight:700}
+p{margin:.5rem 0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.muted{color:var(--muted)}
+.small{font-size:.875rem}
+.mk{color:var(--mark);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;direction:ltr;unicode-bidi:isolate}
+
+/* header on squared paper */
+.head{background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:22px 22px;border-bottom:1px solid var(--line)}
+.head .wrap{padding-block:1.25rem 1rem}
+.head .scope{font-size:.9rem;color:var(--muted);margin:.15rem 0 0}
+.now{margin-top:.9rem;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.75rem .9rem}
+.now strong{font-family:var(--f-head)}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-top:.5rem}
+.bar i{display:block;height:100%;background:var(--ok);width:0}
+
+/* tabs */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.tabs .wrap{display:flex;gap:.25rem;overflow-x:auto;padding-block:.4rem;scrollbar-width:none}
+.tabs a{flex:none;text-decoration:none;color:var(--muted);font-weight:600;font-size:.95rem;padding:.35rem .7rem;border-radius:999px;white-space:nowrap}
+.tabs a[aria-current="page"]{background:var(--ink);color:var(--bg)}
+main{padding-block:1.25rem 4rem}
+section>h2:first-child{margin-top:.25rem}
+
+/* math */
+.im svg{max-width:none}
+.dm{display:block;overflow-x:auto;overflow-y:hidden;text-align:center;padding:.5rem 0;max-width:100%}
+.dm svg{display:inline-block;max-width:none}
+.fm .im{display:inline-block;max-width:100%;overflow-x:auto;overflow-y:hidden;vertical-align:middle}
+
+/* blocks */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.9rem 1rem;margin-top:.75rem}
+.note{border-inline-start:3px solid var(--accent);background:var(--accent-soft);padding:.6rem .85rem;border-radius:6px;margin-top:.75rem}
+.warn{border-inline-start:3px solid var(--warn);background:var(--warn-soft);padding:.6rem .85rem;border-radius:6px;margin-top:.75rem}
+.warn strong:first-child{color:var(--warn)}
+ol,ul{padding-inline-start:1.3rem;margin:.4rem 0}
+li{margin:.3rem 0}
+.scroll{overflow-x:auto;margin-top:.6rem;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{padding:.5rem .65rem;border-bottom:1px solid var(--line);text-align:start;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+th{font-family:var(--f-head);font-size:.85rem;color:var(--muted);font-weight:500;white-space:nowrap}
+td.c,th.c{text-align:center}
+td.nw{white-space:nowrap}
+details{margin-top:.6rem}
+summary{cursor:pointer;font-weight:600}
+.btn{display:inline-flex;align-items:center;gap:.35rem;font:inherit;font-weight:600;font-size:.95rem;border:1px solid var(--accent);color:var(--accent);background:transparent;border-radius:8px;padding:.35rem .8rem;cursor:pointer;text-decoration:none}
+.btn.solid{background:var(--accent);color:var(--surface)}
+.btn.ok{border-color:var(--ok);color:var(--ok)}
+.btn.bad{border-color:var(--mark);color:var(--mark)}
+.btn[disabled]{opacity:.45;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+
+/* plan */
+.day{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-top:.75rem}
+.day[data-today="1"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.day>summary{list-style:none;padding:.75rem 1rem;display:flex;flex-wrap:wrap;gap:.25rem .75rem;align-items:baseline}
+.day>summary::-webkit-details-marker{display:none}
+.day .dn{font-family:var(--f-head);font-weight:700;font-size:1.05rem}
+.day .dt{color:var(--muted);font-size:.9rem;font-weight:400}
+.day .dc{margin-inline-start:auto;font-size:.85rem;color:var(--muted);font-weight:500;font-variant-numeric:tabular-nums}
+.day .dbody{padding:0 1rem .75rem}
+.day .dnote{font-size:.9rem;color:var(--muted);margin:0 0 .25rem}
+.ses{border-top:1px solid var(--line);padding:.7rem 0}
+.ses label{display:flex;gap:.6rem;align-items:flex-start;cursor:pointer}
+.ses input[type=checkbox]{width:1.35rem;height:1.35rem;flex:none;margin-top:.25rem;accent-color:var(--ok)}
+.ses .ttl{font-weight:600;min-width:0}
+.ses .min{margin-inline-start:auto;flex:none;font-size:.8rem;color:var(--muted);white-space:nowrap;padding-top:.2rem}
+.ses .desc{font-size:.92rem;color:var(--muted);margin:.25rem 0 .45rem;padding-inline-start:1.95rem}
+.ses .acts,.ses .focus{padding-inline-start:1.95rem}
+.ses.done .ttl{text-decoration:line-through;color:var(--muted)}
+.focus{font-size:.9rem;margin-top:.45rem}
+.focus button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:.1rem .7rem;cursor:pointer}
+.focus button[aria-pressed="true"]{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+
+/* map boxes */
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.9rem 1rem;margin-top:.75rem}
+.box header{display:flex;flex-wrap:wrap;gap:.3rem .6rem;align-items:baseline}
+.box .les{font-size:.8rem;color:var(--muted);font-weight:500}
+.box .freq{margin-inline-start:auto;font-size:.8rem;color:var(--muted)}
+.box dl{margin:.5rem 0 0}
+.box dt{font-family:var(--f-head);font-size:.8rem;color:var(--muted);margin-top:.6rem}
+.box dd{margin:0}
+.ladder{counter-reset:q;list-style:none;padding:0;margin:.75rem 0 0}
+.ladder li{counter-increment:q;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.65rem .9rem .65rem .9rem;margin:.5rem 0;display:grid;grid-template-columns:auto 1fr;gap:.1rem .7rem}
+.ladder li::before{content:counter(q);grid-row:span 2;font-family:var(--f-head);font-weight:700;color:var(--accent);font-size:1.15rem;line-height:1.5}
+.ladder .qq{font-weight:600;min-width:0}
+.ladder .aa{color:var(--muted);font-size:.93rem;min-width:0}
+
+/* drill */
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+.chips button{font:inherit;font-size:.9rem;font-variant-numeric:tabular-nums;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:.15rem .8rem;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+#card{margin-top:1rem}
+.qhead{display:flex;gap:.5rem;justify-content:space-between;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.qtag{display:inline-block;font-size:.75rem;font-weight:600;border-radius:4px;padding:0 .45rem;background:var(--accent-soft);color:var(--accent)}
+.qtag.x{background:var(--warn-soft);color:var(--warn)}
+.ask{font-weight:600;margin:.6rem 0 0}
+.qmath{font-size:1.15rem;padding:.4rem 0}
+.sol dt{font-family:var(--f-head);font-size:.8rem;color:var(--muted);margin-top:.7rem}
+.sol dd{margin:0}
+.sol .src{font-size:.88rem;color:var(--muted)}
+.grade{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.blist{list-style:none;padding:0;margin:.4rem 0}
+.blist li{border-top:1px solid var(--line);padding:.35rem 0;margin:0}
+.blist button{font:inherit;color:inherit;background:none;border:0;padding:0;width:100%;text-align:start;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;gap:.6rem;align-items:center}
+.blist .bid{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums;direction:ltr}
+.blist .bq{min-width:0;overflow:hidden;font-size:.8rem}
+.blist .bq .dm{text-align:start;padding:0;overflow:hidden}
+.blist .bs{font-size:.8rem}
+.s-r{color:var(--ok)} .s-w{color:var(--mark)}
+
+/* triangles */
+.tris{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.25rem,1fr));gap:.6rem;margin-top:.75rem}
+.tri{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.5rem .25rem;text-align:center}
+.tri svg{width:100%;max-width:13rem;height:auto;direction:ltr}
+.tri svg text{fill:var(--ink);font-family:Georgia,"Times New Roman",serif;font-size:16px}
+.tri svg path{fill:none;stroke:var(--ink);stroke-width:1.5}
+.tri figcaption{font-size:.85rem;color:var(--muted)}
+
+.matrix td,.matrix th{font-size:.82rem;padding:.4rem .5rem}
+.matrix td{white-space:nowrap}
+.matrix td:first-child,.matrix th:first-child{position:sticky;inset-inline-start:0;background:var(--surface);font-weight:600}
+.src-list li{font-size:.9rem;overflow-wrap:anywhere}
+@media (max-width:480px){th,td{padding:.45rem .4rem}.t3 td{font-size:.84rem}}
+@media (prefers-reduced-motion:no-preference){.bar i{transition:width .3s}}
+</style>
+
+<div id="app" dir="rtl" lang="ar">
+<div class="head"><div class="wrap">
+  <h1>خطة اختبار ريض 111</h1>
+  <p class="scope">الاختبار الثاني · الدروس 4.2 إلى 6.1 · مبنية على 12 اختبار سابق ومذكرة د. طارق</p>
+  <div class="now" id="now" aria-live="polite">
+    <div><strong id="nowDay">الخميس</strong> <span id="nowTheme" class="muted"></span></div>
+    <div class="small muted" id="nowCount"></div>
+    <div class="bar" role="img" aria-label="التقدم الكلي"><i id="nowBar"></i></div>
+  </div>
+</div></div>
+
+<nav class="tabs" aria-label="أقسام الخطة"><div class="wrap">
+  <a href="#plan">الخطة</a>
+  <a href="#map">إذا شفت ← أسوي</a>
+  <a href="#tables">الجداول</a>
+  <a href="#algebra">الجبر</a>
+  <a href="#drill">تدريب</a>
+  <a href="#exam">يوم الاختبار</a>
+  <a href="#why">البحث</a>
+</div></nav>
+
+<main class="wrap">
+
+<!-- ======================= PLAN ======================= -->
+<section id="v-plan">
+  <h2>قاعدتين، وبس</h2>
+  <ol>
+    <li><strong>الأساس من كل الدروس قبل التعمق في أي درس.</strong> كل جلسة فيها أسئلة «أساس» وأسئلة «للدرجة الكاملة». إذا ضاق الوقت خذ الأساس وامشِ للدرس اللي بعده. كل الجديد يخلص السبت، والأحد احتياط.</li>
+    <li><strong>ما فيه قراءة.</strong> كل جلسة: مثال محلول تغطّي حله، ثم أسئلة والمذكرة مقفلة، ثم تصحيح فوري، ثم ☐.</li>
+  </ol>
+
+  <div id="days"></div>
+
+  <details class="card">
+    <summary>طريقة الجلسة (50 دقيقة)</summary>
+    <ol>
+      <li><strong>دقيقتين:</strong> الجوال في غرفة ثانية. ورقة وقلم، والمذكرة مفتوحة على الصفحة المطلوبة.</li>
+      <li><strong>12 دقيقة، مثال محلول من المذكرة:</strong> غطِّ الحل بورقة. توقّع السطر الجاي، انزل سطر، وقارن.</li>
+      <li><strong>25 دقيقة، أسئلة الجلسة:</strong> حل على ورق والمذكرة مقفلة. بعد كل سؤال اكشف أول سطر والجواب وصحّح فوراً. غلطت؟ اضغط «غلط» عشان السؤال يرجع لك في الأيام الجاية.</li>
+      <li><strong>8 دقايق، من راسك:</strong> اكتب جملة «إذا شفت … ← أسوي …» لنوع اليوم، واكتب أي خطأ سويته بجملة وحدة.</li>
+      <li><strong>3 دقايق:</strong> علّم ☐ وقيّم تركيزك. ثم 10 دقايق راحة: قم وتحرك، بدون جوال.</li>
+    </ol>
+    <p class="note">صعب تبدأ؟ قل لنفسك: المثال الأول بس، خمس دقايق. البداية هي أصعب جزء.</p>
+  </details>
+
+  <details class="card">
+    <summary>أفضل وقت للمذاكرة</summary>
+    <ul>
+      <li><strong>الصعب في أنشط ساعتين عندك.</strong> البحث ما يقول إن فيه ساعة أفضل للكل. يقول إن الأداء أعلى لما الوقت يطابق ذروة الشخص نفسه، وإن اللي نشاطهم مسائي أضعف في الصبح. فحط 5.3 و 5.4 في ذروتك.</li>
+      <li><strong>ما تعرف ذروتك؟ اختبرها.</strong> بعد كل جلسة قيّم تركيزك من الأزرار، والصفحة تحسب متوسطك لكل فترة:
+        <div class="note" id="focusSum">قيّم 4 جلسات على الأقل ويطلع لك هنا أي فترة تركيزك فيها أعلى.</div></li>
+      <li><strong>10 دقايق استرجاع قبل النوم.</strong> النوم خلال ساعات من التعلم يثبّته أكثر.</li>
+      <li><strong>نم 7 إلى 9 ساعات وبنفس الوقت، من الليلة.</strong> في دراسة على طلاب MIT اللي ارتبط بالدرجات هو نوم الأسبوع كله وثباته، مو ليلة الاختبار لحالها. السهر يوم السبت يضرك أكثر من سهر ليلة الاختبار.</li>
+      <li><strong>الاختبار التجريبي يوم الاثنين في نفس ساعة اختبارك.</strong></li>
+      <li><strong>مشي سريع 10 إلى 20 دقيقة قبل الجلسة الصعبة.</strong> أثره على التركيز صغير بس مجاني.</li>
+    </ul>
+  </details>
+
+  <details class="card">
+    <summary>إذا تأخرت عن الجدول</summary>
+    <p>لا تكمّل درس للآخر وتترك غيره. خذ أسئلة «الأساس» من كل جلسة باقية، وكمّل «للدرجة الكاملة» يوم الأحد.</p>
+    <p>وإذا لازم تختار، هذا وزن كل درس في آخر اختبار بنفس نطاقك (1447 ف2، من 15):</p>
+    <div class="scroll"><table>
+      <tr><th>الدرس</th><th>وش جا منه</th><th class="c">الدرجات</th></tr>
+      <tr><td class="nw">4.2</td><td>مشتقتين، صيغة جاهزة، إكمال مربع</td><td class="c"><span class="mk">[5]</span></td></tr>
+      <tr><td class="nw">5.3</td><td>تعويض مثلثي</td><td class="c"><span class="mk">[2]</span></td></tr>
+      <tr><td class="nw">5.4</td><td>كسور جزئية</td><td class="c"><span class="mk">[2]</span></td></tr>
+      <tr><td class="nw">6.1</td><td>نهاية وحدة</td><td class="c"><span class="mk">[2]</span></td></tr>
+      <tr><td class="nw">5.1</td><td>تجزئة</td><td class="c"><span class="mk">[1.5]</span></td></tr>
+      <tr><td class="nw">5.5</td><td>تعويض قوى كسرية</td><td class="c"><span class="mk">[1.5]</span></td></tr>
+      <tr><td class="nw">5.2</td><td>تكامل مثلثي</td><td class="c"><span class="mk">[1]</span></td></tr>
+    </table></div>
+  </details>
+  <p class="small muted">علامات ☐ وتقييماتك محفوظة على هذا الجهاز بس.</p>
+</section>
+
+<!-- ======================= MAP ======================= -->
+<section id="v-map" hidden>
+  <h2>ما تخترع الحل. تعرف السؤال من أي صندوق.</h2>
+  <p>اللي تحسه «غير منطقي ومستحيل يخطر على بالي» هو فعلاً ما يخطر على بال أحد وقت الاختبار. اللي يحلّون ما يخترعون: يتعرّفون على الشكل، ويكتبون أول سطر محفوظ. والأشكال في نطاقك ثمانية صناديق بس.</p>
+  <p>اسأل هذي الأسئلة <strong>بالترتيب</strong>. أول «نعم» هو طريقتك.</p>
+  <ol class="ladder">
+    <li><span class="qq">فيه دالة ومشتقتها موجودة جنبها؟</span><span class="aa">تعويض عادي: \(u\) = الدالة. مثل \(\int\tan^3x\,\sec^2x\,dx\) و \(\int\frac{\ln x}{x}\,dx\).</span></li>
+    <li><span class="qq">كسر مقامه جذر (أو بدون جذر) فيه \((\ \cdot\ )^2\pm\) عدد، وما فيه شي ثاني؟</span><span class="aa">صيغة جاهزة من 4.2. فيه \(x^2\) ومعه حد \(x\)؟ إكمال مربع أولاً. <strong>صندوق C</strong></span></li>
+    <li><span class="qq">ضرب نوعين مختلفين، أو \(\ln\) أو دالة عكسية لحالها؟</span><span class="aa">تجزئة. <strong>صندوق D</strong></span></li>
+    <li><span class="qq">قوى دوال مثلثية بس؟</span><span class="aa">اقطع واحد وعوّض. <strong>صندوق E</strong></span></li>
+    <li><span class="qq">\(a^2-x^2\) أو \(a^2+x^2\) أو \(x^2-a^2\) تحت جذر أو بأس \(\tfrac32\)، ومعه شي زيادة؟</span><span class="aa">تعويض مثلثي. <strong>صندوق F</strong></span></li>
+    <li><span class="qq">كثيرة حدود على كثيرة حدود؟</span><span class="aa">كسور جزئية. <strong>صندوق G</strong></span></li>
+    <li><span class="qq">\(x\) بجذور مختلفة، أو جذر جوّاه جذر أو أسية؟</span><span class="aa">تعويض يشيل الجذر. <strong>صندوق H</strong></span></li>
+  </ol>
+  <p class="small muted">ولا واحد؟ بسّط أولاً (اختصر، فك القوس، طلّع الثابت) وارجع للسؤال 1. والمشتقات والنهايات صندوقين لحالهم: A و B.</p>
+
+  <h2>الصناديق الثمانية</h2>
+
+  <article class="box">
+    <header><h3>A · مشتقة دالة زائدية عكسية</h3><span class="les">4.2</span><span class="mk">[2]</span><span class="freq">جا في 6 من 6</span></header>
+    <dl>
+      <dt>كيف أعرفه</dt><dd>«أوجد المشتقة» وفيها \(\sinh^{-1}\) أو \(\cosh^{-1}\) أو \(\tanh^{-1}\) أو \(\coth^{-1}\) أو \(\operatorname{sech}^{-1}\) أو \(\operatorname{csch}^{-1}\).</dd>
+      <dt>أول سطر</dt><dd>سمِّ اللي داخل القوس \(u\) واكتب \(u'\) جنبه.</dd>
+      <dt>الخطوات</dt><dd><ol><li>اكتب صيغة المشتقة بدلالة \(u\) (من «الجداول»).</li><li>عوّض \(u\) واضرب في \(u'\).</li><li>بسّط اللي تحت الجذر: \((\sqrt x)^2=x\) و \((e^x)^2=e^{2x}\).</li></ol></dd>
+      <dt>الفخ</dt><dd>تنسى تضرب في \(u'\). أو تكتب صيغة التكامل بدل المشتقة: المشتقة ما فيها \(a\) أبد، فيها 1.</dd>
+    </dl>
+  </article>
+
+  <article class="box">
+    <header><h3>B · نهاية بقاعدة لوبيتال</h3><span class="les">6.1</span><span class="mk">[2]</span><span class="freq">في كل نهائي، وآخر اختبار ثاني</span></header>
+    <dl>
+      <dt>أول سطر، دايم</dt><dd>عوّض واكتب الشكل بين قوسين جنب النهاية. بدونه تروح درجة.</dd>
+      <dt>الشكل يحدد الطريقة</dt><dd>
+        <div class="scroll"><table>
+          <tr><td class="nw">\(\frac00\) أو \(\frac\infty\infty\)</td><td>لوبيتال: اشتق البسط لحاله والمقام لحاله. طلع نفس الشكل؟ مرة ثانية.</td></tr>
+          <tr><td class="nw">\(0\cdot\infty\)</td><td>انقل واحد للمقام (خلّ \(\ln\) فوق)، يصير \(\frac\infty\infty\).</td></tr>
+          <tr><td class="nw">\(\infty-\infty\)</td><td>وحّد المقامات، يصير \(\frac00\).</td></tr>
+          <tr><td class="nw">\(1^\infty,\ 0^0,\ \infty^0\)</td><td>\(y=\) المقدار، خذ \(\ln y\)، احسب نهايته \(L\)، والجواب \(e^{L}\).</td></tr>
+        </table></div></dd>
+      <dt>الفخ</dt><dd>تستخدم قاعدة القسمة. تنسى ترجّع \(e^{L}\) في الآخر. تطبّق لوبيتال والشكل مو \(\frac00\) ولا \(\frac\infty\infty\).</dd>
+    </dl>
+  </article>
+
+  <article class="box">
+    <header><h3>C · صيغة جاهزة، مع أو بدون إكمال مربع</h3><span class="les">4.2</span><span class="mk">[1] + [2]</span><span class="freq">جا في 6 من 6</span></header>
+    <dl>
+      <dt>كيف أعرفه</dt><dd>كسر، مقامه جذر تربيعي أو مقدار تربيعي، وما فيه فوق إلا عدد أو مشتقة اللي تحت.</dd>
+      <dt>أول سطر</dt><dd>\(u=\dots,\quad a=\dots\) وتأكد إن \(u'\) موجودة فوق.</dd>
+      <dt>الخطوات</dt><dd><ol>
+        <li>فيه \(x^2\) ومعه حد \(x\) (مثل \(x^2+6x+13\))؟ إكمال مربع.</li>
+        <li>حدّد \(u\) و \(a\): \(x^4=(x^2)^2\)، \(e^{6x}=(e^{3x})^2\)، \((\ln x)^2\).</li>
+        <li>\(u'\) ناقصها ثابت؟ اضرب جوّا واقسم برا.</li>
+        <li>\(u\) أسية أو \(x^3\) والجذر لحاله أو معه \(x\) بس؟ اضرب فوق وتحت في اللي يكمّل \(u'\)، ويطلع شكل \(\operatorname{csch}^{-1}\) أو \(\operatorname{sech}^{-1}\).</li>
+        <li>اختر من جدول 3×2 في «الجداول».</li></ol></dd>
+      <dt>الفخ</dt><dd>\(\frac1a\) تطلع بس لما \(u\) برا الجذر أو ما فيه جذر. والسالب مع \(\operatorname{sech}^{-1}\) و \(\operatorname{csch}^{-1}\).</dd>
+    </dl>
+  </article>
+
+  <article class="box">
+    <header><h3>D · التكامل بالتجزئة</h3><span class="les">5.1</span><span class="mk">[1.5]</span><span class="freq">جا في 6 من 6</span></header>
+    <dl>
+      <dt>كيف أعرفه</dt><dd>ضرب نوعين مختلفين (\(x\cos x\)، \(x^3\ln x\))، أو دالة عكسية أو \(\ln\) لحالها (\(\sin^{-1}x\)، \(\cosh^{-1}x\)).</dd>
+      <dt>أول سطر</dt><dd>الجدول الرباعي مثل حل طارق: \(u=\dots,\ dv=\dots\) وتحته \(du=\dots,\ v=\dots\)</dd>
+      <dt>مين \(u\)؟ أول واحد تلقاه بهذا الترتيب</dt><dd><ol><li>\(\ln\)</li><li>دالة عكسية: \(\sin^{-1},\ \tan^{-1},\ \cosh^{-1},\ \tanh^{-1},\ \operatorname{sech}^{-1}\)</li><li>كثيرة الحدود: \(x,\ 2x-1,\ x^2\)</li></ol>والباقي كله \(dv\).</dd>
+      <dt>بعدها</dt><dd>\(\int u\,dv=uv-\int v\,du\). التكامل الجديد غالباً تعويض بسيط. مع \(x^2\) تجزئة ثانية. مع \(e^{ax}\sin\) مرتين ثم انقل التكامل للطرف الثاني.</dd>
+      <dt>الفخ</dt><dd>السالب قبل التكامل الثاني والأقواس. و \(e^{x}\cosh x\) مو تجزئة: عوّض \(\cosh x=\frac{e^x+e^{-x}}{2}\).</dd>
+    </dl>
+  </article>
+
+  <article class="box">
+    <header><h3>E · التكاملات المثلثية</h3><span class="les">5.2</span><span class="mk">[1]</span><span class="freq">جا في 6 من 6</span></header>
+    <dl>
+      <dt>القاعدة في جملة</dt><dd>اللي تقطعه هو مشتقة \(u\).</dd>
+      <dt>الحالات</dt><dd>
+        <div class="scroll"><table>
+          <tr><th>الشكل</th><th>اقطع</th><th>حوّل الباقي بـ</th><th>\(u\)</th></tr>
+          <tr><td>\(\sin^m\cos^n\)، \(\cos\) فردي</td><td class="nw">\(\cos x\)</td><td class="nw">\(\cos^2=1-\sin^2\)</td><td class="nw">\(\sin x\)</td></tr>
+          <tr><td>\(\sin^m\cos^n\)، \(\sin\) فردي</td><td class="nw">\(\sin x\)</td><td class="nw">\(\sin^2=1-\cos^2\)</td><td class="nw">\(\cos x\)</td></tr>
+          <tr><td>\(\tan^m\sec^n\)، \(\sec\) زوجي</td><td class="nw">\(\sec^2x\)</td><td class="nw">\(\sec^2=1+\tan^2\)</td><td class="nw">\(\tan x\)</td></tr>
+          <tr><td>\(\tan^m\sec^n\)، \(\tan\) فردي</td><td class="nw">\(\sec x\tan x\)</td><td class="nw">\(\tan^2=\sec^2-1\)</td><td class="nw">\(\sec x\)</td></tr>
+          <tr><td class="nw">\(\cot^m\csc^n\)</td><td colspan="3">نفس \(\tan/\sec\) بالضبط، بس \(du\) فيها سالب</td></tr>
+          <tr><td class="nw">الاثنين زوجي</td><td colspan="3">نصف الزاوية: \(\sin^2x=\frac{1-\cos2x}{2}\)، \(\cos^2x=\frac{1+\cos2x}{2}\)</td></tr>
+          <tr><td class="nw">\(\sin7x\cos5x\)</td><td colspan="3">تحويل إلى مجموع (في «الجداول»)</td></tr>
+        </table></div></dd>
+      <dt>الفخ</dt><dd>\(d(\cos x)=-\sin x\,dx\) و \(d(\cot x)=-\csc^2x\,dx\). السالب يطلع برا التكامل.</dd>
+    </dl>
+  </article>
+
+  <article class="box">
+    <header><h3>F · التعويض المثلثي</h3><span class="les">5.3</span><span class="mk">[2]</span><span class="freq">جا في 6 من 6، و5 منها بأس \(\tfrac32\)</span></header>
+    <dl>
+      <dt>كيف أعرفه</dt><dd>\(a^2-x^2\) أو \(a^2+x^2\) أو \(x^2-a^2\) تحت جذر أو بأس \(\frac32\)، ومعه \(x\) برا أو الأس مو جذر عادي. إذا الشكل صيغة جاهزة بالضبط استخدم الصيغة، أقصر.</dd>
+      <dt>أي تعويض</dt><dd>
+        <div class="scroll"><table>
+          <tr><th>فيه</th><th>ضع</th><th>\(dx\)</th><th>الجذر يصير</th></tr>
+          <tr><td class="nw">\(a^2-x^2\)</td><td class="nw">\(x=a\sin\theta\)</td><td class="nw">\(a\cos\theta\,d\theta\)</td><td class="nw">\(a\cos\theta\)</td></tr>
+          <tr><td class="nw">\(a^2+x^2\)</td><td class="nw">\(x=a\tan\theta\)</td><td class="nw">\(a\sec^2\theta\,d\theta\)</td><td class="nw">\(a\sec\theta\)</td></tr>
+          <tr><td class="nw">\(x^2-a^2\)</td><td class="nw">\(x=a\sec\theta\)</td><td class="nw">\(a\sec\theta\tan\theta\,d\theta\)</td><td class="nw">\(a\tan\theta\)</td></tr>
+        </table></div></dd>
+      <dt>الخطوات الخمس، بنفس ترتيب حل طارق</dt><dd><ol>
+        <li>Put \(x=a\sin\theta\) واكتب جنبها \(\sin\theta=\frac xa\).</li>
+        <li>\(dx\).</li>
+        <li>حوّل الجذر أو الأس: \(\left(4-x^2\right)^{3/2}=\left(4\cos^2\theta\right)^{3/2}=2^3\cos^3\theta\).</li>
+        <li>عوّض، اختصر، وكامل.</li>
+        <li>ارسم المثلث وارجع لـ \(x\).</li></ol></dd>
+      <dt>الفخ</dt><dd>تنسى \(dx\). تنسى ترجع لـ \(x\). الأس \(\frac32\) يعني \(a^3\) مو \(a\).</dd>
+    </dl>
+  </article>
+
+  <article class="box">
+    <header><h3>G · الكسور الجزئية</h3><span class="les">5.4</span><span class="mk">[2]</span><span class="freq">جا في 6 من 6، و5 منها \(x(x^2+a^2)\)</span></header>
+    <dl>
+      <dt>كيف أعرفه</dt><dd>كثيرة حدود على كثيرة حدود، والبسط مو مشتقة المقام.</dd>
+      <dt>الخطوات</dt><dd><ol>
+        <li>درجة البسط أكبر من أو تساوي درجة المقام؟ قسمة مطولة أولاً.</li>
+        <li>حلّل المقام للآخر.</li>
+        <li>اكتب التفكيك: \((x-r)\) يعطي \(\frac{A}{x-r}\). و \((x-r)^2\) يعطي \(\frac{A_1}{x-r}+\frac{A_2}{(x-r)^2}\). و \(x^2+a^2\) يعطي \(\frac{Bx+C}{x^2+a^2}\).</li>
+        <li>اضرب الطرفين في المقام، رتّب حسب قوى \(x\)، وقارن المعاملات.</li>
+        <li>كامل كل حد: \(\frac Ax\to A\ln|x|\)، و \(\frac{Bx}{x^2+a^2}\to\frac B2\ln(x^2+a^2)\)، و \(\frac{C}{x^2+a^2}\to\frac Ca\tan^{-1}\frac xa\).</li></ol></dd>
+      <dt>الفخ</dt><dd>تكتب \(\frac{B}{x^2+4}\) بدل \(\frac{Bx+C}{x^2+4}\). تنسى \(\frac12\) قدام اللوغاريتم و \(\frac1a\) قدام \(\tan^{-1}\).</dd>
+    </dl>
+  </article>
+
+  <article class="box">
+    <header><h3>H · التعويضات المتنوعة</h3><span class="les">5.5</span><span class="mk">[1.5]</span><span class="freq">جا في 5 من 6</span></header>
+    <dl>
+      <dt>نوعين بس في المذكرة</dt><dd><ol>
+        <li><strong>\(x\) بأسس كسرية مختلفة</strong> (\(\sqrt x\) مع \(\sqrt[3]{x}\) أو \(\sqrt[4]{x}\)): ضع \(x=u^n\) و \(n\) هو المضاعف المشترك الأصغر لمقامات الأسس، و \(dx=n\,u^{n-1}du\).</li>
+        <li><strong>جذر جوّاه شي</strong> (\(\sqrt{4+\sqrt x}\)، \(\sqrt{e^x+1}\)): ضع \(u\) = الجذر كله، ربّع الطرفين، طلّع \(x\) ثم \(dx\).</li></ol></dd>
+      <dt>بعدها</dt><dd>طلّع عامل مشترك من المقام واختصر. وإذا البسط درجته أكبر من أو تساوي المقام: قسمة مطولة.</dd>
+      <dt>الفخ</dt><dd>تنسى ترجّع \(u=x^{1/n}\) في الجواب.</dd>
+    </dl>
+  </article>
+
+  <h2>المتشابهات اللي تخلّط</h2>
+  <div class="scroll"><table>
+    <tr><th>هذا</th><th>وهذا</th><th>الفرق</th></tr>
+    <tr><td class="nw">\(\int\frac{dx}{\sqrt{x^2+9}}\)<br><span class="small muted">صيغة: \(\sinh^{-1}\frac x3\)</span></td><td class="nw">\(\int\frac{dx}{(x^2+9)^{3/2}}\)<br><span class="small muted">تعويض مثلثي</span></td><td>الأس \(\frac32\) مو في الجدول</td></tr>
+    <tr><td class="nw">\(\int\frac{dx}{\sqrt{9-x^2}}\)<br><span class="small muted">\(\sin^{-1}\frac x3\)</span></td><td class="nw">\(\int\frac{dx}{\sqrt{x^2-9}}\)<br><span class="small muted">\(\cosh^{-1}\frac x3\)</span></td><td>مين الأول تحت الجذر</td></tr>
+    <tr><td class="nw">\(\int\frac{dx}{9+x^2}\)<br><span class="small muted">\(\frac13\tan^{-1}\frac x3\)</span></td><td class="nw">\(\int\frac{dx}{9-x^2}\)<br><span class="small muted">\(\frac13\tanh^{-1}\frac x3\)</span></td><td>الإشارة</td></tr>
+    <tr><td class="nw">\(\int x\cos x\,dx\)<br><span class="small muted">تجزئة</span></td><td class="nw">\(\int x\cos(x^2)\,dx\)<br><span class="small muted">تعويض \(u=x^2\)</span></td><td>مشتقة الداخل موجودة؟</td></tr>
+    <tr><td class="nw">\(\int x\ln x\,dx\)<br><span class="small muted">تجزئة</span></td><td class="nw">\(\int\frac{\ln x}{x}\,dx\)<br><span class="small muted">تعويض \(u=\ln x\)</span></td><td>\(\frac1x\) هي مشتقة \(\ln x\)</td></tr>
+    <tr><td class="nw">\(\int\frac{x+3}{x^3+9x}\,dx\)<br><span class="small muted">كسور جزئية</span></td><td class="nw">\(\int\frac{3x^2+9}{x^3+9x}\,dx\)<br><span class="small muted">\(\ln|x^3+9x|\)</span></td><td>البسط مشتقة المقام؟</td></tr>
+    <tr><td class="nw">\(\int e^{x}\cos x\,dx\)<br><span class="small muted">تجزئة مرتين</span></td><td class="nw">\(\int e^{x}\cosh x\,dx\)<br><span class="small muted">بالتعريف</span></td><td>\(\cosh\) تنكتب أسيات</td></tr>
+    <tr><td class="nw">\(\frac{d}{dx}\sinh^{-1}(3x)\)<br><span class="small muted">\(\frac{3}{\sqrt{1+9x^2}}\)</span></td><td class="nw">\(\int\frac{dx}{\sqrt{x^2+9}}\)<br><span class="small muted">\(\sinh^{-1}\frac x3\)</span></td><td>المشتقة فيها 1 وتضرب في \(u'\). التكامل فيه \(a^2\) وتقسم على \(a\) جوّا.</td></tr>
+  </table></div>
+</section>
+
+<!-- ======================= TABLES ======================= -->
+<section id="v-tables" hidden>
+  <h2>الجدول اللي يفك لخبطة المشتقة والتكامل</h2>
+  <p>ثلاثة أعمدة جنب بعض. اقرأ كل صف من اليمين: الدالة، مشتقتها، ثم التكامل اللي يرجّعك لها.</p>
+  <div class="scroll t3"><table>
+    <tr><th>الدالة</th><th>مشتقتها</th><th>التكامل اللي يرجّعها</th></tr>
+    <tr><td class="nw">\(\sinh^{-1}u\)</td><td class="nw">\(\dfrac{u'}{\sqrt{1+u^2}}\)</td><td class="nw">\(\displaystyle\int\frac{u'}{\sqrt{u^2+a^2}}\,dx=\sinh^{-1}\frac ua\)</td></tr>
+    <tr><td class="nw">\(\cosh^{-1}u\)</td><td class="nw">\(\dfrac{u'}{\sqrt{u^2-1}}\)</td><td class="nw">\(\displaystyle\int\frac{u'}{\sqrt{u^2-a^2}}\,dx=\cosh^{-1}\frac ua\)</td></tr>
+    <tr><td class="nw">\(\tanh^{-1}u\)</td><td class="nw">\(\dfrac{u'}{1-u^2}\)</td><td class="nw">\(\displaystyle\int\frac{u'}{a^2-u^2}\,dx=\frac1a\tanh^{-1}\frac ua\)</td></tr>
+    <tr><td class="nw">\(\coth^{-1}u\)</td><td class="nw">\(\dfrac{u'}{1-u^2}\) <span class="small muted">انظر التنبيه</span></td><td class="nw"><span class="small muted">في الاختبارات يستخدم \(\tanh^{-1}\)</span></td></tr>
+    <tr><td class="nw">\(\operatorname{sech}^{-1}u\)</td><td class="nw">\(\dfrac{-u'}{u\sqrt{1-u^2}}\)</td><td class="nw">\(\displaystyle\int\frac{u'}{u\sqrt{a^2-u^2}}\,dx=-\frac1a\operatorname{sech}^{-1}\frac{|u|}{a}\)</td></tr>
+    <tr><td class="nw">\(\operatorname{csch}^{-1}u\)</td><td class="nw">\(\dfrac{-u'}{|u|\sqrt{1+u^2}}\)</td><td class="nw">\(\displaystyle\int\frac{u'}{u\sqrt{a^2+u^2}}\,dx=-\frac1a\operatorname{csch}^{-1}\frac{|u|}{a}\)</td></tr>
+  </table></div>
+  <ul>
+    <li><strong>المشتقة:</strong> ما فيها \(a\). فيها 1، وتضرب في \(u'\).</li>
+    <li><strong>التكامل:</strong> فيه \(a\)، و \(u'\) لازم تكون موجودة فوق من قبل.</li>
+    <li><strong>\(\frac1a\) برا:</strong> بس لما ما فيه جذر، أو \(u\) برا الجذر. الجذر لحاله ما معه \(\frac1a\).</li>
+    <li><strong>السالب:</strong> بس مع \(\operatorname{sech}^{-1}\) و \(\operatorname{csch}^{-1}\)، في المشتقة والتكامل.</li>
+  </ul>
+  <div class="warn"><strong>تنبيه على \(\coth^{-1}\):</strong> المذكرة (ص58) كاتبة مشتقتها بسالب: \(\frac{-1}{1-x^2}\). الصحيح رياضياً \(\frac{1}{1-x^2}\)، نفس صيغة \(\tanh^{-1}\) بس لما \(|x|>1\)، وتحققت منها بالحساب. وحلول طارق نفسها مختلفة: في الاختبار الثاني 1445 ف1 (ص5) كتبها بالسالب، وفي 1446 ف2 (ص21) كتبها بالموجب. اكتب الموجب مثل آخر حل، <strong>واسأل دكتورك قبل الاختبار أي إشارة يعتمد.</strong></div>
+
+  <h2>جدول 3×2: كل الصيغ التربيعية في مكان واحد</h2>
+  <p>هذا يجمع صيغ 4.2 مع صيغ الدوال المثلثية العكسية اللي تشبهها. انظر للي تحت الجذر، ثم هل فيه \(u\) برا الجذر.</p>
+  <div class="scroll"><table>
+    <tr><th>المقام فيه</th><th>الجذر لحاله</th><th>ومعه \(u\) برا الجذر</th></tr>
+    <tr><td class="nw">\(\sqrt{a^2-u^2}\)</td><td class="nw">\(\sin^{-1}\dfrac ua\)</td><td class="nw">\(-\dfrac1a\operatorname{sech}^{-1}\dfrac{|u|}{a}\)</td></tr>
+    <tr><td class="nw">\(\sqrt{u^2+a^2}\)</td><td class="nw">\(\sinh^{-1}\dfrac ua\)</td><td class="nw">\(-\dfrac1a\operatorname{csch}^{-1}\dfrac{|u|}{a}\)</td></tr>
+    <tr><td class="nw">\(\sqrt{u^2-a^2}\)</td><td class="nw">\(\cosh^{-1}\dfrac ua\)</td><td class="nw">\(\dfrac1a\sec^{-1}\dfrac ua\)</td></tr>
+    <tr><td class="nw">\(a^2+u^2\) <span class="small muted">بدون جذر</span></td><td class="nw" colspan="2">\(\dfrac1a\tan^{-1}\dfrac ua\)</td></tr>
+    <tr><td class="nw">\(a^2-u^2\) <span class="small muted">بدون جذر</span></td><td class="nw" colspan="2">\(\dfrac1a\tanh^{-1}\dfrac ua\)</td></tr>
+  </table></div>
+  <p class="small muted">في كل خانة البسط هو \(u'\). الصف الأول والثالث فيهم دوال من 3.4 (الاختبار الأول)، حطيتهم عشان تشوف الفرق.</p>
+  <div class="note"><strong>ورقة أول دقيقتين:</strong> هذين الجدولين هم اللي تكتبهم على المسودة أول ما يبدأ الاختبار. تدرّب تكتبهم من راسك كل ليلة.</div>
+
+  <h2>المثلثية: مشتقة وتكامل</h2>
+  <div class="scroll"><table>
+    <tr><th>الدالة</th><th>مشتقتها</th><th>تكاملها</th></tr>
+    <tr><td class="nw">\(\sin x\)</td><td class="nw">\(\cos x\)</td><td class="nw">\(-\cos x\)</td></tr>
+    <tr><td class="nw">\(\cos x\)</td><td class="nw">\(-\sin x\)</td><td class="nw">\(\sin x\)</td></tr>
+    <tr><td class="nw">\(\tan x\)</td><td class="nw">\(\sec^2x\)</td><td class="nw">\(\ln|\sec x|\)</td></tr>
+    <tr><td class="nw">\(\cot x\)</td><td class="nw">\(-\csc^2x\)</td><td class="nw">\(\ln|\sin x|\)</td></tr>
+    <tr><td class="nw">\(\sec x\)</td><td class="nw">\(\sec x\tan x\)</td><td class="nw">\(\ln|\sec x+\tan x|\)</td></tr>
+    <tr><td class="nw">\(\csc x\)</td><td class="nw">\(-\csc x\cot x\)</td><td class="nw">\(\ln|\csc x-\cot x|\)</td></tr>
+  </table></div>
+  <p>ومن عمود المشتقة تطلع أربع تكاملات تحتاجها في 5.2 و 5.3:</p>
+  \[\int\sec^2x\,dx=\tan x\qquad\int\csc^2x\,dx=-\cot x\]
+  \[\int\sec x\tan x\,dx=\sec x\qquad\int\csc x\cot x\,dx=-\csc x\]
+
+  <h2>المتطابقات</h2>
+  \[\sin^2x+\cos^2x=1\qquad 1+\tan^2x=\sec^2x\qquad 1+\cot^2x=\csc^2x\]
+  \[\sin^2x=\frac{1-\cos2x}{2}\qquad\cos^2x=\frac{1+\cos2x}{2}\]
+  \[\sin mx\cos nx=\tfrac12\left[\sin(m-n)x+\sin(m+n)x\right]\]
+  \[\sin mx\sin nx=\tfrac12\left[\cos(m-n)x-\cos(m+n)x\right]\]
+  \[\cos mx\cos nx=\tfrac12\left[\cos(m-n)x+\cos(m+n)x\right]\]
+
+  <h2>اللي تنتهي به أغلب المسائل</h2>
+  \[\int\frac{dx}{x}=\ln|x|\qquad\int\frac{f'(x)}{f(x)}\,dx=\ln|f(x)|\qquad\int\frac{dx}{x^2}=-\frac1x\]
+  \[\int\frac{dx}{x^2+a^2}=\frac1a\tan^{-1}\frac xa\qquad\int e^{ax}\,dx=\frac1ae^{ax}\qquad\int u^n\,du=\frac{u^{n+1}}{n+1}\]
+  \[\frac{d}{dx}a^{x}=a^{x}\ln a\qquad\frac{d}{dx}\ln|u|=\frac{u'}{u}\qquad\frac{d}{dx}\sqrt{u}=\frac{u'}{2\sqrt u}\]
+</section>
+
+<!-- ======================= ALGEBRA ======================= -->
+<section id="v-algebra" hidden>
+  <h2>عدّة الجبر: تسع حركات، وما فيه غيرها</h2>
+  <p>راجعت كل حلول طارق في نطاقك. الجبر اللي فيها مو «جبر عام»: هو هذي التسع حركات تتكرر. كل وحدة تتدرب عليها عشر دقايق قبل درسها.</p>
+
+  <article class="box">
+    <header><h3>1 · إكمال المربع</h3><span class="les">تحتاجها في 4.2 و 5.3</span></header>
+    <p><strong>بالكلام:</strong> نص معامل \(x\)، ربّعه، اجمعه واطرحه.</p>
+    \[x^2+6x+13=(x^2+6x+9)+13-9=(x+3)^2+2^2\]
+    <p><strong>سالب قدام \(x^2\):</strong> طلّع السالب أول.</p>
+    \[-x^2+4x-2=-(x^2-4x+4)+4-2=2-(x-2)^2\]
+    <p><strong>عدد قدام \(x^2\):</strong> طلّعه عامل مشترك.</p>
+    \[4x^2+8x+20=4\left(x^2+2x+5\right)=4\left[(x+1)^2+2^2\right]\]
+    <p class="small muted">تحقق: افتح القوس ولازم يرجع الأصل.</p>
+    <details><summary>جرّب ثلاثة</summary>
+      <p>\(x^2+2x+10\) ← \((x+1)^2+3^2\)</p>
+      <p>\(x^2-4x\) ← \((x-2)^2-2^2\)</p>
+      <p>\(7-x^2+6x\) ← \(4^2-(x-3)^2\)</p>
+    </details>
+  </article>
+
+  <article class="box">
+    <header><h3>2 · تجهيز \(u'\): اضرب واقسم</h3><span class="les">4.2 وكل تعويض</span></header>
+    <p>اللي تضربه جوّا التكامل تقسمه برا. ثوابت بس: \(x\) ما تطلع برا التكامل أبد.</p>
+    \[\int\frac{x}{\sqrt{x^4-16}}\,dx=\frac12\int\frac{2x}{\sqrt{(x^2)^2-4^2}}\,dx\]
+    <p><strong>الضرب فوق وتحت</strong> لما \(u\) نفسها ناقصة:</p>
+    \[\frac{1}{\sqrt{e^{6x}+1}}=\frac{e^{3x}}{e^{3x}\sqrt{(e^{3x})^2+1}}\]
+  </article>
+
+  <article class="box">
+    <header><h3>3 · تحليل المقام</h3><span class="les">5.4</span></header>
+    <ul>
+      <li>عامل مشترك: \(x^3+4x=x(x^2+4)\)</li>
+      <li>فرق مربعين: \(x^2-1=(x-1)(x+1)\)</li>
+      <li>ثلاثي: \(x^2+2x-8=(x-2)(x+4)\). دوّر عددين ضربهم \(-8\) وجمعهم \(+2\).</li>
+      <li>مربع كامل: \(x^2+2x+1=(x+1)^2\)</li>
+      <li>\(x^2+4\) و \(x^2+x+1\) ما تتحلل، وتاخذ \(Bx+C\) فوقها.</li>
+    </ul>
+    <details><summary>جرّب ثلاثة</summary>
+      <p>\(x^3+9x\) ← \(x(x^2+9)\)</p>
+      <p>\(x^3+2x^2+x\) ← \(x(x+1)^2\)</p>
+      <p>\(x^2+x-6\) ← \((x-2)(x+3)\)</p>
+    </details>
+  </article>
+
+  <article class="box">
+    <header><h3>4 · مقارنة المعاملات</h3><span class="les">5.4</span></header>
+    <p>اضرب الطرفين في المقام، افتح الأقواس، وجمّع كل قوة لحالها:</p>
+    \[3x^2+x+4=A(x^2+4)+(Bx+C)\,x=(A+B)x^2+Cx+4A\]
+    <p>ثم قارن يمين بيسار: معامل \(x^2\) يعطي \(A+B=3\)، ومعامل \(x\) يعطي \(C=1\)، والثابت يعطي \(4A=4\). فـ \(A=1,\ B=2,\ C=1\).</p>
+    <p><strong>للعوامل الخطية أسرع:</strong> عوّض الجذر.</p>
+    \[3x+1=A_1(x+4)+A_2(x-2):\quad x=2\Rightarrow 7=6A_1,\qquad x=-4\Rightarrow -11=-6A_2\]
+  </article>
+
+  <article class="box">
+    <header><h3>5 · القسمة المطولة</h3><span class="les">5.5 و 5.4</span></header>
+    <p>لما البسط درجته أكبر من أو تساوي المقام. مثال \(\frac{u^2}{u+1}\):</p>
+    <ol>
+      <li>\(u^2\div u=u\). اضرب: \(u(u+1)=u^2+u\). اطرح: يبقى \(-u\).</li>
+      <li>\(-u\div u=-1\). اضرب: \(-1(u+1)=-u-1\). اطرح: يبقى \(+1\).</li>
+      <li>الناتج \(u-1\) والباقي 1.</li>
+    </ol>
+    \[\frac{u^2}{u+1}=u-1+\frac{1}{u+1}\]
+    <p class="small muted">تحقق: \((u-1)(u+1)+1=u^2\).</p>
+    <p>الثلاثة اللي تتكرر في الاختبارات:</p>
+    \[\frac{u}{u+1}=1-\frac{1}{u+1}\qquad\frac{u^2}{u+1}=u-1+\frac{1}{u+1}\qquad\frac{u^3}{u+1}=u^2-u+1-\frac{1}{u+1}\]
+    <details><summary>جرّب واحد</summary><p>\(\frac{u^4}{u^2+1}\) ← \(u^2-1+\frac{1}{u^2+1}\)</p></details>
+  </article>
+
+  <article class="box">
+    <header><h3>6 · قوانين الأسس</h3><span class="les">4.2 و 5.3 و 5.5</span></header>
+    <ul>
+      <li>أس على أس: اضرب. \((u^4)^{1/2}=u^2\) و \((u^6)^{2/3}=u^4\)</li>
+      <li>الجذر أس كسري: \(\sqrt[4]{x}=x^{1/4}\)</li>
+      <li>شوف المربع المخفي: \(e^{6x}=(e^{3x})^2\) و \(5^{2x}=(5^x)^2\) و \(x^6=(x^3)^2\)</li>
+      <li>الأس \(\frac32\): جذر ثم تكعيب. \(\left(4\cos^2\theta\right)^{3/2}=2^3\cos^3\theta\)</li>
+    </ul>
+  </article>
+
+  <article class="box">
+    <header><h3>7 · المثلث: الرجوع من \(\theta\) إلى \(x\)</h3><span class="les">5.3</span></header>
+    <p>من التعويض اكتب النسبة، حطها على مثلث قائم، والضلع الثالث بفيثاغورس. بعدها أي نسبة تبيها تقراها من الرسم.</p>
+    <div class="tris">
+      <figure class="tri"><svg viewBox="0 0 200 130" role="img" aria-label="مثلث التعويض بالجيب">
+        <path d="M14 100 L134 100 L134 30 Z"/><path d="M124 100 v-10 h10"/>
+        <text x="36" y="95">θ</text><text x="66" y="56" text-anchor="end">a</text><text x="141" y="70">x</text><text x="74" y="121" text-anchor="middle">√(a² − x²)</text></svg>
+        <figcaption dir="ltr">x = a sin θ</figcaption></figure>
+      <figure class="tri"><svg viewBox="0 0 200 130" role="img" aria-label="مثلث التعويض بالظل">
+        <path d="M14 100 L134 100 L134 30 Z"/><path d="M124 100 v-10 h10"/>
+        <text x="36" y="95">θ</text><text x="74" y="52" text-anchor="end">√(x² + a²)</text><text x="141" y="70">x</text><text x="74" y="121" text-anchor="middle">a</text></svg>
+        <figcaption dir="ltr">x = a tan θ</figcaption></figure>
+      <figure class="tri"><svg viewBox="0 0 200 130" role="img" aria-label="مثلث التعويض بالقاطع">
+        <path d="M14 100 L104 100 L104 30 Z"/><path d="M94 100 v-10 h10"/>
+        <text x="36" y="95">θ</text><text x="52" y="56" text-anchor="end">x</text><text x="110" y="70">√(x² − a²)</text><text x="59" y="121" text-anchor="middle">a</text></svg>
+        <figcaption dir="ltr">x = a sec θ</figcaption></figure>
+    </div>
+    <p>مثال: \(x=2\sin\theta\) يعني \(\sin\theta=\frac x2\). المقابل \(x\) والوتر 2 والمجاور \(\sqrt{4-x^2}\). فـ \(\tan\theta=\frac{x}{\sqrt{4-x^2}}\).</p>
+  </article>
+
+  <article class="box">
+    <header><h3>8 · تقسيم \(\frac{Bx+C}{x^2+a^2}\)</h3><span class="les">5.4</span></header>
+    <p>افصله كسرين: اللي فيه \(x\) يعطي لوغاريتم، والثابت يعطي \(\tan^{-1}\).</p>
+    \[\int\frac{2x+1}{x^2+4}\,dx=\int\frac{2x}{x^2+4}\,dx+\int\frac{1}{x^2+2^2}\,dx=\ln(x^2+4)+\frac12\tan^{-1}\frac x2\]
+    <p>وإذا اللي فوق مو \(2x\) بالضبط، جهّزه بالحركة 2:</p>
+    \[\int\frac{3x}{x^2+4}\,dx=\frac32\int\frac{2x}{x^2+4}\,dx=\frac32\ln(x^2+4)\]
+  </article>
+
+  <article class="box">
+    <header><h3>9 · كسر فوق كسر، وتوحيد المقامات</h3><span class="les">6.1</span></header>
+    <p>بعد لوبيتال يطلع لك كسر فوق كسر. اقلب المقام واضرب:</p>
+    \[\frac{\ \frac1x\ }{-2x^{-3}}=\frac1x\cdot\frac{x^3}{-2}=\frac{-x^2}{2}\]
+    <p>وفي شكل \(\infty-\infty\) وحّد المقامات قبل أي شي:</p>
+    \[\frac{1}{\ln(x+1)}-\frac1x=\frac{x-\ln(x+1)}{x\,\ln(x+1)}\]
+  </article>
+</section>
+
+<!-- ======================= DRILL ======================= -->
+<section id="v-drill" hidden>
+  <h2>التدريب</h2>
+  <p>109 سؤال من اختبارات طارق والمذكرة، كل واحد معه أول سطر والجواب ورقم الصفحة. الأجوبة كلها متحقق منها بالحساب.</p>
+  <div class="card">
+    <div class="row">
+      <button class="btn solid" id="bMix" type="button">مخلوط: 12 بطاقة</button>
+      <button class="btn" id="bErr" type="button">أخطائي</button>
+    </div>
+    <p class="small muted" style="margin-bottom:0">المخلوط ياخذ من هذي الدروس (اضغط عشان تضيف أو تشيل):</p>
+    <div class="chips" id="chips"></div>
+    <p class="small" style="margin:.75rem 0 0"><label><input type="checkbox" id="allQ"> أظهر الأسئلة المحجوزة للاختبارين التجريبيين والتحدي</label></p>
+  </div>
+
+  <div id="card" class="card" aria-live="polite"></div>
+
+  <h2>تصفح البنك</h2>
+  <p class="small muted">اضغط أي سؤال عشان تفتحه. ✓ يعني آخر مرة جاوبته صح، ✗ يعني غلط.</p>
+  <div id="browse"></div>
+</section>
+
+<!-- ======================= EXAM DAY ======================= -->
+<section id="v-exam" hidden>
+  <h2>الليلة اللي قبل</h2>
+  <ul>
+    <li>ممنوع مادة جديدة. بس ورقة «إذا شفت ← أسوي» وقائمة أخطائك.</li>
+    <li>نم في وقتك العادي. لا تسهر ولا تنام بدري بزيادة.</li>
+  </ul>
+
+  <h2>قبل الدخول</h2>
+  <ul>
+    <li>عشر دقايق على الجدولين (جدول 4.2 وجدول 3×2)، وسكّر.</li>
+    <li>قلبك يدق ويدينك تعرق؟ قل لنفسك: «هذا جسمي يجهّزني، وهذا يساعدني». في تجربة على اختبار GRE، اللي انقال لهم إن التوتر يساعد الأداء جابوا درجات أعلى في الرياضيات.</li>
+    <li>لا تراجع مع الزملاء عند الباب. يلخبطونك.</li>
+  </ul>
+
+  <h2>أول دقيقتين</h2>
+  <ol>
+    <li>على المسودة، من راسك: جدول 4.2 (الدالة، مشتقتها، تكاملها) وجدول 3×2، والتعويضات المثلثية الثلاثة.</li>
+    <li>مرّ على الورقة كلها واكتب جنب كل سؤال حرف صندوقه: A, B, C, D, E, F, G, H.</li>
+  </ol>
+  <p class="note">هذي الدقيقتين هي اللي تمنع التجمّد: الصيغ صارت على الورق مو في راسك، وكل سؤال صار له اسم.</p>
+
+  <h2>ترتيب الحل</h2>
+  <ol>
+    <li><strong>المشتقات (A).</strong> أسرع درجتين في الورقة.</li>
+    <li><strong>الصيغ الجاهزة وإكمال المربع (C).</strong></li>
+    <li><strong>الكسور الجزئية (G) والتعويض المثلثي (F).</strong> طويلة بس خطواتها محفوظة.</li>
+    <li><strong>التجزئة (D)، المثلثي (E)، التعويضات (H).</strong></li>
+    <li><strong>النهاية (B).</strong></li>
+  </ol>
+  <p>هذا ترتيب مقترح. إذا لقيت سؤال تعرفه على طول، ابدأ فيه.</p>
+
+  <h2>قاعدة الثلاث دقايق</h2>
+  <p>علقت في سؤال ثلاث دقايق؟ تأكد إنك كاتب أول سطر (التعويض، أو \(u\) و \(dv\)، أو شكل التفكيك)، حط نجمة، وانتقل. أول سطر صحيح عليه درجات، وكثير مرات الباقي يجيك لما ترجع له.</p>
+
+  <h2>آخر عشر دقايق: فحص كل جواب</h2>
+  <ul>
+    <li>\(+c\) موجودة؟</li>
+    <li>الجواب بدلالة \(x\)؟ مو \(\theta\) ولا \(u\).</li>
+    <li>القيمة المطلقة داخل \(\ln\)؟</li>
+    <li>في النهايات: الشكل مكتوب بين قوسين؟ ورجّعت \(e^{L}\)؟</li>
+    <li>بقى وقت؟ اشتق جوابين من التكاملات القصيرة ولازم يرجع لك السؤال.</li>
+  </ul>
+
+  <h2>وين تضيع الدرجات عادة</h2>
+  <div class="scroll"><table>
+    <tr><th>الخطأ</th><th>الصحيح</th></tr>
+    <tr><td>نسيت \(u'\) في المشتقة</td><td>كل مشتقة تنضرب في مشتقة اللي داخل القوس</td></tr>
+    <tr><td>نسيت \(dx\) في التعويض</td><td>\(dx=2\cos\theta\,d\theta\)، \(dx=4u^3du\): تتعوّض هي بعد</td></tr>
+    <tr><td>السالب في \(du\)</td><td>\(u=\cos x\Rightarrow du=-\sin x\,dx\)، ومثلها \(\cot\) و \(\csc\)</td></tr>
+    <tr><td>\(\int\frac{x}{x^2+4}dx=\ln(x^2+4)\)</td><td>\(\frac12\ln(x^2+4)\): فوق لازم \(2x\)</td></tr>
+    <tr><td>\(\int\frac{dx}{x^2}=\ln x^2\)</td><td>\(-\frac1x\)</td></tr>
+    <tr><td>\(\int\frac{dx}{x^2+4}=\tan^{-1}\frac x2\)</td><td>\(\frac12\tan^{-1}\frac x2\)</td></tr>
+    <tr><td>لوبيتال بقاعدة القسمة</td><td>اشتق البسط لحاله والمقام لحاله</td></tr>
+    <tr><td>الأقواس في التجزئة</td><td>\(uv-\int v\,du\): السالب يتوزع على كل اللي بعده</td></tr>
+  </table></div>
+</section>
+
+<!-- ======================= WHY ======================= -->
+<section id="v-why" hidden>
+  <h2>بصراحة عن الدرجة الكاملة</h2>
+  <p>ما أحد يقدر يضمن لك الدرجة الكاملة، ولو قلت لك غير كذا أكون أكذب عليك. اللي أقدر أقوله بثقة:</p>
+  <ul>
+    <li>كل شكل سؤال من دروسك (4.2 إلى 6.1) جا في 12 اختبار، 6 ثانية و6 نهائية، موجود في بنك التدريب مع أول سطره.</li>
+    <li>الاختبار نمطي: نفس الثمانية صناديق تتكرر كل فصل. في الاختبارات الثانية الستة ما لقيت سؤال واحد من دروسك برا منها. وفي النهائيات يجي معها تعويض عادي، وهو السؤال 1 في سلّم «إذا شفت».</li>
+    <li>بعد ما تعرف الصندوق، اللي يبقى بينك وبين الدرجة الكاملة هو أخطاء التنفيذ: إشارة، \(\frac1a\)، \(+c\)، جبر. وهذي علاجها التصحيح الفوري وقائمة الفحص، مو مذاكرة زيادة.</li>
+  </ul>
+
+  <h2>وش جا في آخر ستة اختبارات ثانية</h2>
+  <div class="scroll"><table class="matrix">
+    <tr><th>الصندوق</th><th>1445 ف1</th><th>1445 ف2</th><th>1446 ف1</th><th>1446 ف2</th><th>1447 ف1</th><th>1447 ف2</th></tr>
+    <tr><td>A مشتقة</td><td>sech⁻¹، coth⁻¹</td><td>sech⁻¹، cosh⁻¹</td><td>tanh⁻¹، sinh⁻¹</td><td>csch⁻¹، coth⁻¹، cosh⁻¹</td><td>cosh⁻¹، tanh⁻¹</td><td>sinh⁻¹، csch⁻¹</td></tr>
+    <tr><td>C صيغة</td><td>sinh⁻¹(√x)، tanh⁻¹(cos x)</td><td>csch⁻¹(x³)</td><td>لا</td><td>csch⁻¹(e³ˣ)</td><td>csch⁻¹(5ˣ)</td><td>cosh⁻¹(ln x)</td></tr>
+    <tr><td>C إكمال مربع</td><td>لا</td><td>sinh⁻¹</td><td>cosh⁻¹</td><td>sinh⁻¹</td><td>sech⁻¹</td><td>sech⁻¹</td></tr>
+    <tr><td>D تجزئة</td><td>x³ ln x، cosh⁻¹x</td><td>(2x+1)cos x، x ln x</td><td>(3x−2)sinh x، x⁻² ln x</td><td>(2x−1)cosh x، tan⁻¹x</td><td>sin⁻¹x، x³ ln 2x</td><td>x sech⁻¹x</td></tr>
+    <tr><td>E مثلثي</td><td>sin⁵cos³</td><td>tan²sec⁴</td><td>sin⁴cos⁵</td><td>cot⁴csc⁴</td><td>sin²cos⁵</td><td>sec³tan³</td></tr>
+    <tr><td>F تعويض مثلثي</td><td>(4+x²)^3/2</td><td>(4−x²)^3/2</td><td>√(x²−9)/x</td><td>(9−x²)^3/2</td><td>(9+x²)^3/2</td><td>(4−x²)^3/2</td></tr>
+    <tr><td>G كسور جزئية</td><td>x(x²+9)</td><td>x(x²+4)</td><td>x(x²+4)</td><td>x(x²+9)</td><td>x²(1+x²)</td><td>x(x²+4)</td></tr>
+    <tr><td>H تعويضات</td><td>⁴√x + √x</td><td>√(4+√x)</td><td>⁴√x + √x</td><td>لا</td><td>x^1/2 + x^2/3</td><td>x^1/2 + x^3/4</td></tr>
+    <tr><td>B نهاية</td><td>لا</td><td>لا</td><td>لا</td><td>لا</td><td>لا</td><td>∞ − ∞</td></tr>
+    <tr><td>درجة الاختبار</td><td>25</td><td>25</td><td>25</td><td>25</td><td>25</td><td>15</td></tr>
+  </table></div>
+  <p class="small muted">الخمسة الأولى كان نطاقها يبدأ من 4.1 (تكاملات الدوال الزائدية) وما فيها 6.1. آخر واحد (1447 ف2) هو الوحيد بنفس نطاقك، وعشان كذا هو اختبارك التجريبي يوم الاثنين.</p>
+
+  <h2>المراجعات الثلاث وش غيّرت</h2>
+  <h3>المراجعة الأولى: هل الأدلة صحيحة؟</h3>
+  <p>رجعت لمصادر الخطة القديمة واحد واحد. اللي ثبت بقي، واللي ما ثبت تغيّر:</p>
+  <ul>
+    <li><strong>ثبت:</strong> اختبار النفس وتوزيع المذاكرة أقوى طريقتين. والتدريب المخلوط: 61% مقابل 38% في تجربة على 787 طالب. بس للأمانة: الطلاب كانوا صف سابع، والواجبات المخلوطة أخذت وقت أطول.</li>
+    <li><strong>ثبت:</strong> الأمثلة المحلولة ترفع الأداء في الرياضيات (تحليل 55 دراسة). وشلت من الخطة «اشرح لنفسك كل سطر» لأن نفس التحليل لقى إنها تقلل الفايدة. يكفي تتوقع السطر الجاي.</li>
+    <li><strong>تغيّر، الجوال:</strong> تجربة «مجرد وجوده جنبك يقلل تركيزك» انعادت مرتين وما طلعت نفس النتيجة. النصيحة باقية لسبب أبسط: الإشعارات والإغراء.</li>
+    <li><strong>تغيّر، الكتابة عن القلق قبل الاختبار:</strong> لما انجربت في مقرر جامعي حقيقي ما نفعت. بدلتها بإعادة تفسير التوتر، وهذي عليها تجربة على اختبار رياضيات حقيقي.</li>
+    <li><strong>تغيّر، فاصل المراجعة:</strong> لاختبار بعد أسبوع الأفضل ترجع للدرس بعد يوم إلى يومين. فصار كل درس يرجع لك الصبح اللي بعده، ثم في المخلوط، ثم في الاختبارين التجريبيين.</li>
+    <li><strong>تغيّر، خطط «إذا… ← أسوي…»:</strong> أثرها الحقيقي أصغر مما كان يُنقل. فما اعتمدت عليها لحالها، وحطيت الحماية في ترتيب الخطة نفسه.</li>
+    <li><strong>جديد:</strong> اللي يتدرب بالاسترجاع ذاكرته تتأثر بالتوتر أقل. والمسائل اللي تدربت عليها لين صارت تلقائية ما تتأثر بضغط الاختبار، والجديدة تتأثر. هذا هو سبب «أول سطر» والتكرار.</li>
+    <li><strong>جديد:</strong> 30% بس من الطلاب يخلصون في الوقت اللي توقعوه. فكل الجديد يخلص السبت وفيه يوم احتياط كامل.</li>
+  </ul>
+  <h3>المراجعة الثانية: هل الخطة تطابق اختبارك أنت؟</h3>
+  <ul>
+    <li>قريت 6 اختبارات ثانية و6 نهائية مع حلولها، والمذكرة من ص56 إلى ص99.</li>
+    <li>4.2 لحاله 5 درجات من 15، فهو أول درس وأكثر واحد يتكرر.</li>
+    <li>6.1 ما جا إلا في اختبار ثاني واحد، فجبت أسئلته من النهائيات والمذكرة.</li>
+    <li>آخر فصل أصعب شوي: \(x\operatorname{sech}^{-1}x\)، و \(\ln\) داخل \(\cosh^{-1}\)، وكسور بأربع مجاهيل في النهائي، و \(1^\infty\). فالدرجة الكاملة تحتاج الأشكال النادرة بعد، وهذي جلسة «تحدي النهائيات».</li>
+    <li>لقيت تعارض إشارة \(\coth^{-1}\) بين المذكرة والحلول (في «الجداول»).</li>
+    <li>حجزت اختبارين كاملين ما تشوف أسئلتهم قبل، عشان الاختبار التجريبي يكون حقيقي.</li>
+  </ul>
+  <h3>المراجعة الثالثة: وش اللي بيخرّب الخطة؟</h3>
+  <ul>
+    <li><strong>«بتأخر مثل كل مرة»:</strong> الأساس من كل الدروس أولاً، فلو تأخرت اللي يطيح هو التعمق مو درس كامل.</li>
+    <li><strong>«بنسى»:</strong> كل درس يمر عليك أربع مرات في أربع أيام مختلفة، وكلها استرجاع مو قراءة.</li>
+    <li><strong>«بتجمّد في الاختبار»:</strong> تفريغ الجداول أول دقيقتين، حرف لكل سؤال، وقاعدة الثلاث دقايق.</li>
+    <li><strong>«الجبر»:</strong> تسع حركات بس، كل وحدة قبل درسها.</li>
+    <li><strong>الأحد والاثنين دوام:</strong> ما فيهم مادة جديدة.</li>
+    <li><strong>الصفحة نفسها تصير تسويف:</strong> هذا التبويب للقراءة مرة وحدة. شغلك في «الخطة» و«تدريب».</li>
+  </ul>
+
+  <h2>المصادر</h2>
+  <ul class="src-list">
+    <li>اختبارات ومذكرة د. طارق الفاضل: الملفات الأربعة في مستودعك.</li>
+    <li><a href="https://www.psychologicalscience.org/news/releases/which-study-strategies-make-the-grade.html">Dunlosky وآخرون 2013</a>: أي طرق المذاكرة تنفع.</li>
+    <li><a href="https://ies.ed.gov/ncee/wwc/Study/88770">Rohrer وآخرون 2020</a>: التدريب المخلوط في الرياضيات، 787 طالب.</li>
+    <li><a href="https://pubmed.ncbi.nlm.nih.gov/19076480/">Cepeda وآخرون 2008</a>: أفضل فاصل للمراجعة.</li>
+    <li><a href="https://link.springer.com/content/pdf/10.1007/s10648-023-09745-1.pdf">Barbieri وآخرون 2023</a>: تحليل الأمثلة المحلولة في الرياضيات.</li>
+    <li><a href="https://www.retrievalpractice.org/archive/2018/successive-relearning">Rawson و Dunlosky</a>: إعادة التعلم المتتابعة.</li>
+    <li><a href="https://www.sciencedaily.com/releases/2016/11/161124160426.htm">Smith وآخرون 2016</a>: الاسترجاع يحمي الذاكرة من التوتر، و<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5348509/">تعليق نقدي عليها</a>.</li>
+    <li><a href="https://louisville.edu/psychology/decaro/lab/publications-2/decaro_thomas_albert_beilock_2011">Beilock و DeCaro</a>: الضغط يضر المسائل غير المتدرب عليها.</li>
+    <li><a href="https://dash.harvard.edu/handle/1/4214916">Jamieson وآخرون 2010</a>: إعادة تفسير التوتر واختبار GRE.</li>
+    <li><a href="https://link.springer.com/10.1186/s41235-021-00309-x">Myers وآخرون 2021</a>: الكتابة عن القلق ما نفعت في مقرر جامعي.</li>
+    <li><a href="https://pubmed.ncbi.nlm.nih.gov/36007374/">Ruiz Pardo و Minda 2022</a>: إعادة تجربة الجوال، و<a href="https://research.vu.nl/en/publications/does-the-mere-presence-of-a-smartphone-impact-cognitive-performan/">تحليل Parry</a>.</li>
+    <li><a href="https://dspace.mit.edu/handle/1721.1/127257">Okano وآخرون 2019</a>: النوم والدرجات عند طلاب MIT.</li>
+    <li><a href="https://www.doi.org/10.1371/JOURNAL.PONE.0033079">Payne وآخرون 2012</a>: النوم بعد التعلم.</li>
+    <li><a href="https://cbcc.psy.msu.edu/papers/MayEtal23.pdf">May و Hasher و Healey 2023</a>: وقت اليوم وذروة الشخص، و<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9150742/">دراسة على 400 طالب جامعي</a>.</li>
+    <li><a href="https://en.wikipedia.org/wiki/Planning_fallacy">Buehler وآخرون 1994</a>: مغالطة التخطيط.</li>
+    <li><a href="https://pubmed.ncbi.nlm.nih.gov/36859717/">Biwer وآخرون 2023</a>: الفواصل المنتظمة.</li>
+    <li><a href="https://www.thebehavioralscientist.com/glossary/implementation-intentions">خطط «إذا… ← أسوي…»</a>.</li>
+    <li><a href="https://accessproject.uncg.edu">برنامج ACCESS</a>: تنظيم ومتابعة للطلاب الجامعيين مع ADHD.</li>
+    <li><a href="https://tutorial.math.lamar.edu/classes/calcii/IntegrationStrategy.aspx">Paul's Online Notes</a> و<a href="https://www.stewartcalculus.com/data/CALCULUS%20Concepts%20and%20Contexts/upfiles/3c3-Strategy-Integra_Stu.pdf">Stewart</a>: ترتيب اختيار طريقة التكامل.</li>
+  </ul>
+</section>
+
+</main>
+</div>
+<!--FONTCACHE-->
+<script type="application/json" id="data">/*DATA*/</script>
+<script>
+(function () {
+  var D = JSON.parse(document.getElementById('data').textContent);
+  var ITEMS = D.items, TYPES = D.types, DAYS = D.days, byId = {};
+  ITEMS.forEach(function (it) { byId[it.id] = it; });
+  var LESSONS = ['4.2', '5.1', '5.2', '5.3', '5.4', '5.5', '6.1'];
+  var VIEWS = ['plan', 'map', 'tables', 'algebra', 'drill', 'exam', 'why'];
+  var KEY = 'm111-plan-v1';
+  var S = { done: {}, focus: {}, stats: {}, all: false, les: null };
+  try { var raw = localStorage.getItem(KEY); if (raw) { var o = JSON.parse(raw); for (var k in o) S[k] = o[k]; } } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+  function $(id) { return document.getElementById(id); }
+  function h(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+  function lesOf(it) { return TYPES[it.t].les; }
+
+  /* ---------- views ---------- */
+  function show(v) {
+    if (VIEWS.indexOf(v) < 0) v = 'plan';
+    VIEWS.forEach(function (n) { $('v-' + n).hidden = n !== v; });
+    Array.prototype.forEach.call(document.querySelectorAll('.tabs a'), function (a) {
+      if (a.getAttribute('href') === '#' + v) { a.setAttribute('aria-current', 'page'); if (a.scrollIntoView) a.scrollIntoView({ block: 'nearest', inline: 'nearest' }); }
+      else a.removeAttribute('aria-current');
+    });
+  }
+  function go(v) { if (location.hash === '#' + v) show(v); else location.hash = v; }
+  window.addEventListener('hashchange', function () { show(location.hash.slice(1)); window.scrollTo(0, 0); });
+
+  /* ---------- plan ---------- */
+  function iso(d) { function p(n) { return (n < 10 ? '0' : '') + n; } return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()); }
+  function todayIdx() {
+    var t = iso(new Date());
+    for (var i = 0; i < DAYS.length; i++) if (DAYS[i].date === t) return i;
+    return t < DAYS[0].date ? 0 : DAYS.length - 1;
+  }
+  var SES = {};
+  DAYS.forEach(function (d) { d.s.forEach(function (s) { SES[s.id] = s; }); });
+  function unlocked(tag) {
+    if (!tag || S.all) return true;
+    for (var id in SES) if (SES[id].unlock === tag && S.done[id]) return true;
+    return false;
+  }
+  function slot(hr) { return hr >= 5 && hr < 12 ? 'الصبح' : hr >= 12 && hr < 17 ? 'الظهر والعصر' : hr >= 17 && hr < 22 ? 'المغرب والمساء' : 'آخر الليل'; }
+  function renderFocus() {
+    var agg = {}, n = 0;
+    for (var id in S.focus) { var f = S.focus[id], k = slot(f.h); (agg[k] = agg[k] || []).push(f.v); n++; }
+    var box = $('focusSum');
+    if (n < 4) { box.textContent = 'قيّمت ' + n + ' من 4 جلسات. بعد الرابعة يطلع لك هنا أي فترة تركيزك فيها أعلى.'; return; }
+    var rows = Object.keys(agg).map(function (k) { var a = agg[k], m = a.reduce(function (x, y) { return x + y; }, 0) / a.length; return { k: k, m: m, c: a.length }; })
+      .sort(function (a, b) { return b.m - a.m; });
+    box.innerHTML = '<strong>أعلى تركيز عندك: ' + rows[0].k + '.</strong> حط 5.3 و 5.4 فيها.<br>' +
+      rows.map(function (r) { return r.k + ': ' + r.m.toFixed(1) + ' من 3 (' + r.c + ' جلسات)'; }).join(' · ');
+  }
+  function renderNow() {
+    var ti = todayIdx(), d = DAYS[ti], dn = 0, tot = 0, all = 0, allDone = 0;
+    DAYS.forEach(function (x) { x.s.forEach(function (s) { all++; if (S.done[s.id]) allDone++; }); });
+    d.s.forEach(function (s) { tot++; if (S.done[s.id]) dn++; });
+    $('nowDay').textContent = 'اليوم ' + d.name;
+    $('nowTheme').textContent = '· ' + d.theme;
+    $('nowCount').textContent = 'جلسات اليوم: ' + dn + ' من ' + tot + ' · الخطة كلها: ' + allDone + ' من ' + all;
+    $('nowBar').style.width = (all ? Math.round(100 * allDone / all) : 0) + '%';
+  }
+  function renderPlan() {
+    var root = $('days'), ti = todayIdx();
+    root.innerHTML = '';
+    DAYS.forEach(function (d, di) {
+      var det = h('details', 'day');
+      if (di === ti) { det.open = true; det.setAttribute('data-today', '1'); }
+      var cnt = h('span', 'dc');
+      function count() { var c = 0; d.s.forEach(function (s) { if (S.done[s.id]) c++; }); cnt.textContent = c + ' / ' + d.s.length; }
+      var sum = h('summary', null, '<span class="dn">' + d.name + '</span><span class="dt">' + d.sub + ' · ' + d.theme + '</span>');
+      sum.appendChild(cnt); det.appendChild(sum);
+      var body = h('div', 'dbody'); body.appendChild(h('p', 'dnote', d.note));
+      d.s.forEach(function (s) {
+        var row = h('div', 'ses' + (S.done[s.id] ? ' done' : ''));
+        var lab = h('label');
+        var cb = h('input'); cb.type = 'checkbox'; cb.id = 'c-' + s.id; cb.checked = !!S.done[s.id];
+        lab.appendChild(cb); lab.appendChild(h('span', 'ttl', s.title)); lab.appendChild(h('span', 'min', s.min + ' د'));
+        row.appendChild(lab); row.appendChild(h('p', 'desc', s.desc));
+        var acts = h('div', 'acts row');
+        if (s.ids) { var b = h('button', 'btn', 'أسئلة الجلسة (' + s.ids.length + ')'); b.type = 'button'; b.onclick = function () { start(s.ids, s.title, { core: s.core || 0 }); go('drill'); }; acts.appendChild(b); }
+        if (s.mix) { var b2 = h('button', 'btn', 'ابدأ المخلوط'); b2.type = 'button'; b2.onclick = function () { startMix(); go('drill'); }; acts.appendChild(b2); }
+        if (s.err) { var b3 = h('button', 'btn', 'افتح أخطائي'); b3.type = 'button'; b3.onclick = function () { startErr(); go('drill'); }; acts.appendChild(b3); }
+        if (acts.children.length) row.appendChild(acts);
+        var fo = h('div', 'focus row'); fo.hidden = !S.done[s.id];
+        fo.appendChild(h('span', null, 'تركيزك كان:'));
+        [['ضعيف', 1], ['وسط', 2], ['قوي', 3]].forEach(function (p) {
+          var fb = h('button', null, p[0]); fb.type = 'button';
+          fb.setAttribute('aria-pressed', S.focus[s.id] && S.focus[s.id].v === p[1] ? 'true' : 'false');
+          fb.onclick = function () {
+            var prev = S.focus[s.id];
+            S.focus[s.id] = { v: p[1], h: prev ? prev.h : new Date().getHours() }; save();
+            Array.prototype.forEach.call(fo.querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', x === fb ? 'true' : 'false'); });
+            renderFocus();
+          };
+          fo.appendChild(fb);
+        });
+        row.appendChild(fo);
+        cb.onchange = function () {
+          if (cb.checked) S.done[s.id] = 1; else { delete S.done[s.id]; delete S.focus[s.id]; }
+          save(); row.className = 'ses' + (cb.checked ? ' done' : ''); fo.hidden = !cb.checked;
+          count(); renderNow(); renderFocus(); renderChips(); renderBrowse();
+        };
+        body.appendChild(row);
+      });
+      det.appendChild(body); count(); root.appendChild(det);
+    });
+  }
+
+  /* ---------- drill ---------- */
+  var Q = null;
+  function avail(it) { return unlocked(it.res); }
+  function selLessons() {
+    if (S.les) return S.les;
+    var got = {};
+    for (var sid in S.done) { var s = SES[sid]; if (s && s.ids) s.ids.forEach(function (id) { got[lesOf(byId[id])] = 1; }); }
+    var a = LESSONS.filter(function (l) { return got[l]; });
+    return a.length ? a : LESSONS.slice();
+  }
+  function renderChips() {
+    var c = $('chips'), sel = selLessons(); c.innerHTML = '';
+    LESSONS.forEach(function (l) {
+      var b = h('button', null, l); b.type = 'button'; b.setAttribute('aria-pressed', sel.indexOf(l) >= 0 ? 'true' : 'false');
+      b.onclick = function () { var cur = selLessons().slice(), i = cur.indexOf(l); if (i >= 0) cur.splice(i, 1); else cur.push(l); S.les = cur; save(); renderChips(); };
+      c.appendChild(b);
+    });
+    var nErr = errIds().length; $('bErr').textContent = 'أخطائي (' + nErr + ')'; $('bErr').disabled = !nErr;
+    $('allQ').checked = !!S.all;
+  }
+  function errIds() { return ITEMS.filter(function (it) { return S.stats[it.id] && S.stats[it.id].l === 'w' && avail(it); }).map(function (it) { return it.id; }); }
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function mixIds(n) {
+    var sel = selLessons();
+    var pool = ITEMS.filter(function (it) { return avail(it) && sel.indexOf(lesOf(it)) >= 0; });
+    var scored = pool.map(function (it) { var st = S.stats[it.id], w = !st ? 2 : st.l === 'w' ? 4 : 1; return { id: it.id, t: it.t, k: Math.pow(Math.random(), 1 / w) }; })
+      .sort(function (a, b) { return b.k - a.k; });
+    var per = {}, out = [];
+    scored.forEach(function (x) { var box = x.t.charAt(0); per[box] = per[box] || 0; if (out.length < n && per[box] < Math.max(2, Math.ceil(n / sel.length))) { per[box]++; out.push(x); } });
+    shuffle(out);
+    for (var i = 1; i < out.length; i++) if (out[i].t.charAt(0) === out[i - 1].t.charAt(0)) for (var j = i + 1; j < out.length; j++) if (out[j].t.charAt(0) !== out[i - 1].t.charAt(0)) { var t = out[i]; out[i] = out[j]; out[j] = t; break; }
+    return out.map(function (x) { return x.id; });
+  }
+  function start(ids, label, opt) { Q = { ids: ids.slice(), i: 0, ok: 0, bad: [], label: label, core: (opt && opt.core) || 0, mix: !!(opt && opt.mix) }; renderCard(); }
+  function startMix() { var ids = mixIds(12); if (ids.length) start(ids, 'مخلوط', { mix: true }); else emptyCard('ما فيه أسئلة في الدروس المختارة. اختر درس من الأزرار فوق.'); }
+  function startErr() { var ids = errIds(); if (ids.length) start(shuffle(ids), 'أخطائي', { mix: true }); else emptyCard('ما عندك أخطاء مسجلة للحين. لما تضغط «غلط» على سؤال يجي هنا.'); }
+  function emptyCard(msg) { Q = null; $('card').innerHTML = '<p>' + msg + '</p>'; }
+  function askOf(it) { var b = it.t.charAt(0); return b === 'A' ? 'أوجد المشتقة' : b === 'B' ? 'احسب النهاية' : 'احسب التكامل'; }
+  function renderCard() {
+    var c = $('card');
+    if (!Q) { emptyCard('اختر «مخلوط»، أو افتح أسئلة جلسة من تبويب الخطة، أو اضغط سؤال من البنك تحت.'); return; }
+    c.innerHTML = '';
+    if (Q.i >= Q.ids.length) {
+      c.appendChild(h('h3', null, 'خلصت: ' + Q.ok + ' من ' + Q.ids.length));
+      if (Q.bad.length) {
+        c.appendChild(h('p', null, 'اللي غلطت فيها محفوظة في «أخطائي» وبترجع لك في المخلوط. الأفضل تعيدها الحين وهي طازة.'));
+        var r = h('button', 'btn solid', 'أعد الغلط (' + Q.bad.length + ')'); r.type = 'button'; var bad = Q.bad.slice(), lab = Q.label;
+        r.onclick = function () { start(bad, lab + ' · إعادة', { mix: true }); }; c.appendChild(r);
+      } else c.appendChild(h('p', null, 'كلها صح. ارجع للخطة وعلّم الجلسة.'));
+      var back = h('p'); var a = h('a', 'btn', 'رجوع للخطة'); a.href = '#plan'; back.appendChild(a); c.appendChild(back);
+      renderChips(); renderBrowse(); return;
+    }
+    var it = byId[Q.ids[Q.i]], T = TYPES[it.t];
+    var head = h('div', 'qhead'); head.appendChild(h('span', null, Q.label)); head.appendChild(h('span', null, (Q.i + 1) + ' / ' + Q.ids.length)); c.appendChild(head);
+    if (Q.core) c.appendChild(h('span', 'qtag' + (Q.i < Q.core ? '' : ' x'), Q.i < Q.core ? 'أساس' : 'للدرجة الكاملة'));
+    c.appendChild(h('p', 'ask', askOf(it)));
+    c.appendChild(h('div', 'qmath', it.q));
+    c.appendChild(h('p', 'small muted', Q.mix ? 'لا تحل للآخر. قل من أي صندوق، واكتب أول سطر، ثم اكشف.' : 'حلّه على ورق والمذكرة مقفلة. قبل ما تبدأ قل: من أي صندوق؟'));
+    var rev = h('button', 'btn solid', 'اكشف'); rev.type = 'button'; c.appendChild(rev);
+    var sol = h('dl', 'sol'); sol.hidden = true;
+    sol.appendChild(h('dt', null, 'الطريقة · الدرس ' + T.les)); sol.appendChild(h('dd', 'fm', T.name));
+    sol.appendChild(h('dt', null, 'أول سطر')); sol.appendChild(h('dd', 'fm', it.first));
+    sol.appendChild(h('dt', null, 'الجواب')); sol.appendChild(h('dd', null, it.ans));
+    sol.appendChild(h('dt', null, 'الحل الكامل')); sol.appendChild(h('dd', 'src', it.src));
+    var g = h('div', 'grade');
+    var ok = h('button', 'btn ok', 'صح'); ok.type = 'button';
+    var no = h('button', 'btn bad', 'غلط أو ما عرفت'); no.type = 'button';
+    function mark(right) {
+      var st = S.stats[it.id] || { r: 0, w: 0 }; if (right) { st.r++; st.l = 'r'; Q.ok++; } else { st.w++; st.l = 'w'; Q.bad.push(it.id); }
+      S.stats[it.id] = st; save(); Q.i++; renderCard(); var top = $('card').getBoundingClientRect().top + window.pageYOffset - 70; window.scrollTo(0, Math.max(0, top));
+    }
+    ok.onclick = function () { mark(true); }; no.onclick = function () { mark(false); };
+    g.appendChild(ok); g.appendChild(no); sol.appendChild(g); c.appendChild(sol);
+    rev.onclick = function () { sol.hidden = false; rev.hidden = true; };
+  }
+  function renderBrowse() {
+    var root = $('browse'), openSet = {};
+    Array.prototype.forEach.call(root.querySelectorAll('details[open]'), function (d) { openSet[d.getAttribute('data-l')] = 1; });
+    root.innerHTML = '';
+    LESSONS.forEach(function (l) {
+      var items = ITEMS.filter(function (it) { return lesOf(it) === l; });
+      var shown = items.filter(avail);
+      var det = h('details', 'card'); det.setAttribute('data-l', l);
+      det.appendChild(h('summary', null, 'الدرس ' + l + ' <span class="muted small">· ' + shown.length + ' سؤال' + (shown.length < items.length ? ' و' + (items.length - shown.length) + ' محجوز' : '') + '</span>'));
+      var filled = false;
+      function fill() {
+        if (filled) return; filled = true;
+        var ul = h('ul', 'blist');
+        shown.forEach(function (it) {
+          var li = h('li'), b = h('button'); b.type = 'button';
+          var st = S.stats[it.id];
+          b.appendChild(h('span', 'bid', it.id)); b.appendChild(h('span', 'bq', it.q));
+          b.appendChild(h('span', 'bs ' + (st ? (st.l === 'r' ? 's-r' : 's-w') : 'muted'), st ? (st.l === 'r' ? '✓' : '✗') : ''));
+          b.onclick = function () { start([it.id], 'سؤال من البنك', {}); var top = $('card').getBoundingClientRect().top + window.pageYOffset - 70; window.scrollTo(0, Math.max(0, top)); };
+          li.appendChild(b); ul.appendChild(li);
+        });
+        det.appendChild(ul);
+      }
+      det.addEventListener('toggle', function () { if (det.open) fill(); });
+      if (openSet[l]) { det.open = true; fill(); }
+      root.appendChild(det);
+    });
+  }
+  $('bMix').onclick = startMix; $('bErr').onclick = startErr;
+  $('allQ').onchange = function () { S.all = this.checked; save(); renderChips(); renderBrowse(); };
+
+  renderPlan(); renderNow(); renderFocus(); renderChips(); renderBrowse(); renderCard();
+  show(location.hash.slice(1));
+})();
+</script>
