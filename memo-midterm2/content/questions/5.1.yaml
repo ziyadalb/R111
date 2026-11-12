@@ -1,0 +1,294 @@
+# القسم 5.1 — التكامل بالتجزئة
+section: '5.1'
+slug: s51
+title: 'التكامل بالتجزئة'
+patterns:
+  - key: C1
+    title: 'كثير حدود × (cos أو sinh أو cosh)'
+    questions:
+      - id: M452-2-2
+        marks: 2
+        page: 22
+        prompt: 'Evaluate the integral.'
+        q: '\int(2x+1)\cos x\,dx'
+        hint: |
+          ضرب كثير حدود في $\cos x$: اشتق كثير الحدود (مشتقته تصير ثابت) وكامل $\cos x$.
+        solution: |
+          1. نشتق كثير الحدود لأن مشتقته تصير ثابت، ونكامل $\cos x$. نعبّي الخانات الأربع أول:
+             $$u=2x+1,\qquad dv=\cos x\,dx$$
+             $$du=2\,dx,\qquad v=\sin x$$
+          2. نركّب القانون:
+             $$\int u\,dv=uv-\int v\,du$$
+             $$\int(2x+1)\cos x\,dx=(2x+1)\sin x-\int2\sin x\,dx$$
+          3. تكامل $\sin x$ هو $-\cos x$، وسالب في سالب = موجب:
+             $$-\int2\sin x\,dx=-2(-\cos x)=2\cos x$$
+        answer: |-
+          (2x+1)\sin x+2\cos x+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '(2*x+1)*cos(x)'
+          ans: '(2*x+1)*sin(x) + 2*cos(x)'
+          samples: [-2.0, 0.5, 3.0]
+
+      - id: M461-2-4
+        marks: 2
+        page: 6
+        prompt: 'Evaluate the integral.'
+        q: '\int(3x-2)\sinh x\,dx'
+        hint: |
+          اشتق $3x-2$ وكامل $\sinh x$. وتكامل $\sinh$ هو $\cosh$ بدون سالب.
+        solution: |
+          1. نشتق كثير الحدود ونكامل $\sinh x$. تكامل $\sinh$ هو $\cosh$ (بدون سالب):
+             $$u=3x-2,\qquad dv=\sinh x\,dx$$
+             $$du=3\,dx,\qquad v=\cosh x$$
+          2. نركّب القانون:
+             $$\int(3x-2)\sinh x\,dx=(3x-2)\cosh x-\int3\cosh x\,dx$$
+          3. تكامل $\cosh$ هو $\sinh$:
+             $$\int3\cosh x\,dx=3\sinh x$$
+        answer: |-
+          (3x-2)\cosh x-3\sinh x+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '(3*x-2)*sinh(x)'
+          ans: '(3*x-2)*cosh(x) - 3*sinh(x)'
+          samples: [-2.0, 0.5, 3.0]
+
+      - id: M462-2-3
+        marks: 2
+        page: 22
+        prompt: 'Evaluate the integral.'
+        q: '\int(2x-1)\cosh x\,dx'
+        hint: |
+          اشتق $2x-1$ وكامل $\cosh x$.
+        solution: |
+          1. نشتق كثير الحدود ونكامل $\cosh x$:
+             $$u=2x-1,\qquad dv=\cosh x\,dx$$
+             $$du=2\,dx,\qquad v=\sinh x$$
+          2. نركّب القانون:
+             $$\int(2x-1)\cosh x\,dx=(2x-1)\sinh x-\int2\sinh x\,dx$$
+          3. تكامل $\sinh$ هو $\cosh$:
+             $$\int2\sinh x\,dx=2\cosh x$$
+        answer: |-
+          (2x-1)\sinh x-2\cosh x+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '(2*x-1)*cosh(x)'
+          ans: '(2*x-1)*sinh(x) - 2*cosh(x)'
+          samples: [-2.0, 0.5, 3.0]
+
+  - key: C2
+    title: 'قوة × لوغاريتم'
+    questions:
+      - id: M471-2-7
+        marks: 2
+        page: 7
+        prompt: 'Evaluate the integral.'
+        q: '\int x^3\ln|2x|\,dx'
+        hint: |
+          اشتق اللوغاريتم (مشتقته تمسحه) وكامل $x^3$.
+        solution: |
+          1. نشتق اللوغاريتم لأن مشتقته تمسحه، ونكامل القوة:
+             $$u=\ln|2x|,\qquad dv=x^3dx$$
+          2. مشتقة $\ln|2x|$: الـ 2 تختصر. وتكامل القوة: نزيد الأس واحد ونقسم على الأس الجديد:
+             $$du=\frac{2}{2x}\,dx=\frac{dx}{x},\qquad v=\frac{x^4}{4}$$
+          3. نركّب القانون:
+             $$\int x^3\ln|2x|\,dx=\frac{x^4}{4}\ln|2x|-\int\frac{x^4}{4}\cdot\frac1x\,dx$$
+          4. نبسّط داخل التكامل الجديد ($\frac{x^4}{x}=x^3$) ونكامل:
+             $$\int\frac{x^4}{4}\cdot\frac1x\,dx=\frac14\int x^3dx=\frac14\cdot\frac{x^4}{4}=\frac{x^4}{16}$$
+        answer: |-
+          \frac{x^4}{4}\ln|2x|-\frac{x^4}{16}+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: 'x**3*log(Abs(2*x))'
+          ans: 'x**4/4*log(Abs(2*x)) - x**4/16'
+          samples: [-2.0, -0.3, 0.4, 2.5]
+
+      - id: M452-2-5
+        marks: 2
+        page: 23
+        prompt: 'Evaluate the integral.'
+        q: '\int x\ln|x|\,dx'
+        hint: |
+          نفس الفكرة: اشتق $\ln|x|$ وكامل $x$.
+        solution: |
+          1. نشتق اللوغاريتم ونكامل القوة:
+             $$u=\ln|x|,\qquad dv=x\,dx$$
+             $$du=\frac{dx}{x},\qquad v=\frac{x^2}{2}$$
+          2. نركّب القانون:
+             $$\int x\ln|x|\,dx=\frac{x^2}{2}\ln|x|-\int\frac{x^2}{2}\cdot\frac1x\,dx$$
+          3. نبسّط ($\frac{x^2}{x}=x$) ونكامل:
+             $$\int\frac{x^2}{2}\cdot\frac1x\,dx=\frac12\int x\,dx=\frac{x^2}{4}$$
+        answer: |-
+          \frac{x^2}{2}\ln|x|-\frac{x^2}{4}+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: 'x*log(Abs(x))'
+          ans: 'x**2/2*log(Abs(x)) - x**2/4'
+          samples: [-2.0, -0.3, 0.4, 2.5]
+
+      - id: M461-2-5
+        marks: 2
+        page: 6
+        prompt: 'Evaluate the integral.'
+        q: '\int x^{-2}\ln x\,dx'
+        hint: |
+          نفس الفكرة والأس سالب: اشتق $\ln x$ وكامل $x^{-2}$، وانتبه للإشارات.
+        solution: |
+          1. نشتق اللوغاريتم ونكامل القوة:
+             $$u=\ln x,\qquad dv=x^{-2}dx$$
+          2. تكامل $x^{-2}$: نزيد الأس واحد (يصير $-1$) ونقسم عليه:
+             $$du=\frac{dx}{x},\qquad v=\frac{x^{-1}}{-1}=-\frac1x$$
+          3. نركّب القانون:
+             $$\int x^{-2}\ln x\,dx=-\frac{\ln x}{x}-\int\Big(-\frac1x\Big)\cdot\frac1x\,dx$$
+          4. سالب في سالب = موجب، و$\frac1x\cdot\frac1x=x^{-2}$:
+             $$=-\frac{\ln x}{x}+\int x^{-2}dx=-\frac{\ln x}{x}+\frac{x^{-1}}{-1}$$
+        answer: |-
+          -\frac{\ln x}{x}-\frac1x+C
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: 'log(x)/x**2'
+          ans: '-log(x)/x - 1/x'
+          samples: [0.3, 1.5, 4.0]
+
+      - id: M451-2-3
+        marks: 2
+        page: 6
+        prompt: 'Evaluate the integral.'
+        q: '\int_1^e x^3\ln x\,dx'
+        hint: |
+          تكامل محدد: سوّ التجزئة عادي ($u=\ln x$)، وبعدين عوّض الحدود. تذكّر $\ln e=1$ و$\ln1=0$.
+        solution: |
+          1. نحسب التكامل بدون حدود أول، بالتجزئة (نشتق اللوغاريتم ونكامل القوة):
+             $$u=\ln x,\qquad dv=x^3dx,\qquad du=\frac{dx}{x},\qquad v=\frac{x^4}{4}$$
+             $$\int x^3\ln x\,dx=\frac{x^4}{4}\ln x-\frac14\int x^3dx=\frac{x^4}{4}\ln x-\frac{x^4}{16}$$
+          2. نسمّي الناتج $F(x)$ ونعوّض الحدود. تذكّر $\ln e=1$ و$\ln1=0$:
+             $$F(e)=\frac{e^4}{4}(1)-\frac{e^4}{16}=\frac{4e^4-e^4}{16}=\frac{3e^4}{16}$$
+             $$F(1)=\frac14(0)-\frac{1}{16}=-\frac{1}{16}$$
+          3. الأعلى ناقص الأدنى:
+             $$\int_1^e x^3\ln x\,dx=F(e)-F(1)=\frac{3e^4}{16}+\frac{1}{16}$$
+        answer: |-
+          \frac{3e^4+1}{16}
+        check:
+          kind: def
+          f: 'x**3*log(x)'
+          a: '1'
+          b: 'E'
+          ans: '(3*E**4+1)/16'
+
+  - key: C3
+    title: 'دالة عكسية لحالها'
+    questions:
+      - id: M462-2-8
+        marks: 3
+        page: 23
+        prompt: 'Evaluate the integral.'
+        q: '\int\tan^{-1}x\,dx'
+        hint: |
+          الدالة العكسية لحالها: اعتبرها مضروبة في 1. اشتق العكسية، وكامل $dx$.
+        solution: |
+          1. الدالة العكسية لحالها، نعتبرها مضروبة في 1. نشتق العكسية (مشتقتها كسر جبري)، ونكامل الواحد:
+             $$u=\tan^{-1}x,\qquad dv=dx$$
+             $$du=\frac{dx}{1+x^2},\qquad v=x$$
+          2. نركّب القانون:
+             $$\int\tan^{-1}x\,dx=x\tan^{-1}x-\int\frac{x}{1+x^2}\,dx$$
+          3. التكامل الباقي: البسط تقريبًا مشتقة المقام ($2x$). نضرب ونقسم على 2 (ما تتغير القيمة):
+             $$\int\frac{x}{1+x^2}\,dx=\frac12\int\frac{2x}{1+x^2}\,dx=\frac12\ln\big(1+x^2\big)$$
+             و$1+x^2$ موجب دايم، فما نحتاج قيمة مطلقة.
+        answer: |-
+          x\tan^{-1}x-\frac12\ln\big(1+x^2\big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'atan(x)'
+          ans: 'x*atan(x) - log(1+x**2)/2'
+          samples: [-2.0, 0.5, 3.0]
+
+      - id: M471-2-5
+        marks: 2
+        page: 6
+        prompt: 'Evaluate the integral.'
+        q: '\int\sin^{-1}x\,dx'
+        hint: |
+          نفس M462-2-8 مع $\sin^{-1}x$. التكامل الباقي بتعويض: الداخل $1-x^2$.
+        solution: |
+          1. نشتق العكسية ونكامل الواحد:
+             $$u=\sin^{-1}x,\qquad dv=dx$$
+             $$du=\frac{dx}{\sqrt{1-x^2}},\qquad v=x$$
+          2. نركّب القانون:
+             $$\int\sin^{-1}x\,dx=x\sin^{-1}x-\int\frac{x}{\sqrt{1-x^2}}\,dx$$
+          3. التكامل الباقي بتعويض: الداخل $1-x^2$ ومشتقته $-2x$:
+             $$w=1-x^2,\qquad dw=-2x\,dx\quad\Rightarrow\quad x\,dx=-\frac{dw}{2}$$
+             $$\int\frac{x\,dx}{\sqrt{1-x^2}}=-\frac12\int w^{-1/2}dw=-\frac12\cdot\frac{w^{1/2}}{1/2}=-\sqrt{1-x^2}$$
+          4. نرجع للقانون: ناقص في ناقص = زائد:
+             $$x\sin^{-1}x-\Big(-\sqrt{1-x^2}\Big)=x\sin^{-1}x+\sqrt{1-x^2}$$
+        answer: |-
+          x\sin^{-1}x+\sqrt{1-x^2}+C
+        domain: '|x|<1'
+        check:
+          kind: indef
+          f: 'asin(x)'
+          ans: 'x*asin(x) + sqrt(1-x**2)'
+          samples: [-0.8, 0.1, 0.7]
+
+      - id: M451-2-5
+        marks: 2
+        page: 7
+        prompt: 'Evaluate the integral.'
+        q: '\int\cosh^{-1}x\,dx'
+        hint: |
+          نفس الفكرة مع $\cosh^{-1}x$. التكامل الباقي بتعويض: الداخل $x^2-1$.
+        solution: |
+          1. نشتق العكسية ونكامل الواحد:
+             $$u=\cosh^{-1}x,\qquad dv=dx$$
+             $$du=\frac{dx}{\sqrt{x^2-1}},\qquad v=x$$
+          2. نركّب القانون:
+             $$\int\cosh^{-1}x\,dx=x\cosh^{-1}x-\int\frac{x}{\sqrt{x^2-1}}\,dx$$
+          3. التكامل الباقي بتعويض: الداخل $x^2-1$ ومشتقته $2x$:
+             $$w=x^2-1,\qquad dw=2x\,dx\quad\Rightarrow\quad x\,dx=\frac{dw}{2}$$
+             $$\int\frac{x\,dx}{\sqrt{x^2-1}}=\frac12\int w^{-1/2}dw=\frac12\cdot\frac{w^{1/2}}{1/2}=\sqrt{x^2-1}$$
+        answer: |-
+          x\cosh^{-1}x-\sqrt{x^2-1}+C
+        domain: 'x>1'
+        check:
+          kind: indef
+          f: 'acosh(x)'
+          ans: 'x*acosh(x) - sqrt(x**2-1)'
+          samples: [1.2, 2.0, 5.0]
+
+  - key: C4
+    title: 'دالة عكسية × x'
+    questions:
+      - id: M472-3-1
+        marks: 1.5
+        page: 21
+        prompt: 'Evaluate the integral.'
+        q: '\int x\,\sech^{-1}x\,dx'
+        hint: |
+          اشتق $\sech^{-1}x$ وكامل $x\,dx$. التكامل الباقي بتعويض: الداخل $1-x^2$.
+        solution: |
+          1. نشتق العكسية، ونكامل $x$:
+             $$u=\sech^{-1}x,\qquad dv=x\,dx$$
+             $$du=\frac{-dx}{x\sqrt{1-x^2}},\qquad v=\frac{x^2}{2}$$
+          2. نركّب القانون:
+             $$\int x\sech^{-1}x\,dx=\frac{x^2}{2}\sech^{-1}x-\int\frac{x^2}{2}\cdot\frac{-1}{x\sqrt{1-x^2}}\,dx$$
+          3. نبسّط: سالب في سالب = موجب، و$\frac{x^2}{x}=x$:
+             $$=\frac{x^2}{2}\sech^{-1}x+\frac12\int\frac{x}{\sqrt{1-x^2}}\,dx$$
+          4. التكامل الباقي بتعويض $w=1-x^2$ (نفس اللي في $\int\sin^{-1}x\,dx$):
+             $$w=1-x^2,\qquad x\,dx=-\frac{dw}{2}$$
+             $$\int\frac{x}{\sqrt{1-x^2}}\,dx=-\frac12\int w^{-1/2}dw=-\sqrt{1-x^2}$$
+          5. نجمع:
+             $$\frac{x^2}{2}\sech^{-1}x+\frac12\Big(-\sqrt{1-x^2}\Big)$$
+        answer: |-
+          \frac{x^2}{2}\sech^{-1}x-\frac12\sqrt{1-x^2}+C
+        domain: '0<x<1'
+        check:
+          kind: indef
+          f: 'x*asech(x)'
+          ans: 'x**2/2*asech(x) - sqrt(1-x**2)/2'
+          samples: [0.1, 0.5, 0.9]

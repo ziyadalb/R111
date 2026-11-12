@@ -1,0 +1,103 @@
+# سؤال من 4.1 جاء في اختبار السنة الماضية (1447، الفصل الأول، الاختبار الثاني)
+section: '4.1'
+slug: t41
+title: 'تكاملات 4.1 اللي تجي مع 4.2'
+patterns:
+  - key: T41
+    title: 'تكامل دالة زائدية مباشرة'
+    questions:
+      - id: M471-2-1
+        marks: 2
+        page: 5
+        prompt: 'Evaluate the integral.'
+        q: '\int x\tanh\big(4x^2-1\big)\,dx'
+        hint: |
+          الداخل $4x^2-1$ ومشتقته $8x$، و$x$ موجودة. وتذكّر:
+          $$\tanh u=\frac{\sinh u}{\cosh u}$$
+        solution: |
+          1. الداخل $4x^2-1$، ومشتقته $8x$، و$x$ موجودة (ناقصها 8 بس):
+             $$u=4x^2-1,\qquad du=8x\,dx\quad\Rightarrow\quad x\,dx=\frac{du}{8}$$
+          2. نعوّض:
+             $$\int x\tanh\big(4x^2-1\big)\,dx=\frac18\int\tanh u\,du$$
+          3. نكتب $\tanh$ كسر. البسط مشتقة المقام، فالتكامل $\ln$:
+             $$\int\tanh u\,du=\int\frac{\sinh u}{\cosh u}\,du=\ln(\cosh u)+C$$
+             و$\cosh u>0$ دايم، فما نحتاج قيمة مطلقة.
+          4. نرجع لـ $x$:
+        answer: |-
+          \frac18\ln\big(\cosh(4x^2-1)\big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'x*tanh(4*x**2-1)'
+          ans: 'log(cosh(4*x**2-1))/8'
+          samples: [-1.0, 0.3, 1.2]
+
+      - id: M452-2-1
+        marks: 2
+        page: 22
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{\coth\big(\sqrt{x}\big)}{\sqrt{x}}\,dx'
+        hint: |
+          الداخل $\sqrt x$، ومشتقته فيها $\frac{1}{\sqrt x}$ اللي موجودة.
+        solution: |
+          1. الداخل $\sqrt x$، ومشتقته $\frac{1}{2\sqrt x}$، و$\frac{1}{\sqrt x}$ موجودة (ناقصها $\frac12$):
+             $$u=\sqrt x,\qquad du=\frac{dx}{2\sqrt x}\quad\Rightarrow\quad\frac{dx}{\sqrt x}=2\,du$$
+          2. نعوّض:
+             $$\int\frac{\coth\sqrt x}{\sqrt x}\,dx=2\int\coth u\,du$$
+          3. $\coth u=\frac{\cosh u}{\sinh u}$، والبسط مشتقة المقام:
+             $$\int\coth u\,du=\ln|\sinh u|+C$$
+          4. نرجع لـ $x$:
+        answer: |-
+          2\ln\big|\sinh\sqrt{x}\big|+C
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: 'coth(sqrt(x))/sqrt(x)'
+          ans: '2*log(Abs(sinh(sqrt(x))))'
+          samples: [0.3, 2.0, 6.0]
+
+      - id: M461-2-1
+        marks: 2
+        page: 5
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{\sech^2\big(x^{-2}\big)}{x^3}\,dx'
+        hint: |
+          الداخل $x^{-2}$، ومشتقته فيها $x^{-3}$ اللي موجودة.
+        solution: |
+          1. نكتب $\frac{1}{x^3}=x^{-3}$. الداخل $x^{-2}$، ومشتقته $-2x^{-3}$:
+             $$u=x^{-2},\qquad du=-2x^{-3}\,dx\quad\Rightarrow\quad x^{-3}\,dx=-\frac{du}{2}$$
+          2. نعوّض:
+             $$\int\sech^2\big(x^{-2}\big)\,x^{-3}\,dx=-\frac12\int\sech^2u\,du$$
+          3. $\sech^2$ هي مشتقة $\tanh$، فتكاملها $\tanh$:
+             $$=-\frac12\tanh u+C$$
+        answer: |-
+          -\frac12\tanh\big(x^{-2}\big)+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: 'sech(x**-2)**2/x**3'
+          ans: '-tanh(x**-2)/2'
+          samples: [-2.0, -0.6, 0.6, 2.0]
+
+      - id: M462-2-1
+        marks: 2
+        page: 21
+        prompt: 'Evaluate the integral.'
+        q: '\int x^{-2}\csch^2\Big(\frac{1}{x}\Big)\,dx'
+        hint: |
+          الداخل $\frac1x$، ومشتقته $-\frac{1}{x^2}$ موجودة (ناقصها سالب).
+        solution: |
+          1. الداخل $\frac1x$، ومشتقته $-\frac{1}{x^2}=-x^{-2}$، وموجودة ناقصها سالب:
+             $$u=\frac1x,\qquad du=-x^{-2}\,dx\quad\Rightarrow\quad x^{-2}\,dx=-du$$
+          2. نعوّض:
+             $$\int\csch^2\Big(\frac1x\Big)x^{-2}\,dx=-\int\csch^2u\,du$$
+          3. مشتقة $\coth$ هي $-\csch^2$، يعني تكامل $\csch^2$ هو $-\coth$:
+             $$-\int\csch^2u\,du=-\big(-\coth u\big)+C=\coth u+C$$
+        answer: |-
+          \coth\Big(\frac1x\Big)+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: 'x**-2*csch(1/x)**2'
+          ans: 'coth(1/x)'
+          samples: [-2.0, -0.6, 0.6, 2.0]

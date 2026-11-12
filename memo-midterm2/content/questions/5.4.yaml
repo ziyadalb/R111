@@ -1,0 +1,206 @@
+# القسم 5.4 — الكسور الجزئية (تكامل الدوال الكسرية)
+section: '5.4'
+slug: s54
+title: 'الكسور الجزئية'
+patterns:
+  - key: F1
+    title: 'المقام x(x² + a²)'
+    questions:
+      - id: M472-3-6
+        marks: 2
+        page: 22
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{3x^2+x+4}{x\big(x^2+4\big)}\,dx'
+        hint: |
+          المقام محلول: ثابت فوق $x$، وخطي فوق $x^2+4$.
+          $$\frac Ax+\frac{Bx+D}{x^2+4}$$
+        solution: |
+          1. درجة البسط (2) أقل من درجة المقام (3)، والمقام محلول. القالب: ثابت فوق $x$، وخطي فوق $x^2+4$ (لأنه ما يتحلل):
+             $$\frac{3x^2+x+4}{x\big(x^2+4\big)}=\frac Ax+\frac{Bx+D}{x^2+4}$$
+          2. نضرب الطرفين في المقام $x\big(x^2+4\big)$:
+             $$3x^2+x+4=A\big(x^2+4\big)+x\big(Bx+D\big)$$
+          3. نفك اليمين ونجمع حسب قوى $x$:
+             $$=Ax^2+4A+Bx^2+Dx=(A+B)x^2+Dx+4A$$
+          4. نقارن المعاملات بالترتيب: معامل $x^2$، ثم معامل $x$، ثم الحد الثابت:
+             $$A+B=3,\qquad D=1,\qquad 4A=4$$
+             $$A=1,\qquad B=3-1=2,\qquad D=1$$
+          5. نكامل، ونفصل الكسر الثاني لجزأين:
+             $$\int\Big(\frac1x+\frac{2x}{x^2+4}+\frac{1}{x^2+4}\Big)dx$$
+          6. كل جزء لحاله. الأول قانون $\ln$. الثاني بسطه مشتقة مقامه بالضبط. الثالث ما فيه جذر ← $\tan^{-1}$ مع $a=2$:
+             $$\int\frac{dx}{x}=\ln|x|,\qquad\int\frac{2x}{x^2+4}\,dx=\ln\big(x^2+4\big)$$
+             $$\int\frac{dx}{x^2+2^2}=\frac12\tan^{-1}\frac x2$$
+        answer: |-
+          \ln|x|+\ln\big(x^2+4\big)+\frac12\tan^{-1}\Big(\frac x2\Big)+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: '(3*x**2+x+4)/(x*(x**2+4))'
+          ans: 'log(Abs(x)) + log(x**2+4) + atan(x/2)/2'
+          samples: [-3.0, -0.5, 0.5, 3.0]
+          identities:
+            - ['(3*x**2+x+4)/(x*(x**2+4))', '1/x + (2*x+1)/(x**2+4)']
+
+      - id: M462-2-9
+        marks: 3
+        page: 24
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{x^2+x+9}{x^3+9x}\,dx'
+        hint: |
+          حلّل المقام أول: طلّع $x$ عامل مشترك.
+        solution: |
+          1. نحلّل المقام بإخراج $x$ عامل مشترك:
+             $$x^3+9x=x\big(x^2+9\big)$$
+          2. القالب:
+             $$\frac{x^2+x+9}{x\big(x^2+9\big)}=\frac Ax+\frac{Bx+D}{x^2+9}$$
+          3. نضرب في المقام ونفك ونجمع:
+             $$x^2+x+9=A\big(x^2+9\big)+x\big(Bx+D\big)=(A+B)x^2+Dx+9A$$
+          4. نقارن (معامل $x^2$، ثم $x$، ثم الثابت):
+             $$A+B=1,\qquad D=1,\qquad 9A=9$$
+             $$A=1,\qquad B=0,\qquad D=1$$
+          5. $B=0$ يعني ما فيه حد $\ln\big(x^2+9\big)$. نكامل، والثاني $\tan^{-1}$ مع $a=3$:
+             $$\int\Big(\frac1x+\frac{1}{x^2+9}\Big)dx=\ln|x|+\frac13\tan^{-1}\frac x3$$
+        answer: |-
+          \ln|x|+\frac13\tan^{-1}\Big(\frac x3\Big)+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: '(x**2+x+9)/(x**3+9*x)'
+          ans: 'log(Abs(x)) + atan(x/3)/3'
+          samples: [-3.0, -0.5, 0.5, 3.0]
+          identities:
+            - ['(x**2+x+9)/(x**3+9*x)', '1/x + 1/(x**2+9)']
+
+      - id: M452-2-8
+        marks: 3
+        page: 24
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{3x^2+3x+8}{x^3+4x}\,dx'
+        hint: |
+          حلّل المقام: $x^3+4x=x(x^2+4)$، وبعدين نفس القالب.
+        solution: |
+          1. نحلّل المقام:
+             $$x^3+4x=x\big(x^2+4\big)$$
+          2. القالب، ونضرب في المقام ونفك:
+             $$\frac{3x^2+3x+8}{x\big(x^2+4\big)}=\frac Ax+\frac{Bx+D}{x^2+4}$$
+             $$3x^2+3x+8=(A+B)x^2+Dx+4A$$
+          3. نقارن:
+             $$A+B=3,\qquad D=3,\qquad 4A=8$$
+             $$A=2,\qquad B=1,\qquad D=3$$
+          4. نفصل الكسر الثاني:
+             $$\int\Big(\frac2x+\frac{x}{x^2+4}+\frac{3}{x^2+4}\Big)dx$$
+          5. الحد الأوسط: البسط $x$ ومشتقة المقام $2x$، فنضرب ونقسم على 2:
+             $$\int\frac{x}{x^2+4}\,dx=\frac12\int\frac{2x}{x^2+4}\,dx=\frac12\ln\big(x^2+4\big)$$
+             $$\int\frac{3}{x^2+4}\,dx=3\cdot\frac12\tan^{-1}\frac x2=\frac32\tan^{-1}\frac x2$$
+        answer: |-
+          2\ln|x|+\frac12\ln\big(x^2+4\big)+\frac32\tan^{-1}\Big(\frac x2\Big)+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: '(3*x**2+3*x+8)/(x**3+4*x)'
+          ans: '2*log(Abs(x)) + log(x**2+4)/2 + 3*atan(x/2)/2'
+          samples: [-3.0, -0.5, 0.5, 3.0]
+          identities:
+            - ['(3*x**2+3*x+8)/(x**3+4*x)', '2/x + (x+3)/(x**2+4)']
+
+      - id: M461-2-8
+        marks: 3
+        page: 8
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{5x^2+x+8}{x^3+4x}\,dx'
+        hint: |
+          حلّل المقام: $x^3+4x=x(x^2+4)$، وبعدين نفس القالب.
+        solution: |
+          1. نحلّل المقام:
+             $$x^3+4x=x\big(x^2+4\big)$$
+          2. القالب، ونضرب في المقام ونفك:
+             $$\frac{5x^2+x+8}{x\big(x^2+4\big)}=\frac Ax+\frac{Bx+D}{x^2+4}$$
+             $$5x^2+x+8=(A+B)x^2+Dx+4A$$
+          3. نقارن:
+             $$A+B=5,\qquad D=1,\qquad 4A=8$$
+             $$A=2,\qquad B=3,\qquad D=1$$
+          4. نفصل الكسر الثاني:
+             $$\int\Big(\frac2x+\frac{3x}{x^2+4}+\frac{1}{x^2+4}\Big)dx$$
+          5. الحد الأوسط: نضرب ونقسم على 2 عشان تطلع مشتقة المقام:
+             $$\int\frac{3x}{x^2+4}\,dx=\frac32\int\frac{2x}{x^2+4}\,dx=\frac32\ln\big(x^2+4\big)$$
+             $$\int\frac{dx}{x^2+4}=\frac12\tan^{-1}\frac x2$$
+        answer: |-
+          2\ln|x|+\frac32\ln\big(x^2+4\big)+\frac12\tan^{-1}\Big(\frac x2\Big)+C
+        domain: 'x\ne0'
+        note: |
+          في سطر وسطي من المفتاح مكتوب $2+B=0$، والصحيح $2+B=5$. الجواب النهائي في المفتاح صحيح.
+        check:
+          kind: indef
+          f: '(5*x**2+x+8)/(x**3+4*x)'
+          ans: '2*log(Abs(x)) + 3*log(x**2+4)/2 + atan(x/2)/2'
+          samples: [-3.0, -0.5, 0.5, 3.0]
+          identities:
+            - ['(5*x**2+x+8)/(x**3+4*x)', '2/x + (3*x+1)/(x**2+4)']
+
+      - id: M451-2-8
+        marks: 3
+        page: 8
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{x+3}{x^3+9x}\,dx'
+        hint: |
+          حلّل المقام: $x^3+9x=x(x^2+9)$. وانتبه: ما فيه $x^2$ في البسط، يعني معامله صفر.
+        solution: |
+          1. نحلّل المقام:
+             $$x^3+9x=x\big(x^2+9\big)$$
+          2. القالب، ونضرب في المقام ونفك:
+             $$\frac{x+3}{x\big(x^2+9\big)}=\frac Ax+\frac{Bx+D}{x^2+9}$$
+             $$x+3=(A+B)x^2+Dx+9A$$
+          3. ما فيه $x^2$ في اليسار، يعني معامله صفر:
+             $$A+B=0,\qquad D=1,\qquad 9A=3$$
+             $$A=\frac13,\qquad B=-\frac13,\qquad D=1$$
+          4. نكتب الكسور:
+             $$\int\Big(\frac{1}{3x}-\frac13\cdot\frac{x}{x^2+9}+\frac{1}{x^2+9}\Big)dx$$
+          5. كل جزء: الأوسط نضرب ونقسم على 2، والأخير $\tan^{-1}$ مع $a=3$:
+             $$\int\frac{x}{x^2+9}\,dx=\frac12\ln\big(x^2+9\big),\qquad\int\frac{dx}{x^2+9}=\frac13\tan^{-1}\frac x3$$
+          6. نجمع، و$\frac13\cdot\frac12=\frac16$:
+        answer: |-
+          \frac13\ln|x|-\frac16\ln\big(x^2+9\big)+\frac13\tan^{-1}\Big(\frac x3\Big)+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: '(x+3)/(x**3+9*x)'
+          ans: 'log(Abs(x))/3 - log(x**2+9)/6 + atan(x/3)/3'
+          samples: [-3.0, -0.5, 0.5, 3.0]
+          identities:
+            - ['(x+3)/(x**3+9*x)', '1/(3*x) + (-x/3+1)/(x**2+9)']
+
+  - key: F2
+    title: 'عامل مكرر x² مع x² + 1'
+    questions:
+      - id: M471-2-8
+        marks: 3
+        page: 7
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{2x+1}{x^2\big(1+x^2\big)}\,dx'
+        hint: |
+          $x^2$ عامل مكرر: تحتاج حد لكل قوة.
+          $$\frac Ax+\frac B{x^2}+\frac{Dx+E}{1+x^2}$$
+        solution: |
+          1. المقام فيه $x$ مكرر مرتين ($x^2$)، فنحتاج حد لكل قوة: $\frac Ax$ و$\frac B{x^2}$. وفوق $1+x^2$ خطي:
+             $$\frac{2x+1}{x^2\big(1+x^2\big)}=\frac Ax+\frac B{x^2}+\frac{Dx+E}{1+x^2}$$
+          2. نضرب في المقام $x^2\big(1+x^2\big)$:
+             $$2x+1=Ax\big(1+x^2\big)+B\big(1+x^2\big)+(Dx+E)x^2$$
+          3. نفك ونجمع حسب القوى:
+             $$=Ax+Ax^3+B+Bx^2+Dx^3+Ex^2$$
+             $$=(A+D)x^3+(B+E)x^2+Ax+B$$
+          4. نقارن بالترتيب: $x^3$، ثم $x^2$، ثم $x$، ثم الثابت:
+             $$A+D=0,\qquad B+E=0,\qquad A=2,\qquad B=1$$
+             $$D=-2,\qquad E=-1$$
+          5. نكتب الكسور:
+             $$\int\Big(\frac2x+\frac1{x^2}-\frac{2x}{1+x^2}-\frac1{1+x^2}\Big)dx$$
+          6. كل جزء: $\frac1{x^2}=x^{-2}$ وتكاملها $\frac{x^{-1}}{-1}=-\frac1x$؛ والثالث بسطه مشتقة مقامه؛ والرابع $\tan^{-1}$:
+             $$2\ln|x|-\frac1x-\ln\big(1+x^2\big)-\tan^{-1}x$$
+        answer: |-
+          2\ln|x|-\frac1x-\ln\big(1+x^2\big)-\tan^{-1}x+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: '(2*x+1)/(x**2*(1+x**2))'
+          ans: '2*log(Abs(x)) - 1/x - log(1+x**2) - atan(x)'
+          samples: [-3.0, -0.5, 0.5, 3.0]
+          identities:
+            - ['(2*x+1)/(x**2*(1+x**2))', '2/x + 1/x**2 + (-2*x-1)/(1+x**2)']

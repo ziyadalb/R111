@@ -1,0 +1,325 @@
+/* تنسيق موحد للملفات الثلاثة — صفحة A5 بعمود واحد تناسب الآيباد */
+:root {
+  --ink: #1f2933;
+  --muted: #5b6573;
+  --line: #d5dbe3;
+  --brand: #0e5a6f;
+  --brand-soft: #e6f2f5;
+  --c-recog: #1d4ed8; --bg-recog: #eef4ff;
+  --c-first: #0e5a6f; --bg-first: #e8f4f6;
+  --c-steps: #0f766e; --bg-steps: #ecfaf6;
+  --c-why: #6d28d9;   --bg-why: #f4f0ff;
+  --c-warn: #a35a00;  --bg-warn: #fff7e6;
+  --c-fix: #b42318;   --bg-fix: #fff1f0;
+  --c-short: #16703a; --bg-short: #eefbf1;
+  --c-more: #475467;  --bg-more: #f6f8fa;
+  --c-alg: #3f3fb0;   --bg-alg: #f0f0ff;
+  --c-law: #0e5a6f;   --bg-law: #f2f8fa;
+  --c-note: #475467;  --bg-note: #f6f8fa;
+}
+
+@page {
+  size: 148mm 210mm;
+  margin: 13mm 12mm 15mm 12mm;
+  @bottom-center {
+    content: counter(page);
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 8.5pt;
+    color: #8a93a0;
+  }
+}
+@page :first {
+  @bottom-center { content: none; }
+}
+
+html { direction: rtl; }
+body {
+  margin: 0;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+  font-size: 11pt;
+  line-height: 1.72;
+  color: var(--ink);
+  background: #fff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  orphans: 2;
+  widows: 2;
+}
+p { margin: 0.35em 0 0.45em; }
+strong, b { font-weight: 700; }
+a { color: inherit; text-decoration: none; }
+
+/* الرياضيات */
+.katex { font-size: 1.08em; }
+.eq {
+  direction: ltr;
+  text-align: center;
+  margin: 0.32em 0 0.42em;
+  break-inside: avoid;
+}
+.eq .katex-display { margin: 0; }
+.m { direction: ltr; unicode-bidi: isolate; white-space: nowrap; }
+.prompt { direction: ltr; text-align: left; font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 0.92em; color: var(--muted); }
+.prompt .katex { font-size: 1em; }
+
+/* معرّفات الأسئلة */
+.qid {
+  direction: ltr;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+  font-size: 0.82em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--brand);
+  background: var(--brand-soft);
+  border-radius: 4px;
+  padding: 0 0.35em;
+}
+.marks {
+  font-size: 0.78em;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 0.55em;
+  white-space: nowrap;
+}
+.src { font-size: 0.78em; color: var(--muted); }
+.small { font-size: 0.75em; color: var(--muted); font-weight: 400; }
+
+/* العناوين */
+h1 {
+  break-before: page;
+  break-after: avoid;
+  font-size: 1.32em;
+  line-height: 1.45;
+  margin: 0 0 0.6em;
+  padding: 0.45em 0.7em;
+  background: var(--brand);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 700;
+}
+h1 .secno {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+  background: #fff;
+  color: var(--brand);
+  border-radius: 6px;
+  padding: 0 0.4em;
+  margin-inline-end: 0.5em;
+  font-weight: 700;
+}
+h1.part { background: #23313f; }
+h2 {
+  break-after: avoid;
+  font-size: 1.12em;
+  line-height: 1.5;
+  margin: 1.1em 0 0.45em;
+  padding-bottom: 0.2em;
+  color: var(--brand);
+  border-bottom: 2px solid var(--brand-soft);
+  font-weight: 700;
+}
+h2 .secno { direction: ltr; unicode-bidi: isolate; margin-inline-end: 0.4em; }
+.h3 {
+  break-after: avoid;
+  font-weight: 700;
+  font-size: 1.0em;
+  margin: 0.9em 0 0.3em;
+  color: #23313f;
+}
+.h3::before { content: "◆ "; color: var(--brand); font-size: 0.8em; }
+
+/* الصناديق */
+.box {
+  border-inline-start: 4px solid var(--c);
+  background: var(--bg);
+  border-radius: 7px;
+  padding: 0.45em 0.75em 0.5em;
+  margin: 0.6em 0;
+  break-inside: avoid;
+}
+.box-title { font-weight: 700; color: var(--c); font-size: 0.95em; margin-bottom: 0.1em; }
+.box-body > :first-child { margin-top: 0.1em; }
+.box-body > :last-child { margin-bottom: 0.1em; }
+.box-recog { --c: var(--c-recog); --bg: var(--bg-recog); }
+.box-first { --c: var(--c-first); --bg: var(--bg-first); }
+.box-steps { --c: var(--c-steps); --bg: var(--bg-steps); }
+.box-why   { --c: var(--c-why);   --bg: var(--bg-why); }
+.box-warn  { --c: var(--c-warn);  --bg: var(--bg-warn); }
+.box-fix   { --c: var(--c-fix);   --bg: var(--bg-fix); }
+.box-short { --c: var(--c-short); --bg: var(--bg-short); }
+.box-more  { --c: var(--c-more);  --bg: var(--bg-more); border-inline-start-style: dashed; }
+.box-alg   { --c: var(--c-alg);   --bg: var(--bg-alg); }
+.box-law   { --c: var(--c-law);   --bg: var(--bg-law); }
+.box-note  { --c: var(--c-note);  --bg: var(--bg-note); }
+.box-use   { --c: var(--c-first); --bg: var(--bg-first); }
+.box-scope { --c: var(--c-more);  --bg: var(--bg-more); }
+.box.split { break-inside: auto; }
+
+/* القوائم والخطوات */
+ul, ol { margin: 0.3em 0; padding-inline-start: 1.3em; }
+li { margin: 0.15em 0; }
+.box-steps ol, .sol-steps ol { list-style: none; counter-reset: st; padding-inline-start: 0; }
+.box-steps ol > li, .sol-steps ol > li {
+  counter-increment: st;
+  position: relative;
+  padding-inline-start: 1.75em;
+  margin: 0.35em 0;
+}
+.box-steps ol > li::before, .sol-steps ol > li::before {
+  content: counter(st);
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.18em;
+  width: 1.3em;
+  height: 1.3em;
+  line-height: 1.32em;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 0.8em;
+  font-weight: 700;
+  background: var(--c-steps);
+  color: #fff;
+}
+.sol-steps ol > li { break-inside: avoid; }
+.sol-steps ol > li > p:first-child { margin-top: 0; }
+
+/* مثال كامل / حل */
+.example, .solution {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 0.5em 0.75em 0.6em;
+  margin: 0.8em 0;
+}
+.solution { margin: 0.9em 0 1.1em; }
+.ex-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25em 0.55em;
+  padding-bottom: 0.25em;
+  margin-bottom: 0.2em;
+  border-bottom: 1px dashed var(--line);
+  break-after: avoid;
+}
+.ex-label { font-weight: 700; color: #fff; background: var(--c-steps); border-radius: 5px; padding: 0 0.5em; font-size: 0.85em; }
+.solution .ex-label { background: #23313f; }
+.q-math { break-inside: avoid; break-after: avoid; }
+.answer {
+  margin-top: 0.4em;
+  border: 1.5px solid var(--c-short);
+  background: var(--bg-short);
+  border-radius: 7px;
+  padding: 0.2em 0.6em 0.25em;
+  break-inside: avoid;
+}
+.ans-label { font-weight: 700; color: var(--c-short); font-size: 0.88em; }
+.domain {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin: 0.25em 0 0;
+  font-size: 0.95em;
+  break-inside: avoid;
+}
+.domain .lbl { font-weight: 700; color: var(--muted); font-size: 0.9em; white-space: nowrap; }
+.domain .m-ltr { flex: 1; }
+.domain .eq { margin: 0.1em 0; text-align: right; }
+.domain .eq .katex-display > .katex { text-align: right; }
+
+/* بطاقات "وش يختلف" */
+.diff {
+  border: 1px solid var(--line);
+  border-inline-start: 4px solid var(--c-recog);
+  border-radius: 8px;
+  padding: 0.35em 0.7em 0.45em;
+  margin: 0.55em 0;
+  break-inside: avoid;
+}
+.diff-head { display: flex; gap: 0.5em; align-items: center; }
+.diff-q .eq { margin: 0.15em 0 0.25em; }
+.diff-q .prompt { display: none; }
+.diff-body > :first-child { margin-top: 0.1em; }
+.diff-body > :last-child { margin-bottom: 0.1em; }
+
+/* أسئلة التدريب */
+.qcard {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 0.45em 0.75em 0.3em;
+  margin: 0.55em 0 0.75em;
+  break-inside: avoid;
+}
+.q-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.2em 0.55em; }
+.ticks { margin-inline-start: auto; display: flex; gap: 0.4em; }
+.tick { font-size: 0.72em; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 0.45em; }
+.tick::before { content: "○ "; }
+.space {
+  height: 58mm;
+  margin-top: 0.3em;
+  border-top: 1px dashed var(--line);
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 8.5mm, #eef1f4 8.5mm, #eef1f4 calc(8.5mm + 1px));
+}
+.qline {
+  border-bottom: 1px solid var(--line);
+  padding: 0.3em 0 0.2em;
+  break-inside: avoid;
+}
+.qline .prompt { display: none; }
+.excluded { font-size: 0.85em; color: var(--muted); }
+
+/* التلميحات */
+.hint-group { margin: 0.4em 0 0.8em; }
+.hint-pattern { font-weight: 700; color: #23313f; margin: 0.6em 0 0.2em; break-after: avoid; }
+.hint {
+  border-bottom: 1px dashed var(--line);
+  padding: 0.25em 0 0.3em;
+  break-inside: avoid;
+}
+.hint-head { display: flex; align-items: center; gap: 0.5em; }
+.hint-head .go { font-size: 0.75em; color: var(--muted); }
+.hint-body p { margin: 0.15em 0; }
+.qid-link { text-decoration: none; }
+
+/* الغلاف والمحتوى */
+.cover { min-height: 172mm; display: flex; flex-direction: column; }
+.cover-top { border-bottom: 3px solid var(--brand); padding-bottom: 0.5em; margin-bottom: 0.6em; }
+.cover .course { font-size: 0.95em; color: var(--muted); font-weight: 600; }
+.cover .title { font-size: 1.85em; font-weight: 700; color: var(--brand); line-height: 1.35; margin: 0.15em 0; }
+.cover .sub { font-size: 1.02em; color: #23313f; }
+.cover .files { font-size: 0.85em; color: var(--muted); margin-top: 0.3em; }
+.cover .files b { color: var(--brand); }
+.toc { margin: 0.4em 0; }
+.toc-title { font-weight: 700; color: var(--brand); margin-bottom: 0.15em; }
+.toc-row { display: flex; align-items: baseline; gap: 0.4em; padding: 0.1em 0; text-decoration: none; color: inherit; }
+.toc-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.toc-text .secno { direction: ltr; unicode-bidi: isolate; display: inline-block; min-width: 2.2em; color: var(--brand); font-weight: 700; }
+.toc-dots { flex: 1; border-bottom: 1px dotted #b8c0cb; transform: translateY(-0.3em); }
+.toc-page { direction: ltr; unicode-bidi: isolate; min-width: 1.6em; text-align: left; font-weight: 600; color: var(--brand); }
+
+/* جداول بسيطة */
+table { border-collapse: collapse; width: 100%; margin: 0.5em 0; font-size: 0.95em; break-inside: avoid; }
+th, td { border: 1px solid var(--line); padding: 0.25em 0.45em; vertical-align: middle; }
+th { background: var(--brand-soft); color: var(--brand); font-weight: 700; }
+td .eq { margin: 0.1em 0; }
+
+.pagebreak { break-before: page; }
+.keep { break-inside: avoid; }
+.center { text-align: center; }
+.muted { color: var(--muted); }
+
+/* المثلث */
+.tri { position: relative; width: 200px; height: 118px; margin: 0.2em auto 0.1em; break-inside: avoid; }
+.tri svg { position: absolute; left: 0; top: 0; }
+.tri-l { position: absolute; white-space: nowrap; font-size: 0.95em; }
+.tri-opp { left: 166px; top: 42px; }
+.tri-adj { left: 90px; top: 94px; transform: translateX(-50%); }
+.tri-hyp { right: 112px; top: 30px; }
+.tri-th { left: 50px; top: 70px; color: #a35a00; }
+
+/* المجال */
+.dom-why { font-size: 0.82em; color: var(--muted); margin: 0 0 0.1em; }
+.cover-foot { font-size: 0.8em; color: var(--muted); margin-top: auto; border-top: 1px solid var(--line); padding-top: 0.4em; }
+.hint-head .go { font-size: 0.75em; color: var(--muted); }

@@ -1,0 +1,343 @@
+# القسم 4.2 — تكاملات جوابها دالة زائدية عكسية
+section: '4.2'
+slug: i42
+title: 'الدوال الزائدية العكسية: التكاملات'
+patterns:
+  - key: B1
+    title: 'إكمال المربع تحت الجذر'
+    questions:
+      - id: M452-2-7
+        marks: 2
+        page: 24
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{x^2+6x+13}}'
+        hint: |
+          تحت الجذر فيه حد خطي ($6x$): كمّل المربع أول.
+        solution: |
+          1. تحت الجذر فيه حد خطي، فنكمّل المربع: نص معامل $x$ هو 3، ومربعه 9. نضيف 9 ونطرحها:
+             $$x^2+6x+13=(x^2+6x+9)+13-9=(x+3)^2+4$$
+          2. نعوّض اللي صار مربّع، و$4=2^2$:
+             $$u=x+3,\qquad du=dx,\qquad a=2$$
+             $$\int\frac{dx}{\sqrt{x^2+6x+13}}=\int\frac{du}{\sqrt{u^2+2^2}}$$
+          3. جذر لحاله، وجمع، وما فيه شي مضروب برّا الجذر ← قانون $\sinh^{-1}$:
+             $$\int\frac{du}{\sqrt{u^2+a^2}}=\sinh^{-1}\frac ua+C$$
+          4. نرجع لـ $x$:
+        answer: |-
+          \sinh^{-1}\Big(\frac{x+3}{2}\Big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '1/sqrt(x**2+6*x+13)'
+          ans: 'asinh((x+3)/2)'
+          samples: [-7.0, -3.0, 0.0, 4.0]
+          identities:
+            - ['x**2+6*x+13', '(x+3)**2+4']
+
+      - id: M462-2-2
+        marks: 2
+        page: 21
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{x^2+2x+10}}'
+        hint: |
+          كمّل المربع، وشوف وش يطلع $a$.
+        solution: |
+          1. نكمّل المربع: نص 2 هو 1، ومربعه 1:
+             $$x^2+2x+10=(x^2+2x+1)+10-1=(x+1)^2+9$$
+          2. نعوّض، و$9=3^2$:
+             $$u=x+1,\qquad du=dx,\qquad a=3$$
+             $$\int\frac{du}{\sqrt{u^2+3^2}}=\sinh^{-1}\frac u3+C$$
+          3. نرجع لـ $x$:
+        answer: |-
+          \sinh^{-1}\Big(\frac{x+1}{3}\Big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '1/sqrt(x**2+2*x+10)'
+          ans: 'asinh((x+1)/3)'
+          samples: [-6.0, -1.0, 2.0, 7.0]
+          identities:
+            - ['x**2+2*x+10', '(x+1)**2+9']
+
+      - id: M461-2-2
+        marks: 3
+        page: 5
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{3}{\sqrt{x^2+6x-16}}\,dx'
+        hint: |
+          كمّل المربع. الإشارة بعد الإكمال (جمع أو طرح) هي اللي تحدد القانون، والـ 3 تطلع برّا.
+        solution: |
+          1. نطلّع الثابت 3 برّا التكامل، ونكمّل المربع (نص 6 هو 3، ومربعه 9):
+             $$x^2+6x-16=(x^2+6x+9)-16-9=(x+3)^2-25$$
+          2. نعوّض، و$25=5^2$:
+             $$u=x+3,\qquad du=dx,\qquad a=5$$
+             $$3\int\frac{dx}{\sqrt{x^2+6x-16}}=3\int\frac{du}{\sqrt{u^2-5^2}}$$
+          3. هنا **طرح** ($u^2-a^2$)، فالقانون غير عن $\sinh^{-1}$. نستخدم الصيغة اللي تشتغل على الجهتين:
+             $$\int\frac{du}{\sqrt{u^2-a^2}}=\ln\big|u+\sqrt{u^2-a^2}\big|+C$$
+          4. نرجع لـ $x$. واللي تحت الجذر $(x+3)^2-25$ هو نفسه $x^2+6x-16$:
+        answer: |-
+          3\ln\Big|x+3+\sqrt{x^2+6x-16}\Big|+C
+        domain: 'x\in(-\infty,-8)\cup(2,\infty)'
+        domain_why: 'لأن اللي تحت الجذر لازم موجب: $(x+3)^2>25$.'
+        fix: |
+          المفتاح كتب $3\cosh^{-1}\big(\frac{x+3}{5}\big)+c$. هذا يصح بس لما $x>2$، لأن $\cosh^{-1}$ ما يقبل إلا قيم $\ge1$، والسؤال يسمح بعد بـ $x<-8$. الصيغة اللوغاريتمية تغطي الجهتين.
+        note: |
+          لو حلّك في جهة $x>2$ بس، تقدر تكتب $3\cosh^{-1}\big(\frac{x+3}{5}\big)+C$. الفرق بينها وبين جوابنا ثابت ($3\ln5$) يدخل في $C$.
+        check:
+          kind: indef
+          f: '3/sqrt(x**2+6*x-16)'
+          ans: '3*log(Abs(x+3+sqrt(x**2+6*x-16)))'
+          samples: [-12.0, -9.0, 2.5, 6.0]
+          identities:
+            - ['x**2+6*x-16', '(x+3)**2-25']
+          key_wrong: '3*acosh((x+3)/5)'
+          key_valid_on: [2.5, 6.0]
+          key_invalid_on: [-12.0, -9.0]
+
+  - key: B2
+    title: 'المربع سالب، و(x − c) مضروب برّا الجذر'
+    questions:
+      - id: M471-2-4
+        marks: 3
+        page: 6
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{(x-3)\sqrt{7-x^2+6x}}'
+        hint: |
+          معامل $x^2$ تحت الجذر سالب: طلّع السالب من حدود $x$ وكمّل المربع. بعدها انتبه إن فيه $(x-3)$ مضروب برّا الجذر.
+        solution: |
+          1. معامل $x^2$ سالب، فنطلّع السالب من حدود $x$ أول (ونوزّعه صح):
+             $$7-x^2+6x=7-(x^2-6x)$$
+          2. نكمّل المربع داخل القوس: نص 6 هو 3، ومربعه 9. نضيف 9 داخل القوس، ولأن القوس مضروب في سالب، نرجّع $+9$ برّا:
+             $$7-(x^2-6x+9)+9=16-(x-3)^2$$
+          3. نعوّض، و$16=4^2$:
+             $$u=x-3,\qquad du=dx,\qquad a=4$$
+             $$\int\frac{dx}{(x-3)\sqrt{7-x^2+6x}}=\int\frac{du}{u\sqrt{4^2-u^2}}$$
+          4. فيه $u$ مضروبة برّا الجذر، وتحت الجذر $a^2-u^2$ ← قانون $\sech^{-1}$ (لاحظ القيمة المطلقة):
+             $$\int\frac{du}{u\sqrt{a^2-u^2}}=-\frac1a\sech^{-1}\frac{|u|}{a}+C$$
+          5. نرجع لـ $x$:
+        answer: |-
+          -\frac14\sech^{-1}\Big(\frac{|x-3|}{4}\Big)+C
+        domain: '0<|x-3|<4'
+        domain_why: 'يعني $-1<x<7$ و $x\ne3$.'
+        fix: |
+          المفتاح كتب $\sech^{-1}\big(\frac{x-3}{4}\big)$ بدون قيمة مطلقة، وهذا يصح بس لما $x>3$. قانون المذكرة نفسه (ص60) فيه $|f(x)|$، ومعها الجواب يصح على الجهتين.
+        check:
+          kind: indef
+          f: '1/((x-3)*sqrt(7-x**2+6*x))'
+          ans: '-asech(Abs(x-3)/4)/4'
+          samples: [-0.5, 1.0, 2.5, 3.5, 5.0, 6.5]
+          identities:
+            - ['7-x**2+6*x', '16-(x-3)**2']
+          key_wrong: '-asech((x-3)/4)/4'
+          key_valid_on: [3.5, 5.0, 6.5]
+          key_invalid_on: [-0.5, 1.0, 2.5]
+
+      - id: M472-3-4
+        marks: 2
+        page: 22
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{(x-2)\sqrt{-x^2+4x-2}}'
+        hint: |
+          نفس M471-2-4: طلّع السالب وكمّل المربع. انتبه إن $a^2=2$.
+        solution: |
+          1. نطلّع السالب من حدود $x$:
+             $$-x^2+4x-2=-(x^2-4x)-2$$
+          2. نكمّل المربع داخل القوس (نص 4 هو 2، ومربعه 4)، ونرجّع $+4$ برّا:
+             $$-(x^2-4x+4)-2+4=2-(x-2)^2$$
+          3. نعوّض. انتبه: $a^2=2$ يعني $a=\sqrt2$، مو 2:
+             $$u=x-2,\qquad du=dx,\qquad a=\sqrt2$$
+             $$\int\frac{dx}{(x-2)\sqrt{-x^2+4x-2}}=\int\frac{du}{u\sqrt{2-u^2}}$$
+          4. قانون $\sech^{-1}$ مع القيمة المطلقة:
+             $$\int\frac{du}{u\sqrt{a^2-u^2}}=-\frac1a\sech^{-1}\frac{|u|}{a}+C$$
+        answer: |-
+          -\frac{1}{\sqrt2}\sech^{-1}\Big(\frac{|x-2|}{\sqrt2}\Big)+C
+        domain: '0<|x-2|<\sqrt2'
+        fix: |
+          المفتاح كتب $\sech^{-1}\big(\frac{x-2}{\sqrt2}\big)$ بدون قيمة مطلقة، وهذا يصح بس لما $x>2$.
+        check:
+          kind: indef
+          f: '1/((x-2)*sqrt(-x**2+4*x-2))'
+          ans: '-asech(Abs(x-2)/sqrt(2))/sqrt(2)'
+          samples: [0.8, 1.5, 2.5, 3.2]
+          identities:
+            - ['-x**2+4*x-2', '2-(x-2)**2']
+          key_wrong: '-asech((x-2)/sqrt(2))/sqrt(2)'
+          key_valid_on: [2.5, 3.2]
+          key_invalid_on: [0.8, 1.5]
+
+  - key: B3
+    title: 'الداخل ومشتقته موجودين في السؤال'
+    questions:
+      - id: M451-2-7
+        marks: 3
+        page: 8
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{\sin x}{4-\cos^2x}\,dx'
+        hint: |
+          الداخل $\cos x$، ومشتقته موجودة فوق (ناقصها سالب بس).
+        solution: |
+          1. الداخل $\cos x$، ومشتقته $-\sin x$ موجودة فوق (ناقصها سالب بس):
+             $$u=\cos x,\qquad du=-\sin x\,dx\quad\Rightarrow\quad \sin x\,dx=-du$$
+          2. نعوّض السؤال كله، و$4=2^2$:
+             $$\int\frac{\sin x\,dx}{4-\cos^2x}=-\int\frac{du}{2^2-u^2}$$
+          3. ما فيه جذر، وطرح $a^2-u^2$ ← قانون $\tanh^{-1}$، وشرطه $|u|<a$. هنا $|\cos x|\le1<2$، فالشرط متحقق دايم:
+             $$\int\frac{du}{a^2-u^2}=\frac1a\tanh^{-1}\frac ua+C$$
+          4. مع السالب و$a=2$، ونرجع لـ $x$:
+        answer: |-
+          -\frac12\tanh^{-1}\Big(\frac{\cos x}{2}\Big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'sin(x)/(4-cos(x)**2)'
+          ans: '-atanh(cos(x)/2)/2'
+          samples: [-2.0, 0.3, 1.5, 4.0]
+
+      - id: M472-3-2
+        marks: 1
+        page: 21
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x\sqrt{(\ln|x|)^2-1}}'
+        hint: |
+          فيه $\frac{dx}{x}$، وهي مشتقة $\ln|x|$.
+        solution: |
+          1. فيه $\frac{dx}{x}$، وهي مشتقة $\ln|x|$. فنعوّض:
+             $$u=\ln|x|,\qquad du=\frac{dx}{x}$$
+             $$\int\frac{dx}{x\sqrt{(\ln|x|)^2-1}}=\int\frac{du}{\sqrt{u^2-1}}$$
+          2. جذر لحاله وطرح، و$a=1$. نستخدم الصيغة اللي تشتغل على الجهتين:
+             $$\int\frac{du}{\sqrt{u^2-a^2}}=\ln\big|u+\sqrt{u^2-a^2}\big|+C$$
+          3. نرجع لـ $x$:
+        answer: |-
+          \ln\Big|\ln|x|+\sqrt{(\ln|x|)^2-1}\Big|+C
+        domain: '\big|\ln|x|\big|>1'
+        domain_why: 'يعني $|x|>e$ أو $0<|x|<\frac1e$.'
+        fix: |
+          المفتاح كتب $\cosh^{-1}(\ln|x|)+c$، وهذا يصح بس لما $\ln|x|>1$. السؤال يسمح بعد بـ $\ln|x|<-1$، وهناك $\cosh^{-1}$ ما ينفع. الصيغة اللوغاريتمية تغطي الحالتين.
+        note: |
+          لو حلّك في جهة $\ln|x|>1$ بس، $\cosh^{-1}(\ln|x|)$ هي نفسها الصيغة اللوغاريتمية بالضبط (لأن $a=1$).
+        check:
+          kind: indef
+          f: '1/(x*sqrt(log(Abs(x))**2-1))'
+          ans: 'log(Abs(log(Abs(x)) + sqrt(log(Abs(x))**2-1)))'
+          samples: [-20.0, -0.1, 0.05, 0.2, 5.0, 30.0]
+          key_wrong: 'acosh(log(Abs(x)))'
+          key_valid_on: [5.0, 30.0, -20.0]
+          key_invalid_on: [0.05, 0.2, -0.1]
+
+  - key: B4
+    title: 'عوّض الأسّية أو الجذر، واكتب dx كامل'
+    questions:
+      - id: M462-2-7
+        marks: 2
+        page: 23
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{e^{6x}+1}}'
+        hint: |
+          $e^{6x}$ مربع $e^{3x}$. عوّض الأساس، واكتب $dx$ كامل بدلالة $u$، وشوف وش يطلع في المقام.
+        solution: |
+          1. $e^{6x}$ مربع $e^{3x}$، فنعوّض الأساس عشان يصير الشكل $u^2+1$:
+             $$u=e^{3x},\qquad u^2=e^{6x}$$
+          2. نكتب $dx$ كامل بدلالة $u$. مشتقة $e^{3x}$ هي $3e^{3x}=3u$:
+             $$du=3e^{3x}dx=3u\,dx\quad\Rightarrow\quad dx=\frac{du}{3u}$$
+          3. نعوّض. لاحظ إن التفاضل نفسه حط $u$ في المقام:
+             $$\int\frac{dx}{\sqrt{e^{6x}+1}}=\int\frac{1}{\sqrt{u^2+1}}\cdot\frac{du}{3u}=\frac13\int\frac{du}{u\sqrt{u^2+1}}$$
+          4. $u$ مضروبة برّا الجذر، وجمع ← قانون $\csch^{-1}$ مع $a=1$. و$u=e^{3x}$ موجب دايم، فـ $|u|=u$:
+             $$\int\frac{du}{u\sqrt{a^2+u^2}}=-\frac1a\csch^{-1}\frac{|u|}{a}+C$$
+        answer: |-
+          -\frac13\csch^{-1}\big(e^{3x}\big)+C
+        domain: 'x\in\mathbb{R}'
+        note: |
+          نفس الجواب تقدر تكتبه $-\frac13\sinh^{-1}\big(e^{-3x}\big)+C$، لأن $\csch^{-1}w=\sinh^{-1}\frac1w$.
+        check:
+          kind: indef
+          f: '1/sqrt(exp(6*x)+1)'
+          ans: '-acsch(exp(3*x))/3'
+          samples: [-1.5, 0.0, 0.7, 1.4]
+          alt: ['-asinh(exp(-3*x))/3']
+
+      - id: M471-2-2
+        marks: 2
+        page: 5
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{5^{2x}+1}}'
+        hint: |
+          نفس M462-2-7 بأساس 5: $5^{2x}=(5^x)^2$. ومشتقة $5^x$ فيها $\ln5$.
+        solution: |
+          1. $5^{2x}=(5^x)^2$، فنعوّض الأساس:
+             $$u=5^x,\qquad u^2=5^{2x}$$
+          2. مشتقة $5^x$ فيها $\ln5$ (لا تنساها):
+             $$du=5^x\ln5\,dx=u\ln5\,dx\quad\Rightarrow\quad dx=\frac{du}{u\ln5}$$
+          3. نعوّض:
+             $$\int\frac{dx}{\sqrt{5^{2x}+1}}=\frac{1}{\ln5}\int\frac{du}{u\sqrt{u^2+1}}$$
+          4. قانون $\csch^{-1}$ مع $a=1$، و$5^x>0$ فـ $|u|=u$:
+        answer: |-
+          -\frac{1}{\ln5}\csch^{-1}\big(5^{x}\big)+C
+        domain: 'x\in\mathbb{R}'
+        note: |
+          شكل ثاني لنفس الجواب: $-\frac{1}{\ln5}\sinh^{-1}\big(5^{-x}\big)+C$.
+        check:
+          kind: indef
+          f: '1/sqrt(5**(2*x)+1)'
+          ans: '-acsch(5**x)/log(5)'
+          samples: [-1.0, 0.0, 0.5, 1.2]
+          alt: ['-asinh(5**(-x))/log(5)']
+
+      - id: M452-2-4
+        marks: 3
+        page: 23
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x\sqrt{x^6+25}}'
+        hint: |
+          $x^6$ مربع $x^3$. حوّل $\frac{dx}{x}$ كاملة لـ $u$ (اضرب فوق وتحت في $x^2$).
+        solution: |
+          1. $x^6$ مربع $x^3$، فنعوّض:
+             $$u=x^3,\qquad du=3x^2dx$$
+          2. السؤال فيه $\frac{dx}{x}$. نضرب فوق وتحت في $x^2$ عشان يطلع $du$ (ما غيّرنا القيمة):
+             $$\frac{dx}{x}=\frac{x^2\,dx}{x^3}=\frac{du/3}{u}=\frac{du}{3u}$$
+          3. نعوّض، و$25=5^2$:
+             $$\int\frac{dx}{x\sqrt{x^6+25}}=\frac13\int\frac{du}{u\sqrt{u^2+5^2}}$$
+          4. قانون $\csch^{-1}$ مع $a=5$:
+             $$\frac13\cdot\Big(-\frac15\csch^{-1}\frac{|u|}{5}\Big)+C$$
+          5. نرجع لـ $x$: $|u|=|x^3|=|x|^3$:
+        answer: |-
+          -\frac{1}{15}\csch^{-1}\Big(\frac{|x|^3}{5}\Big)+C
+        domain: 'x\ne0'
+        fix: |
+          المفتاح كتب $\csch^{-1}\big(\frac{x^3}{5}\big)$ بدون قيمة مطلقة، وهذا يصح بس لما $x>0$ (لأن $x^3$ سالب لما $x<0$). قانون المذكرة نفسه (ص60) فيه $|f(x)|$.
+        note: |
+          شكل ثاني لنفس الجواب: $-\frac{1}{15}\sinh^{-1}\Big(\frac{5}{|x|^3}\Big)+C$.
+        check:
+          kind: indef
+          f: '1/(x*sqrt(x**6+25))'
+          ans: '-acsch(Abs(x)**3/5)/15'
+          samples: [-2.0, -0.6, 0.6, 2.0]
+          alt: ['-asinh(5/Abs(x)**3)/15']
+          key_wrong: '-acsch(x**3/5)/15'
+          key_valid_on: [0.6, 2.0]
+          key_invalid_on: [-2.0, -0.6]
+
+      - id: M451-2-2
+        marks: 2
+        page: 6
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{x}\,\sqrt{1+x}}'
+        hint: |
+          عوّض $\sqrt x$، واكتب $x$ و$dx$ بدلالة $u$.
+        solution: |
+          1. نعوّض الجذر لحاله، ونكتب $x$ و$dx$ بدلالة $u$:
+             $$u=\sqrt x,\qquad x=u^2,\qquad dx=2u\,du$$
+          2. نعوّض السؤال كله:
+             $$\int\frac{dx}{\sqrt x\,\sqrt{1+x}}=\int\frac{2u\,du}{u\sqrt{1+u^2}}$$
+          3. $u$ عامل فوق وتحت، نشطبه:
+             $$=2\int\frac{du}{\sqrt{1+u^2}}$$
+          4. قانون $\sinh^{-1}$ مع $a=1$:
+             $$=2\sinh^{-1}u+C$$
+        answer: |-
+          2\sinh^{-1}\big(\sqrt{x}\big)+C
+        domain: 'x>0'
+        note: |
+          المفتاح ذكر حل ثاني بتعويض $u=\sqrt{x+1}$ وجوابه $2\cosh^{-1}\sqrt{x+1}+c$. صحيح بعد، وهو نفس الدالة بالضبط (الاثنين يساوون $2\ln\big(\sqrt x+\sqrt{x+1}\big)$).
+        check:
+          kind: indef
+          f: '1/(sqrt(x)*sqrt(1+x))'
+          ans: '2*asinh(sqrt(x))'
+          samples: [0.1, 1.0, 4.0]
+          alt: ['2*acosh(sqrt(x+1))']

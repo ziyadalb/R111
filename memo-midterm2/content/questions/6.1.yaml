@@ -1,0 +1,34 @@
+# القسم 6.1 — الصيغ غير المحددة
+section: '6.1'
+slug: s61
+title: 'الصيغ غير المحددة'
+patterns:
+  - key: H1
+    title: 'فرق كسرين (∞ − ∞)'
+    questions:
+      - id: M472-2-1
+        marks: 2
+        page: 20
+        prompt: 'Calculate the limit.'
+        q: '\lim_{x\to0^+}\Big[\frac{1}{\ln(x+1)}-\frac{1}{x}\Big]'
+        hint: |
+          الشكل $\infty-\infty$: وحّد المقامات أول عشان يصير كسر واحد، بعدين لوبيتال.
+        solution: |
+          1. نعوّض أول: $\frac{1}{\ln(1+x)}\to\infty$ و$\frac1x\to\infty$، يعني الشكل $\infty-\infty$. لوبيتال ما ينفع على فرق، فنوحّد المقامات:
+             $$\frac{1}{\ln(1+x)}-\frac1x=\frac{x-\ln(1+x)}{x\ln(1+x)}$$
+          2. نعوّض: فوق $0-0=0$، وتحت $0\cdot0=0$، يعني $\frac00$ ← لوبيتال. نشتق البسط لحاله والمقام لحاله (مو قاعدة مشتقة القسمة). المقام نشتقه بقاعدة الضرب:
+             $$\lim_{x\to0^+}\frac{1-\frac{1}{1+x}}{\ln(1+x)+\frac{x}{1+x}}$$
+          3. نبسّط: نضرب البسط والمقام في $1+x$:
+             $$=\lim_{x\to0^+}\frac{(1+x)-1}{(1+x)\ln(1+x)+x}=\lim_{x\to0^+}\frac{x}{(1+x)\ln(1+x)+x}$$
+          4. نعوّض: $\frac{0}{0+0}$، يعني $\frac00$ مرة ثانية ← لوبيتال مرة ثانية. مشتقة $(1+x)\ln(1+x)$ بقاعدة الضرب $=\ln(1+x)+1$:
+             $$=\lim_{x\to0^+}\frac{1}{\ln(1+x)+1+1}=\lim_{x\to0^+}\frac{1}{\ln(1+x)+2}$$
+          5. نعوّض $x\to0^+$، و$\ln1=0$:
+             $$=\frac{1}{0+2}=\frac12$$
+        answer: |-
+          \lim_{x\to0^+}\Big[\frac{1}{\ln(x+1)}-\frac1x\Big]=\frac12
+        check:
+          kind: limit
+          f: '1/log(x+1) - 1/x'
+          point: '0'
+          dir: '+'
+          ans: 'Rational(1,2)'

@@ -1,0 +1,21 @@
+{
+  "name": "r111-midterm2-memo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "مذكرة ريض 111 للفصلي الثاني: المصدر وأداة البناء",
+  "type": "module",
+  "scripts": {
+    "build": "node build/build.mjs",
+    "verify": "python3 verify/verify.py"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-sans-arabic": "5.2.5",
+    "@fontsource/noto-naskh-arabic": "5.2.5",
+    "@fontsource/almarai": "5.2.5",
+    "js-yaml": "4.1.0",
+    "katex": "0.16.11",
+    "markdown-it": "14.1.0",
+    "markdown-it-container": "4.0.0",
+    "pdfjs-dist": "4.10.38"
+  }
+}

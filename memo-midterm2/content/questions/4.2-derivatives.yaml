@@ -1,0 +1,346 @@
+# القسم 4.2 — المشتقات (السؤال الأول في كل نموذج)
+# الحقول: id (النموذج-السؤال-الفقرة)، marks، page (صفحة PDF في ملف النماذج)،
+# prompt (نص المطلوب كما في الاختبار)، q (السؤال)، hint، solution، answer، domain،
+# fix (تصحيح)، note، more (إذا احتجت)، check (للتحقق الآلي في verify/verify.py).
+section: '4.2'
+slug: d42
+title: 'الدوال الزائدية العكسية: المشتقات'
+patterns:
+  - key: A
+    title: 'دالة زائدية أو زائدية عكسية داخلها دالة'
+    questions:
+      - id: M451-1-1
+        marks: 2
+        page: 5
+        prompt: 'Find $\dfrac{dy}{dx}$.'
+        q: 'y=\cosh(3x^2)+\sech^{-1}(2x)'
+        hint: |
+          حدين: الأول $\cosh$ وداخله $3x^2$، والثاني $\sech^{-1}$ وداخله $2x$. اكتب $u$ و$u'$ لكل حد قبل ما تطبّق القانون.
+        solution: |
+          1. نشتق كل حد لحاله، لأن مشتقة الجمع = جمع المشتقات.
+          2. **الحد الأول:** الخارج $\cosh$ والداخل:
+             $$u=3x^2,\qquad u'=6x$$
+             مشتقة $\cosh$ هي $\sinh$ بدون سالب، وبعدين نضرب في $u'$:
+             $$\frac{d}{dx}\cosh(3x^2)=\sinh(3x^2)\cdot6x=6x\sinh(3x^2)$$
+          3. **الحد الثاني:** الخارج $\sech^{-1}$ والداخل:
+             $$u=2x,\qquad u'=2$$
+             قانونه فيه سالب، و$u$ مضروبة برّا الجذر:
+             $$\frac{d}{dx}\sech^{-1}u=\frac{-u'}{u\sqrt{1-u^2}}$$
+             نعوّض:
+             $$\frac{d}{dx}\sech^{-1}(2x)=\frac{-2}{2x\sqrt{1-(2x)^2}}$$
+          4. نبسّط: نربّع $2x$ داخل الجذر، ونشطب 2 من فوق وتحت لأنها عامل مضروب في الاثنين:
+             $$\frac{-2}{2x\sqrt{1-4x^2}}=\frac{-1}{x\sqrt{1-4x^2}}$$
+        answer: |-
+          y'=6x\sinh(3x^2)-\frac{1}{x\sqrt{1-4x^2}}
+        domain: '0<x<\tfrac12'
+        domain_why: 'لأن $\sech^{-1}(2x)$ يبي $0<2x<1$.'
+        check:
+          kind: deriv
+          f: 'cosh(3*x**2) + asech(2*x)'
+          ans: '6*x*sinh(3*x**2) - 1/(x*sqrt(1-4*x**2))'
+          samples: [0.05, 0.2, 0.45]
+
+      - id: M452-1-1
+        marks: 2
+        page: 22
+        prompt: 'Find $\dfrac{dy}{dx}$.'
+        q: 'y=\tanh(2x^3)+\sech^{-1}(3x)'
+        hint: |
+          نفس فكرة M451-1-1: $\tanh$ وداخله $2x^3$، و$\sech^{-1}$ وداخله $3x$.
+        solution: |
+          1. **الحد الأول:** الخارج $\tanh$ والداخل:
+             $$u=2x^3,\qquad u'=6x^2$$
+             مشتقة $\tanh$ هي $\sech^2$:
+             $$\frac{d}{dx}\tanh(2x^3)=\sech^2(2x^3)\cdot6x^2$$
+          2. **الحد الثاني:** الخارج $\sech^{-1}$ والداخل:
+             $$u=3x,\qquad u'=3$$
+             $$\frac{d}{dx}\sech^{-1}(3x)=\frac{-3}{3x\sqrt{1-(3x)^2}}$$
+          3. نربّع $3x$ ونشطب 3 لأنها عامل فوق وتحت:
+             $$\frac{-3}{3x\sqrt{1-9x^2}}=\frac{-1}{x\sqrt{1-9x^2}}$$
+        answer: |-
+          y'=6x^2\sech^2(2x^3)-\frac{1}{x\sqrt{1-9x^2}}
+        domain: '0<x<\tfrac13'
+        domain_why: 'لأن $\sech^{-1}(3x)$ يبي $0<3x<1$.'
+        check:
+          kind: deriv
+          f: 'tanh(2*x**3) + asech(3*x)'
+          ans: '6*x**2*sech(2*x**3)**2 - 1/(x*sqrt(1-9*x**2))'
+          samples: [0.05, 0.15, 0.3]
+
+      - id: M461-1-2
+        marks: 2
+        page: 5
+        prompt: 'Find $\dfrac{dy}{dx}$.'
+        q: 'y=\sinh^{-1}\big(\sqrt{x}\big)+\coth(4x^2)'
+        hint: |
+          $\sinh^{-1}$ داخله $\sqrt x$ (ومربعه $x$). و$\coth$ مشتقتها فيها سالب.
+        solution: |
+          1. **الحد الأول:** الخارج $\sinh^{-1}$ والداخل جذر. مشتقة الجذر = واحد على ضعف الجذر:
+             $$u=\sqrt{x},\qquad u'=\frac{1}{2\sqrt{x}},\qquad u^2=x$$
+             $$\frac{d}{dx}\sinh^{-1}u=\frac{u'}{\sqrt{1+u^2}}=\frac{1}{2\sqrt{x}\,\sqrt{1+x}}$$
+          2. **الحد الثاني:** الخارج $\coth$ والداخل:
+             $$u=4x^2,\qquad u'=8x$$
+             مشتقة $\coth$ هي $-\csch^2$:
+             $$\frac{d}{dx}\coth(4x^2)=-\csch^2(4x^2)\cdot8x$$
+        answer: |-
+          y'=\frac{1}{2\sqrt{x}\,\sqrt{1+x}}-8x\csch^2(4x^2)
+        domain: 'x>0'
+        check:
+          kind: deriv
+          f: 'asinh(sqrt(x)) + coth(4*x**2)'
+          ans: '1/(2*sqrt(x)*sqrt(1+x)) - 8*x*csch(4*x**2)**2'
+          samples: [0.2, 0.7, 2.0]
+
+      - id: M471-1-1
+        marks: 2
+        page: 5
+        prompt: 'Find $\dfrac{dy}{dx}$.'
+        q: 'y=\sinh\big(\sqrt{x^2+1}\big)+\cosh^{-1}\big(e^{x}\big)'
+        hint: |
+          $\sinh$ داخله جذر، و$\cosh^{-1}$ داخله $e^x$. اكتب مشتقة كل داخل على جنب.
+        solution: |
+          1. **الحد الأول:** الخارج $\sinh$ والداخل جذر (مشتقة اللي تحت الجذر على ضعف الجذر):
+             $$u=\sqrt{x^2+1},\qquad u'=\frac{2x}{2\sqrt{x^2+1}}=\frac{x}{\sqrt{x^2+1}}$$
+             $$\frac{d}{dx}\sinh u=\cosh u\cdot u'=\frac{x\cosh\sqrt{x^2+1}}{\sqrt{x^2+1}}$$
+          2. **الحد الثاني:** الخارج $\cosh^{-1}$ والداخل:
+             $$u=e^{x},\qquad u'=e^{x},\qquad u^2=e^{2x}$$
+             $$\frac{d}{dx}\cosh^{-1}u=\frac{u'}{\sqrt{u^2-1}}=\frac{e^{x}}{\sqrt{e^{2x}-1}}$$
+        answer: |-
+          y'=\frac{x\cosh\sqrt{x^2+1}}{\sqrt{x^2+1}}+\frac{e^{x}}{\sqrt{e^{2x}-1}}
+        domain: 'x>0'
+        domain_why: 'لأن $\cosh^{-1}(e^x)$ يبي $e^x>1$.'
+        check:
+          kind: deriv
+          f: 'sinh(sqrt(x**2+1)) + acosh(exp(x))'
+          ans: 'x*cosh(sqrt(x**2+1))/sqrt(x**2+1) + exp(x)/sqrt(exp(2*x)-1)'
+          samples: [0.2, 1.0, 2.0]
+
+      - id: M472-1-1
+        marks: 1
+        page: 20
+        prompt: 'Find the derivative.'
+        q: 'f(x)=\sinh^{-1}\big(\ln|x+1|\big)'
+        hint: |
+          دالة وحدة: الخارج $\sinh^{-1}$ والداخل $\ln|x+1|$. لا تشتق الخارج وتنسى الداخل.
+        solution: |
+          1. الخارج $\sinh^{-1}$ والداخل لوغاريتم. مشتقة $\ln|w|$ هي $\frac{w'}{w}$، وهنا $w=x+1$ و$w'=1$:
+             $$u=\ln|x+1|,\qquad u'=\frac{1}{x+1}$$
+          2. نطبّق القانون. الداخل يبقى زي ما هو داخل الجذر:
+             $$f'(x)=\frac{u'}{\sqrt{1+u^2}}=\frac{\frac{1}{x+1}}{\sqrt{1+\big(\ln|x+1|\big)^2}}$$
+          3. ننزّل $x+1$ للمقام:
+        answer: |-
+          f'(x)=\frac{1}{(x+1)\sqrt{1+\big(\ln|x+1|\big)^2}}
+        domain: 'x\ne-1'
+        check:
+          kind: deriv
+          f: 'asinh(log(Abs(x+1)))'
+          ans: '1/((x+1)*sqrt(1+log(Abs(x+1))**2))'
+          samples: [-3.0, -1.5, -0.5, 2.0]
+
+      - id: M471-1-2
+        marks: 2
+        page: 5
+        prompt: 'Find $\dfrac{dy}{dx}$.'
+        q: 'y=\sech\big(5x^2\big)+\tanh^{-1}(\sin x)'
+        hint: |
+          $\sech$ مشتقتها فيها سالب. وبعد قانون $\tanh^{-1}$ استخدم الهوية $1-\sin^2x=\cos^2x$.
+        solution: |
+          1. **الحد الأول:** الخارج $\sech$ والداخل:
+             $$u=5x^2,\qquad u'=10x$$
+             مشتقة $\sech$ فيها سالب (بعكس $\sec$ في المثلثية):
+             $$\frac{d}{dx}\sech u=-\sech u\,\tanh u\cdot u'=-10x\sech(5x^2)\tanh(5x^2)$$
+          2. **الحد الثاني:** الخارج $\tanh^{-1}$ والداخل:
+             $$u=\sin x,\qquad u'=\cos x$$
+             $$\frac{d}{dx}\tanh^{-1}u=\frac{u'}{1-u^2}=\frac{\cos x}{1-\sin^2x}$$
+          3. نبسّط بالهوية $\sin^2x+\cos^2x=1$:
+             $$\frac{\cos x}{1-\sin^2x}=\frac{\cos x}{\cos^2x}=\frac{1}{\cos x}=\sec x$$
+        answer: |-
+          y'=-10x\sech(5x^2)\tanh(5x^2)+\sec x
+        domain: '\cos x\ne0'
+        domain_why: 'لأن $\tanh^{-1}(\sin x)$ يبي $|\sin x|<1$.'
+        note: |
+          المفتاح وقف عند $\dfrac{\cos x}{1-\sin^2x}$ بدون تبسيط، وهو نفس الجواب.
+        check:
+          kind: deriv
+          f: 'sech(5*x**2) + atanh(sin(x))'
+          ans: '-10*x*sech(5*x**2)*tanh(5*x**2) + sec(x)'
+          samples: [0.3, -1.0, 2.5, 4.0]
+
+      - id: M461-1-1
+        marks: 2
+        page: 5
+        prompt: 'Find $\dfrac{dy}{dx}$.'
+        q: 'y=\csch\Big(\frac{2}{x}\Big)+\tanh^{-1}\big(e^{5x}\big)'
+        hint: |
+          $\csch$ داخله $\frac2x$: مشتقة الخارج فيها سالب، ومشتقة الداخل سالبة. وفي $\tanh^{-1}$ مربع $e^{5x}$ هو $e^{10x}$.
+        solution: |
+          1. **الحد الأول:** الخارج $\csch$ والداخل (نكتبه أس سالب عشان نشتقه):
+             $$u=\frac2x=2x^{-1},\qquad u'=-2x^{-2}=-\frac{2}{x^2}$$
+             مشتقة $\csch$ فيها سالب:
+             $$\frac{d}{dx}\csch u=-\csch u\,\coth u\cdot u'$$
+             $$=-\csch\Big(\frac2x\Big)\coth\Big(\frac2x\Big)\cdot\Big(-\frac{2}{x^2}\Big)$$
+             سالب في سالب = موجب:
+             $$=\frac{2}{x^2}\csch\Big(\frac2x\Big)\coth\Big(\frac2x\Big)$$
+          2. **الحد الثاني:** الخارج $\tanh^{-1}$ والداخل أسّي. أس على أس نضرب الأسس:
+             $$u=e^{5x},\qquad u'=5e^{5x},\qquad u^2=\big(e^{5x}\big)^2=e^{10x}$$
+             $$\frac{d}{dx}\tanh^{-1}u=\frac{u'}{1-u^2}=\frac{5e^{5x}}{1-e^{10x}}$$
+        answer: |-
+          y'=\frac{2}{x^2}\csch\Big(\frac2x\Big)\coth\Big(\frac2x\Big)+\frac{5e^{5x}}{1-e^{10x}}
+        domain: 'x<0'
+        domain_why: 'لأن $\tanh^{-1}(e^{5x})$ يبي $e^{5x}<1$، يعني $5x<0$.'
+        check:
+          kind: deriv
+          f: 'csch(2/x) + atanh(exp(5*x))'
+          ans: '2/x**2*csch(2/x)*coth(2/x) + 5*exp(5*x)/(1-exp(10*x))'
+          samples: [-0.3, -1.0, -2.5]
+
+      - id: M462-1-2
+        marks: 2
+        page: 21
+        prompt: 'Find $\dfrac{dy}{dx}$.'
+        q: 'y=\coth^{-1}\Big(\frac{x^3}{3}\Big)+\cosh^{-1}(3x)'
+        hint: |
+          قانون $\coth^{-1}$ بسطه $u'$ بدون سالب. بيطلع لك كسر داخل كسر: اضرب فوق وتحت في 9.
+        solution: |
+          1. **الحد الأول:** الخارج $\coth^{-1}$ والداخل:
+             $$u=\frac{x^3}{3},\qquad u'=\frac{3x^2}{3}=x^2,\qquad u^2=\frac{x^6}{9}$$
+             $$\frac{d}{dx}\coth^{-1}u=\frac{u'}{1-u^2}=\frac{x^2}{1-\frac{x^6}{9}}$$
+          2. كسر داخل كسر: نضرب البسط والمقام في 9 (ما تتغير القيمة):
+             $$\frac{x^2}{1-\frac{x^6}{9}}\cdot\frac{9}{9}=\frac{9x^2}{9-x^6}$$
+          3. **الحد الثاني:** الخارج $\cosh^{-1}$ والداخل:
+             $$u=3x,\qquad u'=3$$
+             $$\frac{d}{dx}\cosh^{-1}(3x)=\frac{3}{\sqrt{(3x)^2-1}}=\frac{3}{\sqrt{9x^2-1}}$$
+        answer: |-
+          y'=\frac{9x^2}{9-x^6}+\frac{3}{\sqrt{9x^2-1}}
+        domain: 'x>\sqrt[3]{3}'
+        domain_why: 'لأن $\cosh^{-1}(3x)$ يبي $3x>1$، و$\coth^{-1}\big(\frac{x^3}{3}\big)$ يبي $|x^3|>3$. الاثنين مع بعض: $x>\sqrt[3]3$.'
+        check:
+          kind: deriv
+          f: 'acoth(x**3/3) + acosh(3*x)'
+          ans: '9*x**2/(9-x**6) + 3/sqrt(9*x**2-1)'
+          samples: [1.5, 2.0, 3.0]
+
+      - id: M472-1-2
+        marks: 1
+        page: 20
+        prompt: 'Find the derivative.'
+        q: 'g(x)=\csch^{-1}\big(\sqrt{x+2}\big)'
+        hint: |
+          قانون $\csch^{-1}$ فيه $|u|$. هنا $u$ جذر، والجذر موجب، فـ $|u|=u$.
+        solution: |
+          1. الخارج $\csch^{-1}$ والداخل جذر:
+             $$u=\sqrt{x+2},\qquad u'=\frac{1}{2\sqrt{x+2}},\qquad u^2=x+2$$
+          2. القانون فيه $|u|$. الجذر موجب، فنكتب $|u|=u$:
+             $$g'(x)=\frac{-u'}{|u|\sqrt{1+u^2}}=\frac{-\frac{1}{2\sqrt{x+2}}}{\sqrt{x+2}\,\sqrt{1+x+2}}$$
+          3. نبسّط: جذر في نفسه يعطي اللي تحته، و$1+x+2=x+3$:
+             $$\sqrt{x+2}\cdot\sqrt{x+2}=x+2$$
+        answer: |-
+          g'(x)=\frac{-1}{2(x+2)\sqrt{x+3}}
+        domain: 'x>-2'
+        check:
+          kind: deriv
+          f: 'acsch(sqrt(x+2))'
+          ans: '-1/(2*(x+2)*sqrt(x+3))'
+          samples: [-1.5, 0.0, 3.0]
+
+      - id: M451-1-2
+        marks: 2
+        page: 5
+        prompt: 'Find $\dfrac{dy}{dx}$.'
+        q: 'y=\coth^{-1}(3x)+\tanh^2\sqrt{2x}'
+        hint: |
+          الحد الثاني: التربيع فوق $\tanh$ هو أبعد طبقة، ابدأ فيه. وقانون $\coth^{-1}$ بسطه $u'$ **بدون** سالب.
+        solution: |
+          1. **الحد الأول:** الخارج $\coth^{-1}$ والداخل:
+             $$u=3x,\qquad u'=3$$
+             قانون $\coth^{-1}$ نفس قانون $\tanh^{-1}$، وبسطه $u'$ بدون سالب:
+             $$\frac{d}{dx}\coth^{-1}u=\frac{u'}{1-u^2}$$
+             $$\frac{d}{dx}\coth^{-1}(3x)=\frac{3}{1-(3x)^2}=\frac{3}{1-9x^2}$$
+          2. **الحد الثاني:** ثلاث طبقات من برّا لجوّا: التربيع، بعدين $\tanh$، بعدين الجذر. نكتبه كذا عشان تبان القوة:
+             $$\tanh^2\sqrt{2x}=\Big(\tanh\sqrt{2x}\Big)^2$$
+          3. الداخل ومشتقته:
+             $$v=\sqrt{2x},\qquad v'=\frac{2}{2\sqrt{2x}}=\frac{1}{\sqrt{2x}}$$
+          4. مشتقة التربيع = 2 × الشي نفسه × مشتقته، ومشتقة $\tanh$ هي $\sech^2$:
+             $$\frac{d}{dx}\big(\tanh v\big)^2=2\tanh v\cdot\sech^2v\cdot v'$$
+             $$=\frac{2\tanh\sqrt{2x}\,\sech^2\sqrt{2x}}{\sqrt{2x}}$$
+        answer: |-
+          y'=\frac{3}{1-9x^2}+\frac{2\tanh\sqrt{2x}\,\sech^2\sqrt{2x}}{\sqrt{2x}}
+        domain: 'x>\tfrac13'
+        domain_why: 'لأن $\sqrt{2x}$ يبي $x\ge0$، و$\coth^{-1}(3x)$ يبي $|3x|>1$.'
+        fix: |
+          المفتاح كتب $\dfrac{-3}{1-9x^2}$، ومذكرة المقرر (ص58) كاتبة قانون $\coth^{-1}$ بنفس السالب الزايد. الصحيح بدون سالب. القيمة نفسها تطلع سالبة لأن $1-9x^2<0$ على المجال، بس هذا من المقام، وما نضيف سالب ثاني.
+        check:
+          kind: deriv
+          f: 'acoth(3*x) + tanh(sqrt(2*x))**2'
+          ans: '3/(1-9*x**2) + 2*tanh(sqrt(2*x))*sech(sqrt(2*x))**2/sqrt(2*x)'
+          samples: [0.4, 1.0, 3.0]
+          key_wrong: '-3/(1-9*x**2) + 2*tanh(sqrt(2*x))*sech(sqrt(2*x))**2/sqrt(2*x)'
+
+      - id: M452-1-2
+        marks: 2
+        page: 22
+        prompt: 'Find $\dfrac{dy}{dx}$.'
+        q: 'y=\cosh^{-1}\big(\sqrt{x}\big)+\sinh^3\Big(\frac{1}{x}\Big)'
+        hint: |
+          $\cosh^{-1}$ داخله $\sqrt x$. والتكعيب فوق $\sinh$ طبقة من برّا، وداخله $\frac1x$.
+        solution: |
+          1. **الحد الأول:** الخارج $\cosh^{-1}$ والداخل جذر:
+             $$u=\sqrt{x},\qquad u'=\frac{1}{2\sqrt{x}},\qquad u^2=x$$
+             $$\frac{d}{dx}\cosh^{-1}u=\frac{u'}{\sqrt{u^2-1}}=\frac{1}{2\sqrt{x}\,\sqrt{x-1}}$$
+          2. **الحد الثاني:** التكعيب طبقة من برّا:
+             $$\sinh^3\Big(\frac1x\Big)=\Big(\sinh\frac1x\Big)^3$$
+          3. الداخل:
+             $$v=\frac1x=x^{-1},\qquad v'=-x^{-2}=-\frac{1}{x^2}$$
+          4. مشتقة التكعيب = 3 × مربع الشي × مشتقته، ومشتقة $\sinh$ هي $\cosh$:
+             $$\frac{d}{dx}\big(\sinh v\big)^3=3\sinh^2v\cdot\cosh v\cdot v'$$
+             $$=3\sinh^2\Big(\frac1x\Big)\cosh\Big(\frac1x\Big)\cdot\Big(-\frac{1}{x^2}\Big)$$
+        answer: |-
+          y'=\frac{1}{2\sqrt{x}\,\sqrt{x-1}}-\frac{3}{x^2}\sinh^2\Big(\frac1x\Big)\cosh\Big(\frac1x\Big)
+        domain: 'x>1'
+        domain_why: 'لأن مشتقة $\cosh^{-1}\sqrt x$ تبي $\sqrt x>1$.'
+        check:
+          kind: deriv
+          f: 'acosh(sqrt(x)) + sinh(1/x)**3'
+          ans: '1/(2*sqrt(x)*sqrt(x-1)) - 3/x**2*sinh(1/x)**2*cosh(1/x)'
+          samples: [1.2, 2.0, 5.0]
+
+      - id: M462-1-1
+        marks: 2
+        page: 21
+        prompt: 'Find $\dfrac{dy}{dx}$.'
+        q: 'y=\coth\big(\sqrt[3]{x}\big)+\csch^{-1}\Big(\frac{2}{x}\Big)'
+        hint: |
+          قبل ما تشتق الحد الثاني استخدم التعريف:
+          $$\csch^{-1}w=\sinh^{-1}\frac1w$$
+        solution: |
+          1. **الحد الأول:** الخارج $\coth$ والداخل جذر تكعيبي، نكتبه أس:
+             $$u=\sqrt[3]{x}=x^{1/3},\qquad u'=\tfrac13x^{-2/3}=\frac{1}{3\sqrt[3]{x^2}}$$
+             $$\frac{d}{dx}\coth u=-\csch^2u\cdot u'=-\frac{\csch^2\sqrt[3]{x}}{3\sqrt[3]{x^2}}$$
+          2. **الحد الثاني:** نستخدم تعريف $\csch^{-1}$ (لأي $w\ne0$)، ومقلوب $\frac2x$ هو $\frac x2$:
+             $$\csch^{-1}w=\sinh^{-1}\frac1w\qquad\Rightarrow\qquad\csch^{-1}\frac2x=\sinh^{-1}\frac x2$$
+          3. نشتق بقانون $\sinh^{-1}$:
+             $$u=\frac x2,\qquad u'=\frac12$$
+             $$\frac{d}{dx}\sinh^{-1}\frac x2=\frac{\frac12}{\sqrt{1+\frac{x^2}{4}}}$$
+          4. نبسّط الجذر: نوحّد المقام داخله، وجذر 4 يطلع 2:
+             $$\sqrt{1+\frac{x^2}{4}}=\sqrt{\frac{4+x^2}{4}}=\frac{\sqrt{x^2+4}}{2}$$
+             $$\frac{\frac12}{\frac{\sqrt{x^2+4}}{2}}=\frac{1}{\sqrt{x^2+4}}$$
+        answer: |-
+          y'=-\frac{\csch^2\sqrt[3]{x}}{3\sqrt[3]{x^2}}+\frac{1}{\sqrt{x^2+4}}
+        domain: 'x\ne0'
+        fix: |
+          جواب المفتاح للحد الثاني:
+          $$\frac{1}{x\sqrt{\frac{4}{x^2}+1}}$$
+          وهذا يصح بس لما $x>0$؛ لما $x<0$ إشارته تطلع غلط، لأنه حط $u$ مكان $|u|$ في قانون $\csch^{-1}$. الجواب هنا صحيح على الجهتين.
+        more: |
+          لو تبي القانون مباشرة، لازم $|u|$:
+          $$u=\frac2x,\qquad u'=-\frac{2}{x^2},\qquad |u|=\frac{2}{|x|}$$
+          $$\frac{-u'}{|u|\sqrt{1+u^2}}=\frac{\frac{2}{x^2}}{\frac{2}{|x|}\cdot\frac{\sqrt{x^2+4}}{|x|}}=\frac{1}{\sqrt{x^2+4}}$$
+          لأن $|x|\cdot|x|=x^2$. نفس الجواب.
+        check:
+          kind: deriv
+          f: 'coth(sign(x)*Abs(x)**Rational(1,3)) + acsch(2/x)'
+          ans: '-csch(sign(x)*Abs(x)**Rational(1,3))**2/(3*Abs(x)**Rational(2,3)) + 1/sqrt(x**2+4)'
+          samples: [-2.0, -0.5, 0.5, 3.0]
+          key_wrong: '-csch(sign(x)*Abs(x)**Rational(1,3))**2/(3*Abs(x)**Rational(2,3)) + 1/(x*sqrt(4/x**2+1))'
+          key_valid_on: [0.5, 3.0]
+          key_invalid_on: [-2.0, -0.5]

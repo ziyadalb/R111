@@ -1,0 +1,4 @@
+node_modules/
+out/html/
+out/build-report.json
+__pycache__/

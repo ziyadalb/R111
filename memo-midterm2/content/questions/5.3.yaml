@@ -1,0 +1,186 @@
+# القسم 5.3 — التعويضات المثلثية
+section: '5.3'
+slug: s53
+title: 'التعويضات المثلثية'
+patterns:
+  - key: E1
+    title: '(a² − x²) أو (a² + x²) أُس 3/2 في المقام'
+    questions:
+      - id: M452-2-9
+        marks: 3
+        page: 25
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\big(4-x^2\big)^{3/2}}'
+        hint: &h4m |
+          تحت القوس $a^2-x^2$ مع $a=2$: عوّض بـ $\sin$.
+          $$x=2\sin\theta$$
+        solution: &s4m |
+          1. تحت القوس $a^2-x^2$ مع $a=2$، فنعوّض بـ $\sin$ عشان نستفيد من $1-\sin^2\theta=\cos^2\theta$:
+             $$x=2\sin\theta,\qquad dx=2\cos\theta\,d\theta$$
+          2. نبسّط اللي تحت القوس: نطلّع 4 عامل مشترك ونستخدم الهوية:
+             $$4-x^2=4-4\sin^2\theta=4\big(1-\sin^2\theta\big)=4\cos^2\theta$$
+          3. القوة $\frac32$ يعني نجذر ونكعّب: $4^{3/2}=2^3=8$، و$(\cos^2\theta)^{3/2}=\cos^3\theta$ (لأن $\cos\theta>0$ لما $-\frac\pi2<\theta<\frac\pi2$):
+             $$\big(4-x^2\big)^{3/2}=\big(4\cos^2\theta\big)^{3/2}=8\cos^3\theta$$
+          4. نعوّض ونشطب $\cos\theta$:
+             $$\int\frac{2\cos\theta\,d\theta}{8\cos^3\theta}=\frac14\int\frac{d\theta}{\cos^2\theta}=\frac14\int\sec^2\theta\,d\theta=\frac14\tan\theta+C$$
+          5. نرجع لـ $x$ بالمثلث: $\sin\theta=\frac x2$ يعني المقابل $x$ والوتر 2، والمجاور من فيثاغورس. و$\tan\theta$ = المقابل على المجاور:
+             @tri x|\sqrt{4-x^2}|2
+             $$\tan\theta=\frac{x}{\sqrt{4-x^2}}$$
+          6. نعوّض في $\frac14\tan\theta$:
+        answer: &a4m |-
+          \frac{x}{4\sqrt{4-x^2}}+C
+        domain: '|x|<2'
+        more: &m4m |
+          تتأكد بالاختصار (شرحه في المذكرة):
+          $$\int\frac{dx}{(a^2-x^2)^{3/2}}=\frac{x}{a^2\sqrt{a^2-x^2}}+C,\qquad a=2$$
+        check:
+          kind: indef
+          f: '(4-x**2)**Rational(-3,2)'
+          ans: 'x/(4*sqrt(4-x**2))'
+          samples: [-1.5, 0.3, 1.8]
+
+      - id: M472-3-5
+        marks: 2
+        page: 22
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\big(4-x^2\big)^{3/2}}'
+        hint: *h4m
+        solution: *s4m
+        answer: *a4m
+        domain: '|x|<2'
+        note: |
+          نفس سؤال M452-2-9 بالضبط.
+        more: *m4m
+        check:
+          kind: indef
+          f: '(4-x**2)**Rational(-3,2)'
+          ans: 'x/(4*sqrt(4-x**2))'
+          samples: [-1.5, 0.3, 1.8]
+
+      - id: M462-2-6
+        marks: 3
+        page: 23
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\big(9-x^2\big)^{3/2}}'
+        hint: |
+          نفس M452-2-9 مع $a=3$:
+          $$x=3\sin\theta$$
+        solution: |
+          1. تحت القوس $a^2-x^2$ مع $a=3$:
+             $$x=3\sin\theta,\qquad dx=3\cos\theta\,d\theta$$
+          2. نبسّط:
+             $$9-x^2=9\big(1-\sin^2\theta\big)=9\cos^2\theta$$
+             $$\big(9\cos^2\theta\big)^{3/2}=3^3\cos^3\theta=27\cos^3\theta$$
+          3. نعوّض ونبسّط:
+             $$\int\frac{3\cos\theta\,d\theta}{27\cos^3\theta}=\frac19\int\sec^2\theta\,d\theta=\frac19\tan\theta+C$$
+          4. $\sin\theta=\frac x3$: المقابل $x$ والوتر 3:
+             @tri x|\sqrt{9-x^2}|3
+             $$\tan\theta=\frac{x}{\sqrt{9-x^2}}$$
+        answer: |-
+          \frac{x}{9\sqrt{9-x^2}}+C
+        domain: '|x|<3'
+        check:
+          kind: indef
+          f: '(9-x**2)**Rational(-3,2)'
+          ans: 'x/(9*sqrt(9-x**2))'
+          samples: [-2.5, 0.3, 2.8]
+
+      - id: M451-2-6
+        marks: 3
+        page: 7
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\big(4+x^2\big)^{3/2}}'
+        hint: |
+          هنا **جمع** $a^2+x^2$ مع $a=2$: عوّض بـ $\tan$.
+          $$x=2\tan\theta$$
+        solution: |
+          1. هنا جمع $a^2+x^2$ مع $a=2$، فنعوّض بـ $\tan$ عشان نستفيد من $1+\tan^2\theta=\sec^2\theta$:
+             $$x=2\tan\theta,\qquad dx=2\sec^2\theta\,d\theta$$
+          2. نبسّط:
+             $$4+x^2=4+4\tan^2\theta=4\big(1+\tan^2\theta\big)=4\sec^2\theta$$
+             $$\big(4\sec^2\theta\big)^{3/2}=8\sec^3\theta$$
+          3. نعوّض ونبسّط. وواحد على $\sec$ هو $\cos$:
+             $$\int\frac{2\sec^2\theta\,d\theta}{8\sec^3\theta}=\frac14\int\frac{d\theta}{\sec\theta}=\frac14\int\cos\theta\,d\theta=\frac14\sin\theta+C$$
+          4. $\tan\theta=\frac x2$: المقابل $x$ والمجاور 2، والوتر من فيثاغورس. و$\sin\theta$ = المقابل على الوتر:
+             @tri x|2|\sqrt{x^2+4}
+             $$\sin\theta=\frac{x}{\sqrt{x^2+4}}$$
+        answer: |-
+          \frac{x}{4\sqrt{x^2+4}}+C
+        domain: 'x\in\mathbb{R}'
+        more: |
+          تتأكد بالاختصار:
+          $$\int\frac{dx}{(a^2+x^2)^{3/2}}=\frac{x}{a^2\sqrt{a^2+x^2}}+C,\qquad a=2$$
+        check:
+          kind: indef
+          f: '(4+x**2)**Rational(-3,2)'
+          ans: 'x/(4*sqrt(x**2+4))'
+          samples: [-3.0, 0.5, 4.0]
+
+      - id: M471-2-6
+        marks: 3
+        page: 7
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\big(9+x^2\big)^{3/2}}'
+        hint: |
+          جمع مع $a=3$:
+          $$x=3\tan\theta$$
+        solution: |
+          1. جمع $a^2+x^2$ مع $a=3$:
+             $$x=3\tan\theta,\qquad dx=3\sec^2\theta\,d\theta$$
+          2. نبسّط:
+             $$9+x^2=9\big(1+\tan^2\theta\big)=9\sec^2\theta$$
+             $$\big(9\sec^2\theta\big)^{3/2}=27\sec^3\theta$$
+          3. نعوّض ونبسّط:
+             $$\int\frac{3\sec^2\theta\,d\theta}{27\sec^3\theta}=\frac19\int\cos\theta\,d\theta=\frac19\sin\theta+C$$
+          4. $\tan\theta=\frac x3$: المقابل $x$ والمجاور 3:
+             @tri x|3|\sqrt{x^2+9}
+             $$\sin\theta=\frac{x}{\sqrt{x^2+9}}$$
+        answer: |-
+          \frac{x}{9\sqrt{x^2+9}}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '(9+x**2)**Rational(-3,2)'
+          ans: 'x/(9*sqrt(x**2+9))'
+          samples: [-3.0, 0.5, 4.0]
+
+  - key: E2
+    title: 'جذر (x² − 9) فوق، و x تحت'
+    questions:
+      - id: M461-2-7
+        marks: 3
+        page: 7
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{\sqrt{x^2-9}}{x}\,dx'
+        hint: |
+          عوّض الجذر كله:
+          $$u=\sqrt{x^2-9}$$
+          وبعدين اضرب فوق وتحت في $x$ عشان تطلع $x\,dx$.
+        solution: |
+          1. نعوّض الجذر كله، ونكتب $x^2$ بدلالة $u$:
+             $$u=\sqrt{x^2-9},\qquad u^2=x^2-9,\qquad x^2=u^2+9$$
+          2. نشتق $u^2=x^2-9$ للطرفين:
+             $$2u\,du=2x\,dx\quad\Rightarrow\quad x\,dx=u\,du$$
+          3. السؤال ما فيه $x\,dx$ جاهزة، فنضرب فوق وتحت في $x$ (نفس القيمة)، ونعوّض:
+             $$\frac{\sqrt{x^2-9}}{x}\,dx=\frac{\sqrt{x^2-9}}{x^2}\,x\,dx=\frac{u}{u^2+9}\,u\,du=\frac{u^2}{u^2+9}\,du$$
+          4. البسط نكتبه «المقام ناقص 9» عشان ينقسم:
+             $$\frac{u^2}{u^2+9}=\frac{(u^2+9)-9}{u^2+9}=1-\frac{9}{u^2+9}$$
+          5. نكامل. الحد الثاني ما فيه جذر ← قانون $\tan^{-1}$ مع $a=3$:
+             $$\int\Big(1-\frac{9}{u^2+3^2}\Big)du=u-9\cdot\frac13\tan^{-1}\frac u3=u-3\tan^{-1}\frac u3$$
+          6. نرجع لـ $x$:
+        answer: |-
+          \sqrt{x^2-9}-3\tan^{-1}\Big(\frac{\sqrt{x^2-9}}{3}\Big)+C
+        domain: '|x|>3'
+        more: |
+          **طريقة المفتاح (تعويض مثلثي):** فرق مربعين $x^2-a^2$ ← $\sec$:
+          $$x=3\sec\theta,\qquad dx=3\sec\theta\tan\theta\,d\theta,\qquad\sqrt{x^2-9}=3\tan\theta$$
+          $$\int\frac{3\tan\theta}{3\sec\theta}\cdot3\sec\theta\tan\theta\,d\theta=3\int\tan^2\theta\,d\theta$$
+          $$=3\int\big(\sec^2\theta-1\big)d\theta=3\tan\theta-3\theta+C$$
+          ونرجع: $\tan\theta=\frac{\sqrt{x^2-9}}{3}$ و$\theta=\sec^{-1}\frac x3$. جواب المفتاح:
+          $$\sqrt{x^2-9}-3\sec^{-1}\frac x3+c$$
+          صحيح على اصطلاح المذكرة لـ $\sec^{-1}$، ويختلف عن جوابنا بثابت.
+        check:
+          kind: indef
+          f: 'sqrt(x**2-9)/x'
+          ans: 'sqrt(x**2-9) - 3*atan(sqrt(x**2-9)/3)'
+          samples: [-8.0, -3.5, 3.5, 8.0]

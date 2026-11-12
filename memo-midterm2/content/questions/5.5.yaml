@@ -1,0 +1,153 @@
+# القسم 5.5 — تعويضات متنوعة
+section: '5.5'
+slug: s55
+title: 'تعويضات متنوعة'
+patterns:
+  - key: G1
+    title: 'أسس كسرية في المقام'
+    questions:
+      - id: M472-3-7
+        marks: 1.5
+        page: 23
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x^{1/2}+x^{3/4}}'
+        hint: |
+          مقامات الأسس 2 و4، والمضاعف المشترك الأصغر 4:
+          $$x=u^4$$
+        solution: |
+          1. مقامات الأسس 2 و4، والمضاعف المشترك الأصغر 4. فنعوّض (و$u>0$):
+             $$x=u^4,\qquad dx=4u^3\,du,\qquad u=x^{1/4}$$
+          2. نحوّل الأسس (أس على أس نضرب الأسس):
+             $$x^{1/2}=\big(u^4\big)^{1/2}=u^2,\qquad x^{3/4}=\big(u^4\big)^{3/4}=u^3$$
+          3. نعوّض:
+             $$\int\frac{dx}{x^{1/2}+x^{3/4}}=\int\frac{4u^3\,du}{u^2+u^3}$$
+          4. نطلّع $u^2$ عامل مشترك من المقام ونشطبه مع فوق (نشطب عوامل بس، مو حدود جمع):
+             $$\frac{4u^3}{u^2(1+u)}=\frac{4u}{u+1}$$
+          5. البسط نكتبه «المقام ناقص 1» عشان ينقسم:
+             $$\frac{u}{u+1}=\frac{(u+1)-1}{u+1}=1-\frac{1}{u+1}$$
+          6. نكامل. و$u+1>0$، فما نحتاج قيمة مطلقة:
+             $$4\int\Big(1-\frac{1}{u+1}\Big)du=4u-4\ln(u+1)+C$$
+          7. نرجع لـ $x$ بـ $u=x^{1/4}$:
+        answer: |-
+          4x^{1/4}-4\ln\big(1+x^{1/4}\big)+C
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: '1/(sqrt(x)+x**Rational(3,4))'
+          ans: '4*x**Rational(1,4) - 4*log(1+x**Rational(1,4))'
+          samples: [0.2, 1.0, 5.0]
+          identities:
+            - ['4*x**3/(x**2+x**3)', '4*x/(x+1)']
+            - ['x/(x+1)', '1-1/(x+1)']
+
+      - id: M451-2-9
+        marks: 2
+        page: 9
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt[4]{x}+\sqrt{x}}'
+        hint: &h49 |
+          $\sqrt[4]x=x^{1/4}$ و$\sqrt x=x^{1/2}$. المقامات 4 و2:
+          $$x=u^4$$
+        solution: &s49 |
+          1. $\sqrt[4]{x}=x^{1/4}$ و$\sqrt x=x^{1/2}$. المقامات 4 و2، فنعوّض (و$u>0$):
+             $$x=u^4,\qquad dx=4u^3\,du,\qquad x^{1/4}=u,\qquad x^{1/2}=u^2$$
+          2. نعوّض، ونطلّع $u$ عامل مشترك من المقام ونشطبه:
+             $$\int\frac{4u^3\,du}{u+u^2}=\int\frac{4u^3}{u(1+u)}\,du=4\int\frac{u^2}{u+1}\,du$$
+          3. البسط $u^2$ درجته أكبر من المقام، فنكتبه بدلالة المقام (تتأكد بالضرب):
+             $$u^2=(u+1)(u-1)+1$$
+             $$\frac{u^2}{u+1}=u-1+\frac{1}{u+1}$$
+          4. نكامل:
+             $$4\int\Big(u-1+\frac{1}{u+1}\Big)du=2u^2-4u+4\ln(u+1)+C$$
+          5. نرجع: $u=x^{1/4}$، و$u^2=x^{1/2}$:
+        answer: &a49 |-
+          2\sqrt{x}-4\sqrt[4]{x}+4\ln\big(1+\sqrt[4]{x}\big)+C
+        domain: 'x>0'
+        note: &n49 |
+          في سطر وسطي من المفتاح مكتوب $\ln|u-1|$، والصحيح $\ln|u+1|$. الجواب النهائي في المفتاح صحيح.
+        check:
+          kind: indef
+          f: '1/(x**Rational(1,4)+sqrt(x))'
+          ans: '2*sqrt(x) - 4*x**Rational(1,4) + 4*log(1+x**Rational(1,4))'
+          samples: [0.2, 1.0, 5.0]
+          identities:
+            - ['x**2/(x+1)', 'x-1+1/(x+1)']
+
+      - id: M461-2-9
+        marks: 2
+        page: 8
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt[4]{x}+\sqrt{x}}'
+        hint: *h49
+        solution: *s49
+        answer: *a49
+        domain: 'x>0'
+        note: |
+          نفس سؤال M451-2-9 بالضبط. وفي سطر وسطي من المفتاح مكتوب $\ln|u-1|$، والصحيح $\ln|u+1|$؛ الجواب النهائي صحيح.
+        check:
+          kind: indef
+          f: '1/(x**Rational(1,4)+sqrt(x))'
+          ans: '2*sqrt(x) - 4*x**Rational(1,4) + 4*log(1+x**Rational(1,4))'
+          samples: [0.2, 1.0, 5.0]
+
+      - id: M471-2-9
+        marks: 2
+        page: 8
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x^{1/2}+x^{2/3}}'
+        hint: |
+          مقامات الأسس 2 و3: المضاعف المشترك الأصغر 6.
+          $$x=u^6$$
+        solution: |
+          1. مقامات الأسس 2 و3، والمضاعف المشترك الأصغر 6. فنعوّض (و$u>0$):
+             $$x=u^6,\qquad dx=6u^5\,du$$
+             $$x^{1/2}=\big(u^6\big)^{1/2}=u^3,\qquad x^{2/3}=\big(u^6\big)^{2/3}=u^4$$
+          2. نعوّض، ونطلّع $u^3$ عامل مشترك ونشطبه:
+             $$\int\frac{6u^5\,du}{u^3+u^4}=\int\frac{6u^5}{u^3(1+u)}\,du=6\int\frac{u^2}{u+1}\,du$$
+          3. نفس حركة البسط:
+             $$\frac{u^2}{u+1}=u-1+\frac{1}{u+1}$$
+          4. نكامل:
+             $$6\int\Big(u-1+\frac{1}{u+1}\Big)du=3u^2-6u+6\ln(u+1)+C$$
+          5. نرجع: $u=x^{1/6}$، و$u^2=x^{2/6}=x^{1/3}$:
+        answer: |-
+          3x^{1/3}-6x^{1/6}+6\ln\big(1+x^{1/6}\big)+C
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: '1/(sqrt(x)+x**Rational(2,3))'
+          ans: '3*x**Rational(1,3) - 6*x**Rational(1,6) + 6*log(1+x**Rational(1,6))'
+          samples: [0.2, 1.0, 5.0]
+          identities:
+            - ['6*x**5/(x**3+x**4)', '6*x**2/(x+1)']
+
+  - key: G2
+    title: 'جذر داخل جذر'
+    questions:
+      - id: M452-2-6
+        marks: 2
+        page: 24
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{4+\sqrt{x}}}'
+        hint: |
+          عوّض الجذر الخارجي كله:
+          $$u=\sqrt{4+\sqrt x}$$
+          وطلّع $x$ بدلالة $u$.
+        solution: |
+          1. نعوّض الجذر الخارجي كله، لأنه يشيل الجذرين مرة وحدة:
+             $$u=\sqrt{4+\sqrt x}$$
+          2. نطلّع $x$ بدلالة $u$: نربّع، ثم نعزل $\sqrt x$، ثم نربّع مرة ثانية:
+             $$u^2=4+\sqrt x\quad\Rightarrow\quad\sqrt x=u^2-4\quad\Rightarrow\quad x=\big(u^2-4\big)^2$$
+          3. نشتق (قاعدة السلسلة: مشتقة القوس × مشتقة اللي داخله):
+             $$dx=2\big(u^2-4\big)\cdot2u\,du=4u\big(u^2-4\big)du$$
+          4. نعوّض، ونشطب $u$ لأنه عامل فوق وتحت:
+             $$\int\frac{dx}{\sqrt{4+\sqrt x}}=\int\frac{4u\big(u^2-4\big)}{u}\,du=4\int\big(u^2-4\big)du$$
+          5. نكامل:
+             $$=\frac43u^3-16u+C$$
+          6. نرجع لـ $x$:
+        answer: |-
+          \frac43\big(4+\sqrt{x}\big)^{3/2}-16\sqrt{4+\sqrt{x}}+C
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: '1/sqrt(4+sqrt(x))'
+          ans: 'Rational(4,3)*(4+sqrt(x))**Rational(3,2) - 16*sqrt(4+sqrt(x))'
+          samples: [0.3, 2.0, 9.0]

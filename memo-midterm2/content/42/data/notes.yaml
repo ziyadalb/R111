@@ -1,0 +1,764 @@
+# مسائل مذكرة المقرر (القسم 4.2) اللي على نفس أنماط السابقات
+# kind: example = مثال محلول في المذكرة (نعرضه داخل الشرح)
+# kind: exercise = تمرين بدون حل في المذكرة (يدخل التدريب، وحله الكامل في قسم الحلول)
+# page = صفحة PDF في ملف المذكرة. ref = رقمه في المذكرة.
+section: '4.2'
+slug: n42
+title: 'مسائل المذكرة'
+patterns:
+  - key: A
+    questions:
+      - id: ne1-1
+        kind: example
+        ref: 'مثال (1) فقرة 1'
+        page: 58
+        prompt: 'Find the derivative.'
+        q: 'f(x)=\sinh^{-1}(5x-1)'
+        solution: |
+          1. الخارج $\sinh^{-1}$ والداخل خطي:
+             $$u=5x-1,\qquad u'=5$$
+          2. نطبّق القانون، والداخل يبقى زي ما هو:
+             $$f'(x)=\frac{u'}{\sqrt{1+u^2}}=\frac{5}{\sqrt{1+(5x-1)^2}}$$
+        answer: |-
+          f'(x)=\frac{5}{\sqrt{1+(5x-1)^2}}
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: deriv
+          f: 'asinh(5*x-1)'
+          ans: '5/sqrt(1+(5*x-1)**2)'
+          samples: [-1.0, 0.2, 2.0]
+
+      - id: ne1-2
+        kind: example
+        ref: 'مثال (1) فقرة 2'
+        page: 59
+        prompt: 'Find the derivative.'
+        q: 'f(x)=\tanh^{-1}\big(\sqrt{x}\big)'
+        solution: |
+          1. الخارج $\tanh^{-1}$ والداخل جذر:
+             $$u=\sqrt x,\qquad u'=\frac{1}{2\sqrt x},\qquad u^2=x$$
+          2. نطبّق القانون:
+             $$f'(x)=\frac{u'}{1-u^2}=\frac{\frac{1}{2\sqrt x}}{1-x}=\frac{1}{2\sqrt x\,(1-x)}$$
+        answer: |-
+          f'(x)=\frac{1}{2\sqrt{x}\,(1-x)}
+        domain: '0<x<1'
+        domain_why: 'لأن $\tanh^{-1}\sqrt x$ يبي $\sqrt x<1$.'
+        check:
+          kind: deriv
+          f: 'atanh(sqrt(x))'
+          ans: '1/(2*sqrt(x)*(1-x))'
+          samples: [0.1, 0.5, 0.9]
+
+      - id: ne1-3
+        kind: example
+        ref: 'مثال (1) فقرة 3'
+        page: 59
+        prompt: 'Find the derivative.'
+        q: 'f(x)=\csch^{-1}\big(e^{3x}\big)'
+        solution: |
+          1. الخارج $\csch^{-1}$ والداخل أسّي. و$e^{3x}$ موجب دايم، فـ $|u|=u$:
+             $$u=e^{3x},\qquad u'=3e^{3x},\qquad u^2=e^{6x}$$
+          2. نطبّق القانون:
+             $$f'(x)=\frac{-u'}{|u|\sqrt{1+u^2}}=\frac{-3e^{3x}}{e^{3x}\sqrt{1+e^{6x}}}$$
+          3. نشطب $e^{3x}$ لأنه عامل فوق وتحت:
+        answer: |-
+          f'(x)=\frac{-3}{\sqrt{1+e^{6x}}}
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: deriv
+          f: 'acsch(exp(3*x))'
+          ans: '-3/sqrt(1+exp(6*x))'
+          samples: [-1.0, 0.0, 0.8]
+
+      - id: ne1-4
+        kind: example
+        ref: 'مثال (1) فقرة 4'
+        page: 59
+        prompt: 'Find the derivative.'
+        q: 'f(x)=6^{\cosh^{-1}(2x)}'
+        solution: |
+          1. الطبقة الخارجية أسّية بأساس 6. مشتقة $a^w$ هي نفسها × $\ln a$ × مشتقة الأس:
+             $$\frac{d}{dx}6^{w}=6^{w}\ln6\cdot w',\qquad w=\cosh^{-1}(2x)$$
+          2. مشتقة الأس بقانون $\cosh^{-1}$، والداخل $2x$:
+             $$w'=\frac{2}{\sqrt{(2x)^2-1}}=\frac{2}{\sqrt{4x^2-1}}$$
+          3. نجمع:
+        answer: |-
+          f'(x)=\frac{2\ln6\cdot6^{\cosh^{-1}(2x)}}{\sqrt{4x^2-1}}
+        domain: 'x>\tfrac12'
+        check:
+          kind: deriv
+          f: '6**acosh(2*x)'
+          ans: '2*log(6)*6**acosh(2*x)/sqrt(4*x**2-1)'
+          samples: [0.6, 1.0, 2.0]
+
+      - id: ne1-5
+        kind: example
+        ref: 'مثال (1) فقرة 5'
+        page: 59
+        prompt: 'Find the derivative.'
+        q: 'f(x)=\ln\big|x^2+\coth^{-1}(2x)\big|'
+        solution: |
+          1. الطبقة الخارجية $\ln|w|$، ومشتقتها $\frac{w'}{w}$:
+             $$w=x^2+\coth^{-1}(2x)$$
+          2. نشتق الداخل حد حد. قانون $\coth^{-1}$ **بدون** سالب:
+             $$w'=2x+\frac{2}{1-(2x)^2}=2x+\frac{2}{1-4x^2}$$
+          3. نقسم على $w$:
+        answer: |-
+          f'(x)=\frac{2x+\frac{2}{1-4x^2}}{x^2+\coth^{-1}(2x)}
+        domain: '|x|>\tfrac12'
+        fix: |
+          حل المذكرة (ص59) كتب مشتقة $\coth^{-1}(2x)$ بسالب زيادة، نفس غلطة القانون في ص58. الصحيح بدون سالب.
+        check:
+          kind: deriv
+          f: 'log(Abs(x**2+acoth(2*x)))'
+          ans: '(2*x+2/(1-4*x**2))/(x**2+acoth(2*x))'
+          samples: [-2.0, -0.8, 0.8, 2.0]
+          key_wrong: '(2*x-2/(1-4*x**2))/(x**2+acoth(2*x))'
+
+      - id: ne1-6
+        kind: example
+        ref: 'مثال (1) فقرة 6'
+        page: 59
+        prompt: 'Find the derivative.'
+        q: 'f(x)=\big[\sech^{-1}(3x)+7^{x}\big]^5'
+        solution: |
+          1. القوة 5 هي أبعد طبقة:
+             $$\frac{d}{dx}w^5=5w^4\cdot w',\qquad w=\sech^{-1}(3x)+7^x$$
+          2. نشتق اللي داخل القوس حد حد. $\sech^{-1}(3x)$ نفس M452-1-1، ومشتقة $7^x$ فيها $\ln7$:
+             $$w'=\frac{-3}{3x\sqrt{1-9x^2}}+7^x\ln7=\frac{-1}{x\sqrt{1-9x^2}}+7^x\ln7$$
+          3. نجمع:
+        answer: |-
+          f'(x)=5\big[\sech^{-1}(3x)+7^x\big]^4\Big(7^x\ln7-\frac{1}{x\sqrt{1-9x^2}}\Big)
+        domain: '0<x<\tfrac13'
+        check:
+          kind: deriv
+          f: '(asech(3*x)+7**x)**5'
+          ans: '5*(asech(3*x)+7**x)**4*(7**x*log(7) - 1/(x*sqrt(1-9*x**2)))'
+          samples: [0.05, 0.15, 0.3]
+
+      - id: nx1-3
+        kind: exercise
+        ref: 'تمرين 1 فقرة 3'
+        page: 62
+        prompt: 'Find the derivative.'
+        q: 'f(x)=\big(e^{4x}+\tanh^{-1}3x\big)^5'
+        hint: |
+          القوة 5 فوق مجموع: ابدأ بالقوة، بعدين اشتق اللي داخل القوس حد حد.
+        solution: |
+          1. القوة 5 هي أبعد طبقة:
+             $$\frac{d}{dx}w^5=5w^4\cdot w',\qquad w=e^{4x}+\tanh^{-1}(3x)$$
+          2. نشتق الداخل حد حد. مشتقة $e^{4x}$ هي $4e^{4x}$، و$\tanh^{-1}(3x)$ داخله $3x$:
+             $$w'=4e^{4x}+\frac{3}{1-(3x)^2}=4e^{4x}+\frac{3}{1-9x^2}$$
+          3. نجمع:
+        answer: |-
+          f'(x)=5\big(e^{4x}+\tanh^{-1}3x\big)^4\Big(4e^{4x}+\frac{3}{1-9x^2}\Big)
+        domain: '|x|<\tfrac13'
+        check:
+          kind: deriv
+          f: '(exp(4*x)+atanh(3*x))**5'
+          ans: '5*(exp(4*x)+atanh(3*x))**4*(4*exp(4*x)+3/(1-9*x**2))'
+          samples: [-0.3, 0.0, 0.2]
+
+      - id: nx1-4
+        kind: exercise
+        ref: 'تمرين 1 فقرة 4'
+        page: 62
+        prompt: 'Find the derivative.'
+        q: 'f(x)=\ln\big|\coth^{-1}2x+\sinh2x\big|'
+        hint: |
+          الخارج $\ln|w|$ ومشتقته $\frac{w'}{w}$. وقانون $\coth^{-1}$ بدون سالب.
+        solution: |
+          1. الطبقة الخارجية $\ln|w|$، ومشتقتها $\frac{w'}{w}$:
+             $$w=\coth^{-1}(2x)+\sinh(2x)$$
+          2. نشتق الداخل حد حد. $\coth^{-1}(2x)$ بدون سالب، و$\sinh(2x)$ مشتقته $2\cosh(2x)$:
+             $$w'=\frac{2}{1-(2x)^2}+2\cosh(2x)=\frac{2}{1-4x^2}+2\cosh2x$$
+          3. نقسم على $w$:
+        answer: |-
+          f'(x)=\frac{\frac{2}{1-4x^2}+2\cosh2x}{\coth^{-1}2x+\sinh2x}
+        domain: '|x|>\tfrac12'
+        check:
+          kind: deriv
+          f: 'log(Abs(acoth(2*x)+sinh(2*x)))'
+          ans: '(2/(1-4*x**2)+2*cosh(2*x))/(acoth(2*x)+sinh(2*x))'
+          samples: [-2.0, -0.8, 0.8, 2.0]
+
+      - id: nx1-5
+        kind: exercise
+        ref: 'تمرين 1 فقرة 5'
+        page: 62
+        prompt: 'Find the derivative.'
+        q: 'f(x)=\sech^{-1}\Big(\frac{1}{x}\Big)+e^{\cosh x}'
+        hint: |
+          داخل $\sech^{-1}$ مقلوب: استخدم التعريف
+          $$\sech^{-1}\frac1x=\cosh^{-1}x$$
+        solution: |
+          1. **الحد الأول:** الداخل مقلوب، فنستخدم التعريف (نفس فكرة اختصار $\csch^{-1}$):
+             $$\sech^{-1}w=\cosh^{-1}\frac1w,\qquad0<w\le1$$
+             $$\sech^{-1}\frac1x=\cosh^{-1}x$$
+             $$\frac{d}{dx}\cosh^{-1}x=\frac{1}{\sqrt{x^2-1}}$$
+          2. **الحد الثاني:** أسّية داخلها $\cosh x$، ومشتقة $\cosh$ هي $\sinh$:
+             $$\frac{d}{dx}e^{\cosh x}=e^{\cosh x}\cdot\sinh x$$
+        answer: |-
+          f'(x)=\frac{1}{\sqrt{x^2-1}}+e^{\cosh x}\sinh x
+        domain: 'x>1'
+        domain_why: 'لأن $\sech^{-1}\frac1x$ يبي $0<\frac1x<1$.'
+        more: |
+          بالقانون مباشرة توصل لنفس الشي:
+          $$u=\frac1x,\qquad u'=-\frac{1}{x^2}$$
+          $$\frac{-u'}{u\sqrt{1-u^2}}=\frac{\frac{1}{x^2}}{\frac1x\cdot\frac{\sqrt{x^2-1}}{x}}=\frac{1}{\sqrt{x^2-1}}$$
+        check:
+          kind: deriv
+          f: 'asech(1/x)+exp(cosh(x))'
+          ans: '1/sqrt(x**2-1)+exp(cosh(x))*sinh(x)'
+          samples: [1.2, 2.0, 3.0]
+
+      - id: nx1-6
+        kind: exercise
+        ref: 'تمرين 1 فقرة 6'
+        page: 62
+        prompt: 'Find the derivative.'
+        q: 'f(x)=\csch^{-1}(\cos x)+\ln|\sinh x|'
+        hint: |
+          $\cos x$ ممكن يكون سالب، فلازم $|u|$ في قانون $\csch^{-1}$. ومشتقة $\ln|w|$ هي $\frac{w'}{w}$.
+        solution: |
+          1. **الحد الأول:** الخارج $\csch^{-1}$ والداخل $\cos x$، وهو ممكن يكون سالب، فلازم $|u|$:
+             $$u=\cos x,\qquad u'=-\sin x$$
+             $$\frac{-u'}{|u|\sqrt{1+u^2}}=\frac{\sin x}{|\cos x|\sqrt{1+\cos^2x}}$$
+          2. **الحد الثاني:** مشتقة $\ln|w|$ هي $\frac{w'}{w}$:
+             $$\frac{d}{dx}\ln|\sinh x|=\frac{\cosh x}{\sinh x}=\coth x$$
+        answer: |-
+          f'(x)=\frac{\sin x}{|\cos x|\sqrt{1+\cos^2x}}+\coth x
+        domain: '\cos x\ne0,\quad x\ne0'
+        check:
+          kind: deriv
+          f: 'acsch(cos(x))+log(Abs(sinh(x)))'
+          ans: 'sin(x)/(Abs(cos(x))*sqrt(1+cos(x)**2)) + coth(x)'
+          samples: [-2.5, -0.5, 0.7, 2.5]
+
+  - key: B1
+    questions:
+      - id: ne2-7
+        kind: example
+        ref: 'مثال (2) فقرة 7'
+        page: 61
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{x^2+2x-8}}'
+        solution: |
+          1. نكمّل المربع (نص 2 هو 1، ومربعه 1):
+             $$x^2+2x-8=(x^2+2x+1)-8-1=(x+1)^2-9$$
+          2. نعوّض، و$9=3^2$:
+             $$u=x+1,\qquad du=dx,\qquad a=3$$
+          3. طرح تحت الجذر، فالصيغة اللوغاريتمية:
+             $$\int\frac{du}{\sqrt{u^2-3^2}}=\ln\big|u+\sqrt{u^2-9}\big|+C$$
+        answer: |-
+          \ln\Big|x+1+\sqrt{x^2+2x-8}\Big|+C
+        domain: 'x\in(-\infty,-4)\cup(2,\infty)'
+        fix: |
+          حل المذكرة كتب $\cosh^{-1}\frac{x+1}{3}+c$، وهذا يصح بس لما $x>2$. السؤال يسمح بـ $x<-4$ بعد.
+        check:
+          kind: indef
+          f: '1/sqrt(x**2+2*x-8)'
+          ans: 'log(Abs(x+1+sqrt(x**2+2*x-8)))'
+          samples: [-7.0, -4.5, 2.5, 6.0]
+          identities:
+            - ['x**2+2*x-8', '(x+1)**2-9']
+          key_wrong: 'acosh((x+1)/3)'
+          key_valid_on: [2.5, 6.0]
+          key_invalid_on: [-7.0, -4.5]
+
+      - id: nx2-13
+        kind: exercise
+        ref: 'تمرين 2 فقرة 13'
+        page: 62
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{7}{\sqrt{x^2+6x}}\,dx'
+        hint: |
+          كمّل المربع، وشوف الإشارة اللي تطلع.
+        solution: |
+          1. نطلّع 7 برّا، ونكمّل المربع (نص 6 هو 3، ومربعه 9):
+             $$x^2+6x=(x^2+6x+9)-9=(x+3)^2-9$$
+          2. نعوّض:
+             $$u=x+3,\qquad du=dx,\qquad a=3$$
+             $$7\int\frac{dx}{\sqrt{x^2+6x}}=7\int\frac{du}{\sqrt{u^2-3^2}}$$
+          3. طرح تحت الجذر، فالصيغة اللوغاريتمية:
+             $$=7\ln\big|u+\sqrt{u^2-9}\big|+C$$
+          4. نرجع لـ $x$، و$(x+3)^2-9$ هو نفسه $x^2+6x$:
+        answer: |-
+          7\ln\Big|x+3+\sqrt{x^2+6x}\Big|+C
+        domain: 'x\in(-\infty,-6)\cup(0,\infty)'
+        note: |
+          لو حلّك في جهة $x>0$ بس، تقدر تكتب $7\cosh^{-1}\frac{x+3}{3}+C$.
+        check:
+          kind: indef
+          f: '7/sqrt(x**2+6*x)'
+          ans: '7*log(Abs(x+3+sqrt(x**2+6*x)))'
+          samples: [-9.0, -6.5, 0.5, 3.0]
+          identities:
+            - ['x**2+6*x', '(x+3)**2-9']
+
+      - id: nx2-14
+        kind: exercise
+        ref: 'تمرين 2 فقرة 14'
+        page: 62
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{5}{\sqrt{x^2+2x+10}}\,dx'
+        hint: |
+          كمّل المربع، وطلّع 5 برّا.
+        solution: |
+          1. نطلّع 5 برّا، ونكمّل المربع (نص 2 هو 1، ومربعه 1):
+             $$x^2+2x+10=(x^2+2x+1)+10-1=(x+1)^2+9$$
+          2. نعوّض:
+             $$u=x+1,\qquad du=dx,\qquad a=3$$
+             $$5\int\frac{du}{\sqrt{u^2+3^2}}=5\sinh^{-1}\frac u3+C$$
+        answer: |-
+          5\sinh^{-1}\Big(\frac{x+1}{3}\Big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '5/sqrt(x**2+2*x+10)'
+          ans: '5*asinh((x+1)/3)'
+          samples: [-5.0, 0.0, 3.0]
+
+  - key: B2
+    questions:
+      - id: ne2-8
+        kind: example
+        ref: 'مثال (2) فقرة 8'
+        page: 61
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{(x-1)\sqrt{-x^2+2x+3}}'
+        solution: |
+          1. نطلّع السالب من حدود $x$، ونكمّل داخل القوس (نص 2 هو 1، ومربعه 1)، ونرجّع $+1$ برّا:
+             $$-x^2+2x+3=3-(x^2-2x)$$
+             $$=3-(x^2-2x+1)+1=4-(x-1)^2$$
+          2. نعوّض:
+             $$u=x-1,\qquad du=dx,\qquad a=2$$
+          3. $u$ مضروبة برّا الجذر، وطرح ← $\sech^{-1}$ مع القيمة المطلقة:
+             $$\int\frac{du}{u\sqrt{2^2-u^2}}=-\frac12\sech^{-1}\frac{|u|}{2}+C$$
+        answer: |-
+          -\frac12\sech^{-1}\Big(\frac{|x-1|}{2}\Big)+C
+        domain: '0<|x-1|<2'
+        fix: |
+          حل المذكرة كتب $\sech^{-1}\frac{x-1}{2}$ بدون قيمة مطلقة، وهذا يصح بس لما $x>1$.
+        check:
+          kind: indef
+          f: '1/((x-1)*sqrt(-x**2+2*x+3))'
+          ans: '-asech(Abs(x-1)/2)/2'
+          samples: [-0.5, 0.5, 1.5, 2.5]
+          identities:
+            - ['-x**2+2*x+3', '4-(x-1)**2']
+          key_wrong: '-asech((x-1)/2)/2'
+          key_valid_on: [1.5, 2.5]
+          key_invalid_on: [-0.5, 0.5]
+
+      - id: nx2-16
+        kind: exercise
+        ref: 'تمرين 2 فقرة 16'
+        page: 62
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{3}{(x+1)\sqrt{3-x^2-2x}}\,dx'
+        hint: |
+          طلّع السالب من حدود $x$ وكمّل المربع. برّا الجذر $(x+1)$.
+        solution: |
+          1. نطلّع السالب من حدود $x$، ونكمّل داخل القوس (نص 2 هو 1، ومربعه 1)، ونرجّع $+1$ برّا:
+             $$3-x^2-2x=3-(x^2+2x)$$
+             $$=3-(x^2+2x+1)+1=4-(x+1)^2$$
+          2. نعوّض:
+             $$u=x+1,\qquad du=dx,\qquad a=2$$
+             $$3\int\frac{dx}{(x+1)\sqrt{3-x^2-2x}}=3\int\frac{du}{u\sqrt{2^2-u^2}}$$
+          3. قانون $\sech^{-1}$ مع القيمة المطلقة:
+             $$=3\Big(-\frac12\sech^{-1}\frac{|u|}{2}\Big)+C$$
+        answer: |-
+          -\frac32\sech^{-1}\Big(\frac{|x+1|}{2}\Big)+C
+        domain: '0<|x+1|<2'
+        check:
+          kind: indef
+          f: '3/((x+1)*sqrt(3-x**2-2*x))'
+          ans: '-3*asech(Abs(x+1)/2)/2'
+          samples: [-2.5, -1.5, -0.5, 0.5]
+          identities:
+            - ['3-x**2-2*x', '4-(x+1)**2']
+
+      - id: nx2-15
+        kind: exercise
+        ref: 'تمرين 2 فقرة 15'
+        page: 62
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{2}{(x+3)\sqrt{x^2+6x+25}}\,dx'
+        hint: |
+          كمّل المربع. برّا الجذر $(x+3)$، والإشارة بعد الإكمال **جمع**.
+        solution: |
+          1. نكمّل المربع (نص 6 هو 3، ومربعه 9):
+             $$x^2+6x+25=(x^2+6x+9)+16=(x+3)^2+16$$
+          2. نعوّض، و$16=4^2$:
+             $$u=x+3,\qquad du=dx,\qquad a=4$$
+             $$2\int\frac{dx}{(x+3)\sqrt{x^2+6x+25}}=2\int\frac{du}{u\sqrt{4^2+u^2}}$$
+          3. $u$ برّا الجذر، والإشارة **جمع** ← $\csch^{-1}$ (مو $\sech^{-1}$)، مع القيمة المطلقة:
+             $$=2\Big(-\frac14\csch^{-1}\frac{|u|}{4}\Big)+C$$
+        answer: |-
+          -\frac12\csch^{-1}\Big(\frac{|x+3|}{4}\Big)+C
+        domain: 'x\ne-3'
+        check:
+          kind: indef
+          f: '2/((x+3)*sqrt(x**2+6*x+25))'
+          ans: '-acsch(Abs(x+3)/4)/2'
+          samples: [-8.0, -4.0, -2.0, 3.0]
+          identities:
+            - ['x**2+6*x+25', '(x+3)**2+16']
+
+  - key: B3
+    questions:
+      - id: ne2-1
+        kind: example
+        ref: 'مثال (2) فقرة 1'
+        page: 60
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{x}{\sqrt{x^4-16}}\,dx'
+        solution: |
+          1. $x^4=(x^2)^2$، ومشتقة $x^2$ هي $2x$، و$x$ موجودة فوق:
+             $$u=x^2,\qquad du=2x\,dx\quad\Rightarrow\quad x\,dx=\frac{du}{2}$$
+          2. نعوّض، و$16=4^2$:
+             $$\int\frac{x\,dx}{\sqrt{x^4-16}}=\frac12\int\frac{du}{\sqrt{u^2-4^2}}$$
+          3. هنا $u=x^2$ موجب دايم، و$u>4$ على المجال، فـ $\cosh^{-1}$ تنفع على الجهتين:
+             $$=\frac12\cosh^{-1}\frac u4+C$$
+        answer: |-
+          \frac12\cosh^{-1}\Big(\frac{x^2}{4}\Big)+C
+        domain: '|x|>2'
+        note: |
+          ليش ما احتجنا الصيغة اللوغاريتمية هنا؟ لأن $u=x^2$ موجب دايم. قارن مع M461-2-2، هناك $u=x+3$ ممكن يكون سالب.
+        check:
+          kind: indef
+          f: 'x/sqrt(x**4-16)'
+          ans: 'acosh(x**2/4)/2'
+          samples: [-3.0, -2.2, 2.2, 3.0]
+
+      - id: ne2-2
+        kind: example
+        ref: 'مثال (2) فقرة 2'
+        page: 60
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{e^x}{25-e^{2x}}\,dx'
+        solution: |
+          1. $e^{2x}=(e^x)^2$، ومشتقة $e^x$ هي نفسها وموجودة فوق:
+             $$u=e^x,\qquad du=e^x\,dx$$
+             $$\int\frac{e^x\,dx}{25-e^{2x}}=\int\frac{du}{5^2-u^2}$$
+          2. بدون جذر، وطرح ← $\tanh^{-1}$، وشرطه $|u|<5$:
+             $$=\frac15\tanh^{-1}\frac u5+C$$
+        answer: |-
+          \frac15\tanh^{-1}\Big(\frac{e^x}{5}\Big)+C
+        domain: 'x<\ln5'
+        domain_why: 'لأن الشرط $e^x<5$.'
+        more: |
+          لو $x>\ln5$ يصير $u>5$ وهالقانون ما ينفع. الصيغة العامة لأي $u\ne\pm a$:
+          $$\int\frac{du}{a^2-u^2}=\frac{1}{2a}\ln\Big|\frac{a+u}{a-u}\Big|+C$$
+        check:
+          kind: indef
+          f: 'exp(x)/(25-exp(2*x))'
+          ans: 'atanh(exp(x)/5)/5'
+          samples: [-1.0, 0.5, 1.5]
+          extra:
+            - ans: 'log(Abs((5+exp(x))/(5-exp(x))))/10'
+              samples: [-1.0, 0.5, 2.0, 3.0]
+
+      - id: ne2-3
+        kind: example
+        ref: 'مثال (2) فقرة 3'
+        page: 60
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{4x^2+25}}'
+        solution: |
+          1. $4x^2=(2x)^2$، فنعوّض $u=2x$. مشتقته 2 (ثابت)، نوفّرها بالضرب والقسمة:
+             $$u=2x,\qquad du=2\,dx\quad\Rightarrow\quad dx=\frac{du}{2}$$
+          2. نعوّض، و$25=5^2$:
+             $$\int\frac{dx}{\sqrt{(2x)^2+5^2}}=\frac12\int\frac{du}{\sqrt{u^2+5^2}}=\frac12\sinh^{-1}\frac u5+C$$
+        answer: |-
+          \frac12\sinh^{-1}\Big(\frac{2x}{5}\Big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '1/sqrt(4*x**2+25)'
+          ans: 'asinh(2*x/5)/2'
+          samples: [-3.0, 0.5, 4.0]
+
+      - id: nx2-1
+        kind: exercise
+        ref: 'تمرين 2 فقرة 1'
+        page: 62
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{5x^2}{\sqrt{9+16x^6}}\,dx'
+        hint: |
+          اكتب $16x^6$ مربع، وشوف إن مشتقته موجودة فوق تقريبًا:
+          $$16x^6=\big(4x^3\big)^2$$
+        solution: |
+          1. $16x^6=(4x^3)^2$، ومشتقة $4x^3$ هي $12x^2$، و$x^2$ موجودة فوق:
+             $$u=4x^3,\qquad du=12x^2\,dx\quad\Rightarrow\quad x^2\,dx=\frac{du}{12}$$
+          2. نعوّض، و$9=3^2$:
+             $$\int\frac{5x^2\,dx}{\sqrt{9+16x^6}}=\frac{5}{12}\int\frac{du}{\sqrt{u^2+3^2}}$$
+          3. قانون $\sinh^{-1}$:
+             $$=\frac{5}{12}\sinh^{-1}\frac u3+C$$
+        answer: |-
+          \frac{5}{12}\sinh^{-1}\Big(\frac{4x^3}{3}\Big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '5*x**2/sqrt(9+16*x**6)'
+          ans: '5*asinh(4*x**3/3)/12'
+          samples: [-1.0, 0.3, 1.2]
+
+      - id: nx2-2
+        kind: exercise
+        ref: 'تمرين 2 فقرة 2'
+        page: 62
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{3x}{\sqrt{25x^4+16}}\,dx'
+        hint: |
+          $$25x^4=\big(5x^2\big)^2$$
+          ومشتقة $5x^2$ فيها $x$ اللي فوق.
+        solution: |
+          1. $25x^4=(5x^2)^2$، ومشتقة $5x^2$ هي $10x$:
+             $$u=5x^2,\qquad du=10x\,dx\quad\Rightarrow\quad x\,dx=\frac{du}{10}$$
+          2. نعوّض، و$16=4^2$:
+             $$\int\frac{3x\,dx}{\sqrt{25x^4+16}}=\frac{3}{10}\int\frac{du}{\sqrt{u^2+4^2}}=\frac{3}{10}\sinh^{-1}\frac u4+C$$
+        answer: |-
+          \frac{3}{10}\sinh^{-1}\Big(\frac{5x^2}{4}\Big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '3*x/sqrt(25*x**4+16)'
+          ans: '3*asinh(5*x**2/4)/10'
+          samples: [-1.0, 0.4, 1.3]
+
+      - id: nx2-3
+        kind: exercise
+        ref: 'تمرين 2 فقرة 3'
+        page: 62
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{x^3}{36-9x^8}\,dx'
+        hint: |
+          $$9x^8=\big(3x^4\big)^2$$
+          ومشتقة $3x^4$ فيها $x^3$ اللي فوق. وما فيه جذر.
+        solution: |
+          1. $9x^8=(3x^4)^2$، ومشتقة $3x^4$ هي $12x^3$:
+             $$u=3x^4,\qquad du=12x^3\,dx\quad\Rightarrow\quad x^3\,dx=\frac{du}{12}$$
+          2. نعوّض، و$36=6^2$:
+             $$\int\frac{x^3\,dx}{36-9x^8}=\frac{1}{12}\int\frac{du}{6^2-u^2}$$
+          3. بدون جذر، وطرح ← $\tanh^{-1}$ بشرط $|u|<6$:
+             $$=\frac{1}{12}\cdot\frac16\tanh^{-1}\frac u6+C$$
+          4. نبسّط: $\frac{1}{12}\cdot\frac16=\frac{1}{72}$، و$\frac{3x^4}{6}=\frac{x^4}{2}$:
+        answer: |-
+          \frac{1}{72}\tanh^{-1}\Big(\frac{x^4}{2}\Big)+C
+        domain: '|x|<\sqrt[4]{2}'
+        domain_why: 'لأن الشرط $|u|<6$ يعني $3x^4<6$.'
+        more: |
+          لو $|x|>\sqrt[4]2$ القانون ما ينفع. الصيغة العامة لأي $u\ne\pm a$:
+          $$\int\frac{du}{a^2-u^2}=\frac{1}{2a}\ln\Big|\frac{a+u}{a-u}\Big|+C$$
+          وهنا تعطي:
+          $$\frac{1}{144}\ln\Big|\frac{2+x^4}{2-x^4}\Big|+C$$
+        check:
+          kind: indef
+          f: 'x**3/(36-9*x**8)'
+          ans: 'atanh(x**4/2)/72'
+          samples: [-1.0, 0.5, 1.1]
+          extra:
+            - ans: 'log(Abs((2+x**4)/(2-x**4)))/144'
+              samples: [-1.5, 0.5, 1.5, 2.0]
+
+  - key: B4
+    questions:
+      - id: ne2-4
+        kind: example
+        ref: 'مثال (2) فقرة 4'
+        page: 61
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{x}\,\sqrt{4+x}}'
+        solution: |
+          1. نفس M451-2-2: نعوّض الجذر، ونكتب $x$ و$dx$ بدلالة $u$:
+             $$u=\sqrt x,\qquad x=u^2,\qquad dx=2u\,du$$
+          2. نعوّض، ونشطب $u$ (عامل فوق وتحت):
+             $$\int\frac{2u\,du}{u\sqrt{4+u^2}}=2\int\frac{du}{\sqrt{u^2+2^2}}=2\sinh^{-1}\frac u2+C$$
+        answer: |-
+          2\sinh^{-1}\Big(\frac{\sqrt x}{2}\Big)+C
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: '1/(sqrt(x)*sqrt(4+x))'
+          ans: '2*asinh(sqrt(x)/2)'
+          samples: [0.2, 1.0, 5.0]
+
+      - id: ne2-5
+        kind: example
+        ref: 'مثال (2) فقرة 5'
+        page: 61
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x\sqrt{16-x^4}}'
+        solution: |
+          1. $x^4=(x^2)^2$:
+             $$u=x^2,\qquad du=2x\,dx$$
+          2. السؤال فيه $\frac{dx}{x}$. نضرب فوق وتحت في $x$:
+             $$\frac{dx}{x}=\frac{x\,dx}{x^2}=\frac{du/2}{u}=\frac{du}{2u}$$
+          3. نعوّض، و$16=4^2$:
+             $$\int\frac{dx}{x\sqrt{16-x^4}}=\frac12\int\frac{du}{u\sqrt{4^2-u^2}}=\frac12\Big(-\frac14\sech^{-1}\frac{|u|}{4}\Big)+C$$
+          4. $u=x^2$ موجب، فـ $|u|=u$:
+        answer: |-
+          -\frac18\sech^{-1}\Big(\frac{x^2}{4}\Big)+C
+        domain: '0<|x|<2'
+        check:
+          kind: indef
+          f: '1/(x*sqrt(16-x**4))'
+          ans: '-asech(x**2/4)/8'
+          samples: [-1.5, -0.3, 0.3, 1.5]
+
+      - id: ne2-6
+        kind: example
+        ref: 'مثال (2) فقرة 6'
+        page: 61
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{1+e^{2x}}}'
+        solution: |
+          1. $e^{2x}=(e^x)^2$. نعوّض الأساس ونكتب $dx$ كامل:
+             $$u=e^x,\qquad du=e^x\,dx=u\,dx\quad\Rightarrow\quad dx=\frac{du}{u}$$
+          2. نعوّض. التفاضل حط $u$ في المقام:
+             $$\int\frac{1}{\sqrt{1+u^2}}\cdot\frac{du}{u}=\int\frac{du}{u\sqrt{1+u^2}}=-\csch^{-1}u+C$$
+             ($u=e^x$ موجب، فـ $|u|=u$.)
+        answer: |-
+          -\csch^{-1}\big(e^x\big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '1/sqrt(1+exp(2*x))'
+          ans: '-acsch(exp(x))'
+          samples: [-1.0, 0.0, 1.5]
+
+      - id: nx2-4
+        kind: exercise
+        ref: 'تمرين 2 فقرة 4'
+        page: 62
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{3x}{x^2\sqrt{9-16x^4}}\,dx'
+        hint: |
+          $$16x^4=\big(4x^2\big)^2$$
+          اكتب $x\,dx$ و$x^2$ كلهم بدلالة $u$.
+        solution: |
+          1. $16x^4=(4x^2)^2$، ومشتقة $4x^2$ هي $8x$:
+             $$u=4x^2,\qquad du=8x\,dx\quad\Rightarrow\quad x\,dx=\frac{du}{8},\qquad x^2=\frac u4$$
+          2. نعوّض كل شي (فوق $x\,dx$، وتحت $x^2$)، و$9=3^2$:
+             $$\int\frac{3x\,dx}{x^2\sqrt{9-16x^4}}=\int\frac{3\cdot\frac{du}{8}}{\frac u4\sqrt{3^2-u^2}}=\frac32\int\frac{du}{u\sqrt{3^2-u^2}}$$
+          3. قانون $\sech^{-1}$، و$u=4x^2$ موجب:
+             $$=\frac32\Big(-\frac13\sech^{-1}\frac u3\Big)+C$$
+        answer: |-
+          -\frac12\sech^{-1}\Big(\frac{4x^2}{3}\Big)+C
+        domain: '0<|x|<\tfrac{\sqrt3}{2}'
+        check:
+          kind: indef
+          f: '3*x/(x**2*sqrt(9-16*x**4))'
+          ans: '-asech(4*x**2/3)/2'
+          samples: [-0.8, -0.2, 0.2, 0.8]
+
+      - id: nx2-5
+        kind: exercise
+        ref: 'تمرين 2 فقرة 5'
+        page: 62
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{5x}{x^2\sqrt{4-9x^4}}\,dx'
+        hint: |
+          $$9x^4=\big(3x^2\big)^2$$
+          اكتب $x\,dx$ و$x^2$ بدلالة $u$.
+        solution: |
+          1. $9x^4=(3x^2)^2$، ومشتقة $3x^2$ هي $6x$:
+             $$u=3x^2,\qquad du=6x\,dx\quad\Rightarrow\quad x\,dx=\frac{du}{6},\qquad x^2=\frac u3$$
+          2. نعوّض، و$4=2^2$:
+             $$\int\frac{5x\,dx}{x^2\sqrt{4-9x^4}}=\int\frac{5\cdot\frac{du}{6}}{\frac u3\sqrt{2^2-u^2}}=\frac52\int\frac{du}{u\sqrt{2^2-u^2}}$$
+          3. قانون $\sech^{-1}$، و$u$ موجب:
+             $$=\frac52\Big(-\frac12\sech^{-1}\frac u2\Big)+C$$
+        answer: |-
+          -\frac54\sech^{-1}\Big(\frac{3x^2}{2}\Big)+C
+        domain: '0<|x|<\sqrt{\tfrac23}'
+        check:
+          kind: indef
+          f: '5*x/(x**2*sqrt(4-9*x**4))'
+          ans: '-5*asech(3*x**2/2)/4'
+          samples: [-0.7, -0.2, 0.2, 0.7]
+
+      - id: nx2-10
+        kind: exercise
+        ref: 'تمرين 2 فقرة 10'
+        page: 62
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{2}{\sqrt{9-e^{6x}}}\,dx'
+        hint: |
+          $$e^{6x}=\big(e^{3x}\big)^2$$
+          اكتب $dx$ كامل بدلالة $u$، وشوف وش يطلع في المقام.
+        solution: |
+          1. $e^{6x}=(e^{3x})^2$. نعوّض الأساس ونكتب $dx$ كامل:
+             $$u=e^{3x},\qquad du=3e^{3x}dx=3u\,dx\quad\Rightarrow\quad dx=\frac{du}{3u}$$
+          2. نعوّض، و$9=3^2$:
+             $$\int\frac{2}{\sqrt{9-u^2}}\cdot\frac{du}{3u}=\frac23\int\frac{du}{u\sqrt{3^2-u^2}}$$
+          3. قانون $\sech^{-1}$، و$u=e^{3x}$ موجب:
+             $$=\frac23\Big(-\frac13\sech^{-1}\frac u3\Big)+C$$
+        answer: |-
+          -\frac29\sech^{-1}\Big(\frac{e^{3x}}{3}\Big)+C
+        domain: 'x<\tfrac{\ln3}{3}'
+        domain_why: 'لأن تحت الجذر لازم موجب: $e^{6x}<9$.'
+        check:
+          kind: indef
+          f: '2/sqrt(9-exp(6*x))'
+          ans: '-2*asech(exp(3*x)/3)/9'
+          samples: [-1.0, 0.0, 0.3]
+
+      - id: nx2-11
+        kind: exercise
+        ref: 'تمرين 2 فقرة 11'
+        page: 62
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{5}{x\sqrt{25+4x^4}}\,dx'
+        hint: |
+          $$4x^4=\big(2x^2\big)^2$$
+          اضرب فوق وتحت في $x$ عشان تطلع $x\,dx$.
+        solution: |
+          1. $4x^4=(2x^2)^2$، ومشتقة $2x^2$ هي $4x$:
+             $$u=2x^2,\qquad du=4x\,dx$$
+          2. نضرب فوق وتحت في $x$، و$x^2=\frac u2$:
+             $$\frac{dx}{x}=\frac{x\,dx}{x^2}=\frac{du/4}{u/2}=\frac{du}{2u}$$
+          3. نعوّض، و$25=5^2$:
+             $$5\int\frac{dx}{x\sqrt{25+4x^4}}=\frac52\int\frac{du}{u\sqrt{5^2+u^2}}$$
+          4. قانون $\csch^{-1}$، و$u$ موجب:
+             $$=\frac52\Big(-\frac15\csch^{-1}\frac u5\Big)+C$$
+        answer: |-
+          -\frac12\csch^{-1}\Big(\frac{2x^2}{5}\Big)+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: '5/(x*sqrt(25+4*x**4))'
+          ans: '-acsch(2*x**2/5)/2'
+          samples: [-2.0, -0.5, 0.5, 2.0]
+
+      - id: nx2-12
+        kind: exercise
+        ref: 'تمرين 2 فقرة 12'
+        page: 62
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x\sqrt{25-x^3}}'
+        hint: |
+          $$x^3=\big(x^{3/2}\big)^2$$
+          اضرب فوق وتحت في $x^{1/2}$ عشان تطلع مشتقة $x^{3/2}$.
+        solution: |
+          1. $x^3=(x^{3/2})^2$ (لما $x>0$)، ومشتقة $x^{3/2}$ هي $\frac32x^{1/2}$:
+             $$u=x^{3/2},\qquad du=\tfrac32x^{1/2}\,dx$$
+          2. نضرب فوق وتحت في $x^{1/2}$ عشان تطلع $du$:
+             $$\frac{dx}{x}=\frac{x^{1/2}\,dx}{x^{3/2}}=\frac{\frac23\,du}{u}$$
+          3. نعوّض، و$25=5^2$:
+             $$\int\frac{dx}{x\sqrt{25-x^3}}=\frac23\int\frac{du}{u\sqrt{5^2-u^2}}=\frac23\Big(-\frac15\sech^{-1}\frac u5\Big)+C$$
+        answer: |-
+          -\frac{2}{15}\sech^{-1}\Big(\frac{x^{3/2}}{5}\Big)+C
+        domain: '0<x<\sqrt[3]{25}'
+        more: |
+          لما $x<0$ يصير $25-x^3=25+|x|^3$ (جمع)، فالقانون يتغير لـ $\csch^{-1}$. نفس الخطوات مع $u=(-x)^{3/2}$ تعطي:
+          $$-\frac{2}{15}\csch^{-1}\Big(\frac{(-x)^{3/2}}{5}\Big)+C,\qquad x<0$$
+        check:
+          kind: indef
+          f: '1/(x*sqrt(25-x**3))'
+          ans: '-2*asech(x**Rational(3,2)/5)/15'
+          samples: [0.5, 1.5, 2.8]
+          extra:
+            - ans: '-2*acsch((-x)**Rational(3,2)/5)/15'
+              samples: [-3.0, -0.5]
