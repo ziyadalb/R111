@@ -209,12 +209,47 @@ def general_checks():
     rec('u/(u+1) = 1−1/(u+1)', sp.simplify(u / (u + 1) - (1 - 1 / (u + 1))) == 0)
     rec('u²/(u²+9) = 1−9/(u²+9)', sp.simplify(u**2 / (u**2 + 9) - (1 - 9 / (u**2 + 9))) == 0)
     rec('(1−u²)² = 1−2u²+u⁴', sp.expand((1 - u**2) ** 2) == 1 - 2 * u**2 + u**4)
+
+    # 10) أدوات 5.2: المتطابقات وتحويل الضرب لجمع
+    A_, B_ = sp.symbols('A B', real=True)
+    rec('sin²x = (1−cos2x)/2', sp.simplify(sp.sin(x)**2 - (1 - sp.cos(2 * x)) / 2) == 0)
+    rec('cos²x = (1+cos2x)/2', sp.simplify(sp.cos(x)**2 - (1 + sp.cos(2 * x)) / 2) == 0)
+    rec('tan²x = sec²x − 1', sp.simplify(sp.tan(x)**2 - (sp.sec(x)**2 - 1)) == 0)
+    rec('cot²x = csc²x − 1', sp.simplify(sp.cot(x)**2 - (sp.csc(x)**2 - 1)) == 0)
+    rec('sinA cosB = ½[sin(A−B)+sin(A+B)]', sp.simplify(sp.expand_trig(sp.sin(A_) * sp.cos(B_) - (sp.sin(A_ - B_) + sp.sin(A_ + B_)) / 2)) == 0)
+    rec('sinA sinB = ½[cos(A−B)−cos(A+B)]', sp.simplify(sp.expand_trig(sp.sin(A_) * sp.sin(B_) - (sp.cos(A_ - B_) - sp.cos(A_ + B_)) / 2)) == 0)
+    rec('cosA cosB = ½[cos(A−B)+cos(A+B)]', sp.simplify(sp.expand_trig(sp.cos(A_) * sp.cos(B_) - (sp.cos(A_ - B_) + sp.cos(A_ + B_)) / 2)) == 0)
+
+    # 11) تكاملات جاهزة (على عدة فترات)
+    pts = [-2.5, -1.0, 0.4, 1.2, 2.5, 4.0]
+    rec('∫tan x dx = −ln|cos x|', check_antiderivative('tan(x)', '-log(Abs(cos(x)))', pts)[0])
+    rec('∫cot x dx = ln|sin x|', check_antiderivative('cot(x)', 'log(Abs(sin(x)))', pts)[0])
+    rec('∫sec x dx = ln|sec x + tan x|', check_antiderivative('sec(x)', 'log(Abs(sec(x)+tan(x)))', pts)[0])
+
+    # 12) قوانين التخفيض في المذكرة (tan وcot لحالها)
+    m = sp.Symbol('m', positive=True)
+    rec('∫tanᵐ = tanᵐ⁻¹/(m−1) − ∫tanᵐ⁻²', sp.simplify(sp.powsimp(sp.expand(sp.diff(sp.tan(x)**(m - 1) / (m - 1), x) - (sp.tan(x)**m + sp.tan(x)**(m - 2))), force=True)) == 0)
+    rec('∫cotᵐ = −cotᵐ⁻¹/(m−1) − ∫cotᵐ⁻²', sp.simplify(sp.powsimp(sp.expand(sp.diff(-sp.cot(x)**(m - 1) / (m - 1), x) - (sp.cot(x)**m + sp.cot(x)**(m - 2))), force=True)) == 0)
+
+    # 13) صيغة التأكد للدوّارة: ∫e^{ax}sin bx و ∫e^{ax}cos bx
+    aa, bb = sp.symbols('a b', positive=True)
+    Fs = sp.exp(aa * x) * (aa * sp.sin(bb * x) - bb * sp.cos(bb * x)) / (aa**2 + bb**2)
+    Fc = sp.exp(aa * x) * (aa * sp.cos(bb * x) + bb * sp.sin(bb * x)) / (aa**2 + bb**2)
+    rec('∫e^{ax}sin bx = e^{ax}(a sin bx − b cos bx)/(a²+b²)', sp.simplify(sp.diff(Fs, x) - sp.exp(aa * x) * sp.sin(bb * x)) == 0)
+    rec('∫e^{ax}cos bx = e^{ax}(a cos bx + b sin bx)/(a²+b²)', sp.simplify(sp.diff(Fc, x) - sp.exp(aa * x) * sp.cos(bb * x)) == 0)
+
+    # 14) ليش الدوّارة تفشل في ∫e^{−x}cosh x: الحدود اللي تطلع ثابت (−1)، فالمعادلة I = I + ثابت
+    rec('−e^{−x}(cosh x + sinh x) = −1 (ثابت)', sp.simplify((-sp.exp(-x) * (sp.cosh(x) + sp.sinh(x))).rewrite(sp.exp)) == -1)
+
+    # 15) اختصار الجدول (كثير حدود × أسّية/مثلثية): مثال x³eˣ وx²cos3x
+    rec('جدول: ∫x³eˣ = (x³−3x²+6x−6)eˣ', sp.simplify(sp.diff((x**3 - 3 * x**2 + 6 * x - 6) * sp.exp(x), x) - x**3 * sp.exp(x)) == 0)
     return out
 
 
 def main():
     files = sorted(glob.glob(os.path.join(ROOT, 'content', 'questions', '*.yaml')))
     files += sorted(glob.glob(os.path.join(ROOT, 'content', '42', 'data', '*.yaml')))
+    files += sorted(glob.glob(os.path.join(ROOT, 'content', '5x', 'data', '*.yaml')))
     total = 0
     lines.append('# تقرير التحقق الآلي\n')
     lines.append('كل سطر: المعرّف، نوع الفحص، النتيجة، والتفاصيل. الفحص عددي بدقة 40 خانة في نقاط من كل فرع من المجال.\n')

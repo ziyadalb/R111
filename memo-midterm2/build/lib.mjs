@@ -222,7 +222,7 @@ export function makeMarkdown(ctx = {}) {
         if (!q) throw new Error('diff: سؤال غير موجود ' + id);
         ctx.used && ctx.used.add(id);
         const head = ctx.diffHead ? ctx.diffHead(q) : `${qidChip(id)}${marksChip(q)}`;
-        return `<div class="diff"><div class="diff-head">${head}</div>${questionMath(q, 'diff-q')}<div class="diff-body">\n`;
+        return `<div class="diff"><div class="diff-top"><div class="diff-head">${head}</div>${questionMath(q, 'diff-q')}</div><div class="diff-body">\n`;
       }
       return '</div></div>\n';
     },
@@ -238,7 +238,7 @@ export function makeMarkdown(ctx = {}) {
 }
 
 export function wrapIds(html) {
-  return html.replace(/\bM4[5-7][12]-\d-\d\b/g, (m) => `<span class="qid">${m}</span>`);
+  return html.replace(/\b([MF])4[5-7][12]-\d-\d\b/g, (m, k) => `<span class="qid${k === 'F' ? ' qid-fin' : ''}">${m}</span>`);
 }
 
 export function qidChip(id, link) {

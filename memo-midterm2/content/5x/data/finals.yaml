@@ -1,0 +1,237 @@
+# أسئلة 5.1 و5.2 اللي جات في الاختبارات النهائية (1445 إلى 1447)
+# المعرف: F + السنة والفصل + السؤال + الفقرة (F471-2-2 = نهائي 1447 الفصل الأول، السؤال 2 فقرة 2)
+section: '5.x'
+slug: fin
+title: 'أسئلة النهائيات'
+patterns:
+  - key: FIN
+    questions:
+      - id: F471-2-2
+        marks: 3
+        page: 10
+        prompt: 'Evaluate the integral.'
+        q: '\int x^2\cos(3x)\,dx'
+        hint: |
+          كثير حدود من الدرجة الثانية × $\cos3x$: جزّئ مرتين، وكل مرة خل كثير الحدود هو $u$.
+        solution: |
+          1. نشتق كثير الحدود (ينزل درجة كل مرة)، ونكامل $\cos3x$. تكامل $\cos3x$ نقسم فيه على 3:
+             $$u=x^2,\qquad dv=\cos3x\,dx,\qquad du=2x\,dx,\qquad v=\tfrac13\sin3x$$
+             $$\int x^2\cos3x\,dx=\frac{x^2}{3}\sin3x-\frac23\int x\sin3x\,dx$$
+          2. التكامل الجديد ضرب بعد، بس الدرجة نزلت. نجزّئ مرة ثانية بنفس الاختيار:
+             $$u=x,\qquad dv=\sin3x\,dx,\qquad du=dx,\qquad v=-\tfrac13\cos3x$$
+             $$\int x\sin3x\,dx=-\frac x3\cos3x+\frac13\int\cos3x\,dx=-\frac x3\cos3x+\frac19\sin3x$$
+          3. نرجع للأول، وننتبه إن $-\frac23$ تضرب في القوس كله:
+             $$\frac{x^2}{3}\sin3x-\frac23\Big(-\frac x3\cos3x+\frac19\sin3x\Big)$$
+        answer: |-
+          \frac{x^2}{3}\sin3x+\frac{2x}{9}\cos3x-\frac{2}{27}\sin3x+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'x**2*cos(3*x)'
+          ans: 'x**2/3*sin(3*x) + 2*x/9*cos(3*x) - Rational(2,27)*sin(3*x)'
+          samples: [-2.0, 0.5, 3.0]
+
+      - id: F451-2-2
+        marks: 3
+        page: 11
+        prompt: 'Evaluate the integral.'
+        q: '\int x^2\cosh x\,dx'
+        hint: |
+          نفس فكرة F471-2-2: جزّئ مرتين، وكثير الحدود هو $u$ كل مرة.
+        solution: |
+          1. نشتق $x^2$ ونكامل $\cosh x$ (تكاملها $\sinh x$ بدون سالب):
+             $$u=x^2,\qquad dv=\cosh x\,dx,\qquad du=2x\,dx,\qquad v=\sinh x$$
+             $$\int x^2\cosh x\,dx=x^2\sinh x-2\int x\sinh x\,dx$$
+          2. نجزّئ مرة ثانية بنفس الاختيار:
+             $$u=x,\qquad dv=\sinh x\,dx,\qquad du=dx,\qquad v=\cosh x$$
+             $$\int x\sinh x\,dx=x\cosh x-\int\cosh x\,dx=x\cosh x-\sinh x$$
+          3. نرجع للأول، و$-2$ تضرب في القوس كله:
+             $$x^2\sinh x-2\big(x\cosh x-\sinh x\big)$$
+        answer: |-
+          x^2\sinh x-2x\cosh x+2\sinh x+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'x**2*cosh(x)'
+          ans: 'x**2*sinh(x) - 2*x*cosh(x) + 2*sinh(x)'
+          samples: [-2.0, 0.5, 3.0]
+
+      - id: F461-2-2
+        marks: 3
+        page: 11
+        prompt: 'Evaluate the integral.'
+        q: '\int x^{-3}\ln|x|\,dx'
+        hint: |
+          قوة × $\ln$: اشتق $\ln|x|$ وكامل $x^{-3}$. انتبه لإشارة $v$.
+        solution: |
+          1. نشتق اللوغاريتم ونكامل القوة. الأس $-3$ يصير $-2$ ونقسم عليه:
+             $$u=\ln|x|,\qquad dv=x^{-3}dx,\qquad du=\frac{dx}{x},\qquad v=\frac{x^{-2}}{-2}=-\frac{1}{2x^2}$$
+          2. نركّب القانون. سالب في سالب = موجب:
+             $$\int x^{-3}\ln|x|\,dx=-\frac{\ln|x|}{2x^2}+\frac12\int\frac{1}{x^2}\cdot\frac1x\,dx=-\frac{\ln|x|}{2x^2}+\frac12\int x^{-3}dx$$
+          3. نكامل:
+             $$\frac12\cdot\frac{x^{-2}}{-2}=-\frac{1}{4x^2}$$
+        answer: |-
+          -\frac{\ln|x|}{2x^2}-\frac{1}{4x^2}+C
+        domain: 'x\ne0'
+        fix: |
+          المفتاح كتب $\ln x$ بدل $\ln|x|$، وهذا يصح بس لما $x>0$. السؤال فيه قيمة مطلقة، فالجواب يبيها.
+        check:
+          kind: indef
+          f: 'log(Abs(x))/x**3'
+          ans: '-log(Abs(x))/(2*x**2) - 1/(4*x**2)'
+          samples: [-2.0, -0.5, 0.5, 2.0]
+          key_wrong: '-log(x)/(2*x**2) - 1/(4*x**2)'
+          key_valid_on: [0.5, 2.0]
+          key_invalid_on: [-2.0, -0.5]
+
+      - id: F462-2-2
+        marks: 3
+        page: 26
+        prompt: 'Evaluate the integral.'
+        q: '\int x\tanh^{-1}x\,dx'
+        hint: |
+          اشتق $\tanh^{-1}x$ وكامل $x$. التكامل الباقي: اكتب البسط $x^2$ بدلالة المقام $1-x^2$.
+        solution: |
+          1. نشتق العكسية ونكامل $x$:
+             $$u=\tanh^{-1}x,\qquad dv=x\,dx,\qquad du=\frac{dx}{1-x^2},\qquad v=\frac{x^2}{2}$$
+             $$\int x\tanh^{-1}x\,dx=\frac{x^2}{2}\tanh^{-1}x-\frac12\int\frac{x^2}{1-x^2}\,dx$$
+          2. البسط درجته نفس المقام، فنكتبه بدلالة المقام (نضيف 1 ونطرحه):
+             $$\frac{x^2}{1-x^2}=\frac{-(1-x^2)+1}{1-x^2}=-1+\frac{1}{1-x^2}$$
+          3. نكامل. الثاني قانون $\tanh^{-1}$ (لأن $|x|<1$):
+             $$\int\Big(-1+\frac{1}{1-x^2}\Big)dx=-x+\tanh^{-1}x$$
+          4. نرجع للقانون:
+             $$\frac{x^2}{2}\tanh^{-1}x-\frac12\big(-x+\tanh^{-1}x\big)=\frac{x^2}{2}\tanh^{-1}x+\frac x2-\frac12\tanh^{-1}x$$
+          5. نجمع حدّي $\tanh^{-1}x$:
+        answer: |-
+          \frac{x^2-1}{2}\tanh^{-1}x+\frac x2+C
+        domain: '|x|<1'
+        check:
+          kind: indef
+          f: 'x*atanh(x)'
+          ans: '(x**2-1)/2*atanh(x) + x/2'
+          samples: [-0.8, 0.2, 0.9]
+
+      - id: F472-2-3
+        marks: 3
+        page: 25
+        prompt: 'Evaluate the integral.'
+        q: '\int e^{2x}\sin x\,dx'
+        hint: |
+          أسّية × $\sin$: جزّئ مرتين (الأسّية هي $dv$ في المرتين)، بيرجع لك نفس التكامل. سمّه $I$ وحلّه كمعادلة.
+        solution: |
+          1. نسمّي التكامل $I$. نخلي الأسّية $dv$ (نكاملها بسهولة)، و$\sin x$ هي $u$:
+             $$u=\sin x,\qquad dv=e^{2x}dx,\qquad du=\cos x\,dx,\qquad v=\tfrac12e^{2x}$$
+             $$I=\tfrac12e^{2x}\sin x-\tfrac12\int e^{2x}\cos x\,dx$$
+          2. نجزّئ التكامل الجديد **بنفس الاختيار** (الأسّية $dv$ مرة ثانية):
+             $$u=\cos x,\qquad dv=e^{2x}dx,\qquad du=-\sin x\,dx,\qquad v=\tfrac12e^{2x}$$
+             $$\int e^{2x}\cos x\,dx=\tfrac12e^{2x}\cos x+\tfrac12\int e^{2x}\sin x\,dx=\tfrac12e^{2x}\cos x+\tfrac12I$$
+          3. نعوّض في المعادلة الأولى. رجع $I$ نفسه:
+             $$I=\tfrac12e^{2x}\sin x-\tfrac14e^{2x}\cos x-\tfrac14I$$
+          4. ننقل $I$ لليسار ونجمع: $I+\frac14I=\frac54I$:
+             $$\tfrac54I=\tfrac12e^{2x}\sin x-\tfrac14e^{2x}\cos x$$
+          5. نضرب الطرفين في $\frac45$:
+             $$I=\tfrac25e^{2x}\sin x-\tfrac15e^{2x}\cos x$$
+        answer: |-
+          \frac{e^{2x}}{5}\big(2\sin x-\cos x\big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'exp(2*x)*sin(x)'
+          ans: 'exp(2*x)/5*(2*sin(x) - cos(x))'
+          samples: [-1.0, 0.5, 2.0]
+
+      - id: F452-2-6
+        marks: 2
+        page: 29
+        prompt: 'Evaluate the integral.'
+        q: '\int\sin^5x\,\cos^6x\,dx'
+        hint: |
+          قوة $\sin$ فردية: احجز $\sin x$ واحد، وحوّل الباقي لـ $\cos$.
+          $$u=\cos x$$
+        solution: |
+          1. قوة $\sin$ فردية (5)، وقوة $\cos$ زوجية. نحجز $\sin x$ واحد لأنه (مع سالب) مشتقة $\cos x$، ونحوّل الباقي بـ $\sin^2x=1-\cos^2x$:
+             $$\sin^5x=\big(\sin^2x\big)^2\sin x=\big(1-\cos^2x\big)^2\sin x$$
+          2. نعوّض، وننتبه للسالب:
+             $$u=\cos x,\qquad du=-\sin x\,dx\quad\Rightarrow\quad\sin x\,dx=-du$$
+             $$\int\sin^5x\cos^6x\,dx=-\int\big(1-u^2\big)^2u^6\,du$$
+          3. نفك المربع ونضرب في $u^6$:
+             $$\big(1-u^2\big)^2u^6=\big(1-2u^2+u^4\big)u^6=u^6-2u^8+u^{10}$$
+          4. نكامل، والسالب يتوزع على كل الحدود:
+             $$-\Big(\frac{u^7}{7}-\frac{2u^9}{9}+\frac{u^{11}}{11}\Big)+C$$
+        answer: |-
+          -\frac{\cos^7x}{7}+\frac{2\cos^9x}{9}-\frac{\cos^{11}x}{11}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'sin(x)**5*cos(x)**6'
+          ans: '-cos(x)**7/7 + 2*cos(x)**9/9 - cos(x)**11/11'
+          samples: [-1.0, 0.4, 2.0, 4.5]
+
+      - id: M451-2-1
+        marks: 2
+        page: 5
+        prompt: 'Evaluate the integral.'
+        q: '\int e^{-x}\cosh x\,dx'
+        hint: |
+          لا تجزّئ: اكتب $\cosh x$ بالتعريف بـ $e^x$، واضرب.
+        solution: |
+          1. نكتب $\cosh x$ بالتعريف (من 4.1):
+             $$\cosh x=\frac{e^x+e^{-x}}{2}$$
+          2. نضرب $e^{-x}$ في القوس. الأسس تنجمع: $e^{-x}e^{x}=e^0=1$ و$e^{-x}e^{-x}=e^{-2x}$:
+             $$e^{-x}\cosh x=\frac{e^{-x}e^{x}+e^{-x}e^{-x}}{2}=\frac12+\frac12e^{-2x}$$
+          3. نكامل كل حد. تكامل $e^{kx}$ هو $\frac{e^{kx}}{k}$:
+             $$\int\Big(\frac12+\frac12e^{-2x}\Big)dx=\frac x2+\frac12\cdot\frac{e^{-2x}}{-2}$$
+        answer: |-
+          \frac x2-\frac{e^{-2x}}{4}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'exp(-x)*cosh(x)'
+          ans: 'x/2 - exp(-2*x)/4'
+          samples: [-1.0, 0.5, 2.0]
+
+      - id: M461-2-3
+        marks: 2
+        page: 6
+        prompt: 'Evaluate the integral.'
+        q: '\int e^{x}\cosh2x\,dx'
+        hint: |
+          اكتب $\cosh2x$ بالتعريف بـ $e^{2x}$ و$e^{-2x}$، واضرب في $e^x$.
+        solution: |
+          1. نكتب $\cosh2x$ بالتعريف:
+             $$\cosh2x=\frac{e^{2x}+e^{-2x}}{2}$$
+          2. نضرب في $e^x$ (الأسس تنجمع):
+             $$e^x\cosh2x=\frac{e^{3x}+e^{-x}}{2}$$
+          3. نكامل كل حد ($\int e^{kx}dx=\frac{e^{kx}}{k}$):
+             $$\frac12\cdot\frac{e^{3x}}{3}+\frac12\cdot\frac{e^{-x}}{-1}$$
+        answer: |-
+          \frac{e^{3x}}{6}-\frac{e^{-x}}{2}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'exp(x)*cosh(2*x)'
+          ans: 'exp(3*x)/6 - exp(-x)/2'
+          samples: [-1.0, 0.5, 2.0]
+
+      - id: M462-2-5
+        marks: 2
+        page: 22
+        prompt: 'Evaluate the integral.'
+        q: '\int e^{x/2}\sinh3x\,dx'
+        hint: |
+          اكتب $\sinh3x$ بالتعريف، واضرب في $e^{x/2}$. انتبه للسالب في تعريف $\sinh$.
+        solution: |
+          1. نكتب $\sinh3x$ بالتعريف (فيه طرح):
+             $$\sinh3x=\frac{e^{3x}-e^{-3x}}{2}$$
+          2. نضرب في $e^{x/2}$ ونجمع الأسس: $\frac12+3=\frac72$ و$\frac12-3=-\frac52$:
+             $$e^{x/2}\sinh3x=\frac{e^{7x/2}-e^{-5x/2}}{2}$$
+          3. نكامل كل حد ($\int e^{kx}dx=\frac{e^{kx}}{k}$):
+             $$\frac12\cdot\frac{e^{7x/2}}{7/2}-\frac12\cdot\frac{e^{-5x/2}}{-5/2}=\frac{e^{7x/2}}{7}+\frac{e^{-5x/2}}{5}$$
+        answer: |-
+          \frac{e^{7x/2}}{7}+\frac{e^{-5x/2}}{5}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'exp(x/2)*sinh(3*x)'
+          ans: 'exp(7*x/2)/7 + exp(-5*x/2)/5'
+          samples: [-1.0, 0.5, 1.5]

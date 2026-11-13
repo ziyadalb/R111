@@ -1,0 +1,730 @@
+# مسائل مذكرة المقرر (القسم 5.2: التكاملات المثلثية)
+# kind: example = مثال محلول في المذكرة ، kind: exercise = تمرين بدون حل في المذكرة
+# page = صفحة PDF في ملف المذكرة. ref = رقمه في المذكرة.
+# المحذوف لأنه مكرر مع السابقات: مثال (4) فقرة 1 (cot⁴x csc⁴x = M462-2-4)،
+# تمرين 2 (sin²x cos⁵x = M471-2-3)، تمرين 3 (sin⁵x cos³x = M451-2-4)
+section: '5.2'
+slug: n52
+title: 'مسائل المذكرة 5.2'
+patterns:
+  - key: Q1
+    questions:
+      - id: n52e1-1
+        kind: example
+        ref: 'مثال (1) فقرة 1'
+        page: 67
+        prompt: 'Evaluate the integral.'
+        q: '\int\cos^3x\,dx'
+        hint: |
+          قوة $\cos$ فردية: احجز $\cos x$ واحد، وحوّل الباقي لـ $\sin$.
+          $$u=\sin x$$
+        solution: |
+          1. قوة $\cos$ فردية، نحجز $\cos x$ واحد (مشتقة $\sin x$)، ونحوّل الباقي بالهوية:
+             $$\cos^3x=\cos^2x\cdot\cos x=\big(1-\sin^2x\big)\cos x$$
+          2. نعوّض:
+             $$u=\sin x,\qquad du=\cos x\,dx$$
+             $$\int\cos^3x\,dx=\int\big(1-u^2\big)du=u-\frac{u^3}{3}+C$$
+        answer: |-
+          \sin x-\frac{\sin^3x}{3}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'cos(x)**3'
+          ans: 'sin(x) - sin(x)**3/3'
+          samples: [-1.0, 0.4, 2.0, 4.5]
+
+      - id: n52e1-2
+        kind: example
+        ref: 'مثال (1) فقرة 2'
+        page: 67
+        prompt: 'Evaluate the integral.'
+        q: '\int\sin^5x\,dx'
+        hint: |
+          قوة $\sin$ فردية: احجز $\sin x$ واحد، وحوّل الباقي لـ $\cos$. وانتبه: $du=-\sin x\,dx$.
+        solution: |
+          1. قوة $\sin$ فردية، نحجز $\sin x$ واحد، والباقي قوته زوجية نحوّله:
+             $$\sin^5x=\big(\sin^2x\big)^2\sin x=\big(1-\cos^2x\big)^2\sin x$$
+          2. نعوّض، وننتبه للسالب:
+             $$u=\cos x,\qquad du=-\sin x\,dx\quad\Rightarrow\quad\sin x\,dx=-du$$
+             $$\int\sin^5x\,dx=-\int\big(1-u^2\big)^2du=-\int\big(1-2u^2+u^4\big)du$$
+          3. نكامل، والسالب يتوزع على كل الحدود:
+             $$=-\Big(u-\frac{2u^3}{3}+\frac{u^5}{5}\Big)+C$$
+        answer: |-
+          -\cos x+\frac{2\cos^3x}{3}-\frac{\cos^5x}{5}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'sin(x)**5'
+          ans: '-cos(x) + 2*cos(x)**3/3 - cos(x)**5/5'
+          samples: [-1.0, 0.4, 2.0, 4.5]
+
+      - id: n52e2-1
+        kind: example
+        ref: 'مثال (2) فقرة 1'
+        page: 69
+        prompt: 'Evaluate the integral.'
+        q: '\int\sin^5x\,\cos^2x\,dx'
+        hint: |
+          قوة $\sin$ فردية (وقوة $\cos$ زوجية): احجز $\sin x$، و$u=\cos x$ مع السالب.
+        solution: |
+          1. قوة $\sin$ فردية، نحجز $\sin x$ ونحوّل الباقي:
+             $$\sin^5x=\big(1-\cos^2x\big)^2\sin x$$
+          2. نعوّض، وننتبه للسالب:
+             $$u=\cos x,\qquad\sin x\,dx=-du$$
+             $$\int\sin^5x\cos^2x\,dx=-\int\big(1-u^2\big)^2u^2\,du$$
+          3. نفك المربع ونضرب في $u^2$:
+             $$-\int\big(1-2u^2+u^4\big)u^2\,du=-\int\big(u^2-2u^4+u^6\big)du$$
+          4. نكامل، والسالب يتوزع:
+             $$=-\Big(\frac{u^3}{3}-\frac{2u^5}{5}+\frac{u^7}{7}\Big)+C$$
+        answer: |-
+          -\frac{\cos^3x}{3}+\frac{2\cos^5x}{5}-\frac{\cos^7x}{7}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'sin(x)**5*cos(x)**2'
+          ans: '-cos(x)**3/3 + 2*cos(x)**5/5 - cos(x)**7/7'
+          samples: [-1.0, 0.4, 2.0, 4.5]
+
+      - id: n52x1
+        kind: exercise
+        ref: 'تمرين 1'
+        page: 76
+        prompt: 'Evaluate the integral.'
+        q: '\int\sin^3x\,\cos^4x\,dx'
+        hint: |
+          قوة $\sin$ فردية: احجز $\sin x$، و$u=\cos x$ مع السالب.
+        solution: |
+          1. قوة $\sin$ فردية (3)، نحجز $\sin x$ ونحوّل الباقي:
+             $$\sin^3x=\sin^2x\cdot\sin x=\big(1-\cos^2x\big)\sin x$$
+          2. نعوّض، وننتبه للسالب:
+             $$u=\cos x,\qquad\sin x\,dx=-du$$
+             $$\int\sin^3x\cos^4x\,dx=-\int\big(1-u^2\big)u^4\,du=-\int\big(u^4-u^6\big)du$$
+          3. نكامل، والسالب يتوزع:
+             $$=-\frac{u^5}{5}+\frac{u^7}{7}+C$$
+        answer: |-
+          -\frac{\cos^5x}{5}+\frac{\cos^7x}{7}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'sin(x)**3*cos(x)**4'
+          ans: '-cos(x)**5/5 + cos(x)**7/7'
+          samples: [-1.0, 0.4, 2.0, 4.5]
+
+      - id: n52e2-3
+        kind: example
+        ref: 'مثال (2) فقرة 3'
+        page: 69
+        prompt: 'Evaluate the integral.'
+        q: '\int\sin^5x\,\cos^7x\,dx'
+        hint: |
+          القوتين فرديتين: احجز من الأصغر ($\sin^5$)، و$u=\cos x$.
+        solution: |
+          1. القوتين فرديتين. نحجز من الأصغر ($\sin^5$) عشان الفك يكون أقل:
+             $$\sin^5x=\big(1-\cos^2x\big)^2\sin x$$
+          2. نعوّض، وننتبه للسالب:
+             $$u=\cos x,\qquad\sin x\,dx=-du$$
+             $$\int\sin^5x\cos^7x\,dx=-\int\big(1-u^2\big)^2u^7\,du=-\int\big(u^7-2u^9+u^{11}\big)du$$
+          3. نكامل، والسالب يتوزع:
+             $$=-\Big(\frac{u^8}{8}-\frac{2u^{10}}{10}+\frac{u^{12}}{12}\Big)+C$$
+          4. نبسّط $\frac{2}{10}=\frac15$:
+        answer: |-
+          -\frac{\cos^8x}{8}+\frac{\cos^{10}x}{5}-\frac{\cos^{12}x}{12}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'sin(x)**5*cos(x)**7'
+          ans: '-cos(x)**8/8 + cos(x)**10/5 - cos(x)**12/12'
+          samples: [-1.0, 0.4, 2.0, 4.5]
+
+      - id: n52e2-2
+        kind: example
+        ref: 'مثال (2) فقرة 2'
+        page: 69
+        prompt: 'Evaluate the integral.'
+        q: '\int\sqrt{\sin x}\,\cos^3x\,dx'
+        hint: |
+          قوة $\sin$ كسرية، بس قوة $\cos$ فردية: احجز $\cos x$، و$u=\sin x$.
+        solution: |
+          1. قوة $\sin$ هنا $\frac12$: كسرية، ما نقول عنها زوجية أو فردية. بس قوة $\cos$ فردية، فنحجز $\cos x$:
+             $$\cos^3x=\big(1-\sin^2x\big)\cos x$$
+          2. نعوّض:
+             $$u=\sin x,\qquad du=\cos x\,dx$$
+             $$\int\sqrt{\sin x}\cos^3x\,dx=\int u^{1/2}\big(1-u^2\big)du=\int\big(u^{1/2}-u^{5/2}\big)du$$
+          3. نكامل (نزيد الأس واحد ونقسم على الجديد): $\frac12+1=\frac32$ و$\frac52+1=\frac72$:
+             $$=\frac{u^{3/2}}{3/2}-\frac{u^{7/2}}{7/2}+C=\frac23u^{3/2}-\frac27u^{7/2}+C$$
+        answer: |-
+          \frac23\big(\sin x\big)^{3/2}-\frac27\big(\sin x\big)^{7/2}+C
+        domain: '\sin x>0'
+        check:
+          kind: indef
+          f: 'sqrt(sin(x))*cos(x)**3'
+          ans: '2*sin(x)**Rational(3,2)/3 - 2*sin(x)**Rational(7,2)/7'
+          samples: [0.3, 1.2, 2.5]
+
+      - id: n52x4
+        kind: exercise
+        ref: 'تمرين 4'
+        page: 76
+        prompt: 'Evaluate the integral.'
+        q: '\int\sqrt[3]{\cos x}\,\sin^3x\,dx'
+        hint: |
+          قوة $\cos$ كسرية، بس قوة $\sin$ فردية: احجز $\sin x$، و$u=\cos x$ مع السالب.
+        solution: |
+          1. قوة $\cos$ هنا $\frac13$ (كسرية)، بس قوة $\sin$ فردية، فنحجز $\sin x$:
+             $$\sin^3x=\big(1-\cos^2x\big)\sin x$$
+          2. نعوّض، وننتبه للسالب:
+             $$u=\cos x,\qquad\sin x\,dx=-du$$
+             $$\int\sqrt[3]{\cos x}\,\sin^3x\,dx=-\int u^{1/3}\big(1-u^2\big)du=-\int\big(u^{1/3}-u^{7/3}\big)du$$
+          3. نكامل: $\frac13+1=\frac43$ و$\frac73+1=\frac{10}{3}$، والقسمة على كسر = ضرب في مقلوبه:
+             $$=-\Big(\frac34u^{4/3}-\frac{3}{10}u^{10/3}\Big)+C$$
+        answer: |-
+          -\frac34\big(\cos x\big)^{4/3}+\frac{3}{10}\big(\cos x\big)^{10/3}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'sign(cos(x))*Abs(cos(x))**Rational(1,3)*sin(x)**3'
+          ans: '-Rational(3,4)*Abs(cos(x))**Rational(4,3) + Rational(3,10)*Abs(cos(x))**Rational(10,3)'
+          samples: [-1.0, 0.4, 2.0, 4.5]
+
+  - key: Q2
+    questions:
+      - id: n52x13
+        kind: exercise
+        ref: 'تمرين 13'
+        page: 76
+        prompt: 'Evaluate the integral.'
+        q: '\int\sin^2x\,dx'
+        hint: |
+          قوة زوجية: خفّضها.
+          $$\sin^2x=\frac{1-\cos2x}{2}$$
+        solution: |
+          1. قوة زوجية وما فيه شي نحجزه، فنخفّض القوة (الزاوية تتضاعف):
+             $$\sin^2x=\frac{1-\cos2x}{2}=\frac12-\frac12\cos2x$$
+          2. نكامل كل حد. تكامل $\cos2x$ هو $\frac{\sin2x}{2}$:
+             $$\int\Big(\frac12-\frac12\cos2x\Big)dx=\frac x2-\frac12\cdot\frac{\sin2x}{2}$$
+        answer: |-
+          \frac x2-\frac{\sin2x}{4}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'sin(x)**2'
+          ans: 'x/2 - sin(2*x)/4'
+          samples: [-1.0, 0.4, 2.0]
+
+      - id: n52x14
+        kind: exercise
+        ref: 'تمرين 14'
+        page: 76
+        prompt: 'Evaluate the integral.'
+        q: '\int\cos^2x\,dx'
+        hint: |
+          قوة زوجية: خفّضها.
+          $$\cos^2x=\frac{1+\cos2x}{2}$$
+        solution: |
+          1. نخفّض القوة:
+             $$\cos^2x=\frac{1+\cos2x}{2}=\frac12+\frac12\cos2x$$
+          2. نكامل كل حد:
+             $$\int\Big(\frac12+\frac12\cos2x\Big)dx=\frac x2+\frac12\cdot\frac{\sin2x}{2}$$
+        answer: |-
+          \frac x2+\frac{\sin2x}{4}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'cos(x)**2'
+          ans: 'x/2 + sin(2*x)/4'
+          samples: [-1.0, 0.4, 2.0]
+
+      - id: n52e1-3
+        kind: example
+        ref: 'مثال (1) فقرة 3'
+        page: 68
+        prompt: 'Evaluate the integral.'
+        q: '\int\cos^4 2x\,dx'
+        hint: |
+          قوة زوجية: اكتبها $\big(\cos^22x\big)^2$ وخفّض. بيطلع لك $\cos^24x$: خفّضها مرة ثانية.
+        solution: |
+          1. القوة زوجية (4)، نكتبها مربع ونخفّض. الزاوية تتضاعف ($2x$ تصير $4x$):
+             $$\cos^42x=\big(\cos^22x\big)^2,\qquad\cos^22x=\frac{1+\cos4x}{2}$$
+          2. نربّع (مربع مجموع، مو كل حد لحاله):
+             $$\Big(\frac{1+\cos4x}{2}\Big)^2=\frac14\big(1+2\cos4x+\cos^24x\big)$$
+          3. $\cos^24x$ قوة زوجية بعد، نخفّضها ($4x$ تصير $8x$):
+             $$\cos^24x=\frac{1+\cos8x}{2}$$
+             $$\frac14\Big(1+2\cos4x+\frac12+\frac12\cos8x\Big)=\frac38+\frac12\cos4x+\frac18\cos8x$$
+          4. نكامل كل حد ($\int\cos kx\,dx=\frac{\sin kx}{k}$):
+             $$\frac38x+\frac12\cdot\frac{\sin4x}{4}+\frac18\cdot\frac{\sin8x}{8}$$
+        answer: |-
+          \frac38x+\frac18\sin4x+\frac{1}{64}\sin8x+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'cos(2*x)**4'
+          ans: '3*x/8 + sin(4*x)/8 + sin(8*x)/64'
+          samples: [-1.0, 0.4, 2.0]
+
+      - id: n52e2-4
+        kind: example
+        ref: 'مثال (2) فقرة 4'
+        page: 70
+        prompt: 'Evaluate the integral.'
+        q: '\int\sin^2x\,\cos^4x\,dx'
+        hint: |
+          القوتين زوجيات: خفّض الاثنين. بعدها $(1-\cos2x)(1+\cos2x)=\sin^22x$.
+        solution: |
+          1. القوتين زوجيات، فنخفّض. نكتب $\cos^4x=\big(\cos^2x\big)^2$:
+             $$\sin^2x=\frac{1-\cos2x}{2},\qquad\cos^2x=\frac{1+\cos2x}{2}$$
+             $$\sin^2x\cos^4x=\frac{1-\cos2x}{2}\cdot\frac{(1+\cos2x)^2}{4}=\frac18(1-\cos2x)(1+\cos2x)(1+\cos2x)$$
+          2. أول قوسين فرق مربعين:
+             $$(1-\cos2x)(1+\cos2x)=1-\cos^22x=\sin^22x$$
+             $$\sin^2x\cos^4x=\frac18\sin^22x\,(1+\cos2x)=\frac18\sin^22x+\frac18\sin^22x\cos2x$$
+          3. الحد الأول قوة زوجية، نخفّضه مرة ثانية:
+             $$\frac18\int\sin^22x\,dx=\frac18\int\frac{1-\cos4x}{2}\,dx=\frac{x}{16}-\frac{\sin4x}{64}$$
+          4. الحد الثاني فيه $\cos2x$، وهي مشتقة $\sin2x$ ناقصها 2:
+             $$w=\sin2x,\qquad dw=2\cos2x\,dx\quad\Rightarrow\quad\cos2x\,dx=\frac{dw}{2}$$
+             $$\frac18\int\sin^22x\cos2x\,dx=\frac{1}{16}\int w^2\,dw=\frac{w^3}{48}=\frac{\sin^32x}{48}$$
+        answer: |-
+          \frac{x}{16}-\frac{\sin4x}{64}+\frac{\sin^32x}{48}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'sin(x)**2*cos(x)**4'
+          ans: 'x/16 - sin(4*x)/64 + sin(2*x)**3/48'
+          samples: [-1.0, 0.4, 2.0]
+
+  - key: Q3
+    questions:
+      - id: n52e3-3
+        kind: example
+        ref: 'مثال (3) فقرة 3'
+        page: 72
+        prompt: 'Evaluate the integral.'
+        q: '\int\tan^2x\,\sec^6x\,dx'
+        hint: |
+          نفس M452-2-3: قوة $\sec$ زوجية، احجز $\sec^2x$ وحوّل الباقي لـ $\tan$.
+        solution: |
+          1. قوة $\sec$ زوجية، نحجز $\sec^2x$ (مشتقة $\tan x$)، والباقي $\sec^4x=\big(\sec^2x\big)^2$ نحوّله:
+             $$\tan^2x\sec^6x=\tan^2x\big(1+\tan^2x\big)^2\sec^2x$$
+          2. نعوّض:
+             $$u=\tan x,\qquad du=\sec^2x\,dx$$
+             $$\int u^2\big(1+u^2\big)^2du=\int u^2\big(1+2u^2+u^4\big)du=\int\big(u^2+2u^4+u^6\big)du$$
+          3. نكامل:
+             $$=\frac{u^3}{3}+\frac{2u^5}{5}+\frac{u^7}{7}+C$$
+        answer: |-
+          \frac{\tan^3x}{3}+\frac{2\tan^5x}{5}+\frac{\tan^7x}{7}+C
+        domain: '\cos x\ne0'
+        check:
+          kind: indef
+          f: 'tan(x)**2*sec(x)**6'
+          ans: 'tan(x)**3/3 + 2*tan(x)**5/5 + tan(x)**7/7'
+          samples: [-1.0, 0.3, 1.2, 2.5]
+
+      - id: n52x7
+        kind: exercise
+        ref: 'تمرين 7'
+        page: 76
+        prompt: 'Evaluate the integral.'
+        q: '\int\tan^3x\,\sec^4x\,dx'
+        hint: |
+          الحالتين تنفع هنا. اختر قوة $\sec$ الزوجية: احجز $\sec^2x$، و$u=\tan x$.
+        solution: |
+          1. قوة $\sec$ زوجية (4)، نحجز $\sec^2x$ ونحوّل الباقي:
+             $$\tan^3x\sec^4x=\tan^3x\big(1+\tan^2x\big)\sec^2x$$
+          2. نعوّض:
+             $$u=\tan x,\qquad du=\sec^2x\,dx$$
+             $$\int u^3\big(1+u^2\big)du=\int\big(u^3+u^5\big)du=\frac{u^4}{4}+\frac{u^6}{6}+C$$
+        answer: |-
+          \frac{\tan^4x}{4}+\frac{\tan^6x}{6}+C
+        domain: '\cos x\ne0'
+        note: |
+          قوة $\tan$ فردية بعد، فتقدر تحجز $\sec x\tan x$ و$u=\sec x$. يطلع جواب شكله مختلف، والفرق بينهم ثابت:
+          $$\frac{\sec^6x}{6}-\frac{\sec^4x}{4}+C$$
+        check:
+          kind: indef
+          f: 'tan(x)**3*sec(x)**4'
+          ans: 'tan(x)**4/4 + tan(x)**6/6'
+          samples: [-1.0, 0.3, 1.2, 2.5]
+          alt:
+            - 'sec(x)**6/6 - sec(x)**4/4'
+
+      - id: n52x5
+        kind: exercise
+        ref: 'تمرين 5'
+        page: 76
+        prompt: 'Evaluate the integral.'
+        q: '\int\sqrt{\tan x}\,\sec^4x\,dx'
+        hint: |
+          قوة $\tan$ كسرية، بس قوة $\sec$ زوجية: احجز $\sec^2x$، و$u=\tan x$.
+        solution: |
+          1. قوة $\tan$ كسرية ($\frac12$). بس قوة $\sec$ زوجية، فنحجز $\sec^2x$ ونحوّل الباقي:
+             $$\sec^4x=\big(1+\tan^2x\big)\sec^2x$$
+          2. نعوّض:
+             $$u=\tan x,\qquad du=\sec^2x\,dx$$
+             $$\int u^{1/2}\big(1+u^2\big)du=\int\big(u^{1/2}+u^{5/2}\big)du$$
+          3. نكامل (نزيد الأس ونقسم على الجديد):
+             $$=\frac{u^{3/2}}{3/2}+\frac{u^{7/2}}{7/2}+C=\frac23u^{3/2}+\frac27u^{7/2}+C$$
+        answer: |-
+          \frac23\big(\tan x\big)^{3/2}+\frac27\big(\tan x\big)^{7/2}+C
+        domain: '\tan x>0'
+        check:
+          kind: indef
+          f: 'sqrt(tan(x))*sec(x)**4'
+          ans: '2*tan(x)**Rational(3,2)/3 + 2*tan(x)**Rational(7,2)/7'
+          samples: [0.3, 1.2, -2.5, 3.5]
+
+      - id: n52e3-4
+        kind: example
+        ref: 'مثال (3) فقرة 4'
+        page: 72
+        prompt: 'Evaluate the integral.'
+        q: '\int\tan^5x\,\sec^3x\,dx'
+        hint: |
+          نفس M472-3-3: قوة $\sec$ فردية وقوة $\tan$ فردية. احجز $\sec x\tan x$، و$u=\sec x$.
+        solution: |
+          1. قوة $\sec$ فردية (ما نقدر نحجز $\sec^2$). قوة $\tan$ فردية، فنحجز $\sec x\tan x$ (مشتقة $\sec x$):
+             $$\tan^5x\sec^3x=\tan^4x\sec^2x\,\big(\sec x\tan x\big)$$
+          2. نحوّل $\tan^4x=\big(\tan^2x\big)^2=\big(\sec^2x-1\big)^2$:
+             $$=\big(\sec^2x-1\big)^2\sec^2x\,\big(\sec x\tan x\big)$$
+          3. نعوّض:
+             $$u=\sec x,\qquad du=\sec x\tan x\,dx$$
+             $$\int\big(u^2-1\big)^2u^2\,du=\int\big(u^4-2u^2+1\big)u^2\,du=\int\big(u^6-2u^4+u^2\big)du$$
+          4. نكامل:
+             $$=\frac{u^7}{7}-\frac{2u^5}{5}+\frac{u^3}{3}+C$$
+        answer: |-
+          \frac{\sec^7x}{7}-\frac{2\sec^5x}{5}+\frac{\sec^3x}{3}+C
+        domain: '\cos x\ne0'
+        check:
+          kind: indef
+          f: 'tan(x)**5*sec(x)**3'
+          ans: 'sec(x)**7/7 - 2*sec(x)**5/5 + sec(x)**3/3'
+          samples: [-1.0, 0.3, 1.2, 2.5]
+
+      - id: n52x6
+        kind: exercise
+        ref: 'تمرين 6'
+        page: 76
+        prompt: 'Evaluate the integral.'
+        q: '\int\tan^5x\,\sec^5x\,dx'
+        hint: |
+          قوة $\sec$ فردية وقوة $\tan$ فردية: احجز $\sec x\tan x$، و$u=\sec x$.
+        solution: |
+          1. قوة $\sec$ فردية، وقوة $\tan$ فردية: نحجز $\sec x\tan x$:
+             $$\tan^5x\sec^5x=\tan^4x\sec^4x\,\big(\sec x\tan x\big)=\big(\sec^2x-1\big)^2\sec^4x\,\big(\sec x\tan x\big)$$
+          2. نعوّض:
+             $$u=\sec x,\qquad du=\sec x\tan x\,dx$$
+             $$\int\big(u^2-1\big)^2u^4\,du=\int\big(u^4-2u^2+1\big)u^4\,du=\int\big(u^8-2u^6+u^4\big)du$$
+          3. نكامل:
+             $$=\frac{u^9}{9}-\frac{2u^7}{7}+\frac{u^5}{5}+C$$
+        answer: |-
+          \frac{\sec^9x}{9}-\frac{2\sec^7x}{7}+\frac{\sec^5x}{5}+C
+        domain: '\cos x\ne0'
+        check:
+          kind: indef
+          f: 'tan(x)**5*sec(x)**5'
+          ans: 'sec(x)**9/9 - 2*sec(x)**7/7 + sec(x)**5/5'
+          samples: [-1.0, 0.3, 1.2, 2.5]
+
+      - id: n52x8
+        kind: exercise
+        ref: 'تمرين 8'
+        page: 76
+        prompt: 'Evaluate the integral.'
+        q: '\int\cot^2x\,\csc^6x\,dx'
+        hint: |
+          نفس M462-2-4: قوة $\csc$ زوجية، احجز $\csc^2x$، و$u=\cot x$ مع السالب.
+        solution: |
+          1. قوة $\csc$ زوجية، نحجز $\csc^2x$ ونحوّل الباقي بالهوية $\csc^2x=1+\cot^2x$:
+             $$\cot^2x\csc^6x=\cot^2x\big(1+\cot^2x\big)^2\csc^2x$$
+          2. نعوّض، وننتبه للسالب:
+             $$u=\cot x,\qquad du=-\csc^2x\,dx\quad\Rightarrow\quad\csc^2x\,dx=-du$$
+             $$-\int u^2\big(1+u^2\big)^2du=-\int\big(u^2+2u^4+u^6\big)du$$
+          3. نكامل، والسالب يتوزع:
+             $$=-\frac{u^3}{3}-\frac{2u^5}{5}-\frac{u^7}{7}+C$$
+        answer: |-
+          -\frac{\cot^3x}{3}-\frac{2\cot^5x}{5}-\frac{\cot^7x}{7}+C
+        domain: '\sin x\ne0'
+        check:
+          kind: indef
+          f: 'cot(x)**2*csc(x)**6'
+          ans: '-cot(x)**3/3 - 2*cot(x)**5/5 - cot(x)**7/7'
+          samples: [-1.0, 0.7, 2.0, 4.0]
+
+      - id: n52e4-2
+        kind: example
+        ref: 'مثال (4) فقرة 2'
+        page: 73
+        prompt: 'Evaluate the integral.'
+        q: '\int\cot^5x\,\csc^5x\,dx'
+        hint: |
+          قوة $\csc$ فردية وقوة $\cot$ فردية: احجز $\csc x\cot x$، و$u=\csc x$ مع السالب.
+        solution: |
+          1. قوة $\csc$ فردية، وقوة $\cot$ فردية: نحجز $\csc x\cot x$ (مشتقة $\csc x$ بس بسالب)، ونحوّل $\cot^4x=\big(\csc^2x-1\big)^2$:
+             $$\cot^5x\csc^5x=\cot^4x\csc^4x\,\big(\csc x\cot x\big)=\big(\csc^2x-1\big)^2\csc^4x\,\big(\csc x\cot x\big)$$
+          2. نعوّض، وننتبه للسالب:
+             $$u=\csc x,\qquad du=-\csc x\cot x\,dx\quad\Rightarrow\quad\csc x\cot x\,dx=-du$$
+             $$-\int\big(u^2-1\big)^2u^4\,du=-\int\big(u^8-2u^6+u^4\big)du$$
+          3. نكامل، والسالب يتوزع:
+             $$=-\Big(\frac{u^9}{9}-\frac{2u^7}{7}+\frac{u^5}{5}\Big)+C$$
+        answer: |-
+          -\frac{\csc^9x}{9}+\frac{2\csc^7x}{7}-\frac{\csc^5x}{5}+C
+        domain: '\sin x\ne0'
+        check:
+          kind: indef
+          f: 'cot(x)**5*csc(x)**5'
+          ans: '-csc(x)**9/9 + 2*csc(x)**7/7 - csc(x)**5/5'
+          samples: [-1.0, 0.7, 2.0, 4.0]
+
+      - id: n52x9
+        kind: exercise
+        ref: 'تمرين 9'
+        page: 76
+        prompt: 'Evaluate the integral.'
+        q: '\int\cot^5x\,\csc^3x\,dx'
+        hint: |
+          نفس مثال (4) فقرة 2: احجز $\csc x\cot x$، و$u=\csc x$ مع السالب.
+        solution: |
+          1. قوة $\csc$ فردية، وقوة $\cot$ فردية: نحجز $\csc x\cot x$:
+             $$\cot^5x\csc^3x=\cot^4x\csc^2x\,\big(\csc x\cot x\big)=\big(\csc^2x-1\big)^2\csc^2x\,\big(\csc x\cot x\big)$$
+          2. نعوّض، وننتبه للسالب:
+             $$u=\csc x,\qquad\csc x\cot x\,dx=-du$$
+             $$-\int\big(u^2-1\big)^2u^2\,du=-\int\big(u^6-2u^4+u^2\big)du$$
+          3. نكامل، والسالب يتوزع:
+             $$=-\frac{u^7}{7}+\frac{2u^5}{5}-\frac{u^3}{3}+C$$
+        answer: |-
+          -\frac{\csc^7x}{7}+\frac{2\csc^5x}{5}-\frac{\csc^3x}{3}+C
+        domain: '\sin x\ne0'
+        check:
+          kind: indef
+          f: 'cot(x)**5*csc(x)**3'
+          ans: '-csc(x)**7/7 + 2*csc(x)**5/5 - csc(x)**3/3'
+          samples: [-1.0, 0.7, 2.0, 4.0]
+
+  - key: Q4
+    questions:
+      - id: n52e3-2
+        kind: example
+        ref: 'مثال (3) فقرة 2'
+        page: 71
+        prompt: 'Evaluate the integral.'
+        q: '\int\tan^4x\,dx'
+        hint: |
+          $\tan$ لحاله: فك $\tan^2x$ واحد بالهوية $\tan^2x=\sec^2x-1$، وكرّر.
+        solution: |
+          1. ما فيه $\sec$ نحجزه، فنفك $\tan^2x$ واحد بالهوية $\tan^2x=\sec^2x-1$:
+             $$\tan^4x=\tan^2x\big(\sec^2x-1\big)=\tan^2x\sec^2x-\tan^2x$$
+          2. الحد الأول: $\sec^2x$ مشتقة $\tan x$:
+             $$u=\tan x,\qquad du=\sec^2x\,dx$$
+             $$\int\tan^2x\sec^2x\,dx=\int u^2\,du=\frac{\tan^3x}{3}$$
+          3. الحد الثاني: نفس الهوية مرة ثانية:
+             $$\int\tan^2x\,dx=\int\big(\sec^2x-1\big)dx=\tan x-x$$
+          4. نجمع، والسالب يتوزع على القوس:
+             $$\frac{\tan^3x}{3}-\big(\tan x-x\big)$$
+        answer: |-
+          \frac{\tan^3x}{3}-\tan x+x+C
+        domain: '\cos x\ne0'
+        check:
+          kind: indef
+          f: 'tan(x)**4'
+          ans: 'tan(x)**3/3 - tan(x) + x'
+          samples: [-1.0, 0.3, 1.2, 2.5]
+
+      - id: n52x16
+        kind: exercise
+        ref: 'تمرين 16'
+        page: 76
+        prompt: 'Evaluate the integral.'
+        q: '\int\tan^6x\,dx'
+        hint: |
+          نفس مثال (3) فقرة 2: فك $\tan^2x$ واحد. بيطلع لك $\int\tan^4x\,dx$، وهو محلول.
+        solution: |
+          1. نفك $\tan^2x$ واحد:
+             $$\tan^6x=\tan^4x\big(\sec^2x-1\big)=\tan^4x\sec^2x-\tan^4x$$
+          2. الحد الأول بتعويض $u=\tan x$:
+             $$\int\tan^4x\sec^2x\,dx=\int u^4\,du=\frac{\tan^5x}{5}$$
+          3. الحد الثاني هو مثال (3) فقرة 2:
+             $$\int\tan^4x\,dx=\frac{\tan^3x}{3}-\tan x+x$$
+          4. نجمع، والسالب يتوزع على القوس كله:
+             $$\frac{\tan^5x}{5}-\Big(\frac{\tan^3x}{3}-\tan x+x\Big)$$
+        answer: |-
+          \frac{\tan^5x}{5}-\frac{\tan^3x}{3}+\tan x-x+C
+        domain: '\cos x\ne0'
+        check:
+          kind: indef
+          f: 'tan(x)**6'
+          ans: 'tan(x)**5/5 - tan(x)**3/3 + tan(x) - x'
+          samples: [-1.0, 0.3, 1.2, 2.5]
+
+      - id: n52e3-1
+        kind: example
+        ref: 'مثال (3) فقرة 1'
+        page: 71
+        prompt: 'Evaluate the integral.'
+        q: '\int\sec^3x\,dx'
+        hint: |
+          $\sec$ لحاله بقوة فردية: تجزئة. $u=\sec x$ و$dv=\sec^2x\,dx$. بيرجع لك نفس التكامل.
+        solution: |
+          1. نكتب $\sec^3x=\sec x\cdot\sec^2x$ ونجزّئ. $\sec^2x$ هي $dv$ لأن تكاملها $\tan x$:
+             $$u=\sec x,\qquad dv=\sec^2x\,dx,\qquad du=\sec x\tan x\,dx,\qquad v=\tan x$$
+             $$\int\sec^3x\,dx=\sec x\tan x-\int\sec x\tan^2x\,dx$$
+          2. نحوّل $\tan^2x=\sec^2x-1$:
+             $$\int\sec x\tan^2x\,dx=\int\big(\sec^3x-\sec x\big)dx=\int\sec^3x\,dx-\int\sec x\,dx$$
+          3. نسمّي $I=\int\sec^3x\,dx$ ونعوّض. رجع $I$:
+             $$I=\sec x\tan x-I+\int\sec x\,dx$$
+          4. ننقل $I$ لليسار، و$\int\sec x\,dx=\ln|\sec x+\tan x|$:
+             $$2I=\sec x\tan x+\ln|\sec x+\tan x|$$
+          5. نقسم على 2:
+        answer: |-
+          \frac12\big(\sec x\tan x+\ln|\sec x+\tan x|\big)+C
+        domain: '\cos x\ne0'
+        check:
+          kind: indef
+          f: 'sec(x)**3'
+          ans: '(sec(x)*tan(x) + log(Abs(sec(x)+tan(x))))/2'
+          samples: [-1.0, 0.3, 1.2, 2.5]
+
+      - id: n52x15
+        kind: exercise
+        ref: 'تمرين 15'
+        page: 76
+        prompt: 'Evaluate the integral.'
+        q: '\int\sec^5x\,dx'
+        hint: |
+          نفس $\int\sec^3x\,dx$: $u=\sec^3x$ و$dv=\sec^2x\,dx$. بيطلع لك $\int\sec^3x\,dx$، وهو محلول.
+        solution: |
+          1. نكتب $\sec^5x=\sec^3x\cdot\sec^2x$ ونجزّئ. مشتقة $\sec^3x$ بالسلسلة: $3\sec^2x\cdot\sec x\tan x$:
+             $$u=\sec^3x,\qquad dv=\sec^2x\,dx,\qquad du=3\sec^3x\tan x\,dx,\qquad v=\tan x$$
+             $$\int\sec^5x\,dx=\sec^3x\tan x-3\int\sec^3x\tan^2x\,dx$$
+          2. نحوّل $\tan^2x=\sec^2x-1$:
+             $$\int\sec^3x\tan^2x\,dx=\int\sec^5x\,dx-\int\sec^3x\,dx$$
+          3. نسمّي $I=\int\sec^5x\,dx$ ونعوّض، و$-3$ تضرب في القوس كله:
+             $$I=\sec^3x\tan x-3I+3\int\sec^3x\,dx$$
+          4. ننقل $I$ لليسار، و$\int\sec^3x\,dx$ هو مثال (3) فقرة 1:
+             $$4I=\sec^3x\tan x+\tfrac32\big(\sec x\tan x+\ln|\sec x+\tan x|\big)$$
+          5. نقسم على 4:
+        answer: |-
+          \frac14\sec^3x\tan x+\frac38\sec x\tan x+\frac38\ln|\sec x+\tan x|+C
+        domain: '\cos x\ne0'
+        check:
+          kind: indef
+          f: 'sec(x)**5'
+          ans: 'sec(x)**3*tan(x)/4 + 3*sec(x)*tan(x)/8 + 3*log(Abs(sec(x)+tan(x)))/8'
+          samples: [-1.0, 0.3, 1.2, 2.5]
+
+  - key: Q5
+    questions:
+      - id: n52e5-1
+        kind: example
+        ref: 'مثال (5) فقرة 1'
+        page: 74
+        prompt: 'Evaluate the integral.'
+        q: '\int\sin7x\,\cos5x\,dx'
+        hint: |
+          زاويتين مختلفتين: حوّل الضرب لجمع. $\sin A\cos B$ يصير نص المجموع: $\sin(A-B)+\sin(A+B)$.
+        solution: |
+          1. الزاويتين مختلفات، فما نقدر نحجز مشتقة. نحوّل الضرب لجمع:
+             $$\sin A\cos B=\tfrac12\big[\sin(A-B)+\sin(A+B)\big]$$
+             $$\sin7x\cos5x=\tfrac12\big[\sin2x+\sin12x\big]$$
+          2. نكامل كل حد ($\int\sin kx\,dx=-\frac{\cos kx}{k}$):
+             $$\frac12\Big(-\frac{\cos2x}{2}\Big)+\frac12\Big(-\frac{\cos12x}{12}\Big)$$
+        answer: |-
+          -\frac{\cos2x}{4}-\frac{\cos12x}{24}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'sin(7*x)*cos(5*x)'
+          ans: '-cos(2*x)/4 - cos(12*x)/24'
+          samples: [-1.0, 0.4, 2.0]
+
+      - id: n52e5-2
+        kind: example
+        ref: 'مثال (5) فقرة 2'
+        page: 75
+        prompt: 'Evaluate the integral.'
+        q: '\int\sin4x\,\sin3x\,dx'
+        hint: |
+          $\sin$ في $\sin$ يصير نص الفرق: $\cos(A-B)-\cos(A+B)$. انتبه للطرح.
+        solution: |
+          1. نحوّل الضرب لجمع (انتبه: الطرح قبل الجمع هنا):
+             $$\sin A\sin B=\tfrac12\big[\cos(A-B)-\cos(A+B)\big]$$
+             $$\sin4x\sin3x=\tfrac12\big[\cos x-\cos7x\big]$$
+          2. نكامل كل حد ($\int\cos kx\,dx=\frac{\sin kx}{k}$):
+             $$\frac12\sin x-\frac12\cdot\frac{\sin7x}{7}$$
+        answer: |-
+          \frac{\sin x}{2}-\frac{\sin7x}{14}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'sin(4*x)*sin(3*x)'
+          ans: 'sin(x)/2 - sin(7*x)/14'
+          samples: [-1.0, 0.4, 2.0]
+
+      - id: n52x10
+        kind: exercise
+        ref: 'تمرين 10'
+        page: 76
+        prompt: 'Evaluate the integral.'
+        q: '\int\sin3x\,\cos5x\,dx'
+        hint: |
+          نفس مثال (5) فقرة 1، بس $A-B$ يطلع سالب: $\sin(-2x)=-\sin2x$.
+        solution: |
+          1. نحوّل الضرب لجمع، و$A=3x$ و$B=5x$:
+             $$\sin3x\cos5x=\tfrac12\big[\sin(3x-5x)+\sin(3x+5x)\big]=\tfrac12\big[\sin(-2x)+\sin8x\big]$$
+          2. $\sin$ دالة فردية: السالب يطلع برّا:
+             $$\sin(-2x)=-\sin2x$$
+             $$\sin3x\cos5x=\tfrac12\big[-\sin2x+\sin8x\big]$$
+          3. نكامل كل حد. تكامل $-\sin2x$ هو $+\frac{\cos2x}{2}$:
+             $$\frac12\cdot\frac{\cos2x}{2}+\frac12\Big(-\frac{\cos8x}{8}\Big)$$
+        answer: |-
+          \frac{\cos2x}{4}-\frac{\cos8x}{16}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'sin(3*x)*cos(5*x)'
+          ans: 'cos(2*x)/4 - cos(8*x)/16'
+          samples: [-1.0, 0.4, 2.0]
+
+      - id: n52x11
+        kind: exercise
+        ref: 'تمرين 11'
+        page: 76
+        prompt: 'Evaluate the integral.'
+        q: '\int\sin2x\,\sin6x\,dx'
+        hint: |
+          $\sin$ في $\sin$، و$A-B$ سالب. بس $\cos$ دالة زوجية: $\cos(-4x)=\cos4x$.
+        solution: |
+          1. نحوّل الضرب لجمع، و$A=2x$ و$B=6x$:
+             $$\sin2x\sin6x=\tfrac12\big[\cos(2x-6x)-\cos(2x+6x)\big]=\tfrac12\big[\cos(-4x)-\cos8x\big]$$
+          2. $\cos$ دالة زوجية: السالب يختفي:
+             $$\cos(-4x)=\cos4x$$
+          3. نكامل كل حد:
+             $$\frac12\cdot\frac{\sin4x}{4}-\frac12\cdot\frac{\sin8x}{8}$$
+        answer: |-
+          \frac{\sin4x}{8}-\frac{\sin8x}{16}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'sin(2*x)*sin(6*x)'
+          ans: 'sin(4*x)/8 - sin(8*x)/16'
+          samples: [-1.0, 0.4, 2.0]
+
+      - id: n52x12
+        kind: exercise
+        ref: 'تمرين 12'
+        page: 76
+        prompt: 'Evaluate the integral.'
+        q: '\int\cos4x\,\cos7x\,dx'
+        hint: |
+          $\cos$ في $\cos$ يصير نص المجموع: $\cos(A-B)+\cos(A+B)$. و$\cos$ زوجية، فالزاوية السالبة تصير موجبة.
+        solution: |
+          1. نحوّل الضرب لجمع:
+             $$\cos A\cos B=\tfrac12\big[\cos(A-B)+\cos(A+B)\big]$$
+             $$\cos4x\cos7x=\tfrac12\big[\cos(-3x)+\cos11x\big]=\tfrac12\big[\cos3x+\cos11x\big]$$
+             ($\cos$ زوجية، فـ $\cos(-3x)=\cos3x$.)
+          2. نكامل كل حد:
+             $$\frac12\cdot\frac{\sin3x}{3}+\frac12\cdot\frac{\sin11x}{11}$$
+        answer: |-
+          \frac{\sin3x}{6}+\frac{\sin11x}{22}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: 'cos(4*x)*cos(7*x)'
+          ans: 'sin(3*x)/6 + sin(11*x)/22'
+          samples: [-1.0, 0.4, 2.0]

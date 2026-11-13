@@ -1,0 +1,383 @@
+/* ملف 5.1 و5.2 — صفحة A4 */
+:root {
+  --ink: #1e2a36;
+  --muted: #5d6b79;
+  --line: #d8dfe6;
+  --brand: #0b5d73;
+  --brand-2: #127c93;
+  --brand-soft: #e6f2f5;
+  --accent: #c47410;
+  --accent-soft: #fdf2e1;
+  --violet: #6a4cbf;
+  --violet-soft: #f1edfb;
+  --green: #17723d;
+  --green-soft: #eaf7ee;
+  --red: #b42318;
+  --red-soft: #fef0ef;
+  --rose: #9f1239;
+  --rose-soft: #fdf1f4;
+}
+
+@page {
+  size: A4;
+  margin: 17mm 15mm 15mm 15mm;
+  @top-right { content: "ريض 111 · 5.1 و5.2 التجزئة والتكاملات المثلثية"; font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 8pt; color: #8b97a3; vertical-align: bottom; padding-bottom: 2.5mm; }
+  @bottom-center { content: counter(page); font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 9pt; color: #8b97a3; }
+}
+@page cover { margin: 0; @top-right { content: none; } @bottom-center { content: none; } }
+@page learn { @top-left { content: "الشرح"; font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 8pt; font-weight: 600; color: #0b5d73; vertical-align: bottom; padding-bottom: 2.5mm; } }
+@page practice { @top-left { content: "التدريب"; font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 8pt; font-weight: 600; color: #c47410; vertical-align: bottom; padding-bottom: 2.5mm; } }
+@page hints { @top-left { content: "التلميحات"; font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 8pt; font-weight: 600; color: #6a4cbf; vertical-align: bottom; padding-bottom: 2.5mm; } }
+@page sols { @top-left { content: "الحلول"; font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 8pt; font-weight: 600; color: #17723d; vertical-align: bottom; padding-bottom: 2.5mm; } }
+@page appx { @top-left { content: "الملحق"; font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 8pt; font-weight: 600; color: #5d6b79; vertical-align: bottom; padding-bottom: 2.5mm; } }
+
+.pg-cover { page: cover; }
+.pg-learn { page: learn; }
+.pg-practice { page: practice; }
+.pg-hints { page: hints; }
+.pg-sols { page: sols; }
+.pg-appx { page: appx; }
+
+html { direction: rtl; }
+body {
+  margin: 0;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+  font-size: 11pt;
+  line-height: 1.58;
+  color: var(--ink);
+  background: #fff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  orphans: 2;
+  widows: 2;
+}
+p { margin: 0.25em 0 0.35em; }
+strong, b { font-weight: 700; }
+a { color: inherit; text-decoration: none; }
+ul, ol { margin: 0.3em 0; padding-inline-start: 1.3em; }
+li { margin: 0.12em 0; }
+
+/* ---------- الرياضيات ---------- */
+.katex { font-size: 1.06em; }
+.eq { direction: ltr; text-align: center; margin: 0.2em 0 0.28em; break-inside: avoid; }
+.eq .katex-display { margin: 0; }
+.m { direction: ltr; unicode-bidi: isolate; white-space: nowrap; }
+.prompt { direction: ltr; text-align: left; font-size: 0.82em; color: var(--muted); line-height: 1.4; }
+.solution .prompt, .example .prompt { display: none; }
+.prompt .katex { font-size: 1em; }
+
+/* ---------- رموز الأسئلة والأوسمة ---------- */
+.qid {
+  direction: ltr; unicode-bidi: isolate; white-space: nowrap;
+  font-size: 0.8em; font-weight: 700; letter-spacing: 0.02em;
+  color: var(--brand); background: var(--brand-soft);
+  border-radius: 5px; padding: 0.05em 0.45em;
+}
+.qid-fin { color: var(--rose); background: var(--rose-soft); }
+.qid-notes { direction: rtl; color: var(--violet); background: var(--violet-soft); letter-spacing: 0; }
+.tag { font-size: 0.68em; font-weight: 600; border-radius: 999px; padding: 0.05em 0.6em; white-space: nowrap; }
+.tag-past { color: var(--brand); border: 1px solid #b9d9e1; }
+.tag-fin { color: var(--rose); border: 1px solid #f3c4d0; }
+.tag-last { color: #fff; background: var(--accent); }
+.tag-notes { color: var(--violet); border: 1px solid #d3c9f2; }
+.marks { font-size: 0.7em; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 0.02em 0.55em; white-space: nowrap; }
+.src { font-size: 0.72em; color: var(--muted); }
+
+/* ---------- الغلاف ---------- */
+.cover {
+  height: 297mm; box-sizing: border-box; padding: 24mm 20mm 16mm;
+  display: flex; flex-direction: column;
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 55%, #f3f8f9 100%);
+}
+.cover .course { font-size: 0.95em; color: var(--muted); font-weight: 600; letter-spacing: 0.01em; }
+.cover .titlebox { margin: 0.9em 0 0.3em; display: flex; align-items: center; gap: 0.5em; }
+.cover .secbig { direction: ltr; unicode-bidi: isolate; font-size: 2.3em; font-weight: 700; color: #fff; background: var(--brand); border-radius: 14px; padding: 0 0.4em; line-height: 1.4; }
+.cover .title { font-size: 2.35em; font-weight: 700; color: var(--ink); line-height: 1.3; margin: 0.25em 0 0.1em; }
+.cover .sub { font-size: 1.12em; color: var(--brand); font-weight: 600; margin: 0.3em 0 0.9em; }
+.cover .cover-art { width: 100%; height: auto; display: block; margin: 0.4em 0 0.2em; }
+.cover-formula { margin: 0.2em 0 1em; font-size: 1.35em; color: var(--brand); }
+.cover .stats { display: flex; gap: 0.6em; flex-wrap: wrap; }
+.cover .stat { flex: 1; min-width: 26%; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 0.5em 0.75em; }
+.cover .stat b { display: block; font-size: 1.6em; color: var(--brand); line-height: 1.2; }
+.cover .stat span { font-size: 0.82em; color: var(--muted); }
+.cover .foot { margin-top: auto; font-size: 0.8em; color: var(--muted); border-top: 1px solid var(--line); padding-top: 0.6em; }
+
+/* ---------- صفحة البداية والمحتوى ---------- */
+.pg-start { break-before: page; }
+.toc { margin: 0.2em 0 0.6em; columns: 2; column-gap: 8mm; column-rule: 1px solid #edf1f4; }
+.toc-row { display: flex; align-items: baseline; gap: 0.35em; padding: 0.05em 0; color: inherit; break-inside: avoid; }
+.toc-h1 { font-weight: 700; color: var(--ink); margin-top: 0.35em; }
+.toc-h2 { font-size: 0.88em; color: var(--muted); padding-inline-start: 1.1em; }
+.toc-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.toc-text .num, .toc-text .pk { display: none; }
+.toc-dots { flex: 1; border-bottom: 1px dotted #b8c1cb; transform: translateY(-0.28em); }
+.toc-page { direction: ltr; unicode-bidi: isolate; min-width: 1.5em; text-align: left; font-weight: 700; color: var(--brand); }
+.legend { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35em 0.7em; margin: 0.5em 0; }
+.legend .item { border: 1px solid var(--line); border-radius: 8px; padding: 0.3em 0.6em; font-size: 0.86em; }
+.legend .item .what { display: block; color: var(--muted); font-size: 0.92em; }
+
+/* ---------- العناوين ---------- */
+h1 {
+  break-after: avoid;
+  display: flex; align-items: center; gap: 0.55em;
+  font-size: 1.35em; line-height: 1.35; font-weight: 700;
+  margin: 0 0 0.7em; padding: 0.55em 0.8em;
+  color: #fff; background: linear-gradient(135deg, #0b5d73 0%, #127c93 100%);
+  border-radius: 11px;
+}
+.pg-learn h1, .pg-practice h1, .pg-hints h1, .pg-sols h1, .pg-appx h1 { break-before: page; }
+h1 .num { direction: ltr; display: inline-flex; align-items: center; justify-content: center; min-width: 1.6em; height: 1.6em; border-radius: 8px; background: rgba(255,255,255,0.18); font-size: 0.95em; }
+.pg-practice h1 { background: linear-gradient(135deg, #a8620d 0%, #c47410 100%); }
+.pg-hints h1 { background: linear-gradient(135deg, #563ba3 0%, #6a4cbf 100%); }
+.pg-sols h1 { background: linear-gradient(135deg, #125c31 0%, #17723d 100%); }
+.pg-appx h1 { background: linear-gradient(135deg, #3d4955 0%, #5d6b79 100%); }
+.lede { font-size: 0.95em; color: var(--muted); margin: -0.3em 0 0.6em; }
+
+h2 {
+  break-after: avoid;
+  font-size: 1.16em; line-height: 1.45; font-weight: 700;
+  margin: 1.2em 0 0.3em; padding-bottom: 0.25em;
+  color: var(--brand); border-bottom: 2px solid var(--brand-soft);
+}
+h2 .pk { font-size: 0.6em; font-weight: 600; color: var(--muted); display: block; letter-spacing: 0.02em; margin-bottom: -0.1em; }
+.pg-practice h2 { color: var(--accent); border-bottom-color: var(--accent-soft); }
+.pg-hints h2 { color: var(--violet); border-bottom-color: var(--violet-soft); }
+.pg-sols h2 { color: var(--green); border-bottom-color: var(--green-soft); }
+.h3 { break-after: avoid; font-weight: 700; font-size: 1em; margin: 1em 0 0.3em; color: #24323f; display: flex; align-items: center; gap: 0.4em; }
+.h3::before { content: ""; width: 0.55em; height: 0.55em; border-radius: 2px; background: var(--accent); transform: rotate(45deg); flex: none; }
+
+/* وسوم النمط */
+.pat-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35em; margin: 0 0 0.5em; break-after: avoid; }
+.came { font-size: 0.72em; font-weight: 700; border-radius: 999px; padding: 0.05em 0.7em; }
+.came-mid { color: #fff; background: var(--brand); }
+.came-fin { color: #fff; background: var(--rose); }
+.came-notes { color: var(--violet); background: var(--violet-soft); }
+.pat-count { font-size: 0.75em; color: var(--muted); }
+.pat-meta .plink { margin-inline-start: auto; }
+
+/* ---------- الصناديق ---------- */
+.box {
+  --c: var(--brand); --bg: var(--brand-soft);
+  border-inline-start: 4px solid var(--c);
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 0.45em 0.8em 0.5em;
+  margin: 0.5em 0;
+}
+.box-recog, .box-first, .box-short, .box-warn, .box-why, .box-alg, .box-law, .box-note, .box-more, .box-scope { break-inside: avoid; }
+.box-title { font-weight: 700; color: var(--c); font-size: 0.93em; margin-bottom: 0.12em; display: flex; align-items: center; gap: 0.35em; break-after: avoid; }
+.box-title::before {
+  content: ""; flex: none; width: 1.05em; height: 1.05em;
+  background-color: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat; mask: var(--icon) center / contain no-repeat;
+}
+.box-body > :first-child { margin-top: 0.08em; break-before: avoid; }
+.box-body > :last-child { margin-bottom: 0.08em; }
+.box-body ul { margin: 0.15em 0; }
+.box-recog { --c: #1d4ed8; --bg: #eef4ff; }
+.box-first { --c: var(--brand); --bg: var(--brand-soft); }
+.box-steps { --c: #0f766e; --bg: #ebf8f5; }
+.box-why   { --c: #6d28d9; --bg: #f4f0ff; }
+.box-warn  { --c: #a35a00; --bg: #fff6e5; }
+.box-fix   { --c: var(--red); --bg: var(--red-soft); }
+.box-short { --c: var(--green); --bg: var(--green-soft); }
+.box-more  { --c: #475467; --bg: #f5f7f9; border-inline-start-style: dashed; }
+.box-alg   { --c: #3f3fb0; --bg: #f0f0ff; }
+.box-law   { --c: var(--brand); --bg: #f2f8fa; }
+.box-note  { --c: #475467; --bg: #f5f7f9; }
+.box-use   { --c: var(--accent); --bg: var(--accent-soft); }
+.box-scope { --c: #475467; --bg: #f5f7f9; }
+
+/* الخطوات المرقمة */
+.box-steps ol, .sol-steps ol { list-style: none; counter-reset: st; padding-inline-start: 0; }
+.box-steps ol > li, .sol-steps ol > li { counter-increment: st; position: relative; padding-inline-start: 1.8em; margin: 0.32em 0; }
+.box-steps ol > li::before, .sol-steps ol > li::before {
+  content: counter(st); position: absolute; inset-inline-start: 0; top: 0.22em;
+  width: 1.32em; height: 1.32em; line-height: 1.34em; text-align: center; border-radius: 50%;
+  font-size: 0.78em; font-weight: 700; background: #0f766e; color: #fff;
+}
+.sol-steps ol > li > p:first-child { margin-top: 0; }
+
+/* السبب يمين، والمعادلات يسار */
+.sol-steps ol > li.st-grid {
+  display: grid; grid-template-columns: minmax(0, 35%) minmax(0, 1fr);
+  column-gap: 0.9em; align-items: center; break-inside: avoid;
+  padding-top: 0.12em; padding-bottom: 0.12em;
+}
+.sol-steps ol > li.st-grid + li.st-grid { border-top: 1px dashed #e8eef1; }
+.st-why { line-height: 1.5; }
+.st-why > :first-child { margin-top: 0; }
+.st-why > :last-child { margin-bottom: 0; }
+.st-eqs { border-inline-start: 2px solid #e1ebef; padding-inline-start: 0.7em; }
+.st-eqs .eq { margin: 0.14em 0; }
+.st-stack .eq { margin: 0.18em 0 0.24em; }
+
+/* ---------- المثال الكامل والحل ---------- */
+.example, .solution {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.45em 0.85em 0.5em;
+  margin: 0.65em 0;
+  background: #fff;
+}
+.example { border-color: #b9d9e1; box-shadow: 0 0 0 3px #f2f8fa; }
+.example-notes { border-color: #d6cdf3; box-shadow: 0 0 0 3px #f7f5fd; }
+.ex-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.2em 0.45em; padding-bottom: 0.2em; margin-bottom: 0.15em; border-bottom: 1px dashed var(--line); break-after: avoid; }
+.ex-label { font-weight: 700; color: #fff; background: #0f766e; border-radius: 6px; padding: 0.02em 0.55em; font-size: 0.8em; }
+.example-notes .ex-label { background: var(--violet); }
+.solution .ex-label { background: var(--green); }
+.ex-head .go, .hint-head .go { margin-inline-start: auto; font-size: 0.72em; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 0 0.5em; }
+.q-math { background: #f7f9fb; border-radius: 8px; padding: 0.1em 0.5em 0.05em; margin: 0.2em 0 0.3em; break-inside: avoid; break-after: avoid; }
+.answer { display: flex; align-items: center; gap: 0.6em; margin-top: 0.45em; border: 1.5px solid var(--green); background: var(--green-soft); border-radius: 8px; padding: 0.15em 0.7em 0.2em; break-inside: avoid; }
+.ans-label { flex: none; font-weight: 700; color: var(--green); font-size: 0.82em; }
+.answer .eq { flex: 1; margin: 0.12em 0; }
+.domain { display: flex; align-items: center; gap: 0.6em; margin: 0.25em 0 0; break-inside: avoid; }
+.domain .lbl { font-weight: 700; color: var(--muted); font-size: 0.82em; white-space: nowrap; }
+.domain .dom-math { flex: 1; }
+.domain .eq { margin: 0.05em 0; text-align: right; }
+.domain .eq .katex-display > .katex { text-align: right; }
+.dom-why { font-size: 0.8em; color: var(--muted); margin: 0 0 0.1em; }
+.linked { font-size: 0.9em; color: var(--muted); }
+.linked a { color: var(--brand); font-weight: 700; text-decoration: underline; }
+.solution { break-inside: auto; }
+.sol-linked { break-inside: avoid; }
+
+/* ---------- وش يختلف ---------- */
+.diffs-title { color: #1d4ed8; }
+.diffs-title::before { background: #1d4ed8; }
+.diff {
+  display: flow-root;
+  border: 1px solid var(--line); border-inline-start: 4px solid #1d4ed8;
+  border-radius: 8px; padding: 0.35em 0.8em 0.45em; margin: 0.5em 0; break-inside: avoid;
+}
+.diff-head { display: flex; flex-wrap: wrap; gap: 0.4em; align-items: center; }
+.diff-q { margin: 0.1em 0; }
+.diff-q .eq { margin: 0.15em 0 0.25em; }
+.diff-q .prompt { display: none; }
+.diff-body > :first-child { margin-top: 0.08em; }
+.diff-body > :last-child { margin-bottom: 0.08em; }
+
+/* ---------- التدريب ---------- */
+.pgrid { columns: 2; column-gap: 5mm; margin-top: 0.4em; }
+.pcard { display: flow-root; border: 1px solid var(--line); border-radius: 9px; padding: 0.3em 0.6em 0.25em; margin: 0 0 3mm; break-inside: avoid; }
+.q-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.2em 0.4em; }
+.q-head .links { margin-inline-start: auto; display: flex; gap: 0.3em; }
+.plink { font-size: 0.68em; color: var(--brand); border: 1px solid #b9d9e1; border-radius: 5px; padding: 0 0.45em; white-space: nowrap; }
+.pcard .q-math { margin: 0.25em 0 0.15em; background: transparent; padding: 0; break-after: auto; }
+.pcard .prompt { display: none; }
+.ticks { display: flex; gap: 0.35em; align-items: center; }
+.tick { font-size: 0.66em; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 0 0.45em; }
+.tick::before { content: "○ "; }
+.worked { font-size: 0.64em; color: #0f766e; margin-inline-start: auto; }
+.exam-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5em; margin: 0.4em 0 0.6em; }
+.exam-box { border: 1px solid var(--line); border-radius: 9px; padding: 0.4em 0.6em; break-inside: avoid; }
+.exam-last { border-color: var(--accent); background: var(--accent-soft); }
+.exam-title { font-weight: 700; font-size: 0.88em; margin-bottom: 0.25em; }
+.exam-title .star { font-size: 0.75em; color: #fff; background: var(--accent); border-radius: 999px; padding: 0 0.5em; }
+.exam-ids { display: flex; flex-wrap: wrap; gap: 0.3em; }
+
+/* ---------- التلميحات ---------- */
+.hgrid { columns: 2; column-gap: 6mm; margin-top: 0.3em; }
+.hint { display: flow-root; border: 1px solid #e4def6; border-radius: 9px; padding: 0.3em 0.6em 0.3em; margin: 0 0 3mm; break-inside: avoid; }
+.hint-head { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4em; }
+.hint-q .eq { margin: 0.1em 0 0.15em; font-size: 0.92em; }
+.hint-body { font-size: 0.95em; }
+.hint-body p { margin: 0.08em 0; }
+.hint-body .eq { margin: 0.1em 0; }
+
+/* ---------- جداول ---------- */
+table { border-collapse: collapse; width: 100%; margin: 0.5em 0; font-size: 0.92em; break-inside: avoid; }
+th, td { border: 1px solid var(--line); padding: 0.28em 0.5em; vertical-align: middle; }
+th { background: var(--brand-soft); color: var(--brand); font-weight: 700; }
+td .m { white-space: nowrap; }
+.box table { background: #fff; }
+table.cases td:first-child { white-space: nowrap; }
+.tabular-wrap table { width: auto; margin: 0.4em auto; }
+.tabular-wrap td, .tabular-wrap th { text-align: center; padding: 0.2em 1.2em; }
+
+/* أدوات */
+.pagebreak { break-before: page; }
+.keep { break-inside: avoid; }
+.muted { color: var(--muted); }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6em; }
+.two > .box { margin: 0; }
+
+/* ---------- تكثيف A4 ---------- */
+/* رأس الحل: الوسوم يمين، والسؤال يسار في نفس السطر */
+.sol-top { display: flex; flex-wrap: wrap; align-items: center; gap: 0.1em 0.8em; border-bottom: 1px dashed var(--line); padding-bottom: 0.15em; margin-bottom: 0.2em; break-after: avoid; }
+.sol-top .ex-head { border-bottom: 0; padding-bottom: 0; margin-bottom: 0; flex: 1 1 auto; }
+.sol-top .ex-head .go { margin-inline-start: 0.2em; }
+.sol-q { margin-inline-start: auto; background: #f7f9fb; border-radius: 8px; padding: 0 0.6em; }
+.sol-q .eq { margin: 0.05em 0; }
+.solution { margin: 0.5em 0; padding: 0.35em 0.8em 0.4em; }
+/* الجواب والمجال في صندوق واحد */
+.answer { flex-wrap: wrap; }
+.dom-chip { flex: none; display: flex; align-items: center; gap: 0.4em; margin-inline-start: auto; font-size: 0.92em; color: var(--muted); border-inline-start: 1px solid #b7dcc4; padding-inline-start: 0.7em; }
+.dom-chip .lbl { font-weight: 700; font-size: 0.85em; }
+/* التدريب: ثلاث أعمدة */
+.pgrid { columns: 3; column-gap: 4mm; }
+.pcard { padding: 0.25em 0.5em 0.2em; margin: 0 0 2.6mm; }
+.pcard .q-head { gap: 0.15em 0.3em; }
+.pcard .q-math .eq { margin: 0.1em 0; }
+.ticks .links { margin-inline-start: auto; display: flex; gap: 0.3em; }
+.pcard-worked { border-color: #9fd3c6; }
+.pcard-worked { position: relative; overflow: visible; }
+.pcard-worked::before { content: "محلول كمثال في الشرح"; position: absolute; top: -0.62em; left: 0.7em; font-size: 0.58em; line-height: 1.2; font-weight: 600; color: #0f766e; background: #fff; padding: 0 0.35em; }
+/* التلميحات: السؤال صغير في رأس البطاقة */
+.hint-head { gap: 0.3em 0.5em; }
+.hint-q { direction: ltr; unicode-bidi: isolate; font-size: 0.92em; }
+.hint-head .go { margin-inline-start: auto; }
+.hint { padding: 0.25em 0.6em 0.25em; margin: 0 0 2.6mm; }
+
+/* رأس المثال الكامل وبطاقة «وش يختلف»: الوسوم يمين والسؤال يسار */
+h2 { break-inside: avoid; }
+.ex-top, .diff-top { display: flex; flex-wrap: wrap; align-items: center; gap: 0.1em 0.8em; break-after: avoid; break-inside: avoid; }
+.ex-top { border-bottom: 1px dashed var(--line); padding-bottom: 0.2em; margin-bottom: 0.25em; }
+.ex-top .ex-head { border-bottom: 0; padding-bottom: 0; margin-bottom: 0; flex: 1 1 auto; }
+.ex-q { margin-inline-start: auto; background: #f2f8fa; border-radius: 8px; padding: 0 0.7em; }
+.ex-q .eq { margin: 0.05em 0; }
+.diff-top .diff-head { flex: 1 1 auto; }
+.diff-top .diff-q { margin: 0; margin-inline-start: auto; }
+.diff-top .diff-q .eq { margin: 0.05em 0; }
+
+/* مسافات أقل بين الخطوات */
+.sol-steps ol > li { margin: 0.22em 0; }
+.sol-steps ol > li.st-grid { padding-top: 0.08em; padding-bottom: 0.08em; }
+
+/* الدروس تكمل في نفس الصفحة (أول درس بس يبدأ صفحة جديدة) */
+.pg-learn h1 { break-before: auto; margin-top: 1.3em; }
+.pg-learn h1:first-of-type { break-before: page; margin-top: 0; }
+/* التلميحات: ثلاث أعمدة */
+.hgrid { columns: 3; column-gap: 4mm; }
+.hint-head { gap: 0.2em 0.4em; }
+
+/* عناوين الأنماط في التدريب والتلميحات والحلول أصغر */
+.pg-practice h2, .pg-hints h2, .pg-sols h2 { font-size: 1.05em; margin: 0.8em 0 0.35em; padding-bottom: 0.15em; }
+.pg-practice h1 + p + .box + h2, .pg-hints h1 + p + h2, .pg-sols h1 + p + .box + h2 { margin-top: 0.4em; }
+
+/* شبكة صفوف بدل الأعمدة المتدفقة (تنكسر بين الصفحات بشكل نظيف) */
+.pgrid { columns: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.6mm 3.5mm; }
+.pgrid .pcard { margin: 0; }
+.hgrid { columns: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.6mm 3.5mm; }
+.hgrid .hint { margin: 0; }
+.cover-formula { direction: ltr; text-align: center; }
+
+.go-inline { font-size: 0.72em; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 0 0.45em; white-space: nowrap; margin-inline-start: 0.3em; }
+.go-line { text-align: left; margin: 0.05em 0 0; }
+
+/* شد خفيف للتدريب والتلميحات */
+.pgrid, .hgrid { gap: 2.2mm 3mm; }
+.pcard { padding: 0.2em 0.5em 0.15em; }
+.pcard .q-math { margin: 0.15em 0 0.1em; }
+.hint { padding: 0.2em 0.55em 0.2em; }
+.hint-body { font-size: 0.9em; line-height: 1.45; }
+.hint-head { font-size: 0.95em; }
+.exam-box { padding: 0.3em 0.55em; }
+.exam-grid { gap: 0.4em; margin: 0.3em 0 0.4em; }
+
+/* الخطوة المكدّسة: بدون خط فاصل */
+.st-stack .st-eqs { border-inline-start: 0; padding-inline-start: 0; }
+
+/* توازن الغلاف */
+.cover .stats { margin-top: auto; }
+.cover .foot { margin-top: 1.2em; }

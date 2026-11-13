@@ -1,0 +1,63 @@
+# ترتيب أنماط 5.1 و5.2، وأسئلة كل نمط بترتيب التدريب
+# came: وين جاء النمط (mid = الفصلي الثاني، fin = النهائي، notes = المذكرة بس)
+# ما فيه حساب هنا: الأسئلة نفسها في content/questions/5.1.yaml و5.2.yaml وcontent/5x/data/*.yaml
+patterns:
+  - key: P1
+    sec: '5.1'
+    title: 'كثير حدود × دالة سهلة التكامل'
+    came: [mid, fin]
+    ids: [M452-2-2, M461-2-4, M462-2-3, F471-2-2, F451-2-2, n51e1, n51x1, n51x4, n51e2, n51x2, n51x3]
+
+  - key: P2
+    sec: '5.1'
+    title: 'قوة × $\ln$، و$\ln$ لحاله'
+    came: [mid, fin]
+    ids: [M471-2-7, M452-2-5, M461-2-5, F461-2-2, M451-2-3, n51e3, n51x6, n51x7, n51x5, n51e4, n51x16]
+
+  - key: P3
+    sec: '5.1'
+    title: 'دالة عكسية لحالها أو مضروبة في $x$'
+    came: [mid, fin]
+    ids: [M462-2-8, M471-2-5, M451-2-5, n51x9, M472-3-1, F462-2-2, n51e6, n51x10]
+
+  - key: P4
+    sec: '5.1'
+    title: 'الدوّارة: أسّية × $\sin$ أو $\cos$، وأسّية × زائدية'
+    came: [fin, mid]
+    ids: [F472-2-3, n51e7, n51x11, n51x12, M461-2-3, M451-2-1, M462-2-5, n51x13, n51x14]
+
+  - key: P5
+    sec: '5.1'
+    title: 'تجهيز قبل التجزئة'
+    came: [notes]
+    ids: [n51x15, n51x17, n51x18]
+
+  - key: Q1
+    sec: '5.2'
+    title: '$\sin$ و$\cos$، وفيه قوة فردية'
+    came: [mid, fin]
+    ids: [M471-2-3, M461-2-6, F452-2-6, M451-2-4, n52e1-1, n52e1-2, n52e2-1, n52x1, n52e2-3, n52e2-2, n52x4]
+
+  - key: Q2
+    sec: '5.2'
+    title: '$\sin$ و$\cos$، وكل القوى زوجية'
+    came: [notes]
+    ids: [n52x13, n52x14, n52e1-3, n52e2-4]
+
+  - key: Q3
+    sec: '5.2'
+    title: '$\tan$ مع $\sec$، و$\cot$ مع $\csc$'
+    came: [mid]
+    ids: [M452-2-3, M472-3-3, M462-2-4, n52e3-3, n52x7, n52x5, n52e3-4, n52x6, n52x8, n52e4-2, n52x9]
+
+  - key: Q4
+    sec: '5.2'
+    title: '$\tan$ لحاله أو $\sec$ لحاله'
+    came: [notes]
+    ids: [n52e3-2, n52x16, n52e3-1, n52x15]
+
+  - key: Q5
+    sec: '5.2'
+    title: 'زاويتين مختلفتين'
+    came: [notes]
+    ids: [n52e5-1, n52e5-2, n52x10, n52x11, n52x12]
