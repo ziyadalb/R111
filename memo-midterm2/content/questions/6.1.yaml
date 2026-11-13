@@ -25,7 +25,8 @@ patterns:
           5. نعوّض $x\to0^+$، و$\ln1=0$:
              $$=\frac{1}{0+2}=\frac12$$
         answer: |-
-          \lim_{x\to0^+}\Big[\frac{1}{\ln(x+1)}-\frac1x\Big]=\frac12
+          \frac12
+        form: '\infty-\infty'
         check:
           kind: limit
           f: '1/log(x+1) - 1/x'

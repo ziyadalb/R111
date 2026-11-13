@@ -1,0 +1,134 @@
+# أسئلة 6.1 اللي جات في الاختبارات النهائية (1445 إلى 1447)
+# المعرف: F + السنة والفصل + السؤال + الفقرة. نهائي 1445 الفصل الثاني ما فيه سؤال نهايات.
+section: '6.1'
+slug: fin61
+title: 'نهايات النهائيات'
+patterns:
+  - key: FIN
+    questions:
+      - id: F451-3-1
+        marks: 2
+        page: 13
+        prompt: 'Calculate the limit.'
+        q: '\lim_{x\to\infty}\frac{e^x+5x}{e^{2x}+2x+1}'
+        form: '\frac{\infty}{\infty}'
+        hint: |
+          $\frac\infty\infty$: لوبيتال مرتين، وبعدها اختصر $e^x$ من فوق وتحت.
+        solution: |
+          1. نعوّض: فوق وتحت يروحون لـ $\infty$، يعني الصورة $\frac\infty\infty$ ← لوبيتال. مشتقة $e^{2x}$ هي $2e^{2x}$:
+             $$\lim_{x\to\infty}\frac{e^x+5x}{e^{2x}+2x+1}=\lim_{x\to\infty}\frac{e^x+5}{2e^{2x}+2}$$
+          2. نعوّض: لسا $\frac\infty\infty$ ← لوبيتال مرة ثانية (مشتقة الثابت صفر):
+             $$=\lim_{x\to\infty}\frac{e^x}{4e^{2x}}$$
+          3. نختصر $e^x$، لأن $e^{2x}=e^x\cdot e^x$:
+             $$=\lim_{x\to\infty}\frac{1}{4e^x}$$
+          4. نعوّض: تحت يروح لـ $\infty$، ورقم على ما لا نهاية = صفر:
+             $$=0$$
+        answer: |-
+          0
+        check:
+          kind: limit
+          f: '(exp(x)+5*x)/(exp(2*x)+2*x+1)'
+          point: 'oo'
+          ans: '0'
+
+      - id: F461-3-1
+        marks: 2
+        page: 13
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}e^{-x^3}\big(x^4+1\big)'
+        form: '0\cdot\infty'
+        hint: |
+          $0\cdot\infty$: اكتب $e^{-x^3}=\frac{1}{e^{x^3}}$ عشان يصير كسر، بعدين لوبيتال.
+        solution: |
+          1. نعوّض: $e^{-x^3}\to0$ و$x^4+1\to\infty$، يعني $0\cdot\infty$. لوبيتال ما ينفع على ضرب، فنحوّله لكسر. الأسّية تنزل تحت كمقلوب:
+             $$e^{-x^3}\big(x^4+1\big)=\frac{x^4+1}{e^{x^3}}\qquad\Big(\frac\infty\infty\Big)$$
+          2. لوبيتال. مشتقة $e^{x^3}$ بالسلسلة $=e^{x^3}\cdot3x^2$:
+             $$=\lim_{x\to\infty}\frac{4x^3}{3x^2e^{x^3}}=\lim_{x\to\infty}\frac{4x}{3e^{x^3}}$$
+          3. نعوّض: لسا $\frac\infty\infty$ ← لوبيتال مرة ثانية:
+             $$=\lim_{x\to\infty}\frac{4}{9x^2e^{x^3}}$$
+          4. نعوّض: تحت يروح لـ $\infty$، وفوق رقم:
+             $$=0$$
+        answer: |-
+          0
+        check:
+          kind: limit
+          f: 'exp(-x**3)*(x**4+1)'
+          point: 'oo'
+          ans: '0'
+          near: ['8']
+
+      - id: F462-3-1
+        marks: 2
+        page: 28
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}\frac{x-x\,e^x}{x+2x\,e^x}'
+        form: '\frac{-\infty}{\infty}'
+        hint: |
+          قبل لوبيتال: $x$ عامل مشترك فوق وتحت. طلّعه واختصره، بعدين لوبيتال.
+        solution: |
+          1. نعوّض: فوق يروح لـ $-\infty$ وتحت لـ $\infty$، يعني $\frac{-\infty}{\infty}$. قبل لوبيتال نبسّط: $x$ عامل مشترك فوق وتحت، فنختصره:
+             $$\frac{x-xe^x}{x+2xe^x}=\frac{x\big(1-e^x\big)}{x\big(1+2e^x\big)}=\frac{1-e^x}{1+2e^x}$$
+          2. نعوّض: لسا $\frac{-\infty}{\infty}$ ← لوبيتال:
+             $$=\lim_{x\to\infty}\frac{-e^x}{2e^x}$$
+          3. نختصر $e^x$:
+             $$=-\frac12$$
+        answer: |-
+          -\frac12
+        more: |
+          لو طبّقت لوبيتال قبل الاختصار، يشتغل بعد، بس الاشتقاق أطول (قاعدة الضرب في $xe^x$) والصورة تتكرر. الاختصار أول أسهل.
+        check:
+          kind: limit
+          f: '(x - x*exp(x))/(x + 2*x*exp(x))'
+          point: 'oo'
+          ans: '-Rational(1,2)'
+
+      - id: F471-3-1
+        marks: 2
+        page: 12
+        prompt: 'Calculate the limit.'
+        q: '\lim_{x\to\infty}x^{\frac1x}'
+        form: '\infty^0'
+        hint: |
+          $\infty^0$: اكتبها $e^{\frac1x\ln x}$، واحسب نهاية الأس لحاله.
+        solution: |
+          1. نعوّض: الأساس $x\to\infty$ والأس $\frac1x\to0$، يعني $\infty^0$. نكتبها أسّية، لأن $a^b=e^{b\ln a}$:
+             $$x^{\frac1x}=e^{\frac1x\ln x}=e^{\frac{\ln x}{x}}$$
+          2. نحسب نهاية الأس لحاله. $\frac{\ln x}{x}$ صورتها $\frac\infty\infty$ ← لوبيتال:
+             $$\lim_{x\to\infty}\frac{\ln x}{x}=\lim_{x\to\infty}\frac{\frac1x}{1}=\lim_{x\to\infty}\frac1x=0$$
+          3. نهاية الأس صفر، فالجواب $e^0$:
+             $$\lim_{x\to\infty}x^{\frac1x}=e^0=1$$
+        answer: |-
+          1
+        check:
+          kind: limit
+          f: 'x**(1/x)'
+          point: 'oo'
+          ans: '1'
+
+      - id: F472-3-1
+        marks: 2.5
+        page: 27
+        prompt: 'Calculate the limit.'
+        q: '\lim_{x\to\infty}\Big(1+\frac4x\Big)^{2x}'
+        form: '1^\infty'
+        hint: |
+          $1^\infty$: اكتبها $e^{2x\ln(1+\frac4x)}$. نهاية الأس صورتها $\infty\cdot0$: حوّلها لكسر.
+        solution: |
+          1. نعوّض: الأساس $1+\frac4x\to1$ والأس $2x\to\infty$، يعني $1^\infty$. نكتبها أسّية، لأن $a^b=e^{b\ln a}$:
+             $$\Big(1+\frac4x\Big)^{2x}=e^{2x\ln\left(1+\frac4x\right)}$$
+          2. نحسب نهاية الأس لحاله: $2x\to\infty$ و$\ln\big(1+\frac4x\big)\to\ln1=0$، يعني $\infty\cdot0$. نحوّله لكسر بقسمة على مقلوب $2x$:
+             $$2x\ln\Big(1+\frac4x\Big)=\frac{\ln\big(1+\frac4x\big)}{\frac{1}{2x}}\qquad\Big(\frac00\Big)$$
+          3. لوبيتال. مشتقة $\ln(\dots)$ = مشتقة الداخل على الداخل، ومشتقة $\frac4x$ هي $-\frac{4}{x^2}$. ومشتقة $\frac{1}{2x}$ هي $-\frac{1}{2x^2}$:
+             $$=\lim_{x\to\infty}\frac{\dfrac{-4/x^2}{1+\frac4x}}{-\dfrac{1}{2x^2}}$$
+          4. نبسّط: السالب يشطب السالب، و$\frac{1}{x^2}$ تنشطب، و$4\times2=8$:
+             $$=\lim_{x\to\infty}\frac{8}{1+\frac4x}=\frac{8}{1+0}=8$$
+          5. نهاية الأس 8، فالجواب $e^8$ (مو 8):
+             $$\lim_{x\to\infty}\Big(1+\frac4x\Big)^{2x}=e^8$$
+        answer: |-
+          e^8
+        check:
+          kind: limit
+          f: '(1+4/x)**(2*x)'
+          point: 'oo'
+          ans: 'exp(8)'
+          near: ['1e20']

@@ -1,0 +1,26 @@
+# أنماط 6.1 وأسئلة كل نمط بترتيب التدريب
+# came: وين جاء النمط (mid = الفصلي الثاني، fin = النهائي، notes = المذكرة بس)
+patterns:
+  - key: L1
+    sec: '6.1'
+    title: '$\frac00$ و$\frac\infty\infty$: لوبيتال مباشرة'
+    came: [fin]
+    ids: [F451-3-1, F462-3-1, n61e1-1, n61e1-2, n61e1-3, n61e1-4, n61x1, n61x2, n61x3, n61x4, n61x5]
+
+  - key: L2
+    sec: '6.1'
+    title: '$0\cdot\infty$: حوّله لكسر'
+    came: [fin]
+    ids: [F461-3-1, n61e2-1, n61e2-2, n61x9, n61x10]
+
+  - key: L3
+    sec: '6.1'
+    title: '$\infty-\infty$: خله كسر واحد'
+    came: [mid]
+    ids: [M472-2-1, n61e3-1, n61e3-2, n61x6, n61x7, n61x8]
+
+  - key: L4
+    sec: '6.1'
+    title: 'القوى: $1^\infty$ و$\infty^0$ و$0^0$'
+    came: [fin]
+    ids: [F472-3-1, F471-3-1, n61e4-1, n61e4-2, n61e4-3, n61x11, n61x12, n61x13, n61x14, n61x15, n61x16]

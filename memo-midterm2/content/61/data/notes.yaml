@@ -1,0 +1,720 @@
+# مسائل مذكرة المقرر (القسم 6.1: الصيغ غير المعيّنة، ص93 إلى ص99)
+# kind: example = مثال محلول في المذكرة ، kind: exercise = تمرين بدون حل في المذكرة
+# form = الصورة غير المعيّنة اللي تطلع لما نعوّض
+section: '6.1'
+slug: n61
+title: 'مسائل المذكرة 6.1'
+patterns:
+  - key: L1
+    questions:
+      - id: n61e1-1
+        kind: example
+        ref: 'مثال (1) فقرة 1'
+        page: 93
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to1}\frac{\ln x}{x^2-1}'
+        form: '\frac00'
+        hint: |
+          عوّض: تطلع $\frac00$ ← لوبيتال: اشتق $\ln x$ لحاله و$x^2-1$ لحاله.
+        solution: |
+          1. نعوّض $x=1$: فوق $\ln1=0$، وتحت $1-1=0$. الصورة $\frac00$ ← لوبيتال:
+             $$\lim_{x\to1}\frac{\ln x}{x^2-1}\qquad\Big(\frac00\Big)$$
+          2. نشتق البسط لحاله والمقام لحاله:
+             $$=\lim_{x\to1}\frac{\frac1x}{2x}=\lim_{x\to1}\frac{1}{2x^2}$$
+          3. نعوّض $x=1$. صار رقم عادي، فخلصنا:
+             $$=\frac{1}{2(1)^2}=\frac12$$
+        answer: |-
+          \frac12
+        check:
+          kind: limit
+          f: 'log(x)/(x**2-1)'
+          point: '1'
+          dir: '+-'
+          ans: 'Rational(1,2)'
+
+      - id: n61e1-2
+        kind: example
+        ref: 'مثال (1) فقرة 2'
+        page: 94
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to0}\frac{x-\sin x}{3x^2}'
+        form: '\frac00'
+        hint: |
+          $\frac00$ ← لوبيتال. بعدها عوّض: لسا $\frac00$، فكرّر.
+        solution: |
+          1. نعوّض $x=0$: فوق $0-\sin0=0$، وتحت $0$. الصورة $\frac00$ ← لوبيتال:
+             $$=\lim_{x\to0}\frac{1-\cos x}{6x}$$
+          2. نعوّض: فوق $1-\cos0=0$، وتحت $0$. لسا $\frac00$ ← لوبيتال مرة ثانية:
+             $$=\lim_{x\to0}\frac{\sin x}{6}$$
+          3. نعوّض: $\sin0=0$:
+             $$=\frac06=0$$
+        answer: |-
+          0
+        check:
+          kind: limit
+          f: '(x - sin(x))/(3*x**2)'
+          point: '0'
+          dir: '+-'
+          ans: '0'
+
+      - id: n61e1-3
+        kind: example
+        ref: 'مثال (1) فقرة 3'
+        page: 94
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}\frac{x}{\ln x}'
+        form: '\frac{\infty}{\infty}'
+        hint: |
+          $\frac\infty\infty$ ← لوبيتال. والجواب ممكن يطلع $\infty$، وهذا جواب صحيح.
+        solution: |
+          1. نعوّض: $x\to\infty$ و$\ln x\to\infty$. الصورة $\frac\infty\infty$ ← لوبيتال:
+             $$=\lim_{x\to\infty}\frac{1}{\frac1x}=\lim_{x\to\infty}x$$
+          2. نعوّض: $x\to\infty$:
+             $$=\infty$$
+        answer: |-
+          \infty
+        note: |
+          $\infty$ جواب صحيح للنهاية: معناه إن الدالة تكبر بلا حد.
+        check:
+          kind: limit
+          f: 'x/log(x)'
+          point: 'oo'
+          ans: 'oo'
+
+      - id: n61e1-4
+        kind: example
+        ref: 'مثال (1) فقرة 4'
+        page: 94
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}\frac{x^2}{e^x}'
+        form: '\frac{\infty}{\infty}'
+        hint: |
+          $\frac\infty\infty$: لوبيتال مرتين، لين يختفي $x$ من فوق.
+        solution: |
+          1. نعوّض: فوق وتحت يروحون لـ $\infty$. الصورة $\frac\infty\infty$ ← لوبيتال:
+             $$=\lim_{x\to\infty}\frac{2x}{e^x}$$
+          2. لسا $\frac\infty\infty$ ← لوبيتال مرة ثانية:
+             $$=\lim_{x\to\infty}\frac{2}{e^x}$$
+          3. نعوّض: فوق 2 وتحت $e^x\to\infty$، ورقم على ما لا نهاية = صفر:
+             $$=0$$
+        answer: |-
+          0
+        check:
+          kind: limit
+          f: 'x**2/exp(x)'
+          point: 'oo'
+          ans: '0'
+
+      - id: n61x1
+        kind: exercise
+        ref: 'تمرين 1'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to0}\frac{x+1-e^x}{x^2}'
+        form: '\frac00'
+        hint: |
+          $\frac00$ ← لوبيتال مرتين.
+        solution: |
+          1. نعوّض $x=0$: فوق $0+1-1=0$، وتحت $0$. الصورة $\frac00$ ← لوبيتال:
+             $$=\lim_{x\to0}\frac{1-e^x}{2x}$$
+          2. نعوّض: فوق $1-1=0$، وتحت $0$. لسا $\frac00$ ← لوبيتال مرة ثانية:
+             $$=\lim_{x\to0}\frac{-e^x}{2}$$
+          3. نعوّض: $e^0=1$:
+             $$=-\frac12$$
+        answer: |-
+          -\frac12
+        check:
+          kind: limit
+          f: '(x + 1 - exp(x))/x**2'
+          point: '0'
+          dir: '+-'
+          ans: '-Rational(1,2)'
+
+      - id: n61x2
+        kind: exercise
+        ref: 'تمرين 2'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to0}\frac{\int_0^x\sin(t^2)\,dt}{x^3}'
+        form: '\frac00'
+        hint: |
+          $\frac00$ ← لوبيتال. مشتقة التكامل اللي حده الأعلى $x$: عوّض $x$ مكان $t$ في اللي داخله.
+        solution: |
+          1. نعوّض $x=0$: التكامل من 0 إلى 0 يساوي 0، وتحت $0$. الصورة $\frac00$ ← لوبيتال.
+          2. مشتقة البسط بالنظرية الأساسية: نعوّض $x$ مكان $t$ في الدالة اللي داخل التكامل:
+             $$\frac{d}{dx}\int_0^x\sin(t^2)\,dt=\sin(x^2)$$
+             $$=\lim_{x\to0}\frac{\sin(x^2)}{3x^2}$$
+          3. نعوّض: لسا $\frac00$ ← لوبيتال مرة ثانية. مشتقة $\sin(x^2)$ بالسلسلة $=2x\cos(x^2)$:
+             $$=\lim_{x\to0}\frac{2x\cos(x^2)}{6x}=\lim_{x\to0}\frac{\cos(x^2)}{3}$$
+          4. نعوّض: $\cos0=1$:
+             $$=\frac13$$
+        answer: |-
+          \frac13
+        check:
+          kind: limit
+          f: 'Integral(sin(t**2), (t, 0, x))/x**3'
+          point: '0'
+          dir: '+-'
+          ans: 'Rational(1,3)'
+          near: ['1e-4', '-1e-4']
+          tol: '1e-7'
+
+      - id: n61x3
+        kind: exercise
+        ref: 'تمرين 3'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to0}\frac{e^x+e^{-x}-2\cos x}{x^2+\sin x}'
+        form: '\frac00'
+        hint: |
+          $\frac00$ ← لوبيتال مرة. بعدها عوّض وشيك الصورة قبل ما تكمل.
+        solution: |
+          1. نعوّض $x=0$: فوق $1+1-2=0$، وتحت $0+0=0$. الصورة $\frac00$ ← لوبيتال:
+             $$=\lim_{x\to0}\frac{e^x-e^{-x}+2\sin x}{2x+\cos x}$$
+          2. نعوّض: فوق $1-1+0=0$، وتحت $0+1=1$. الصورة صارت $\frac01$، وهذي **مو** غير معيّنة: رقم عادي، فنوقف:
+             $$=\frac01=0$$
+        answer: |-
+          0
+        note: |
+          لو كمّلت لوبيتال مرة ثانية بيطلع لك 2، وهذا غلط. لوبيتال بس لما تكون الصورة $\frac00$ أو $\frac\infty\infty$.
+        check:
+          kind: limit
+          f: '(exp(x) + exp(-x) - 2*cos(x))/(x**2 + sin(x))'
+          point: '0'
+          dir: '+-'
+          ans: '0'
+
+      - id: n61x4
+        kind: exercise
+        ref: 'تمرين 4'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}\frac{x^2+\ln x}{e^{2x}}'
+        form: '\frac{\infty}{\infty}'
+        hint: |
+          $\frac\infty\infty$ ← لوبيتال مرتين. بعد الثانية فوق يصير رقم.
+        solution: |
+          1. نعوّض: فوق وتحت يروحون لـ $\infty$. الصورة $\frac\infty\infty$ ← لوبيتال:
+             $$=\lim_{x\to\infty}\frac{2x+\frac1x}{2e^{2x}}$$
+          2. لسا $\frac\infty\infty$ ← لوبيتال مرة ثانية. مشتقة $\frac1x$ هي $-\frac{1}{x^2}$:
+             $$=\lim_{x\to\infty}\frac{2-\frac{1}{x^2}}{4e^{2x}}$$
+          3. نعوّض: فوق $2-0=2$، وتحت $\infty$. صورة محسومة:
+             $$=\frac{2}{\infty}=0$$
+        answer: |-
+          0
+        check:
+          kind: limit
+          f: '(x**2 + log(x))/exp(2*x)'
+          point: 'oo'
+          ans: '0'
+
+      - id: n61x5
+        kind: exercise
+        ref: 'تمرين 5'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}\frac{1+x^2+e^{2x}}{2+x+e^{3x}}'
+        form: '\frac{\infty}{\infty}'
+        hint: |
+          $\frac\infty\infty$: لوبيتال ثلاث مرات، لين يبقى أسّيات بس، بعدين اختصر.
+        solution: |
+          1. نعوّض: الصورة $\frac\infty\infty$ ← لوبيتال:
+             $$=\lim_{x\to\infty}\frac{2x+2e^{2x}}{1+3e^{3x}}$$
+          2. لسا $\frac\infty\infty$ ← لوبيتال:
+             $$=\lim_{x\to\infty}\frac{2+4e^{2x}}{9e^{3x}}$$
+          3. لسا $\frac\infty\infty$ ← لوبيتال:
+             $$=\lim_{x\to\infty}\frac{8e^{2x}}{27e^{3x}}$$
+          4. نختصر: $\frac{e^{2x}}{e^{3x}}=\frac{1}{e^x}$:
+             $$=\lim_{x\to\infty}\frac{8}{27e^x}=0$$
+        answer: |-
+          0
+        check:
+          kind: limit
+          f: '(1 + x**2 + exp(2*x))/(2 + x + exp(3*x))'
+          point: 'oo'
+          ans: '0'
+
+  - key: L2
+    questions:
+      - id: n61e2-1
+        kind: example
+        ref: 'مثال (2) فقرة 1'
+        page: 95
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}\big(x^2-1\big)e^{-x^2}'
+        form: '\infty\cdot0'
+        hint: |
+          $\infty\cdot0$: اكتب $e^{-x^2}=\frac{1}{e^{x^2}}$ ونزّلها تحت.
+        solution: |
+          1. نعوّض: $x^2-1\to\infty$ و$e^{-x^2}\to0$، يعني $\infty\cdot0$. نحوّله لكسر: الأسّية تنزل تحت كمقلوب:
+             $$\big(x^2-1\big)e^{-x^2}=\frac{x^2-1}{e^{x^2}}\qquad\Big(\frac\infty\infty\Big)$$
+          2. لوبيتال. مشتقة $e^{x^2}$ بالسلسلة $=2xe^{x^2}$:
+             $$=\lim_{x\to\infty}\frac{2x}{2xe^{x^2}}$$
+          3. نختصر $2x$:
+             $$=\lim_{x\to\infty}\frac{1}{e^{x^2}}=0$$
+        answer: |-
+          0
+        check:
+          kind: limit
+          f: '(x**2 - 1)*exp(-x**2)'
+          point: 'oo'
+          ans: '0'
+          near: ['30']
+
+      - id: n61e2-2
+        kind: example
+        ref: 'مثال (2) فقرة 2'
+        page: 95
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to0^+}x^2\ln x'
+        form: '0\cdot(-\infty)'
+        hint: |
+          $0\cdot(-\infty)$: خل $\ln x$ فوق، وانقل $x^2$ تحت كـ $x^{-2}$.
+        solution: |
+          1. نعوّض: $x^2\to0$ و$\ln x\to-\infty$، يعني $0\cdot(-\infty)$. نحوّله لكسر: نخلي $\ln x$ فوق، وننقل $x^2$ تحت كمقلوب:
+             $$x^2\ln x=\frac{\ln x}{x^{-2}}\qquad\Big(\frac{-\infty}{\infty}\Big)$$
+          2. لوبيتال. مشتقة $x^{-2}$ هي $-2x^{-3}$:
+             $$=\lim_{x\to0^+}\frac{\frac1x}{-2x^{-3}}$$
+          3. نبسّط: القسمة على $x^{-3}$ = ضرب في $x^3$:
+             $$=\lim_{x\to0^+}\frac{x^3}{-2x}=\lim_{x\to0^+}\frac{x^2}{-2}$$
+          4. نعوّض:
+             $$=\frac{0}{-2}=0$$
+        answer: |-
+          0
+        check:
+          kind: limit
+          f: 'x**2*log(x)'
+          point: '0'
+          dir: '+'
+          ans: '0'
+
+      - id: n61x9
+        kind: exercise
+        ref: 'تمرين 9'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}x^3\,5^{-x}'
+        form: '\infty\cdot0'
+        hint: |
+          اكتب $5^{-x}=\frac{1}{5^x}$، ولوبيتال ثلاث مرات. مشتقة $5^x$ هي $5^x\ln5$.
+        solution: |
+          1. نعوّض: $x^3\to\infty$ و$5^{-x}\to0$، يعني $\infty\cdot0$. نحوّله لكسر:
+             $$x^3\,5^{-x}=\frac{x^3}{5^x}\qquad\Big(\frac\infty\infty\Big)$$
+          2. لوبيتال. مشتقة $5^x$ هي $5^x\ln5$، و$\ln5$ رقم ثابت:
+             $$=\lim_{x\to\infty}\frac{3x^2}{5^x\ln5}$$
+          3. لسا $\frac\infty\infty$ ← لوبيتال مرتين ثانية (كل مرة يطلع $\ln5$ زيادة تحت):
+             $$=\lim_{x\to\infty}\frac{6x}{5^x(\ln5)^2}=\lim_{x\to\infty}\frac{6}{5^x(\ln5)^3}$$
+          4. نعوّض: فوق رقم وتحت $\infty$:
+             $$=0$$
+        answer: |-
+          0
+        check:
+          kind: limit
+          f: 'x**3*5**(-x)'
+          point: 'oo'
+          ans: '0'
+
+      - id: n61x10
+        kind: exercise
+        ref: 'تمرين 10'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}x^2\Big[1-\cos\Big(\frac1x\Big)\Big]'
+        form: '\infty\cdot0'
+        hint: |
+          $\infty\cdot0$: اكتبها $\frac{1-\cos(1/x)}{1/x^2}$. بعد لوبيتال يطلع لك $0\cdot\infty$ مرة ثانية: حوّله لكسر وكرّر.
+        solution: |
+          1. نعوّض: $x^2\to\infty$ و$\cos\frac1x\to\cos0=1$، يعني $\infty\cdot0$. نحوّله لكسر:
+             $$x^2\Big[1-\cos\frac1x\Big]=\frac{1-\cos\frac1x}{\frac{1}{x^2}}\qquad\Big(\frac00\Big)$$
+          2. لوبيتال. مشتقة $\frac1x$ هي $-\frac{1}{x^2}$، فمشتقة $1-\cos\frac1x$ بالسلسلة $=-\frac{1}{x^2}\sin\frac1x$. ومشتقة $\frac{1}{x^2}$ هي $-\frac{2}{x^3}$:
+             $$=\lim_{x\to\infty}\frac{-\frac{1}{x^2}\sin\frac1x}{-\frac{2}{x^3}}=\lim_{x\to\infty}\frac{x}{2}\sin\frac1x$$
+          3. صارت $\infty\cdot0$ مرة ثانية. نكتبها كسر:
+             $$=\lim_{x\to\infty}\frac{\sin\frac1x}{\frac{2}{x}}\qquad\Big(\frac00\Big)$$
+          4. لوبيتال مرة ثانية:
+             $$=\lim_{x\to\infty}\frac{-\frac{1}{x^2}\cos\frac1x}{-\frac{2}{x^2}}=\lim_{x\to\infty}\frac{\cos\frac1x}{2}$$
+          5. نعوّض: $\cos0=1$:
+             $$=\frac12$$
+        answer: |-
+          \frac12
+        check:
+          kind: limit
+          f: 'x**2*(1 - cos(1/x))'
+          point: 'oo'
+          ans: 'Rational(1,2)'
+
+  - key: L3
+    questions:
+      - id: n61e3-1
+        kind: example
+        ref: 'مثال (3) فقرة 1'
+        page: 95
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to1^+}\Big[\frac{1}{x-1}-\frac{1}{\ln x}\Big]'
+        form: '\infty-\infty'
+        hint: |
+          $\infty-\infty$: وحّد المقامات أول. بعد لوبيتال الأول اضرب فوق وتحت في $x$.
+        solution: |
+          1. نعوّض: الكسرين يروحون لـ $\infty$، يعني $\infty-\infty$. نوحّد المقامات:
+             $$\frac{1}{x-1}-\frac{1}{\ln x}=\frac{\ln x-(x-1)}{(x-1)\ln x}=\frac{\ln x-x+1}{(x-1)\ln x}\qquad\Big(\frac00\Big)$$
+          2. لوبيتال. المقام نشتقه بقاعدة الضرب:
+             $$=\lim_{x\to1^+}\frac{\frac1x-1}{\ln x+\frac{x-1}{x}}$$
+          3. نبسّط: كسر داخل كسر، فنضرب فوق وتحت في $x$:
+             $$=\lim_{x\to1^+}\frac{1-x}{x\ln x+x-1}\qquad\Big(\frac00\Big)$$
+          4. لوبيتال مرة ثانية. مشتقة $x\ln x$ بقاعدة الضرب $=\ln x+1$:
+             $$=\lim_{x\to1^+}\frac{-1}{\ln x+1+1}=\lim_{x\to1^+}\frac{-1}{\ln x+2}$$
+          5. نعوّض: $\ln1=0$:
+             $$=-\frac12$$
+        answer: |-
+          -\frac12
+        check:
+          kind: limit
+          f: '1/(x-1) - 1/log(x)'
+          point: '1'
+          dir: '+'
+          ans: '-Rational(1,2)'
+
+      - id: n61e3-2
+        kind: example
+        ref: 'مثال (3) فقرة 2'
+        page: 96
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to0^+}\Big[\frac1x-\frac{1}{e^x-1}\Big]'
+        form: '\infty-\infty'
+        hint: |
+          $\infty-\infty$: وحّد المقامات، بعدين لوبيتال مرتين. المقام بقاعدة الضرب.
+        solution: |
+          1. نعوّض: الكسرين يروحون لـ $\infty$، يعني $\infty-\infty$. نوحّد المقامات:
+             $$\frac1x-\frac{1}{e^x-1}=\frac{e^x-1-x}{x\big(e^x-1\big)}\qquad\Big(\frac00\Big)$$
+          2. لوبيتال. المقام بقاعدة الضرب: $(e^x-1)+xe^x$:
+             $$=\lim_{x\to0^+}\frac{e^x-1}{e^x-1+xe^x}\qquad\Big(\frac00\Big)$$
+          3. لوبيتال مرة ثانية:
+             $$=\lim_{x\to0^+}\frac{e^x}{e^x+e^x+xe^x}=\lim_{x\to0^+}\frac{e^x}{e^x(2+x)}=\lim_{x\to0^+}\frac{1}{2+x}$$
+          4. نعوّض:
+             $$=\frac12$$
+        answer: |-
+          \frac12
+        check:
+          kind: limit
+          f: '1/x - 1/(exp(x)-1)'
+          point: '0'
+          dir: '+'
+          ans: 'Rational(1,2)'
+
+      - id: n61x6
+        kind: exercise
+        ref: 'تمرين 6'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to0^+}\Big(\frac1x-\frac{1}{\sin x}\Big)'
+        form: '\infty-\infty'
+        hint: |
+          نفس M472-2-1: وحّد المقامات، بعدين لوبيتال مرتين.
+        solution: |
+          1. نعوّض: الكسرين يروحون لـ $\infty$، يعني $\infty-\infty$. نوحّد المقامات:
+             $$\frac1x-\frac{1}{\sin x}=\frac{\sin x-x}{x\sin x}\qquad\Big(\frac00\Big)$$
+          2. لوبيتال. المقام بقاعدة الضرب:
+             $$=\lim_{x\to0^+}\frac{\cos x-1}{\sin x+x\cos x}\qquad\Big(\frac00\Big)$$
+          3. لوبيتال مرة ثانية. مشتقة $x\cos x$ بقاعدة الضرب $=\cos x-x\sin x$:
+             $$=\lim_{x\to0^+}\frac{-\sin x}{\cos x+\cos x-x\sin x}=\lim_{x\to0^+}\frac{-\sin x}{2\cos x-x\sin x}$$
+          4. نعوّض: فوق $0$ وتحت $2$:
+             $$=\frac02=0$$
+        answer: |-
+          0
+        check:
+          kind: limit
+          f: '1/x - 1/sin(x)'
+          point: '0'
+          dir: '+'
+          ans: '0'
+
+      - id: n61x7
+        kind: exercise
+        ref: 'تمرين 7'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}\Big(\frac{x^2}{x-1}-\frac{x^2}{x+1}\Big)'
+        form: '\infty-\infty'
+        hint: |
+          وحّد المقامات: المقام المشترك $(x-1)(x+1)=x^2-1$. يطلع $\frac\infty\infty$.
+        solution: |
+          1. نعوّض: الكسرين يروحون لـ $\infty$، يعني $\infty-\infty$. نوحّد المقامات، والمقام المشترك $(x-1)(x+1)=x^2-1$:
+             $$\frac{x^2(x+1)-x^2(x-1)}{x^2-1}=\frac{x^3+x^2-x^3+x^2}{x^2-1}=\frac{2x^2}{x^2-1}\qquad\Big(\frac\infty\infty\Big)$$
+          2. لوبيتال:
+             $$=\lim_{x\to\infty}\frac{4x}{2x}$$
+          3. نختصر $x$:
+             $$=2$$
+        answer: |-
+          2
+        check:
+          kind: limit
+          f: 'x**2/(x-1) - x**2/(x+1)'
+          point: 'oo'
+          ans: '2'
+
+      - id: n61x8
+        kind: exercise
+        ref: 'تمرين 8'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}\Big(x\,e^{\frac1x}-x\Big)'
+        form: '\infty-\infty'
+        hint: |
+          ما فيه كسور توحّدها: طلّع $x$ عامل مشترك، يصير $\infty\cdot0$، وحوّله لكسر.
+        solution: |
+          1. نعوّض: $xe^{1/x}\to\infty\cdot1=\infty$ و$x\to\infty$، يعني $\infty-\infty$. ما فيه كسور، فنطلّع $x$ عامل مشترك:
+             $$x\,e^{\frac1x}-x=x\Big(e^{\frac1x}-1\Big)\qquad(\infty\cdot0)$$
+          2. نحوّله لكسر: $x$ تنزل تحت كـ $\frac1x$:
+             $$=\frac{e^{\frac1x}-1}{\frac1x}\qquad\Big(\frac00\Big)$$
+          3. لوبيتال. مشتقة $\frac1x$ هي $-\frac{1}{x^2}$، فمشتقة $e^{1/x}$ بالسلسلة $=-\frac{1}{x^2}e^{1/x}$:
+             $$=\lim_{x\to\infty}\frac{-\frac{1}{x^2}e^{\frac1x}}{-\frac{1}{x^2}}=\lim_{x\to\infty}e^{\frac1x}$$
+          4. نعوّض: $\frac1x\to0$:
+             $$=e^0=1$$
+        answer: |-
+          1
+        check:
+          kind: limit
+          f: 'x*exp(1/x) - x'
+          point: 'oo'
+          ans: '1'
+
+  - key: L4
+    questions:
+      - id: n61e4-1
+        kind: example
+        ref: 'مثال (4) فقرة 1'
+        page: 97
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to0^+}x^x'
+        form: '0^0'
+        hint: |
+          $0^0$: اكتبها $e^{x\ln x}$. نهاية الأس صورتها $0\cdot(-\infty)$.
+        solution: |
+          1. نعوّض: الأساس والأس يروحون لـ 0، يعني $0^0$. نكتبها أسّية:
+             $$x^x=e^{x\ln x}$$
+          2. نحسب نهاية الأس لحاله: $x\ln x$ صورتها $0\cdot(-\infty)$. نخلي $\ln x$ فوق:
+             $$x\ln x=\frac{\ln x}{\frac1x}\qquad\Big(\frac{-\infty}{\infty}\Big)$$
+          3. لوبيتال. مشتقة $\frac1x$ هي $-\frac{1}{x^2}$:
+             $$=\lim_{x\to0^+}\frac{\frac1x}{-\frac{1}{x^2}}=\lim_{x\to0^+}\frac{x^2}{-x}=\lim_{x\to0^+}(-x)=0$$
+          4. نهاية الأس صفر، فالجواب:
+             $$\lim_{x\to0^+}x^x=e^0=1$$
+        answer: |-
+          1
+        check:
+          kind: limit
+          f: 'x**x'
+          point: '0'
+          dir: '+'
+          ans: '1'
+
+      - id: n61e4-2
+        kind: example
+        ref: 'مثال (4) فقرة 2'
+        page: 97
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}\big(1+e^{2x}\big)^{\frac1x}'
+        form: '\infty^0'
+        hint: |
+          $\infty^0$: نهاية الأس $\frac{\ln(1+e^{2x})}{x}$ صورتها $\frac\infty\infty$: لوبيتال مرتين.
+        solution: |
+          1. نعوّض: الأساس يروح لـ $\infty$ والأس لـ 0، يعني $\infty^0$. نكتبها أسّية:
+             $$\big(1+e^{2x}\big)^{\frac1x}=e^{\frac{\ln(1+e^{2x})}{x}}$$
+          2. نحسب نهاية الأس لحاله. صورته $\frac\infty\infty$ ← لوبيتال (مشتقة $\ln$ = مشتقة الداخل على الداخل):
+             $$\lim_{x\to\infty}\frac{\ln\big(1+e^{2x}\big)}{x}=\lim_{x\to\infty}\frac{2e^{2x}}{1+e^{2x}}$$
+          3. لسا $\frac\infty\infty$ ← لوبيتال مرة ثانية:
+             $$=\lim_{x\to\infty}\frac{4e^{2x}}{2e^{2x}}=2$$
+          4. نهاية الأس 2، فالجواب:
+             $$\lim_{x\to\infty}\big(1+e^{2x}\big)^{\frac1x}=e^2$$
+        answer: |-
+          e^2
+        check:
+          kind: limit
+          f: '(1 + exp(2*x))**(1/x)'
+          point: 'oo'
+          ans: 'exp(2)'
+
+      - id: n61e4-3
+        kind: example
+        ref: 'مثال (4) فقرة 3'
+        page: 98
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}\Big(1+\frac3x\Big)^{x}'
+        form: '1^\infty'
+        hint: |
+          نفس F472-3-1: $1^\infty$، ونهاية الأس $\frac{\ln(1+3/x)}{1/x}$.
+        solution: |
+          1. نعوّض: الأساس يروح لـ 1 والأس لـ $\infty$، يعني $1^\infty$. نكتبها أسّية:
+             $$\Big(1+\frac3x\Big)^x=e^{x\ln\left(1+\frac3x\right)}$$
+          2. نهاية الأس صورتها $\infty\cdot0$. نحوّله لكسر:
+             $$x\ln\Big(1+\frac3x\Big)=\frac{\ln\big(1+\frac3x\big)}{\frac1x}\qquad\Big(\frac00\Big)$$
+          3. لوبيتال. مشتقة $\frac3x$ هي $-\frac{3}{x^2}$، ومشتقة $\frac1x$ هي $-\frac{1}{x^2}$:
+             $$=\lim_{x\to\infty}\frac{\dfrac{-3/x^2}{1+\frac3x}}{-\dfrac{1}{x^2}}=\lim_{x\to\infty}\frac{3}{1+\frac3x}=3$$
+          4. نهاية الأس 3، فالجواب:
+             $$\lim_{x\to\infty}\Big(1+\frac3x\Big)^x=e^3$$
+        answer: |-
+          e^3
+        fix: |
+          حل المذكرة (ص98) كتب بعد التبسيط $\frac{3}{1+\frac1x}$، والصحيح $\frac{3}{1+\frac3x}$. النهاية نفسها صحيحة (3)، والجواب $e^3$.
+        check:
+          kind: limit
+          f: '(1 + 3/x)**x'
+          point: 'oo'
+          ans: 'exp(3)'
+
+      - id: n61x11
+        kind: exercise
+        ref: 'تمرين 11'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to0^+}(2x)^{\frac{1}{\ln x}}'
+        form: '0^0'
+        hint: |
+          $0^0$: الأس يصير $\frac{\ln(2x)}{\ln x}$، صورته $\frac{-\infty}{-\infty}$ ← لوبيتال.
+        solution: |
+          1. نعوّض: الأساس $2x\to0$ والأس $\frac{1}{\ln x}\to0$، يعني $0^0$. نكتبها أسّية:
+             $$(2x)^{\frac{1}{\ln x}}=e^{\frac{\ln(2x)}{\ln x}}$$
+          2. نحسب نهاية الأس لحاله. صورته $\frac{-\infty}{-\infty}$ ← لوبيتال. مشتقة $\ln(2x)$ هي $\frac{2}{2x}=\frac1x$:
+             $$\lim_{x\to0^+}\frac{\ln(2x)}{\ln x}=\lim_{x\to0^+}\frac{\frac1x}{\frac1x}=1$$
+          3. نهاية الأس 1، فالجواب:
+             $$\lim_{x\to0^+}(2x)^{\frac{1}{\ln x}}=e^1=e$$
+        answer: |-
+          e
+        check:
+          kind: limit
+          f: '(2*x)**(1/log(x))'
+          point: '0'
+          dir: '+'
+          ans: 'E'
+          near: ['1e-10000000']
+          tol: '1e-6'
+
+      - id: n61x12
+        kind: exercise
+        ref: 'تمرين 12'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to0^+}\big(e^x-1\big)^{x}'
+        form: '0^0'
+        hint: |
+          $0^0$: الأس $x\ln(e^x-1)$ اكتبه $\frac{\ln(e^x-1)}{1/x}$، ولوبيتال مرتين.
+        solution: |
+          1. نعوّض: الأساس $e^x-1\to0$ والأس $x\to0$، يعني $0^0$. نكتبها أسّية:
+             $$\big(e^x-1\big)^x=e^{x\ln(e^x-1)}$$
+          2. نهاية الأس صورتها $0\cdot(-\infty)$. نخلي $\ln$ فوق:
+             $$x\ln\big(e^x-1\big)=\frac{\ln\big(e^x-1\big)}{\frac1x}\qquad\Big(\frac{-\infty}{\infty}\Big)$$
+          3. لوبيتال:
+             $$=\lim_{x\to0^+}\frac{\frac{e^x}{e^x-1}}{-\frac{1}{x^2}}=\lim_{x\to0^+}\frac{-x^2e^x}{e^x-1}\qquad\Big(\frac00\Big)$$
+          4. لوبيتال مرة ثانية. فوق بقاعدة الضرب: $-(2xe^x+x^2e^x)$:
+             $$=\lim_{x\to0^+}\frac{-\big(2xe^x+x^2e^x\big)}{e^x}=\lim_{x\to0^+}-\big(2x+x^2\big)=0$$
+          5. نهاية الأس صفر، فالجواب:
+             $$\lim_{x\to0^+}\big(e^x-1\big)^x=e^0=1$$
+        answer: |-
+          1
+        check:
+          kind: limit
+          f: '(exp(x) - 1)**x'
+          point: '0'
+          dir: '+'
+          ans: '1'
+
+      - id: n61x13
+        kind: exercise
+        ref: 'تمرين 13'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}\big(1+\sqrt{x}\big)^{\frac1x}'
+        form: '\infty^0'
+        hint: |
+          $\infty^0$: الأس $\frac{\ln(1+\sqrt x)}{x}$ صورته $\frac\infty\infty$ ← لوبيتال مرة.
+        solution: |
+          1. نعوّض: الأساس يروح لـ $\infty$ والأس لـ 0، يعني $\infty^0$. نكتبها أسّية:
+             $$\big(1+\sqrt x\big)^{\frac1x}=e^{\frac{\ln(1+\sqrt x)}{x}}$$
+          2. نهاية الأس صورتها $\frac\infty\infty$ ← لوبيتال. مشتقة $\sqrt x$ هي $\frac{1}{2\sqrt x}$:
+             $$\lim_{x\to\infty}\frac{\ln\big(1+\sqrt x\big)}{x}=\lim_{x\to\infty}\frac{\frac{1}{2\sqrt x\,(1+\sqrt x)}}{1}=0$$
+             لأن المقام يروح لـ $\infty$.
+          3. نهاية الأس صفر، فالجواب:
+             $$\lim_{x\to\infty}\big(1+\sqrt x\big)^{\frac1x}=e^0=1$$
+        answer: |-
+          1
+        check:
+          kind: limit
+          f: '(1 + sqrt(x))**(1/x)'
+          point: 'oo'
+          ans: '1'
+
+      - id: n61x14
+        kind: exercise
+        ref: 'تمرين 14'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to\infty}\big(e^x+x\big)^{\frac3x}'
+        form: '\infty^0'
+        hint: |
+          $\infty^0$: الأس $\frac{3\ln(e^x+x)}{x}$ صورته $\frac\infty\infty$: لوبيتال ثلاث مرات.
+        solution: |
+          1. نعوّض: الأساس يروح لـ $\infty$ والأس لـ 0، يعني $\infty^0$. نكتبها أسّية:
+             $$\big(e^x+x\big)^{\frac3x}=e^{\frac{3\ln(e^x+x)}{x}}$$
+          2. نهاية الأس صورتها $\frac\infty\infty$ ← لوبيتال:
+             $$\lim_{x\to\infty}\frac{3\ln\big(e^x+x\big)}{x}=\lim_{x\to\infty}\frac{3\big(e^x+1\big)}{e^x+x}$$
+          3. لسا $\frac\infty\infty$ ← لوبيتال مرتين ثانية:
+             $$=\lim_{x\to\infty}\frac{3e^x}{e^x+1}=\lim_{x\to\infty}\frac{3e^x}{e^x}=3$$
+          4. نهاية الأس 3، فالجواب:
+             $$\lim_{x\to\infty}\big(e^x+x\big)^{\frac3x}=e^3$$
+        answer: |-
+          e^3
+        check:
+          kind: limit
+          f: '(exp(x) + x)**(3/x)'
+          point: 'oo'
+          ans: 'exp(3)'
+
+      - id: n61x15
+        kind: exercise
+        ref: 'تمرين 15'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to0^+}(1+x)^{\cot x}'
+        form: '1^\infty'
+        hint: |
+          $1^\infty$: الأس $\cot x\ln(1+x)=\frac{\ln(1+x)}{\tan x}$، صورته $\frac00$.
+        solution: |
+          1. نعوّض: الأساس يروح لـ 1 والأس $\cot x\to\infty$، يعني $1^\infty$. نكتبها أسّية:
+             $$(1+x)^{\cot x}=e^{\cot x\,\ln(1+x)}$$
+          2. نهاية الأس صورتها $\infty\cdot0$. و$\cot x=\frac{1}{\tan x}$، فيصير كسر مباشرة:
+             $$\cot x\,\ln(1+x)=\frac{\ln(1+x)}{\tan x}\qquad\Big(\frac00\Big)$$
+          3. لوبيتال. مشتقة $\tan x$ هي $\sec^2x$:
+             $$=\lim_{x\to0^+}\frac{\frac{1}{1+x}}{\sec^2x}=\frac{1}{1}=1$$
+          4. نهاية الأس 1، فالجواب:
+             $$\lim_{x\to0^+}(1+x)^{\cot x}=e^1=e$$
+        answer: |-
+          e
+        check:
+          kind: limit
+          f: '(1 + x)**cot(x)'
+          point: '0'
+          dir: '+'
+          ans: 'E'
+
+      - id: n61x16
+        kind: exercise
+        ref: 'تمرين 16'
+        page: 99
+        prompt: 'Evaluate the limit.'
+        q: '\lim_{x\to1^-}x^{\frac{1}{x-1}}'
+        form: '1^{-\infty}'
+        hint: |
+          الأساس يروح لـ 1 والأس لـ $-\infty$: نفس $1^\infty$. الأس $\frac{\ln x}{x-1}$ صورته $\frac00$.
+        solution: |
+          1. نعوّض: الأساس $x\to1$ والأس $\frac{1}{x-1}\to-\infty$ (لأن $x-1$ سالب صغير). هذي $1^{-\infty}$، غير معيّنة بنفس الطريقة. نكتبها أسّية:
+             $$x^{\frac{1}{x-1}}=e^{\frac{\ln x}{x-1}}$$
+          2. نهاية الأس صورتها $\frac00$ ← لوبيتال:
+             $$\lim_{x\to1^-}\frac{\ln x}{x-1}=\lim_{x\to1^-}\frac{\frac1x}{1}=1$$
+          3. نهاية الأس 1، فالجواب:
+             $$\lim_{x\to1^-}x^{\frac{1}{x-1}}=e^1=e$$
+        answer: |-
+          e
+        check:
+          kind: limit
+          f: 'x**(1/(x-1))'
+          point: '1'
+          dir: '-'
+          ans: 'E'

@@ -1,0 +1,56 @@
+
+/* ===== ملف 6.1: نفس أساس style-5x.css، بتصميم أهدأ للعين ===== */
+@page { @top-right { content: "ريض 111 · 6.1 الصيغ غير المعيّنة وقاعدة لوبيتال"; } }
+
+/* ألوان أقل: الألوان للقوانين والتنبيه والتصحيح والجواب بس، والباقي محايد */
+.box-recog, .box-first, .box-why, .box-note, .box-more, .box-steps, .box-alg, .box-use, .box-scope, .box-plan, .box-exam { --c: #33495a; --bg: #f5f7f9; }
+.box-recog { --c: var(--brand); --bg: #ffffff; border: 1px solid #d3e3e8; border-inline-start: 4px solid var(--brand); }
+.box-law { --c: var(--brand); --bg: #eff7f9; }
+.box-warn { --c: #9a5400; --bg: #fff5e6; }
+.box-fix { --c: var(--red); --bg: var(--red-soft); }
+.box-more { border-inline-start-style: dashed; }
+.box-steps ol > li::before, .sol-steps ol > li::before { background: var(--brand); }
+.h3::before { background: var(--brand); }
+.diffs-title, .diffs-title::before { color: var(--brand); }
+.diffs-title::before { background: var(--brand); }
+.diff { border-inline-start: 3px solid #9cb8c3; }
+.example { box-shadow: none; }
+.example-notes { border-color: #c9d8de; }
+.example-notes .ex-label { background: var(--brand); }
+.ex-label { background: var(--brand); }
+.solution .ex-label { background: var(--green); }
+
+/* الرموز: الاختبارات بلون واحد، والمذكرة رمادي */
+.qid-notes { color: #3d5160; background: #edf1f4; }
+.tag-past { color: var(--brand); border-color: #b9d9e1; }
+.came-mid { color: #fff; background: var(--brand); }
+.came-fin { color: var(--brand); background: #fff; border: 1.2px solid var(--brand); }
+.came-notes { color: #3d5160; background: #edf1f4; }
+
+/* بطاقات التدريب: الرمز والسؤال، وسطر صغير تحت */
+.pcard { padding: 0.3em 0.6em 0.25em; }
+.pcard .q-head { gap: 0.25em 0.4em; flex-wrap: wrap; }
+.exn, .sem { font-size: 0.7em; color: var(--muted); white-space: nowrap; }
+.mk { font-size: 0.68em; color: var(--muted); margin-inline-start: auto; white-space: nowrap; }
+.pcard .q-math .eq { margin: 0.2em 0 0.15em; }
+.pfoot { display: flex; align-items: center; gap: 0.35em; }
+.pfoot .dot { width: 0.72em; height: 0.72em; border: 1.3px solid #b3bfc8; border-radius: 50%; display: inline-block; }
+.pfoot .ln { margin-inline-start: auto; font-size: 0.74em; color: var(--muted); }
+.pfoot .ln a { color: var(--brand); font-weight: 600; }
+.pcard-worked { border-color: #a9cfd9; }
+.pcard-worked::before { color: var(--brand); }
+.tgrid .pcard .q-head { flex-wrap: wrap; }
+
+/* الجواب: «الصورة» بدل المجال */
+.dom-chip .m { font-size: 1.05em; }
+
+/* التلميحات أهدأ */
+.hint { border-color: #dbe4e9; }
+.go-inline { color: var(--brand); border-color: #cfe3e9; }
+
+/* رأس الحل: رابط «السؤال» بدون إطار */
+.ex-head .go { border: 0; text-decoration: underline; color: var(--muted); }
+
+/* صفحة البداية */
+.plan ol { margin: 0.2em 0; }
+.legend .item .what { font-size: 0.9em; }

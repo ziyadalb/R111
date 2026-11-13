@@ -115,15 +115,41 @@ def check_one(q):
         ok = close(val, ans)
         msg = f'التكامل العددي={mp.nstr(val, 20)} ، الجواب={mp.nstr(ans, 20)}'
     elif kind == 'limit':
-        f = P(c['f'])
-        lim = sp.limit(f, x, P(c['point']), c['dir'])
+        # النهاية: sympy.limit رمزيًا + قيمة عددية قريبة من النقطة (من الجهة المطلوبة)
+        f = P(c['f']).doit()
+        pt = P(c['point'])
+        d = c.get('dir', '+-')
+        lim = sp.limit(f, x, pt) if pt in (sp.oo, -sp.oo) else sp.limit(f, x, pt, d)
         ans = P(c['ans'])
-        ok_sym = sp.simplify(lim - ans) == 0
+        ok_sym = lim == ans or (ans.is_finite and lim.is_finite and sp.simplify(lim - ans) == 0)
         F = fn(f)
-        near = real_val(F(mp.mpf('1e-12') if c['dir'] == '+' else mp.mpf('-1e-12')))
-        ok_num = abs(near - mp.mpf(sp.N(ans, 50))) < mp.mpf('1e-9')
+        near = c.get('near')
+        if near is None:
+            if pt == sp.oo:
+                near = ['1e12']
+            elif pt == -sp.oo:
+                near = ['-1e12']
+            else:
+                a = mp.mpf(sp.N(pt, 50))
+                h = mp.mpf('1e-12')
+                near = [a + s * h for s in {'+': [1], '-': [-1], '+-': [1, -1]}[d]]
+        vals = []
+        for s in near:
+            try:
+                vals.append(real_val(F(mp.mpf(s))))
+            except Exception:  # noqa: BLE001
+                vals.append(None)
+        if ans == sp.oo:
+            ok_num = all(v is not None and v > mp.mpf('1e6') for v in vals)
+        elif ans == -sp.oo:
+            ok_num = all(v is not None and v < mp.mpf('-1e6') for v in vals)
+        else:
+            A = mp.mpf(sp.N(ans, 50))
+            tol = mp.mpf(c.get('tol', '1e-9'))
+            ok_num = all(v is not None and abs(v - A) < tol for v in vals)
         ok = ok_sym and ok_num
-        msg = f'sympy.limit={lim} ، قيمة عند x=1e-12: {mp.nstr(near, 12)}'
+        shown = ' ، '.join(mp.nstr(v, 12) if v is not None else 'None' for v in vals)
+        msg = f'sympy.limit={lim} ، قيم قرب النقطة: {shown}'
     else:
         raise ValueError(kind)
 
@@ -243,6 +269,16 @@ def general_checks():
 
     # 15) اختصار الجدول (كثير حدود × أسّية/مثلثية): مثال x³eˣ وx²cos3x
     rec('جدول: ∫x³eˣ = (x³−3x²+6x−6)eˣ', sp.simplify(sp.diff((x**3 - 3 * x**2 + 6 * x - 6) * sp.exp(x), x) - x**3 * sp.exp(x)) == 0)
+
+    # 16) 6.1: لوبيتال زيادة في تمرين 3 يعطي جواب غلط (2)، والصحيح 0
+    num = sp.exp(x) + sp.exp(-x) - 2 * sp.cos(x)
+    den = x**2 + sp.sin(x)
+    wrong = sp.limit(sp.diff(num, x, 2) / sp.diff(den, x, 2), x, 0)
+    right = sp.limit(num / den, x, 0)
+    rec('6.1 تمرين 3: لوبيتال مرة زيادة يعطي 2، والنهاية الصحيحة 0', wrong == 2 and right == 0)
+    # 17) a^b = e^{b ln a} لما a > 0
+    aa2, bb2 = sp.symbols('a b', positive=True)
+    rec('a^b = e^{b ln a} (a>0)', sp.simplify(aa2**bb2 - sp.exp(bb2 * sp.log(aa2))) == 0)
     return out
 
 
@@ -250,6 +286,7 @@ def main():
     files = sorted(glob.glob(os.path.join(ROOT, 'content', 'questions', '*.yaml')))
     files += sorted(glob.glob(os.path.join(ROOT, 'content', '42', 'data', '*.yaml')))
     files += sorted(glob.glob(os.path.join(ROOT, 'content', '5x', 'data', '*.yaml')))
+    files += sorted(glob.glob(os.path.join(ROOT, 'content', '61', 'data', '*.yaml')))
     total = 0
     lines.append('# تقرير التحقق الآلي\n')
     lines.append('كل سطر: المعرّف، نوع الفحص، النتيجة، والتفاصيل. الفحص عددي بدقة 40 خانة في نقاط من كل فرع من المجال.\n')
