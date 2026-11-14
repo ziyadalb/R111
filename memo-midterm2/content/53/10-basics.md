@@ -50,7 +50,8 @@ $$1-\sin^2\theta=\cos^2\theta,\qquad1+\tan^2\theta=\sec^2\theta,\qquad\sec^2\the
 | $\tan^2\theta$ | $\sec^2\theta-1$ | $\tan\theta-\theta$ |
 | $\cot^2\theta$ | $\csc^2\theta-1$ | $-\cot\theta-\theta$ |
 | $\cos^2\theta$ | $\frac{1+\cos2\theta}{2}$ | $\frac12\theta+\frac12\sin\theta\cos\theta$ |
-| $\frac{\cos\theta}{\sin^n\theta}$ أو $\sin^n\theta\cos\theta$ أو $\cos^3\theta$ | $u=\sin\theta$ | تكامل قوة لـ $u$ |
+| $\frac{\cos\theta}{\sin^n\theta}$ أو $\sin^n\theta\cos\theta$ | القوة العكسية: $\cos\theta$ مشتقة $\sin\theta$ | زد أس $\sin\theta$ واقسم عليه |
+| $\cos^3\theta$ | احجز $\cos\theta$، و$\cos^2\theta=1-\sin^2\theta$ | القوة العكسية لكل حد |
 
 ::: box steps الخطوات الخمس (في كل سؤال)
 1. **اختر التعويض** من الجدول الأول، واكتب $dx$.
@@ -60,10 +61,16 @@ $$1-\sin^2\theta=\cos^2\theta,\qquad1+\tan^2\theta=\sec^2\theta,\qquad\sec^2\the
 5. **ارجع لـ $x$** بالمثلث، و$\theta$ نفسها من التعويض. ولا تنسى $+C$.
 :::
 
-::: box short اختصار للقوة $\frac32$: تأكد فيه من جوابك
-لما السؤال بالضبط بسطه 1 والقوة $\frac32$:
-$$\int\frac{dx}{\big(a^2\pm x^2\big)^{3/2}}=\frac{x}{a^2\sqrt{a^2\pm x^2}}+C$$
-وهذا الشكل جاء في 5 من 6 فصليات. تقدر تتأكد منه: اشتق الجواب، يطلع لك السؤال. **بس** في الاختبار اكتب الحل بالتعويض كامل، لأن ما نعرف إذا الدكتور يقبل القانون بدون إثبات.
+::: box short حيل 5.3: اختصارات تعلّمها
+1. **الضلع الثالث هو الجذر:** في المثلث حط ضلعين من التعويض، والثالث هو نفس الجذر اللي في السؤال. ما تحتاج فيثاغورس.
+2. **$\theta$ لحالها بدون مثلث:** ترجعها من التعويض نفسه: $\theta=\sin^{-1}\frac xa$، أو $\tan^{-1}\frac xa$، أو $\sec^{-1}\frac xa$.
+3. **القوة العكسية بدل $u$:** لو طلع $\cos\theta$ مع قوة لـ $\sin\theta$ (حتى لو تحت الكسر)، اكتبها كقوة، وزد الأس واحد واقسم عليه:
+   $$\int\frac{\cos\theta}{\sin^4\theta}\,d\theta=\int(\sin\theta)^{-4}\cos\theta\,d\theta=\frac{(\sin\theta)^{-3}}{-3}=-\frac{1}{3\sin^3\theta}$$
+4. **الجذر لحاله تحت:** جوابه نفس قانون 4.2، فتقدر تتأكد فيه:
+   $$\int\frac{dx}{\sqrt{x^2+a^2}}=\ln\big|x+\sqrt{x^2+a^2}\big|+C,\qquad\int\frac{dx}{\sqrt{x^2-a^2}}=\ln\big|x+\sqrt{x^2-a^2}\big|+C$$
+5. **القوة $\frac32$:** لما البسط 1 والقوة $\frac32$ بالضبط (جاء هالشكل في 5 من 6 فصليات):
+   $$\int\frac{dx}{\big(a^2\pm x^2\big)^{3/2}}=\frac{x}{a^2\sqrt{a^2\pm x^2}}+C$$
+   تأكد فيه من جوابك، بس في الاختبار اكتب الحل بالتعويض كامل، لأن ما نعرف إذا الدكتور يقبل القانون بدون إثبات.
 :::
 
 ::: box exam في ورقة الاختبار

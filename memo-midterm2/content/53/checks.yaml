@@ -50,7 +50,7 @@ groups:
         a: |
           الأولى $\frac{1}{\sec\theta}=\cos\theta$. والثانية حوّلها لـ $\sin$ و$\cos$:
           $$\frac{\sec\theta}{\tan^2\theta}=\frac{1}{\cos\theta}\cdot\frac{\cos^2\theta}{\sin^2\theta}=\frac{\cos\theta}{\sin^2\theta}$$
-          وهذي تكاملها بـ $u=\sin\theta$.
+          وهذي تكاملها بالقوة العكسية: $\int(\sin\theta)^{-2}\cos\theta\,d\theta=-\frac{1}{\sin\theta}$.
 
   - key: T3
     title: 'النمط 3'

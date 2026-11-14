@@ -309,6 +309,18 @@ def general_checks():
         dF = fn_th(sp.diff(F_e, th)); fv = fn_th(f_e)
         ok = ok and all(close(real_val(dF(mp.mpf(t))), real_val(fv(mp.mpf(t)))) for t in [-1.2, 0.4, 1.3, 2.0, 3.6])
     rec('5.3: جدول تكاملات θ (8 صفوف)', ok)
+    # حيل 5.3: القوة العكسية بدل u (على نقاط sinθ ≠ 0)، وقانون 4.2 للجذر لحاله تحت
+    def anti_th(f_s, F_s, thetas=(-1.2, -0.4, 0.5, 1.3, 2.4)):
+        f_e = sp.sympify(f_s, locals={'th': th}); F_e = sp.sympify(F_s, locals={'th': th})
+        dF = fn_th(sp.diff(F_e, th)); fv = fn_th(f_e)
+        return all(close(real_val(dF(mp.mpf(t))), real_val(fv(mp.mpf(t)))) for t in thetas)
+    rec('5.3 حيل: ∫cosθ/sin⁴θ = −1/(3sin³θ)', anti_th('cos(th)/sin(th)**4', '-1/(3*sin(th)**3)'))
+    rec('5.3 حيل: ∫cosθ/sin²θ = −1/sinθ و∫sin²θ cosθ = sin³θ/3',
+        anti_th('cos(th)/sin(th)**2', '-1/sin(th)') and anti_th('sin(th)**2*cos(th)', 'sin(th)**3/3'))
+    rec('5.3 حيل: ∫cos³θ = sinθ − sin³θ/3', anti_th('cos(th)**3', 'sin(th) - sin(th)**3/3'))
+    rec('5.3 حيل: ∫dx/√(x²+a²) = ln(abs(x+√(x²+a²))) (a=2 و3)',
+        check_antiderivative('1/sqrt(x**2+4)', 'log(Abs(x+sqrt(x**2+4)))', [-3.0, 0.4, 2.5])[0]
+        and check_antiderivative('1/sqrt(x**2+9)', 'log(Abs(x+sqrt(x**2+9)))', [-3.0, 0.4, 2.5])[0])
 
     # 19) 5.1 و5.2: الحيل (القوة العكسية وحالتيها، الداخل الخطي، الجدول) وأجوبة أسئلة الفهم
     pts2 = [-2.3, -0.7, 0.35, 1.1, 2.6, 4.2]

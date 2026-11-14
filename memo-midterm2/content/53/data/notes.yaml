@@ -171,8 +171,8 @@ patterns:
              $$\int\frac{3\sec^2\theta\,d\theta}{9\tan^2\theta\cdot3\sec\theta}=\frac19\int\frac{\sec\theta}{\tan^2\theta}\,d\theta$$
           3. نحوّل لـ $\sin$ و$\cos$:
              $$\frac{\sec\theta}{\tan^2\theta}=\frac{1}{\cos\theta}\cdot\frac{\cos^2\theta}{\sin^2\theta}=\frac{\cos\theta}{\sin^2\theta}$$
-          4. $u=\sin\theta$ و$du=\cos\theta\,d\theta$:
-             $$\frac19\int u^{-2}\,du=-\frac{1}{9u}=-\frac{1}{9\sin\theta}+C$$
+          4. القوة العكسية: $\cos\theta$ مشتقة $\sin\theta$، فنزيد أس $\sin\theta$ ونقسم عليه:
+             $$\frac19\int(\sin\theta)^{-2}\cos\theta\,d\theta=\frac19\cdot\frac{(\sin\theta)^{-1}}{-1}=-\frac{1}{9\sin\theta}+C$$
           5. نرجع لـ $x$ بالمثلث ($\tan\theta=\frac x3$):
              @tri x|3|\sqrt{9+x^2}
              $$\frac{1}{\sin\theta}=\frac{\sqrt{9+x^2}}{x}$$
@@ -248,8 +248,8 @@ patterns:
              $$\int\frac{5\tan\theta\cdot5\sec\theta\tan\theta}{625\sec^4\theta}\,d\theta=\frac{1}{25}\int\frac{\tan^2\theta}{\sec^3\theta}\,d\theta$$
           3. نحوّل لـ $\sin$ و$\cos$:
              $$\frac{\tan^2\theta}{\sec^3\theta}=\frac{\sin^2\theta}{\cos^2\theta}\cdot\cos^3\theta=\sin^2\theta\cos\theta$$
-          4. $u=\sin\theta$ و$du=\cos\theta\,d\theta$:
-             $$\frac{1}{25}\int u^2\,du=\frac{u^3}{75}=\frac{\sin^3\theta}{75}+C$$
+          4. القوة العكسية: $\cos\theta$ مشتقة $\sin\theta$، فنزيد الأس ونقسم عليه:
+             $$\frac{1}{25}\int\sin^2\theta\cos\theta\,d\theta=\frac{1}{25}\cdot\frac{\sin^3\theta}{3}=\frac{\sin^3\theta}{75}+C$$
           5. نرجع لـ $x$ بالمثلث: $\sec\theta=\frac x5$ يعني الوتر $x$ والمجاور 5:
              @tri \sqrt{x^2-25}|5|x
              $$\sin\theta=\frac{\sqrt{x^2-25}}{x}$$
@@ -374,7 +374,7 @@ patterns:
         solution: |
           1. فيه حد خطي ($8x$)، فنكمّل المربع أول: نص 8 هو 4، ومربعه 16:
              $$x^2+8x+25=\big(x^2+8x+16\big)+9=(x+4)^2+9$$
-          2. صار $a^2+u^2$ مع $u=x+4$ و$a=3$، فنعوّض بـ $\tan$:
+          2. صار جمع: نفس $a^2+x^2$ بس $(x+4)$ مكان $x$، و$a=3$. فنعوّض بـ $\tan$:
              $$x+4=3\tan\theta,\qquad dx=3\sec^2\theta\,d\theta$$
           3. نبسّط القوس، والقوة $\frac32$: $9^{3/2}=27$:
              $$\big((x+4)^2+9\big)^{3/2}=\big(9\sec^2\theta\big)^{3/2}=27\sec^3\theta$$
@@ -401,7 +401,7 @@ patterns:
         solution: |
           1. نكمّل المربع. معامل $x^2$ سالب، فنطلّع السالب أول، واللي نضيفه داخل القوس يطلع برّا بإشارة معكوسة:
              $$32-x^2-4x=32-\big(x^2+4x\big)=32-\big(x^2+4x+4\big)+4=36-(x+2)^2$$
-          2. صار $a^2-u^2$ مع $u=x+2$ و$a=6$، فنعوّض بـ $\sin$:
+          2. صار طرح: نفس $a^2-x^2$ بس $(x+2)$ مكان $x$، و$a=6$. فنعوّض بـ $\sin$:
              $$x+2=6\sin\theta,\qquad dx=6\cos\theta\,d\theta,\qquad\sqrt{36-(x+2)^2}=6\cos\theta$$
           3. نعوّض، ونخفّض $\cos^2\theta$:
              $$36\int\cos^2\theta\,d\theta=18\theta+9\sin2\theta=18\theta+18\sin\theta\cos\theta+C$$
@@ -427,13 +427,13 @@ patterns:
         solution: |
           1. نكمّل المربع: نص 4 هو 2، ومربعه 4:
              $$x^2+4x+13=(x+2)^2+9$$
-          2. صار $a^2+u^2$ مع $u=x+2$ و$a=3$:
+          2. صار جمع: نفس $a^2+x^2$ بس $(x+2)$ مكان $x$، و$a=3$:
              $$x+2=3\tan\theta,\qquad dx=3\sec^2\theta\,d\theta$$
           3. نبسّط القوس، والقوة $\frac52$: $9^{5/2}=3^5=243$:
              $$\big(9\sec^2\theta\big)^{5/2}=243\sec^5\theta$$
           4. نعوّض ونبسّط:
              $$\int\frac{3\sec^2\theta\,d\theta}{243\sec^5\theta}=\frac{1}{81}\int\cos^3\theta\,d\theta$$
-          5. قوة $\cos$ فردية (النمط 6 في 5.2): نحجز $\cos\theta$، و$u=\sin\theta$:
+          5. قوة $\cos$ فردية: نحجز $\cos\theta$ ونحوّل $\cos^2\theta=1-\sin^2\theta$، وكل حد بالقوة العكسية:
              $$\frac{1}{81}\int\big(1-\sin^2\theta\big)\cos\theta\,d\theta=\frac{1}{81}\Big(\sin\theta-\frac{\sin^3\theta}{3}\Big)+C$$
           6. نرجع بالمثلث ($\tan\theta=\frac{x+2}{3}$):
              @tri x+2|3|\sqrt{x^2+4x+13}

@@ -72,8 +72,8 @@ patterns:
              $$\int\frac{3\sec\theta\cdot3\sec^2\theta}{81\tan^4\theta}\,d\theta=\frac19\int\frac{\sec^3\theta}{\tan^4\theta}\,d\theta$$
           4. نحوّل لـ $\sin$ و$\cos$: $\sec^3\theta=\frac{1}{\cos^3\theta}$ و$\frac{1}{\tan^4\theta}=\frac{\cos^4\theta}{\sin^4\theta}$:
              $$\frac{\sec^3\theta}{\tan^4\theta}=\frac{\cos^4\theta}{\cos^3\theta\,\sin^4\theta}=\frac{\cos\theta}{\sin^4\theta}$$
-          5. $\cos\theta$ مشتقة $\sin\theta$، فنعوّض $u=\sin\theta$:
-             $$\frac19\int u^{-4}\,du=\frac19\cdot\frac{u^{-3}}{-3}=-\frac{1}{27\sin^3\theta}+C$$
+          5. **القوة العكسية:** $\cos\theta$ مشتقة $\sin\theta$. نكتبه $(\sin\theta)^{-4}\cos\theta$، ونزيد الأس ونقسم عليه:
+             $$\frac19\int(\sin\theta)^{-4}\cos\theta\,d\theta=\frac19\cdot\frac{(\sin\theta)^{-3}}{-3}=-\frac{1}{27\sin^3\theta}+C$$
           6. نرجع لـ $x$ بالمثلث: $\tan\theta=\frac x3$ يعني المقابل $x$ والمجاور 3، والوتر هو الجذر:
              @tri x|3|\sqrt{x^2+9}
              $$\sin\theta=\frac{x}{\sqrt{x^2+9}},\qquad\frac{1}{\sin^3\theta}=\frac{\big(x^2+9\big)^{3/2}}{x^3}$$

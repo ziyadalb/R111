@@ -163,11 +163,6 @@ patterns:
           \sqrt{x^2-9}-3\sec^{-1}\frac x3+C
         domain: '|x|>3'
         domain_why: 'على تعريف المذكرة لـ $\sec^{-1}$ (زاوية $\theta$ في $[0,\frac\pi2)$ أو $[\pi,\frac{3\pi}2)$).'
-        more: |
-          طريق ثاني بدون مثلث (من المرجع): عوّض الجذر كله $u=\sqrt{x^2-9}$، فـ $x^2=u^2+9$ و$x\,dx=u\,du$. اضرب فوق وتحت في $x$:
-          $$\int\frac{u^2}{u^2+9}\,du=\int\Big(1-\frac{9}{u^2+9}\Big)du=u-3\tan^{-1}\frac u3$$
-          $$\sqrt{x^2-9}-3\tan^{-1}\frac{\sqrt{x^2-9}}{3}+C$$
-          يختلف عن جواب المثلث بثابت، ويصح على الجهتين بدون ما تحتاج تعريف $\sec^{-1}$.
         check:
           kind: indef
           f: 'sqrt(x**2-9)/x'
