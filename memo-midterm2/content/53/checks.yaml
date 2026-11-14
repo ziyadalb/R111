@@ -1,0 +1,86 @@
+# أسئلة فهم سريعة: تدريب على الحركات نفسها (التعويض، الجذر، المثلث، إكمال المربع)
+# بأرقام جديدة، عشان ما تكشف أسئلة التدريب. الجواب مكتوب تحت السؤال مباشرة.
+groups:
+  - key: B
+    title: 'الأساس'
+    items:
+      - id: c0-1
+        q: 'وش التعويض لكل واحد: $\sqrt{16-x^2}$ و$\sqrt{16+x^2}$ و$\sqrt{x^2-16}$؟'
+        a: |
+          بالترتيب: $x=4\sin\theta$ و$x=4\tan\theta$ و$x=4\sec\theta$. الرقم نفسه في الثلاثة، واللي يفرق الإشارة ومكان $x$.
+      - id: c0-2
+        q: 'لو $x=3\sec\theta$: وش $dx$؟ ووش يصير $\sqrt{x^2-9}$؟'
+        a: |
+          مشتقة $\sec\theta$ هي $\sec\theta\tan\theta$، و$\sec^2\theta-1=\tan^2\theta$:
+          $$dx=3\sec\theta\tan\theta\,d\theta,\qquad\sqrt{9\sec^2\theta-9}=\sqrt{9\tan^2\theta}=3\tan\theta$$
+      - id: c0-3
+        q: '$\tan\theta=\frac x2$: ارسم المثلث. وش $\sin\theta$ و$\cos\theta$؟'
+        a: |
+          المقابل $x$ والمجاور 2، والوتر هو الجذر $\sqrt{x^2+4}$:
+          @tri x|2|\sqrt{x^2+4}
+          $$\sin\theta=\frac{x}{\sqrt{x^2+4}},\qquad\cos\theta=\frac{2}{\sqrt{x^2+4}}$$
+      - id: c0-4
+        q: 'بعد التكامل بقت $\theta$ لحالها. كيف ترجعها لـ $x$؟'
+        a: |
+          من التعويض نفسه، بدون مثلث: $x=a\sin\theta$ يعني $\theta=\sin^{-1}\frac xa$. وبنفس الطريقة $\theta=\tan^{-1}\frac xa$ و$\theta=\sec^{-1}\frac xa$.
+
+  - key: T1
+    title: 'النمط 1'
+    items:
+      - id: c1-1
+        q: 'وش يصير $\big(16-x^2\big)^{3/2}$ بعد التعويض؟'
+        a: |
+          $x=4\sin\theta$، فاللي داخل القوس $16\cos^2\theta$. والقوة $\frac32$ يعني جذر بعدين تكعيب:
+          $$\big(16\cos^2\theta\big)^{3/2}=\big(4\cos\theta\big)^3=64\cos^3\theta$$
+      - id: c1-2
+        q: 'لو $x=3\sin\theta$: وش $\tan\theta$ و$\cot\theta$؟'
+        a: |
+          المقابل $x$ والوتر 3، والمجاور هو الجذر $\sqrt{9-x^2}$:
+          $$\tan\theta=\frac{x}{\sqrt{9-x^2}},\qquad\cot\theta=\frac{\sqrt{9-x^2}}{x}$$
+
+  - key: T2
+    title: 'النمط 2'
+    items:
+      - id: c2-1
+        q: 'بعد $x=5\tan\theta$: وش يصير $25+x^2$؟ ووش يصير $\big(25+x^2\big)^{3/2}$؟'
+        a: |
+          $$25+25\tan^2\theta=25\big(1+\tan^2\theta\big)=25\sec^2\theta,\qquad\big(25\sec^2\theta\big)^{3/2}=125\sec^3\theta$$
+      - id: c2-2
+        q: 'بسّط: $\frac{\sec^2\theta}{\sec^3\theta}$ و$\frac{\sec\theta}{\tan^2\theta}$.'
+        a: |
+          الأولى $\frac{1}{\sec\theta}=\cos\theta$. والثانية حوّلها لـ $\sin$ و$\cos$:
+          $$\frac{\sec\theta}{\tan^2\theta}=\frac{1}{\cos\theta}\cdot\frac{\cos^2\theta}{\sin^2\theta}=\frac{\cos\theta}{\sin^2\theta}$$
+          وهذي تكاملها بـ $u=\sin\theta$.
+
+  - key: T3
+    title: 'النمط 3'
+    items:
+      - id: c3-1
+        q: '$\sec\theta=\frac x3$: وين $x$ في المثلث؟'
+        a: |
+          $\sec$ = الوتر على المجاور. فالوتر $x$ والمجاور 3، والمقابل هو الجذر $\sqrt{x^2-9}$.
+      - id: c3-2
+        q: 'وش التعويض لـ $\sqrt{4x^2-9}$؟'
+        a: |
+          $4x^2-9=(2x)^2-3^2$، فاللي يتربّع هو $2x$:
+          $$2x=3\sec\theta,\qquad x=\tfrac32\sec\theta,\qquad\sqrt{4x^2-9}=3\tan\theta$$
+
+  - key: T4
+    title: 'النمط 4'
+    items:
+      - id: c4-1
+        q: 'كمّل المربع: $x^2+6x+13$. ووش التعويض؟'
+        a: |
+          نص 6 هو 3، ومربعه 9:
+          $$x^2+6x+13=\big(x^2+6x+9\big)+4=(x+3)^2+4$$
+          جمع، فـ $x+3=2\tan\theta$.
+      - id: c4-2
+        q: 'كمّل المربع: $5+4x-x^2$. ووش التعويض؟'
+        a: |
+          طلّع السالب أول:
+          $$5-\big(x^2-4x\big)=5-\big(x^2-4x+4\big)+4=9-(x-2)^2$$
+          طرح، فـ $x-2=3\sin\theta$.
+      - id: c4-3
+        q: 'لو $x+2=3\tan\theta$: وش $dx$؟'
+        a: |
+          $dx=3\sec^2\theta\,d\theta$. الـ 2 ثابت، ومشتقته صفر.

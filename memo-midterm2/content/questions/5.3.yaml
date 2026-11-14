@@ -30,9 +30,6 @@ patterns:
         answer: &a4m |-
           \frac{x}{4\sqrt{4-x^2}}+C
         domain: '|x|<2'
-        more: &m4m |
-          تتأكد بالاختصار (شرحه في المذكرة):
-          $$\int\frac{dx}{(a^2-x^2)^{3/2}}=\frac{x}{a^2\sqrt{a^2-x^2}}+C,\qquad a=2$$
         check:
           kind: indef
           f: '(4-x**2)**Rational(-3,2)'
@@ -48,9 +45,6 @@ patterns:
         solution: *s4m
         answer: *a4m
         domain: '|x|<2'
-        note: |
-          نفس سؤال M452-2-9 بالضبط.
-        more: *m4m
         check:
           kind: indef
           f: '(4-x**2)**Rational(-3,2)'
@@ -107,9 +101,6 @@ patterns:
         answer: |-
           \frac{x}{4\sqrt{x^2+4}}+C
         domain: 'x\in\mathbb{R}'
-        more: |
-          تتأكد بالاختصار:
-          $$\int\frac{dx}{(a^2+x^2)^{3/2}}=\frac{x}{a^2\sqrt{a^2+x^2}}+C,\qquad a=2$$
         check:
           kind: indef
           f: '(4+x**2)**Rational(-3,2)'
@@ -153,34 +144,34 @@ patterns:
         prompt: 'Evaluate the integral.'
         q: '\int\frac{\sqrt{x^2-9}}{x}\,dx'
         hint: |
-          عوّض الجذر كله:
-          $$u=\sqrt{x^2-9}$$
-          وبعدين اضرب فوق وتحت في $x$ عشان تطلع $x\,dx$.
+          تحت الجذر $x^2-a^2$ مع $a=3$: عوّض بـ $\sec$.
+          $$x=3\sec\theta$$
         solution: |
-          1. نعوّض الجذر كله، ونكتب $x^2$ بدلالة $u$:
-             $$u=\sqrt{x^2-9},\qquad u^2=x^2-9,\qquad x^2=u^2+9$$
-          2. نشتق $u^2=x^2-9$ للطرفين:
-             $$2u\,du=2x\,dx\quad\Rightarrow\quad x\,dx=u\,du$$
-          3. السؤال ما فيه $x\,dx$ جاهزة، فنضرب فوق وتحت في $x$ (نفس القيمة)، ونعوّض:
-             $$\frac{\sqrt{x^2-9}}{x}\,dx=\frac{\sqrt{x^2-9}}{x^2}\,x\,dx=\frac{u}{u^2+9}\,u\,du=\frac{u^2}{u^2+9}\,du$$
-          4. البسط نكتبه «المقام ناقص 9» عشان ينقسم:
-             $$\frac{u^2}{u^2+9}=\frac{(u^2+9)-9}{u^2+9}=1-\frac{9}{u^2+9}$$
-          5. نكامل. الحد الثاني ما فيه جذر ← قانون $\tan^{-1}$ مع $a=3$:
-             $$\int\Big(1-\frac{9}{u^2+3^2}\Big)du=u-9\cdot\frac13\tan^{-1}\frac u3=u-3\tan^{-1}\frac u3$$
-          6. نرجع لـ $x$:
+          1. تحت الجذر $x^2-a^2$ مع $a=3$، فنعوّض بـ $\sec$ عشان نستفيد من $\sec^2\theta-1=\tan^2\theta$:
+             $$x=3\sec\theta,\qquad dx=3\sec\theta\tan\theta\,d\theta$$
+          2. نبسّط الجذر:
+             $$\sqrt{x^2-9}=\sqrt{9\sec^2\theta-9}=\sqrt{9\tan^2\theta}=3\tan\theta$$
+          3. نعوّض كل شي. $3\sec\theta$ اللي تحت تنشطب مع اللي في $dx$:
+             $$\int\frac{3\tan\theta}{3\sec\theta}\cdot3\sec\theta\tan\theta\,d\theta=3\int\tan^2\theta\,d\theta$$
+          4. $\tan^2\theta$ ما لها قانون مباشر، فنحوّلها: $\tan^2\theta=\sec^2\theta-1$:
+             $$3\int\big(\sec^2\theta-1\big)d\theta=3\tan\theta-3\theta+C$$
+          5. نرجع لـ $x$ بالمثلث: $\sec\theta=\frac x3$ يعني الوتر $x$ والمجاور 3، والمقابل هو الجذر. و$\theta$ نفسها من التعويض:
+             @tri \sqrt{x^2-9}|3|x
+             $$\tan\theta=\frac{\sqrt{x^2-9}}{3},\qquad\theta=\sec^{-1}\frac x3$$
+          6. نعوّض: $3\cdot\frac{\sqrt{x^2-9}}{3}=\sqrt{x^2-9}$:
         answer: |-
-          \sqrt{x^2-9}-3\tan^{-1}\Big(\frac{\sqrt{x^2-9}}{3}\Big)+C
+          \sqrt{x^2-9}-3\sec^{-1}\frac x3+C
         domain: '|x|>3'
+        domain_why: 'على تعريف المذكرة لـ $\sec^{-1}$ (زاوية $\theta$ في $[0,\frac\pi2)$ أو $[\pi,\frac{3\pi}2)$).'
         more: |
-          **طريقة المفتاح (تعويض مثلثي):** فرق مربعين $x^2-a^2$ ← $\sec$:
-          $$x=3\sec\theta,\qquad dx=3\sec\theta\tan\theta\,d\theta,\qquad\sqrt{x^2-9}=3\tan\theta$$
-          $$\int\frac{3\tan\theta}{3\sec\theta}\cdot3\sec\theta\tan\theta\,d\theta=3\int\tan^2\theta\,d\theta$$
-          $$=3\int\big(\sec^2\theta-1\big)d\theta=3\tan\theta-3\theta+C$$
-          ونرجع: $\tan\theta=\frac{\sqrt{x^2-9}}{3}$ و$\theta=\sec^{-1}\frac x3$. جواب المفتاح:
-          $$\sqrt{x^2-9}-3\sec^{-1}\frac x3+c$$
-          صحيح على اصطلاح المذكرة لـ $\sec^{-1}$، ويختلف عن جوابنا بثابت.
+          طريق ثاني بدون مثلث (من المرجع): عوّض الجذر كله $u=\sqrt{x^2-9}$، فـ $x^2=u^2+9$ و$x\,dx=u\,du$. اضرب فوق وتحت في $x$:
+          $$\int\frac{u^2}{u^2+9}\,du=\int\Big(1-\frac{9}{u^2+9}\Big)du=u-3\tan^{-1}\frac u3$$
+          $$\sqrt{x^2-9}-3\tan^{-1}\frac{\sqrt{x^2-9}}{3}+C$$
+          يختلف عن جواب المثلث بثابت، ويصح على الجهتين بدون ما تحتاج تعريف $\sec^{-1}$.
         check:
           kind: indef
           f: 'sqrt(x**2-9)/x'
-          ans: 'sqrt(x**2-9) - 3*atan(sqrt(x**2-9)/3)'
+          ans: 'sqrt(x**2-9) - 3*Piecewise((asec(x/3), x > 0), (2*pi - asec(x/3), True))'
           samples: [-8.0, -3.5, 3.5, 8.0]
+          alt:
+            - 'sqrt(x**2-9) - 3*atan(sqrt(x**2-9)/3)'

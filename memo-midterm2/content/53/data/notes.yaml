@@ -1,0 +1,448 @@
+# مسائل مذكرة المقرر (القسم 5.3: التعويضات المثلثية، ص77 إلى ص81)
+# kind: example = مثال محلول في المذكرة ، kind: exercise = تمرين بدون حل في المذكرة
+section: '5.3'
+slug: n53
+title: 'مسائل المذكرة 5.3'
+patterns:
+  - key: T1
+    questions:
+      - id: n53e1
+        kind: example
+        ref: 'مثال 1'
+        page: 77
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x^2\sqrt{16-x^2}}'
+        solution: |
+          1. تحت الجذر $a^2-x^2$ مع $a=4$، فنعوّض بـ $\sin$:
+             $$x=4\sin\theta,\qquad dx=4\cos\theta\,d\theta,\qquad\sqrt{16-x^2}=4\cos\theta$$
+          2. نعوّض كل شي. $x^2=16\sin^2\theta$، و$4\cos\theta$ تنشطب:
+             $$\int\frac{4\cos\theta\,d\theta}{16\sin^2\theta\cdot4\cos\theta}=\frac{1}{16}\int\csc^2\theta\,d\theta=-\frac{1}{16}\cot\theta+C$$
+          3. نرجع لـ $x$ بالمثلث: $\sin\theta=\frac x4$، فالمجاور هو الجذر:
+             @tri x|\sqrt{16-x^2}|4
+             $$\cot\theta=\frac{\sqrt{16-x^2}}{x}$$
+        answer: |-
+          -\frac{\sqrt{16-x^2}}{16x}+C
+        domain: '0<|x|<4'
+        check:
+          kind: indef
+          f: '1/(x**2*sqrt(16-x**2))'
+          ans: '-sqrt(16-x**2)/(16*x)'
+          samples: [-3.5, -0.5, 0.5, 3.5]
+
+      - id: n53e5
+        kind: example
+        ref: 'مثال 5'
+        page: 80
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{4-x^2}}'
+        solution: |
+          1. تحت الجذر $a^2-x^2$ مع $a=2$:
+             $$x=2\sin\theta,\qquad dx=2\cos\theta\,d\theta,\qquad\sqrt{4-x^2}=2\cos\theta$$
+          2. نعوّض: كل شي ينشطب ويبقى $d\theta$:
+             $$\int\frac{2\cos\theta\,d\theta}{2\cos\theta}=\int d\theta=\theta+C$$
+          3. نرجع لـ $x$: $\theta$ نفسها من التعويض. $\sin\theta=\frac x2$ يعني:
+             $$\theta=\sin^{-1}\frac x2$$
+        answer: |-
+          \sin^{-1}\frac x2+C
+        domain: '|x|<2'
+        check:
+          kind: indef
+          f: '1/sqrt(4-x**2)'
+          ans: 'asin(x/2)'
+          samples: [-1.5, 0.3, 1.8]
+
+      - id: n53x1
+        kind: exercise
+        ref: 'تمرين 1'
+        page: 81
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{\sqrt{4-x^2}}{x^2}\,dx'
+        solution: |
+          1. تحت الجذر $a^2-x^2$ مع $a=2$:
+             $$x=2\sin\theta,\qquad dx=2\cos\theta\,d\theta,\qquad\sqrt{4-x^2}=2\cos\theta$$
+          2. نعوّض كل شي:
+             $$\int\frac{2\cos\theta\cdot2\cos\theta}{4\sin^2\theta}\,d\theta=\int\frac{\cos^2\theta}{\sin^2\theta}\,d\theta=\int\cot^2\theta\,d\theta$$
+          3. $\cot^2\theta$ نحوّلها: $\cot^2\theta=\csc^2\theta-1$:
+             $$\int\big(\csc^2\theta-1\big)d\theta=-\cot\theta-\theta+C$$
+          4. نرجع لـ $x$. من المثلث $\cot\theta$، و$\theta$ من التعويض:
+             @tri x|\sqrt{4-x^2}|2
+             $$\cot\theta=\frac{\sqrt{4-x^2}}{x},\qquad\theta=\sin^{-1}\frac x2$$
+        answer: |-
+          -\frac{\sqrt{4-x^2}}{x}-\sin^{-1}\frac x2+C
+        domain: '0<|x|<2'
+        check:
+          kind: indef
+          f: 'sqrt(4-x**2)/x**2'
+          ans: '-sqrt(4-x**2)/x - asin(x/2)'
+          samples: [-1.5, -0.4, 0.4, 1.5]
+
+      - id: n53x6
+        kind: exercise
+        ref: 'تمرين 6'
+        page: 81
+        prompt: 'Evaluate the integral.'
+        q: '\int\sqrt{36-x^2}\,dx'
+        solution: |
+          1. تحت الجذر $a^2-x^2$ مع $a=6$:
+             $$x=6\sin\theta,\qquad dx=6\cos\theta\,d\theta,\qquad\sqrt{36-x^2}=6\cos\theta$$
+          2. نعوّض:
+             $$\int6\cos\theta\cdot6\cos\theta\,d\theta=36\int\cos^2\theta\,d\theta$$
+          3. $\cos^2\theta$ قوة زوجية، نخفّضها (من 5.2): $\cos^2\theta=\frac{1+\cos2\theta}{2}$:
+             $$36\int\frac{1+\cos2\theta}{2}\,d\theta=18\theta+9\sin2\theta+C$$
+          4. نكتب $\sin2\theta=2\sin\theta\cos\theta$ عشان نقدر نرجع بالمثلث:
+             $$=18\theta+18\sin\theta\cos\theta+C$$
+          5. نرجع لـ $x$: $\sin\theta=\frac x6$، والمجاور هو الجذر، و$\theta$ من التعويض:
+             @tri x|\sqrt{36-x^2}|6
+             $$\cos\theta=\frac{\sqrt{36-x^2}}{6},\qquad\theta=\sin^{-1}\frac x6$$
+          6. نعوّض: $18\cdot\frac x6\cdot\frac{\sqrt{36-x^2}}{6}=\frac x2\sqrt{36-x^2}$:
+        answer: |-
+          18\sin^{-1}\frac x6+\frac x2\sqrt{36-x^2}+C
+        domain: '|x|<6'
+        check:
+          kind: indef
+          f: 'sqrt(36-x**2)'
+          ans: '18*asin(x/6) + x/2*sqrt(36-x**2)'
+          samples: [-5.0, 0.3, 5.5]
+
+      - id: n53x9
+        kind: exercise
+        ref: 'تمرين 9'
+        page: 81
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{x^2}{\big(1-x^2\big)^{3/2}}\,dx'
+        solution: |
+          1. تحت القوس $a^2-x^2$ مع $a=1$:
+             $$x=\sin\theta,\qquad dx=\cos\theta\,d\theta,\qquad\big(1-x^2\big)^{3/2}=\big(\cos^2\theta\big)^{3/2}=\cos^3\theta$$
+          2. نعوّض كل شي:
+             $$\int\frac{\sin^2\theta\cos\theta}{\cos^3\theta}\,d\theta=\int\tan^2\theta\,d\theta$$
+          3. $\tan^2\theta=\sec^2\theta-1$:
+             $$\int\big(\sec^2\theta-1\big)d\theta=\tan\theta-\theta+C$$
+          4. نرجع لـ $x$: $\sin\theta=x$ (الوتر 1):
+             @tri x|\sqrt{1-x^2}|1
+             $$\tan\theta=\frac{x}{\sqrt{1-x^2}},\qquad\theta=\sin^{-1}x$$
+        answer: |-
+          \frac{x}{\sqrt{1-x^2}}-\sin^{-1}x+C
+        domain: '|x|<1'
+        check:
+          kind: indef
+          f: 'x**2*(1-x**2)**Rational(-3,2)'
+          ans: 'x/sqrt(1-x**2) - asin(x)'
+          samples: [-0.8, 0.2, 0.9]
+
+  - key: T2
+    questions:
+      - id: n53e2
+        kind: example
+        ref: 'مثال 2'
+        page: 78
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{x^2+9}}'
+        solution: |
+          1. تحت الجذر $a^2+x^2$ مع $a=3$، فنعوّض بـ $\tan$:
+             $$x=3\tan\theta,\qquad dx=3\sec^2\theta\,d\theta,\qquad\sqrt{x^2+9}=3\sec\theta$$
+          2. نعوّض:
+             $$\int\frac{3\sec^2\theta\,d\theta}{3\sec\theta}=\int\sec\theta\,d\theta=\ln\big|\sec\theta+\tan\theta\big|+C$$
+          3. نرجع لـ $x$ بالمثلث: $\tan\theta=\frac x3$، والوتر هو الجذر:
+             @tri x|3|\sqrt{x^2+9}
+             $$\sec\theta=\frac{\sqrt{x^2+9}}{3},\qquad\tan\theta=\frac x3$$
+        answer: |-
+          \ln\Big|\frac{\sqrt{x^2+9}}{3}+\frac x3\Big|+C
+        domain: 'x\in\mathbb{R}'
+        note: |
+          تقدر تكتبه $\ln\big|x+\sqrt{x^2+9}\big|+C$، لأن $\ln\frac{(\dots)}{3}=\ln(\dots)-\ln3$، و$\ln3$ ثابت يدخل في $C$. وهو نفس قانون $\sinh^{-1}$ من 4.2.
+        check:
+          kind: indef
+          f: '1/sqrt(x**2+9)'
+          ans: 'log(Abs(sqrt(x**2+9)/3 + x/3))'
+          samples: [-4.0, 0.5, 4.0]
+          alt:
+            - 'log(Abs(x + sqrt(x**2+9)))'
+
+      - id: n53x2
+        kind: exercise
+        ref: 'تمرين 2'
+        page: 81
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x^2\sqrt{9+x^2}}'
+        solution: |
+          1. تحت الجذر $a^2+x^2$ مع $a=3$:
+             $$x=3\tan\theta,\qquad dx=3\sec^2\theta\,d\theta,\qquad\sqrt{9+x^2}=3\sec\theta$$
+          2. نعوّض كل شي. $x^2=9\tan^2\theta$:
+             $$\int\frac{3\sec^2\theta\,d\theta}{9\tan^2\theta\cdot3\sec\theta}=\frac19\int\frac{\sec\theta}{\tan^2\theta}\,d\theta$$
+          3. نحوّل لـ $\sin$ و$\cos$:
+             $$\frac{\sec\theta}{\tan^2\theta}=\frac{1}{\cos\theta}\cdot\frac{\cos^2\theta}{\sin^2\theta}=\frac{\cos\theta}{\sin^2\theta}$$
+          4. $u=\sin\theta$ و$du=\cos\theta\,d\theta$:
+             $$\frac19\int u^{-2}\,du=-\frac{1}{9u}=-\frac{1}{9\sin\theta}+C$$
+          5. نرجع لـ $x$ بالمثلث ($\tan\theta=\frac x3$):
+             @tri x|3|\sqrt{9+x^2}
+             $$\frac{1}{\sin\theta}=\frac{\sqrt{9+x^2}}{x}$$
+        answer: |-
+          -\frac{\sqrt{9+x^2}}{9x}+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: '1/(x**2*sqrt(9+x**2))'
+          ans: '-sqrt(9+x**2)/(9*x)'
+          samples: [-3.0, -0.5, 0.5, 3.0]
+
+      - id: n53x4
+        kind: exercise
+        ref: 'تمرين 4'
+        page: 81
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\big(16+x^2\big)^{3/2}}'
+        solution: |
+          1. تحت القوس $a^2+x^2$ مع $a=4$:
+             $$x=4\tan\theta,\qquad dx=4\sec^2\theta\,d\theta$$
+          2. نبسّط القوس: $16+x^2=16\sec^2\theta$، والقوة $\frac32$: $16^{3/2}=4^3=64$:
+             $$\big(16\sec^2\theta\big)^{3/2}=64\sec^3\theta$$
+          3. نعوّض ونبسّط:
+             $$\int\frac{4\sec^2\theta\,d\theta}{64\sec^3\theta}=\frac{1}{16}\int\cos\theta\,d\theta=\frac{1}{16}\sin\theta+C$$
+          4. نرجع لـ $x$ بالمثلث ($\tan\theta=\frac x4$):
+             @tri x|4|\sqrt{16+x^2}
+             $$\sin\theta=\frac{x}{\sqrt{16+x^2}}$$
+        answer: |-
+          \frac{x}{16\sqrt{16+x^2}}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '(16+x**2)**Rational(-3,2)'
+          ans: 'x/(16*sqrt(16+x**2))'
+          samples: [-3.0, 0.5, 4.0]
+
+      - id: n53x12
+        kind: exercise
+        ref: 'تمرين 12'
+        page: 81
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{x^2+4}}'
+        solution: |
+          1. تحت الجذر $a^2+x^2$ مع $a=2$:
+             $$x=2\tan\theta,\qquad dx=2\sec^2\theta\,d\theta,\qquad\sqrt{x^2+4}=2\sec\theta$$
+          2. نعوّض:
+             $$\int\frac{2\sec^2\theta\,d\theta}{2\sec\theta}=\int\sec\theta\,d\theta=\ln\big|\sec\theta+\tan\theta\big|+C$$
+          3. نرجع لـ $x$ بالمثلث ($\tan\theta=\frac x2$):
+             @tri x|2|\sqrt{x^2+4}
+             $$\sec\theta=\frac{\sqrt{x^2+4}}{2},\qquad\tan\theta=\frac x2$$
+        answer: |-
+          \ln\Big|\frac{\sqrt{x^2+4}}{2}+\frac x2\Big|+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '1/sqrt(x**2+4)'
+          ans: 'log(Abs(sqrt(x**2+4)/2 + x/2))'
+          samples: [-4.0, 0.5, 4.0]
+
+  - key: T3
+    questions:
+      - id: n53e3
+        kind: example
+        ref: 'مثال 3'
+        page: 78
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{\sqrt{x^2-25}}{x^4}\,dx'
+        solution: |
+          1. تحت الجذر $x^2-a^2$ مع $a=5$، فنعوّض بـ $\sec$:
+             $$x=5\sec\theta,\qquad dx=5\sec\theta\tan\theta\,d\theta,\qquad\sqrt{x^2-25}=5\tan\theta$$
+          2. نعوّض كل شي. $x^4=625\sec^4\theta$:
+             $$\int\frac{5\tan\theta\cdot5\sec\theta\tan\theta}{625\sec^4\theta}\,d\theta=\frac{1}{25}\int\frac{\tan^2\theta}{\sec^3\theta}\,d\theta$$
+          3. نحوّل لـ $\sin$ و$\cos$:
+             $$\frac{\tan^2\theta}{\sec^3\theta}=\frac{\sin^2\theta}{\cos^2\theta}\cdot\cos^3\theta=\sin^2\theta\cos\theta$$
+          4. $u=\sin\theta$ و$du=\cos\theta\,d\theta$:
+             $$\frac{1}{25}\int u^2\,du=\frac{u^3}{75}=\frac{\sin^3\theta}{75}+C$$
+          5. نرجع لـ $x$ بالمثلث: $\sec\theta=\frac x5$ يعني الوتر $x$ والمجاور 5:
+             @tri \sqrt{x^2-25}|5|x
+             $$\sin\theta=\frac{\sqrt{x^2-25}}{x}$$
+        answer: |-
+          \frac{\big(x^2-25\big)^{3/2}}{75x^3}+C
+        domain: '|x|>5'
+        check:
+          kind: indef
+          f: 'sqrt(x**2-25)/x**4'
+          ans: '(x**2-25)**Rational(3,2)/(75*x**3)'
+          samples: [-9.0, -5.5, 5.5, 9.0]
+
+      - id: n53x10
+        kind: exercise
+        ref: 'تمرين 10'
+        page: 81
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x\sqrt{x^2-9}}'
+        solution: |
+          1. تحت الجذر $x^2-a^2$ مع $a=3$:
+             $$x=3\sec\theta,\qquad dx=3\sec\theta\tan\theta\,d\theta,\qquad\sqrt{x^2-9}=3\tan\theta$$
+          2. نعوّض: كل شي ينشطب إلا رقم:
+             $$\int\frac{3\sec\theta\tan\theta\,d\theta}{3\sec\theta\cdot3\tan\theta}=\frac13\int d\theta=\frac13\theta+C$$
+          3. نرجع لـ $x$: $\sec\theta=\frac x3$ يعني:
+             $$\theta=\sec^{-1}\frac x3$$
+        answer: |-
+          \frac13\sec^{-1}\frac x3+C
+        domain: '|x|>3'
+        domain_why: 'على تعريف المذكرة لـ $\sec^{-1}$.'
+        check:
+          kind: indef
+          f: '1/(x*sqrt(x**2-9))'
+          ans: 'Piecewise((asec(x/3), x > 0), (2*pi - asec(x/3), True))/3'
+          samples: [-8.0, -3.5, 3.5, 8.0]
+
+      - id: n53x11
+        kind: exercise
+        ref: 'تمرين 11'
+        page: 81
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{x^2-16}}'
+        solution: |
+          1. تحت الجذر $x^2-a^2$ مع $a=4$:
+             $$x=4\sec\theta,\qquad dx=4\sec\theta\tan\theta\,d\theta,\qquad\sqrt{x^2-16}=4\tan\theta$$
+          2. نعوّض:
+             $$\int\frac{4\sec\theta\tan\theta\,d\theta}{4\tan\theta}=\int\sec\theta\,d\theta=\ln\big|\sec\theta+\tan\theta\big|+C$$
+          3. نرجع لـ $x$ بالمثلث ($\sec\theta=\frac x4$):
+             @tri \sqrt{x^2-16}|4|x
+             $$\sec\theta=\frac x4,\qquad\tan\theta=\frac{\sqrt{x^2-16}}{4}$$
+        answer: |-
+          \ln\Big|\frac x4+\frac{\sqrt{x^2-16}}{4}\Big|+C
+        domain: '|x|>4'
+        note: |
+          تقدر تكتبه $\ln\big|x+\sqrt{x^2-16}\big|+C$، لأن $\ln4$ ثابت. وهو نفس قانون 4.2.
+        check:
+          kind: indef
+          f: '1/sqrt(x**2-16)'
+          ans: 'log(Abs(x/4 + sqrt(x**2-16)/4))'
+          samples: [-8.0, -4.5, 4.5, 8.0]
+
+      - id: n53x3
+        kind: exercise
+        ref: 'تمرين 3'
+        page: 81
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x^3\sqrt{x^2-25}}'
+        solution: |
+          1. تحت الجذر $x^2-a^2$ مع $a=5$:
+             $$x=5\sec\theta,\qquad dx=5\sec\theta\tan\theta\,d\theta,\qquad\sqrt{x^2-25}=5\tan\theta$$
+          2. نعوّض كل شي. $x^3=125\sec^3\theta$، و$5\tan\theta$ تنشطب:
+             $$\int\frac{5\sec\theta\tan\theta\,d\theta}{125\sec^3\theta\cdot5\tan\theta}=\frac{1}{125}\int\frac{d\theta}{\sec^2\theta}=\frac{1}{125}\int\cos^2\theta\,d\theta$$
+          3. نخفّض القوة: $\cos^2\theta=\frac{1+\cos2\theta}{2}$، و$\sin2\theta=2\sin\theta\cos\theta$:
+             $$\frac{1}{125}\cdot\frac12\Big(\theta+\frac{\sin2\theta}{2}\Big)=\frac{1}{250}\big(\theta+\sin\theta\cos\theta\big)+C$$
+          4. نرجع لـ $x$ بالمثلث ($\sec\theta=\frac x5$)، و$\theta$ من التعويض:
+             @tri \sqrt{x^2-25}|5|x
+             $$\sin\theta=\frac{\sqrt{x^2-25}}{x},\qquad\cos\theta=\frac5x,\qquad\theta=\sec^{-1}\frac x5$$
+          5. نعوّض: $\sin\theta\cos\theta=\frac{5\sqrt{x^2-25}}{x^2}$:
+        answer: |-
+          \frac{1}{250}\Big(\sec^{-1}\frac x5+\frac{5\sqrt{x^2-25}}{x^2}\Big)+C
+        domain: '|x|>5'
+        domain_why: 'على تعريف المذكرة لـ $\sec^{-1}$.'
+        check:
+          kind: indef
+          f: '1/(x**3*sqrt(x**2-25))'
+          ans: '(Piecewise((asec(x/5), x > 0), (2*pi - asec(x/5), True)) + 5*sqrt(x**2-25)/x**2)/250'
+          samples: [-9.0, -5.5, 5.5, 9.0]
+
+      - id: n53x5
+        kind: exercise
+        ref: 'تمرين 5'
+        page: 81
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{\sqrt{9x^2-1}}{x}\,dx'
+        solution: |
+          1. تحت الجذر $9x^2-1=(3x)^2-1$: نفس $x^2-a^2$ بس المربّع هو $3x$. فنعوّض $3x=\sec\theta$:
+             $$x=\tfrac13\sec\theta,\qquad dx=\tfrac13\sec\theta\tan\theta\,d\theta,\qquad\sqrt{9x^2-1}=\sqrt{\sec^2\theta-1}=\tan\theta$$
+          2. نعوّض كل شي. $\frac13\sec\theta$ اللي تحت تنشطب مع اللي في $dx$:
+             $$\int\frac{\tan\theta}{\frac13\sec\theta}\cdot\tfrac13\sec\theta\tan\theta\,d\theta=\int\tan^2\theta\,d\theta$$
+          3. $\tan^2\theta=\sec^2\theta-1$:
+             $$\int\big(\sec^2\theta-1\big)d\theta=\tan\theta-\theta+C$$
+          4. نرجع لـ $x$: $\sec\theta=3x$ يعني الوتر $3x$ والمجاور 1:
+             @tri \sqrt{9x^2-1}|1|3x
+             $$\tan\theta=\sqrt{9x^2-1},\qquad\theta=\sec^{-1}(3x)$$
+        answer: |-
+          \sqrt{9x^2-1}-\sec^{-1}(3x)+C
+        domain: '|x|>\tfrac13'
+        domain_why: 'على تعريف المذكرة لـ $\sec^{-1}$.'
+        check:
+          kind: indef
+          f: 'sqrt(9*x**2-1)/x'
+          ans: 'sqrt(9*x**2-1) - Piecewise((asec(3*x), x > 0), (2*pi - asec(3*x), True))'
+          samples: [-3.0, -0.5, 0.5, 3.0]
+
+  - key: T4
+    questions:
+      - id: n53e4
+        kind: example
+        ref: 'مثال 4'
+        page: 79
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\big(x^2+8x+25\big)^{3/2}}'
+        solution: |
+          1. فيه حد خطي ($8x$)، فنكمّل المربع أول: نص 8 هو 4، ومربعه 16:
+             $$x^2+8x+25=\big(x^2+8x+16\big)+9=(x+4)^2+9$$
+          2. صار $a^2+u^2$ مع $u=x+4$ و$a=3$، فنعوّض بـ $\tan$:
+             $$x+4=3\tan\theta,\qquad dx=3\sec^2\theta\,d\theta$$
+          3. نبسّط القوس، والقوة $\frac32$: $9^{3/2}=27$:
+             $$\big((x+4)^2+9\big)^{3/2}=\big(9\sec^2\theta\big)^{3/2}=27\sec^3\theta$$
+          4. نعوّض ونبسّط:
+             $$\int\frac{3\sec^2\theta\,d\theta}{27\sec^3\theta}=\frac19\int\cos\theta\,d\theta=\frac19\sin\theta+C$$
+          5. نرجع بالمثلث: $\tan\theta=\frac{x+4}{3}$، والوتر هو الجذر:
+             @tri x+4|3|\sqrt{x^2+8x+25}
+             $$\sin\theta=\frac{x+4}{\sqrt{x^2+8x+25}}$$
+        answer: |-
+          \frac{x+4}{9\sqrt{x^2+8x+25}}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '(x**2+8*x+25)**Rational(-3,2)'
+          ans: '(x+4)/(9*sqrt(x**2+8*x+25))'
+          samples: [-6.0, 0.5, 3.0]
+
+      - id: n53x7
+        kind: exercise
+        ref: 'تمرين 7'
+        page: 81
+        prompt: 'Evaluate the integral.'
+        q: '\int\sqrt{32-x^2-4x}\,dx'
+        solution: |
+          1. نكمّل المربع. معامل $x^2$ سالب، فنطلّع السالب أول، واللي نضيفه داخل القوس يطلع برّا بإشارة معكوسة:
+             $$32-x^2-4x=32-\big(x^2+4x\big)=32-\big(x^2+4x+4\big)+4=36-(x+2)^2$$
+          2. صار $a^2-u^2$ مع $u=x+2$ و$a=6$، فنعوّض بـ $\sin$:
+             $$x+2=6\sin\theta,\qquad dx=6\cos\theta\,d\theta,\qquad\sqrt{36-(x+2)^2}=6\cos\theta$$
+          3. نعوّض، ونخفّض $\cos^2\theta$:
+             $$36\int\cos^2\theta\,d\theta=18\theta+9\sin2\theta=18\theta+18\sin\theta\cos\theta+C$$
+          4. نرجع بالمثلث: $\sin\theta=\frac{x+2}{6}$، والمجاور هو الجذر:
+             @tri x+2|\sqrt{32-x^2-4x}|6
+             $$\cos\theta=\frac{\sqrt{32-x^2-4x}}{6},\qquad\theta=\sin^{-1}\frac{x+2}{6}$$
+          5. نعوّض: $18\cdot\frac{x+2}{6}\cdot\frac{\sqrt{32-x^2-4x}}{6}=\frac{x+2}{2}\sqrt{32-x^2-4x}$:
+        answer: |-
+          18\sin^{-1}\frac{x+2}{6}+\frac{x+2}{2}\sqrt{32-x^2-4x}+C
+        domain: '-8<x<4'
+        check:
+          kind: indef
+          f: 'sqrt(32-x**2-4*x)'
+          ans: '18*asin((x+2)/6) + (x+2)/2*sqrt(32-x**2-4*x)'
+          samples: [-7.0, -1.0, 3.0]
+
+      - id: n53x8
+        kind: exercise
+        ref: 'تمرين 8'
+        page: 81
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\big(x^2+4x+13\big)^{5/2}}'
+        solution: |
+          1. نكمّل المربع: نص 4 هو 2، ومربعه 4:
+             $$x^2+4x+13=(x+2)^2+9$$
+          2. صار $a^2+u^2$ مع $u=x+2$ و$a=3$:
+             $$x+2=3\tan\theta,\qquad dx=3\sec^2\theta\,d\theta$$
+          3. نبسّط القوس، والقوة $\frac52$: $9^{5/2}=3^5=243$:
+             $$\big(9\sec^2\theta\big)^{5/2}=243\sec^5\theta$$
+          4. نعوّض ونبسّط:
+             $$\int\frac{3\sec^2\theta\,d\theta}{243\sec^5\theta}=\frac{1}{81}\int\cos^3\theta\,d\theta$$
+          5. قوة $\cos$ فردية (النمط 6 في 5.2): نحجز $\cos\theta$، و$u=\sin\theta$:
+             $$\frac{1}{81}\int\big(1-\sin^2\theta\big)\cos\theta\,d\theta=\frac{1}{81}\Big(\sin\theta-\frac{\sin^3\theta}{3}\Big)+C$$
+          6. نرجع بالمثلث ($\tan\theta=\frac{x+2}{3}$):
+             @tri x+2|3|\sqrt{x^2+4x+13}
+             $$\sin\theta=\frac{x+2}{\sqrt{x^2+4x+13}}$$
+        answer: |-
+          \frac{1}{81}\Big(\frac{x+2}{\sqrt{x^2+4x+13}}-\frac{(x+2)^3}{3\big(x^2+4x+13\big)^{3/2}}\Big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '(x**2+4*x+13)**Rational(-5,2)'
+          ans: '((x+2)/sqrt(x**2+4*x+13) - (x+2)**3/(3*(x**2+4*x+13)**Rational(3,2)))/81'
+          samples: [-5.0, 0.5, 3.0]

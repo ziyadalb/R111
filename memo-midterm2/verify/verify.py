@@ -279,6 +279,36 @@ def general_checks():
     # 17) a^b = e^{b ln a} لما a > 0
     aa2, bb2 = sp.symbols('a b', positive=True)
     rec('a^b = e^{b ln a} (a>0)', sp.simplify(aa2**bb2 - sp.exp(bb2 * sp.log(aa2))) == 0)
+
+    # 18) 5.3: أسئلة الفهم وجدول تكاملات θ (عدديًا على مجالات الزاوية في المذكرة)
+    th = sp.Symbol('th', real=True)
+    def num_eq(lhs, rhs, thetas):
+        f1, f2 = fn_th(lhs), fn_th(rhs)
+        return all(close(real_val(f1(mp.mpf(t))), real_val(f2(mp.mpf(t)))) for t in thetas)
+    def fn_th(e):
+        return sp.lambdify(th, e, modules='mpmath')
+    in_sin = [-1.4, -0.6, 0.3, 1.2]                  # (−π/2, π/2)
+    in_sec = [0.2, 1.1, 3.4, 4.5]                    # [0, π/2) ∪ [π, 3π/2)
+    rec('5.3 فهم: (16−16sin²θ)^{3/2} = 64cos³θ', num_eq((16 - 16 * sp.sin(th)**2) ** sp.Rational(3, 2), 64 * sp.cos(th)**3, in_sin))
+    rec('5.3 فهم: (25+25tan²θ)^{3/2} = 125sec³θ', num_eq((25 + 25 * sp.tan(th)**2) ** sp.Rational(3, 2), 125 * sp.sec(th)**3, in_sin))
+    rec('5.3 فهم: √(9sec²θ−9) = 3tanθ على مجال المذكرة', num_eq(sp.sqrt(9 * sp.sec(th)**2 - 9), 3 * sp.tan(th), in_sec))
+    rec('5.3 فهم: 2x=3secθ ⇒ √(4x²−9) = 3tanθ', num_eq(sp.sqrt(4 * (sp.Rational(3, 2) * sp.sec(th))**2 - 9), 3 * sp.tan(th), in_sec))
+    rec('5.3 فهم: √(4cos²θ)=2cosθ و√(a²sec²θ)=a secθ', num_eq(sp.sqrt(4 * sp.cos(th)**2), 2 * sp.cos(th), in_sin) and num_eq(sp.sqrt(9 * sp.sec(th)**2), 3 * sp.sec(th), in_sin))
+    rec('5.3 فهم: secθ/tan²θ = cosθ/sin²θ', sp.simplify(sp.sec(th) / sp.tan(th)**2 - sp.cos(th) / sp.sin(th)**2) == 0)
+    rec('5.3 فهم: sec³θ/tan⁴θ = cosθ/sin⁴θ و tan²θ/sec³θ = sin²θcosθ',
+        sp.simplify(sp.sec(th)**3 / sp.tan(th)**4 - sp.cos(th) / sp.sin(th)**4) == 0 and sp.simplify(sp.tan(th)**2 / sp.sec(th)**3 - sp.sin(th)**2 * sp.cos(th)) == 0)
+    rec('5.3 فهم: x²+6x+13 = (x+3)²+4', sp.expand((x + 3)**2 + 4) == x**2 + 6 * x + 13)
+    rec('5.3 فهم: 5+4x−x² = 9−(x−2)²', sp.expand(9 - (x - 2)**2) == 5 + 4 * x - x**2)
+    rec('5.3: 32−x²−4x = 36−(x+2)² و x²+8x+25 = (x+4)²+9', sp.expand(36 - (x + 2)**2) == 32 - x**2 - 4 * x and sp.expand((x + 4)**2 + 9) == x**2 + 8 * x + 25)
+    tbl = [('sec(th)**2', 'tan(th)'), ('cos(th)', 'sin(th)'), ('csc(th)**2', '-cot(th)'), ('1', 'th'),
+           ('sec(th)', 'log(Abs(sec(th)+tan(th)))'), ('tan(th)**2', 'tan(th)-th'), ('cot(th)**2', '-cot(th)-th'),
+           ('cos(th)**2', 'th/2+sin(th)*cos(th)/2')]
+    ok = True
+    for f_s, F_s in tbl:
+        f_e = sp.sympify(f_s, locals={'th': th}); F_e = sp.sympify(F_s, locals={'th': th})
+        dF = fn_th(sp.diff(F_e, th)); fv = fn_th(f_e)
+        ok = ok and all(close(real_val(dF(mp.mpf(t))), real_val(fv(mp.mpf(t)))) for t in [-1.2, 0.4, 1.3, 2.0, 3.6])
+    rec('5.3: جدول تكاملات θ (8 صفوف)', ok)
     return out
 
 
@@ -287,6 +317,7 @@ def main():
     files += sorted(glob.glob(os.path.join(ROOT, 'content', '42', 'data', '*.yaml')))
     files += sorted(glob.glob(os.path.join(ROOT, 'content', '5x', 'data', '*.yaml')))
     files += sorted(glob.glob(os.path.join(ROOT, 'content', '61', 'data', '*.yaml')))
+    files += sorted(glob.glob(os.path.join(ROOT, 'content', '53', 'data', '*.yaml')))
     total = 0
     lines.append('# تقرير التحقق الآلي\n')
     lines.append('كل سطر: المعرّف، نوع الفحص، النتيجة، والتفاصيل. الفحص عددي بدقة 40 خانة في نقاط من كل فرع من المجال.\n')

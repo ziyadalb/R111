@@ -1,0 +1,137 @@
+# أسئلة 5.3 اللي جات في الاختبارات النهائية (1445 إلى 1447)
+# المعرف: F + السنة والفصل + السؤال + الفقرة. نهائي 1446 الفصل الثاني (F462-2-4) نفس M471-2-6.
+section: '5.3'
+slug: fin53
+title: 'تعويضات النهائيات'
+patterns:
+  - key: FIN
+    questions:
+      - id: F472-2-5
+        marks: 3
+        page: 26
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x^2\sqrt{9-x^2}}'
+        solution: |
+          1. تحت الجذر $a^2-x^2$ مع $a=3$، فنعوّض بـ $\sin$:
+             $$x=3\sin\theta,\qquad dx=3\cos\theta\,d\theta$$
+          2. نبسّط الجذر:
+             $$\sqrt{9-x^2}=\sqrt{9-9\sin^2\theta}=\sqrt{9\cos^2\theta}=3\cos\theta$$
+          3. نعوّض كل شي. $x^2=9\sin^2\theta$، و$3\cos\theta$ تنشطب:
+             $$\int\frac{3\cos\theta\,d\theta}{9\sin^2\theta\cdot3\cos\theta}=\frac19\int\frac{d\theta}{\sin^2\theta}=\frac19\int\csc^2\theta\,d\theta$$
+          4. تكامل $\csc^2\theta$ هو $-\cot\theta$:
+             $$=-\frac19\cot\theta+C$$
+          5. نرجع لـ $x$ بالمثلث: $\sin\theta=\frac x3$ يعني المقابل $x$ والوتر 3، والمجاور هو الجذر. و$\cot\theta$ = المجاور على المقابل:
+             @tri x|\sqrt{9-x^2}|3
+             $$\cot\theta=\frac{\sqrt{9-x^2}}{x}$$
+        answer: |-
+          -\frac{\sqrt{9-x^2}}{9x}+C
+        domain: '0<|x|<3'
+        check:
+          kind: indef
+          f: '1/(x**2*sqrt(9-x**2))'
+          ans: '-sqrt(9-x**2)/(9*x)'
+          samples: [-2.5, -0.5, 0.5, 2.5]
+
+      - id: F471-2-5
+        marks: 3
+        page: 11
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{x^2}{\big(4-x^2\big)^{3/2}}\,dx'
+        solution: |
+          1. تحت القوس $a^2-x^2$ مع $a=2$، فنعوّض بـ $\sin$:
+             $$x=2\sin\theta,\qquad dx=2\cos\theta\,d\theta$$
+          2. نبسّط اللي تحت القوس. القوة $\frac32$ يعني جذر بعدين تكعيب:
+             $$4-x^2=4\cos^2\theta,\qquad\big(4\cos^2\theta\big)^{3/2}=8\cos^3\theta$$
+          3. نعوّض كل شي. $x^2=4\sin^2\theta$:
+             $$\int\frac{4\sin^2\theta\cdot2\cos\theta}{8\cos^3\theta}\,d\theta=\int\frac{\sin^2\theta}{\cos^2\theta}\,d\theta=\int\tan^2\theta\,d\theta$$
+          4. $\tan^2\theta$ نحوّلها: $\tan^2\theta=\sec^2\theta-1$:
+             $$\int\big(\sec^2\theta-1\big)d\theta=\tan\theta-\theta+C$$
+          5. نرجع لـ $x$. من المثلث ($\sin\theta=\frac x2$) نطلع $\tan\theta$، و$\theta$ نفسها من التعويض:
+             @tri x|\sqrt{4-x^2}|2
+             $$\tan\theta=\frac{x}{\sqrt{4-x^2}},\qquad\theta=\sin^{-1}\frac x2$$
+        answer: |-
+          \frac{x}{\sqrt{4-x^2}}-\sin^{-1}\frac x2+C
+        domain: '|x|<2'
+        check:
+          kind: indef
+          f: 'x**2*(4-x**2)**Rational(-3,2)'
+          ans: 'x/sqrt(4-x**2) - asin(x/2)'
+          samples: [-1.5, 0.3, 1.8]
+
+      - id: F461-2-3
+        marks: 3
+        page: 11
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{\sqrt{x^2+9}}{x^4}\,dx'
+        solution: |
+          1. تحت الجذر $a^2+x^2$ مع $a=3$، فنعوّض بـ $\tan$:
+             $$x=3\tan\theta,\qquad dx=3\sec^2\theta\,d\theta$$
+          2. نبسّط الجذر:
+             $$\sqrt{x^2+9}=\sqrt{9\tan^2\theta+9}=\sqrt{9\sec^2\theta}=3\sec\theta$$
+          3. نعوّض كل شي. $x^4=81\tan^4\theta$:
+             $$\int\frac{3\sec\theta\cdot3\sec^2\theta}{81\tan^4\theta}\,d\theta=\frac19\int\frac{\sec^3\theta}{\tan^4\theta}\,d\theta$$
+          4. نحوّل لـ $\sin$ و$\cos$: $\sec^3\theta=\frac{1}{\cos^3\theta}$ و$\frac{1}{\tan^4\theta}=\frac{\cos^4\theta}{\sin^4\theta}$:
+             $$\frac{\sec^3\theta}{\tan^4\theta}=\frac{\cos^4\theta}{\cos^3\theta\,\sin^4\theta}=\frac{\cos\theta}{\sin^4\theta}$$
+          5. $\cos\theta$ مشتقة $\sin\theta$، فنعوّض $u=\sin\theta$:
+             $$\frac19\int u^{-4}\,du=\frac19\cdot\frac{u^{-3}}{-3}=-\frac{1}{27\sin^3\theta}+C$$
+          6. نرجع لـ $x$ بالمثلث: $\tan\theta=\frac x3$ يعني المقابل $x$ والمجاور 3، والوتر هو الجذر:
+             @tri x|3|\sqrt{x^2+9}
+             $$\sin\theta=\frac{x}{\sqrt{x^2+9}},\qquad\frac{1}{\sin^3\theta}=\frac{\big(x^2+9\big)^{3/2}}{x^3}$$
+        answer: |-
+          -\frac{\big(x^2+9\big)^{3/2}}{27x^3}+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: 'sqrt(x**2+9)/x**4'
+          ans: '-(x**2+9)**Rational(3,2)/(27*x**3)'
+          samples: [-3.0, -0.5, 0.5, 3.0]
+
+      - id: F451-2-3
+        marks: 3
+        page: 11
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x^2\sqrt{x^2-4}}'
+        solution: |
+          1. تحت الجذر $x^2-a^2$ مع $a=2$، فنعوّض بـ $\sec$:
+             $$x=2\sec\theta,\qquad dx=2\sec\theta\tan\theta\,d\theta$$
+          2. نبسّط الجذر:
+             $$\sqrt{x^2-4}=\sqrt{4\sec^2\theta-4}=\sqrt{4\tan^2\theta}=2\tan\theta$$
+          3. نعوّض كل شي. $x^2=4\sec^2\theta$، و$\tan\theta$ تنشطب:
+             $$\int\frac{2\sec\theta\tan\theta\,d\theta}{4\sec^2\theta\cdot2\tan\theta}=\frac14\int\frac{d\theta}{\sec\theta}=\frac14\int\cos\theta\,d\theta$$
+          4. نكامل:
+             $$=\frac14\sin\theta+C$$
+          5. نرجع لـ $x$ بالمثلث: $\sec\theta=\frac x2$ يعني الوتر $x$ والمجاور 2، والمقابل هو الجذر:
+             @tri \sqrt{x^2-4}|2|x
+             $$\sin\theta=\frac{\sqrt{x^2-4}}{x}$$
+        answer: |-
+          \frac{\sqrt{x^2-4}}{4x}+C
+        domain: '|x|>2'
+        check:
+          kind: indef
+          f: '1/(x**2*sqrt(x**2-4))'
+          ans: 'sqrt(x**2-4)/(4*x)'
+          samples: [-5.0, -2.5, 2.5, 5.0]
+
+      - id: F452-2-3
+        marks: 3
+        page: 27
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{4}{x^2\sqrt{x^2-4}}\,dx'
+        solution: |
+          1. نفس F451-2-3 بالضبط، بس فيه 4 فوق. نطلّعها برّا التكامل:
+             $$\int\frac{4\,dx}{x^2\sqrt{x^2-4}}=4\int\frac{dx}{x^2\sqrt{x^2-4}}$$
+          2. نعوّض بـ $\sec$ ($a=2$):
+             $$x=2\sec\theta,\qquad dx=2\sec\theta\tan\theta\,d\theta,\qquad\sqrt{x^2-4}=2\tan\theta$$
+          3. نعوّض كل شي ونبسّط:
+             $$4\int\frac{2\sec\theta\tan\theta\,d\theta}{4\sec^2\theta\cdot2\tan\theta}=\int\frac{d\theta}{\sec\theta}=\int\cos\theta\,d\theta=\sin\theta+C$$
+          4. نرجع لـ $x$ بنفس المثلث ($\sec\theta=\frac x2$):
+             @tri \sqrt{x^2-4}|2|x
+             $$\sin\theta=\frac{\sqrt{x^2-4}}{x}$$
+        answer: |-
+          \frac{\sqrt{x^2-4}}{x}+C
+        domain: '|x|>2'
+        check:
+          kind: indef
+          f: '4/(x**2*sqrt(x**2-4))'
+          ans: 'sqrt(x**2-4)/x'
+          samples: [-5.0, -2.5, 2.5, 5.0]

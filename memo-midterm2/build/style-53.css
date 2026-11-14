@@ -1,0 +1,58 @@
+/* ===== ملف 5.3: نفس تصميم 6.1 الهادئ، مع المثلث وأسئلة الفهم والتدريب تحت كل نمط ===== */
+@page { @top-right { content: "ريض 111 · 5.3 التعويضات المثلثية"; } }
+
+/* رموز الاختبارات بلون واحد (الفصلي والنهائي) */
+.qid-fin { color: var(--brand); background: var(--brand-soft); }
+.same { font-size: 0.7em; color: var(--muted); white-space: nowrap; }
+.same .qid { font-size: 1em; }
+
+/* ---------- المثلث ---------- */
+.tri { position: relative; width: 300px; height: 118px; margin: 0.15em auto 0.1em; break-inside: avoid; }
+.tri svg { position: absolute; left: 0; top: 0; }
+.tri-l { position: absolute; white-space: nowrap; font-size: 0.95em; line-height: 1.2; }
+.tri-opp { top: 46px; }
+.tri-adj { top: 97px; transform: translateX(-50%); }
+.tri-hyp { top: 24px; }
+.tri-th { top: 75px; color: #a35a00; font-size: 0.85em; }
+.st-eqs .tri { margin: 0.1em auto; }
+
+/* الثلاث مثلثات في الأساس */
+.tris { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3mm; margin: 0.5em 0 0.4em; break-inside: avoid; }
+.tcell { margin: 0; border: 1px solid var(--line); border-radius: 10px; padding: 0.35em 0.3em 0.3em; text-align: center; }
+.tform { font-size: 0.98em; font-weight: 600; }
+.tform .arr { margin: 0 0.3em; color: var(--muted); font-weight: 400; }
+.tcell .tri { zoom: 0.84; margin: 0.25em auto 0.1em; }
+.tcell figcaption { font-size: 0.9em; color: var(--muted); }
+
+/* الغلاف: مثلث كبير */
+.cover-tri { display: flex; align-items: center; justify-content: center; height: 60mm; border-radius: 18px; background: linear-gradient(135deg, #e3f1f4 0%, #f2f6f8 100%); margin: 0.3em 0 0.2em; }
+.cover-tri .tri { zoom: 1.7; margin: 0; }
+
+/* ---------- أسئلة فهم سريعة: الجواب تحت السؤال مباشرة ---------- */
+.box-check { --c: #33495a; --bg: #f7f9fb; }
+.checks { list-style: none; counter-reset: ck; padding-inline-start: 0; margin: 0.1em 0; }
+.checks > li { counter-increment: ck; position: relative; padding-inline-start: 1.75em; margin: 0.45em 0; break-inside: avoid; }
+.checks > li::before {
+  content: counter(ck); position: absolute; inset-inline-start: 0; top: 0.18em;
+  width: 1.3em; height: 1.3em; line-height: 1.25em; border-radius: 50%; text-align: center;
+  font-size: 0.76em; font-weight: 700; color: var(--brand); border: 1.3px solid var(--brand); box-sizing: border-box;
+}
+.cq { font-weight: 600; }
+.ca { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.55em; align-items: start; margin-top: 0.2em; padding-top: 0.2em; border-top: 1px dotted #c3ced7; color: #2f3e4b; }
+.ca-l { font-size: 0.7em; font-weight: 700; color: var(--green); border: 1px solid #b7dcc4; border-radius: 5px; padding: 0 0.45em; margin-top: 0.35em; white-space: nowrap; }
+.ca-b > :first-child { margin-top: 0; }
+.ca-b > :last-child { margin-bottom: 0; }
+.ca-b .eq { margin: 0.1em 0; }
+
+/* ---------- التدريب تحت النمط ---------- */
+.prac { margin-top: 1em; padding-top: 0.15em; border-top: 1.5px solid #e3eaef; }
+.prac-title { color: var(--brand); margin-top: 0.5em; }
+.prac-lede { font-size: 0.86em; color: var(--muted); margin: -0.15em 0 0.35em; }
+
+/* ---------- آخر الحل: روابط الرجوع ---------- */
+.sol-foot { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 0.45em; margin-top: 0.35em; }
+.back { font-size: 0.74em; font-weight: 600; color: var(--brand); border: 1px solid #cfe3e9; border-radius: 5px; padding: 0 0.5em; white-space: nowrap; }
+
+/* درس المراجعة يبدأ صفحة جديدة، ورابط الرجوع يبقى مع حله */
+.pg-learn > h1:last-of-type { break-before: page; margin-top: 0; }
+.sol-foot, .answer + .dom-why { break-before: avoid; }
