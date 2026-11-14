@@ -248,10 +248,10 @@ patterns:
         hint: |
           $\ln$ لحاله: اعتبره مضروب في 1. اشتقه، وكامل $dx$.
         solution: |
-          1. اللوغاريتم لحاله، نعتبره مضروب في 1. نشتقه ونكامل الواحد:
-             $$u=\ln|x|,\qquad dv=dx,\qquad du=\frac{dx}{x},\qquad v=x$$
-          2. نركّب القانون. $x\cdot\frac1x=1$:
-             $$\int\ln|x|\,dx=x\ln|x|-\int x\cdot\frac1x\,dx=x\ln|x|-\int dx$$
+          1. $\ln$ لحاله: نعتبره مضروب في 1. نشتق $\ln|x|$ ونكامل الواحد، ونوقف في الصف الثاني:
+             @di \ln|x| & 1 ;; !\frac1x & x
+          2. القطر، ناقص تكامل ضرب الصف الأخير ($\frac1x\cdot x=1$):
+             $$x\ln|x|-\int1\,dx=x\ln|x|-x$$
         answer: |-
           x\ln|x|-x+C
         domain: 'x\ne0'
@@ -412,17 +412,11 @@ patterns:
         hint: |
           الدوّارة: جزّئ مرتين والأسّية $dv$ في المرتين. بيرجع لك نفس التكامل، سمّه $I$ وحلّه كمعادلة.
         solution: |
-          1. نسمّي التكامل $I$. الأسّية $dv$ (تكاملها نفسها):
-             $$u=\cos x,\qquad dv=e^x\,dx,\qquad du=-\sin x\,dx,\qquad v=e^x$$
-             $$I=e^x\cos x+\int e^x\sin x\,dx$$
-          2. نجزّئ التكامل الجديد **بنفس الاختيار** (الأسّية $dv$):
-             $$u=\sin x,\qquad dv=e^x\,dx,\qquad du=\cos x\,dx,\qquad v=e^x$$
-             $$\int e^x\sin x\,dx=e^x\sin x-\int e^x\cos x\,dx=e^x\sin x-I$$
-          3. نعوّض. رجع $I$ نفسه:
+          1. أسّية × $\cos$ (دوّارة): نشتق $\cos x$ ونكامل $e^x$ (تكاملها نفسها)، ونوقف في الصف الثالث لما يرجع السؤال:
+             @di \cos x & e^x ;; -\sin x & e^x ;; !-\cos x & e^x
+          2. نسمّي السؤال $I$. القطرين بإشاراتهم، وبعدهم تكامل ضرب الصف الأخير ($-e^x\cos x$) بإشارته $+$، وهو $-I$:
              $$I=e^x\cos x+e^x\sin x-I$$
-          4. ننقل $I$ لليسار:
-             $$2I=e^x\cos x+e^x\sin x$$
-          5. نقسم على 2:
+          3. ننقل $I$ لليسار: $2I=e^x\cos x+e^x\sin x$. ونقسم على 2:
         answer: |-
           \frac{e^x}{2}\big(\cos x+\sin x\big)+C
         domain: 'x\in\mathbb{R}'
@@ -441,18 +435,12 @@ patterns:
         hint: |
           نفس F472-2-3: الأسّية $dv$ في المرتين. انتبه للـ 3 في مشتقة $\sin3x$ و$\cos3x$.
         solution: |
-          1. نسمّي التكامل $I$. الأسّية $dv$، و$\sin3x$ هي $u$ (مشتقتها فيها 3):
-             $$u=\sin3x,\qquad dv=e^{2x}dx,\qquad du=3\cos3x\,dx,\qquad v=\tfrac12e^{2x}$$
-             $$I=\tfrac12e^{2x}\sin3x-\tfrac32\int e^{2x}\cos3x\,dx$$
-          2. نفس الاختيار مرة ثانية:
-             $$u=\cos3x,\qquad dv=e^{2x}dx,\qquad du=-3\sin3x\,dx,\qquad v=\tfrac12e^{2x}$$
-             $$\int e^{2x}\cos3x\,dx=\tfrac12e^{2x}\cos3x+\tfrac32\int e^{2x}\sin3x\,dx=\tfrac12e^{2x}\cos3x+\tfrac32I$$
-          3. نعوّض، و$-\frac32$ تضرب في القوس كله:
-             $$I=\tfrac12e^{2x}\sin3x-\tfrac34e^{2x}\cos3x-\tfrac94I$$
-          4. ننقل $I$ لليسار: $I+\frac94I=\frac{13}{4}I$:
-             $$\tfrac{13}{4}I=\tfrac12e^{2x}\sin3x-\tfrac34e^{2x}\cos3x$$
-          5. نضرب الطرفين في $\frac{4}{13}$:
-             $$I=\tfrac{2}{13}e^{2x}\sin3x-\tfrac{3}{13}e^{2x}\cos3x$$
+          1. دوّارة: نشتق $\sin3x$ (كل مشتقة تضرب في 3)، ونكامل $e^{2x}$ (كل تكامل يقسم على 2)، ونوقف في الصف الثالث:
+             @di \sin3x & e^{2x} ;; 3\cos3x & \frac12e^{2x} ;; !-9\sin3x & \frac14e^{2x}
+          2. القطرين بإشاراتهم، وبعدهم تكامل ضرب الصف الأخير. ضربه $-\frac94e^{2x}\sin3x$، يعني تكامله $-\frac94I$:
+             $$I=\frac12e^{2x}\sin3x-\frac34e^{2x}\cos3x-\frac94I$$
+          3. ننقل: $I+\frac94I=\frac{13}{4}I$، ونضرب في $\frac4{13}$:
+             $$I=\frac{2}{13}e^{2x}\sin3x-\frac{3}{13}e^{2x}\cos3x$$
         answer: |-
           \frac{e^{2x}}{13}\big(2\sin3x-3\cos3x\big)+C
         domain: 'x\in\mathbb{R}'

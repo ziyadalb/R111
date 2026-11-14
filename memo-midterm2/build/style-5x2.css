@@ -1,0 +1,58 @@
+/* ===== ملف 5.1 و5.2 الجديد: نفس تصميم 5.3 الهادئ، مع جدول التجزئة ===== */
+@page { @top-right { content: "ريض 111 · 5.1 و5.2 التجزئة والتكاملات المثلثية"; } }
+
+/* رموز الاختبارات بلون واحد (الفصلي والنهائي) */
+.qid-fin { color: var(--brand); background: var(--brand-soft); }
+.same { font-size: 0.7em; color: var(--muted); white-space: nowrap; }
+.same .qid { font-size: 1em; }
+
+/* ---------- جدول التجزئة ---------- */
+table.di { width: auto; margin: 0.25em auto 0.2em; border-collapse: separate; border-spacing: 0; font-size: 0.95em; break-inside: avoid; background: #fff; border: 1px solid #d3e3e8; border-radius: 8px; overflow: hidden; }
+table.di th, table.di td { border: 0; padding: 0.1em 0.75em; text-align: center; vertical-align: middle; }
+table.di th { background: var(--brand-soft); color: var(--brand); font-weight: 700; font-size: 0.82em; padding-top: 0.15em; padding-bottom: 0.15em; }
+table.di tbody td { border-top: 1px solid #edf1f4; }
+table.di .di-sg { width: 1.3em; padding-inline: 0.35em; font-weight: 700; color: #a35a00; border-inline-end: 1px solid #edf1f4; }
+table.di .di-mid { width: 1em; padding-inline: 0.1em; }
+table.di .di-arr { color: #8fb0bd; font-size: 0.95em; position: relative; top: 0.45em; }
+table.di .di-x { color: #a35a00; font-size: 0.9em; font-weight: 700; }
+table.di tr.di-stop td { background: #fff5e6; }
+table.di tr.di-zero td { color: var(--muted); }
+table.di .katex { font-size: 1.02em; }
+.st-eqs table.di { margin: 0.15em auto; }
+.ca-b table.di { margin: 0.15em 0; }
+
+/* الغلاف: جدول تجزئة كبير */
+.cover-di { display: flex; align-items: center; justify-content: center; height: 60mm; border-radius: 18px; background: linear-gradient(135deg, #e3f1f4 0%, #f7efe1 100%); margin: 0.3em 0 0.2em; }
+.cover-di table.di { zoom: 1.65; margin: 0; box-shadow: 0 1px 0 #d3e3e8; }
+
+/* ---------- أسئلة فهم سريعة: الجواب تحت السؤال مباشرة ---------- */
+.box-check { --c: #33495a; --bg: #f7f9fb; }
+.checks { list-style: none; counter-reset: ck; padding-inline-start: 0; margin: 0.1em 0; }
+.checks > li { counter-increment: ck; position: relative; padding-inline-start: 1.75em; margin: 0.45em 0; break-inside: avoid; }
+.checks > li::before {
+  content: counter(ck); position: absolute; inset-inline-start: 0; top: 0.18em;
+  width: 1.3em; height: 1.3em; line-height: 1.25em; border-radius: 50%; text-align: center;
+  font-size: 0.76em; font-weight: 700; color: var(--brand); border: 1.3px solid var(--brand); box-sizing: border-box;
+}
+.cq { font-weight: 600; }
+.ca { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.55em; align-items: start; margin-top: 0.2em; padding-top: 0.2em; border-top: 1px dotted #c3ced7; color: #2f3e4b; }
+.ca-l { font-size: 0.7em; font-weight: 700; color: var(--green); border: 1px solid #b7dcc4; border-radius: 5px; padding: 0 0.45em; margin-top: 0.35em; white-space: nowrap; }
+.ca-b > :first-child { margin-top: 0; }
+.ca-b > :last-child { margin-bottom: 0; }
+.ca-b .eq { margin: 0.1em 0; }
+
+/* ---------- التدريب تحت النمط ---------- */
+.prac { margin-top: 1em; padding-top: 0.15em; border-top: 1.5px solid #e3eaef; }
+.prac-title { color: var(--brand); margin-top: 0.5em; }
+.prac-lede { font-size: 0.86em; color: var(--muted); margin: -0.15em 0 0.35em; }
+
+/* ---------- آخر الحل: روابط الرجوع ---------- */
+.sol-foot { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 0.45em; margin-top: 0.35em; }
+.back { font-size: 0.74em; font-weight: 600; color: var(--brand); border: 1px solid #cfe3e9; border-radius: 5px; padding: 0 0.5em; white-space: nowrap; }
+
+/* درس المراجعة يبدأ صفحة جديدة، ورابط الرجوع يبقى مع حله */
+.pg-learn > h1:last-of-type { break-before: page; margin-top: 0; }
+.sol-foot, .answer + .dom-why { break-before: avoid; }
+
+/* صناديق «من المذكرة بس» */
+.notes-only .box-note { break-inside: avoid; }

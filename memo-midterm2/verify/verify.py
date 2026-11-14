@@ -309,6 +309,43 @@ def general_checks():
         dF = fn_th(sp.diff(F_e, th)); fv = fn_th(f_e)
         ok = ok and all(close(real_val(dF(mp.mpf(t))), real_val(fv(mp.mpf(t)))) for t in [-1.2, 0.4, 1.3, 2.0, 3.6])
     rec('5.3: جدول تكاملات θ (8 صفوف)', ok)
+
+    # 19) 5.1 و5.2: الحيل (القوة العكسية وحالتيها، الداخل الخطي، الجدول) وأجوبة أسئلة الفهم
+    pts2 = [-2.3, -0.7, 0.35, 1.1, 2.6, 4.2]
+    def anti(f_s, F_s, samples=pts2):
+        return check_antiderivative(f_s, F_s, samples)[0]
+    rec('5.x قوة عكسية: ∫sin⁴x cos x = sin⁵x/5', anti('sin(x)**4*cos(x)', 'sin(x)**5/5'))
+    rec('5.x قوة عكسية: ∫cos⁶x sin x = −cos⁷x/7', anti('cos(x)**6*sin(x)', '-cos(x)**7/7'))
+    rec('5.x قوة عكسية: ∫tan³x sec²x = tan⁴x/4', anti('tan(x)**3*sec(x)**2', 'tan(x)**4/4'))
+    rec('5.x قوة عكسية: ∫sec⁴x·sec x tan x = sec⁵x/5', anti('sec(x)**5*tan(x)', 'sec(x)**5/5'))
+    rec('5.x قوة عكسية: ∫cot²x csc²x = −cot³x/3', anti('cot(x)**2*csc(x)**2', '-cot(x)**3/3'))
+    rec('5.x: ∫f′/f = ln(abs f) و∫f′/√f = 2√f (أمثلة)', anti('2*x/(1+x**2)', 'log(1+x**2)') and anti('-2*x/sqrt(4-x**2)', '2*sqrt(4-x**2)', [-1.5, 0.3, 1.7]))
+    rec('5.x خمّن واشتق: ∫x/(1+x²) = ½ln(1+x²)', anti('x/(1+x**2)', 'log(1+x**2)/2'))
+    rec('5.x الداخل الخطي: e^{kx}، cos kx، sin kx، cosh kx، sinh kx (k=3)',
+        anti('exp(3*x)', 'exp(3*x)/3') and anti('cos(3*x)', 'sin(3*x)/3') and anti('sin(3*x)', '-cos(3*x)/3')
+        and anti('cosh(3*x)', 'sinh(3*x)/3') and anti('sinh(3*x)', 'cosh(3*x)/3'))
+    rec('5.x جدول: ∫x e^{2x} = (x/2 − 1/4)e^{2x}', anti('x*exp(2*x)', '(x/2 - Rational(1,4))*exp(2*x)'))
+    rec('5.x الاختصار: ∫xⁿ ln x (n=4) = x⁵/5 ln x − x⁵/25', anti('x**4*log(x)', 'x**5/5*log(x) - x**5/25', [0.3, 1.2, 3.5]))
+    # أسئلة الفهم
+    rec('5.x فهم b: ∫sin⁶x cos x، ∫cos³x sin x، ∫x/(x²+4)، ∫e^{−3x}، ∫sin4x',
+        anti('sin(x)**6*cos(x)', 'sin(x)**7/7') and anti('cos(x)**3*sin(x)', '-cos(x)**4/4') and anti('x/(x**2+4)', 'log(x**2+4)/2')
+        and anti('exp(-3*x)', '-exp(-3*x)/3') and anti('sin(4*x)', '-cos(4*x)/4'))
+    rec('5.x فهم P1: ∫(5x+2)sin x = −(5x+2)cos x + 5 sin x', anti('(5*x+2)*sin(x)', '-(5*x+2)*cos(x) + 5*sin(x)'))
+    rec('5.x فهم P3: مشتقات sin⁻¹ وtanh⁻¹ وcosh⁻¹، و∫x/√(x²+1) = √(x²+1)',
+        sp.simplify(sp.diff(sp.asin(x), x) - 1 / sp.sqrt(1 - x**2)) == 0 and sp.simplify(sp.diff(sp.atanh(x), x) - 1 / (1 - x**2)) == 0
+        and check_derivative('acosh(x)', '1/sqrt(x**2-1)', [1.3, 2.0, 5.0])[0] and anti('x/sqrt(x**2+1)', 'sqrt(x**2+1)'))
+    rec('5.x فهم P4: ∫e^{3x}sinh x = e^{4x}/8 − e^{2x}/4', anti('exp(3*x)*sinh(x)', 'exp(4*x)/8 - exp(2*x)/4', [-1.0, 0.4, 1.5]))
+    rec('5.x فهم P5: ∫eˣ sin2x = eˣ(sin2x − 2cos2x)/5', anti('exp(x)*sin(2*x)', 'exp(x)*(sin(2*x) - 2*cos(2*x))/5', [-1.0, 0.4, 1.5]))
+    rec('5.x فهم Q1: ∫sin³x cos²x = −cos³x/3 + cos⁵x/5', anti('sin(x)**3*cos(x)**2', '-cos(x)**3/3 + cos(x)**5/5'))
+    rec('5.x فهم Q2: ∫tan⁵x sec²x = tan⁶x/6، ∫tan x sec³x = sec³x/3، ومشتقات cot وcsc',
+        anti('tan(x)**5*sec(x)**2', 'tan(x)**6/6') and anti('tan(x)*sec(x)**3', 'sec(x)**3/3')
+        and sp.simplify(sp.diff(sp.cot(x), x) + sp.csc(x)**2) == 0 and sp.simplify(sp.diff(sp.csc(x), x) + sp.csc(x) * sp.cot(x)) == 0)
+    rec('5.x فهم P4: cosh4x وsinh4x بالأسّيات', sp.simplify((sp.cosh(4 * x) - (sp.exp(4 * x) + sp.exp(-4 * x)) / 2).rewrite(sp.exp)) == 0
+        and sp.simplify((sp.sinh(4 * x) - (sp.exp(4 * x) - sp.exp(-4 * x)) / 2).rewrite(sp.exp)) == 0)
+    # أمثلة الدرس 4 (من المذكرة بس)
+    rec('5.x الدرس 4: ∫sin²x، ∫tan⁴x، ∫sin7x cos5x، ∫e^{√x}',
+        anti('sin(x)**2', 'x/2 - sin(2*x)/4') and anti('tan(x)**4', 'tan(x)**3/3 - tan(x) + x')
+        and anti('sin(7*x)*cos(5*x)', '-cos(2*x)/4 - cos(12*x)/24') and anti('exp(sqrt(x))', '2*(sqrt(x)-1)*exp(sqrt(x))', [0.3, 1.5, 4.0]))
     return out
 
 

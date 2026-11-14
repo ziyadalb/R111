@@ -1,5 +1,6 @@
-# أسئلة 5.1 و5.2 اللي جات في الاختبارات النهائية (1445 إلى 1447)
+# أسئلة 5.1 و5.2 اللي جات في الاختبارات النهائية (1445 إلى 1447)، وأسئلة «أسّية × زائدية» من الفصلي
 # المعرف: F + السنة والفصل + السؤال + الفقرة (F471-2-2 = نهائي 1447 الفصل الأول، السؤال 2 فقرة 2)
+# نهائي 1445 الفصل الثاني (F452-2-2) نفس M462-2-8 بالضبط: ∫tan⁻¹x dx.
 section: '5.x'
 slug: fin
 title: 'أسئلة النهائيات'
@@ -11,17 +12,13 @@ patterns:
         page: 10
         prompt: 'Evaluate the integral.'
         q: '\int x^2\cos(3x)\,dx'
-        hint: |
-          كثير حدود من الدرجة الثانية × $\cos3x$: جزّئ مرتين، وكل مرة خل كثير الحدود هو $u$.
         solution: |
-          1. نشتق كثير الحدود (ينزل درجة كل مرة)، ونكامل $\cos3x$. تكامل $\cos3x$ نقسم فيه على 3:
-             $$u=x^2,\qquad dv=\cos3x\,dx,\qquad du=2x\,dx,\qquad v=\tfrac13\sin3x$$
-             $$\int x^2\cos3x\,dx=\frac{x^2}{3}\sin3x-\frac23\int x\sin3x\,dx$$
-          2. التكامل الجديد ضرب بعد، بس الدرجة نزلت. نجزّئ مرة ثانية بنفس الاختيار:
-             $$u=x,\qquad dv=\sin3x\,dx,\qquad du=dx,\qquad v=-\tfrac13\cos3x$$
-             $$\int x\sin3x\,dx=-\frac x3\cos3x+\frac13\int\cos3x\,dx=-\frac x3\cos3x+\frac19\sin3x$$
-          3. نرجع للأول، وننتبه إن $-\frac23$ تضرب في القوس كله:
-             $$\frac{x^2}{3}\sin3x-\frac23\Big(-\frac x3\cos3x+\frac19\sin3x\Big)$$
+          1. كثير حدود من الدرجة الثانية × $\cos3x$: نشتق $x^2$ لين يصير صفر (ثلاث مرات)، ونكامل $\cos3x$. والداخل خطي ($3x$)، فكل تكامل نقسم على 3:
+             @di x^2 & \cos3x ;; 2x & \frac13\sin3x ;; 2 & -\frac19\cos3x ;; 0 & -\frac1{27}\sin3x
+          2. نضرب قطريًا بالإشارات $+\,-\,+$:
+             $$+\,x^2\cdot\frac13\sin3x\;-\;2x\cdot\Big(-\frac19\cos3x\Big)\;+\;2\cdot\Big(-\frac1{27}\sin3x\Big)$$
+          3. نرتّب الإشارات (ناقص في ناقص يصير زائد):
+             $$\frac{x^2}{3}\sin3x+\frac{2x}{9}\cos3x-\frac{2}{27}\sin3x$$
         answer: |-
           \frac{x^2}{3}\sin3x+\frac{2x}{9}\cos3x-\frac{2}{27}\sin3x+C
         domain: 'x\in\mathbb{R}'
@@ -36,17 +33,11 @@ patterns:
         page: 11
         prompt: 'Evaluate the integral.'
         q: '\int x^2\cosh x\,dx'
-        hint: |
-          نفس فكرة F471-2-2: جزّئ مرتين، وكثير الحدود هو $u$ كل مرة.
         solution: |
-          1. نشتق $x^2$ ونكامل $\cosh x$ (تكاملها $\sinh x$ بدون سالب):
-             $$u=x^2,\qquad dv=\cosh x\,dx,\qquad du=2x\,dx,\qquad v=\sinh x$$
-             $$\int x^2\cosh x\,dx=x^2\sinh x-2\int x\sinh x\,dx$$
-          2. نجزّئ مرة ثانية بنفس الاختيار:
-             $$u=x,\qquad dv=\sinh x\,dx,\qquad du=dx,\qquad v=\cosh x$$
-             $$\int x\sinh x\,dx=x\cosh x-\int\cosh x\,dx=x\cosh x-\sinh x$$
-          3. نرجع للأول، و$-2$ تضرب في القوس كله:
-             $$x^2\sinh x-2\big(x\cosh x-\sinh x\big)$$
+          1. نفس F471-2-2 مع $\cosh x$: نشتق $x^2$ لين صفر، ونكامل $\cosh x$. تكاملها $\sinh x$، وتكامل $\sinh x$ هو $\cosh x$، بدون سالب:
+             @di x^2 & \cosh x ;; 2x & \sinh x ;; 2 & \cosh x ;; 0 & \sinh x
+          2. نضرب قطريًا بالإشارات $+\,-\,+$:
+             $$x^2\sinh x-2x\cosh x+2\sinh x$$
         answer: |-
           x^2\sinh x-2x\cosh x+2\sinh x+C
         domain: 'x\in\mathbb{R}'
@@ -61,15 +52,13 @@ patterns:
         page: 11
         prompt: 'Evaluate the integral.'
         q: '\int x^{-3}\ln|x|\,dx'
-        hint: |
-          قوة × $\ln$: اشتق $\ln|x|$ وكامل $x^{-3}$. انتبه لإشارة $v$.
         solution: |
-          1. نشتق اللوغاريتم ونكامل القوة. الأس $-3$ يصير $-2$ ونقسم عليه:
-             $$u=\ln|x|,\qquad dv=x^{-3}dx,\qquad du=\frac{dx}{x},\qquad v=\frac{x^{-2}}{-2}=-\frac{1}{2x^2}$$
-          2. نركّب القانون. سالب في سالب = موجب:
-             $$\int x^{-3}\ln|x|\,dx=-\frac{\ln|x|}{2x^2}+\frac12\int\frac{1}{x^2}\cdot\frac1x\,dx=-\frac{\ln|x|}{2x^2}+\frac12\int x^{-3}dx$$
-          3. نكامل:
-             $$\frac12\cdot\frac{x^{-2}}{-2}=-\frac{1}{4x^2}$$
+          1. قوة × $\ln$: نشتق $\ln|x|$، ونكامل $x^{-3}$ (الأس يصير $-2$ ونقسم عليه)، ونوقف في الصف الثاني:
+             @di \ln|x| & x^{-3} ;; !\frac1x & -\frac{1}{2x^2}
+          2. القطر، ناقص تكامل ضرب الصف الأخير ($-\frac{1}{2x^3}$). وناقص في ناقص يصير زائد:
+             $$-\frac{\ln|x|}{2x^2}+\frac12\int x^{-3}\,dx$$
+          3. و$\int x^{-3}dx=\frac{x^{-2}}{-2}=-\frac{1}{2x^2}$:
+             $$-\frac{\ln|x|}{2x^2}-\frac{1}{4x^2}$$
         answer: |-
           -\frac{\ln|x|}{2x^2}-\frac{1}{4x^2}+C
         domain: 'x\ne0'
@@ -89,19 +78,16 @@ patterns:
         page: 26
         prompt: 'Evaluate the integral.'
         q: '\int x\tanh^{-1}x\,dx'
-        hint: |
-          اشتق $\tanh^{-1}x$ وكامل $x$. التكامل الباقي: اكتب البسط $x^2$ بدلالة المقام $1-x^2$.
         solution: |
-          1. نشتق العكسية ونكامل $x$:
-             $$u=\tanh^{-1}x,\qquad dv=x\,dx,\qquad du=\frac{dx}{1-x^2},\qquad v=\frac{x^2}{2}$$
-             $$\int x\tanh^{-1}x\,dx=\frac{x^2}{2}\tanh^{-1}x-\frac12\int\frac{x^2}{1-x^2}\,dx$$
-          2. البسط درجته نفس المقام، فنكتبه بدلالة المقام (نضيف 1 ونطرحه):
+          1. دالة عكسية × $x$: نشتق $\tanh^{-1}x$ (مشتقتها $\frac{1}{1-x^2}$)، ونكامل $x$:
+             @di \tanh^{-1}x & x ;; !\frac{1}{1-x^2} & \frac{x^2}{2}
+          2. القطر، ناقص تكامل ضرب الصف الأخير:
+             $$\frac{x^2}{2}\tanh^{-1}x-\frac12\int\frac{x^2}{1-x^2}\,dx$$
+          3. الباقي ما ينحل بالتخمين، لأن درجة البسط نفس المقام. الحيلة: نكتب البسط بدلالة المقام (نضيف 1 ونطرحه):
              $$\frac{x^2}{1-x^2}=\frac{-(1-x^2)+1}{1-x^2}=-1+\frac{1}{1-x^2}$$
-          3. نكامل. الثاني قانون $\tanh^{-1}$ (لأن $|x|<1$):
-             $$\int\Big(-1+\frac{1}{1-x^2}\Big)dx=-x+\tanh^{-1}x$$
-          4. نرجع للقانون:
-             $$\frac{x^2}{2}\tanh^{-1}x-\frac12\big(-x+\tanh^{-1}x\big)=\frac{x^2}{2}\tanh^{-1}x+\frac x2-\frac12\tanh^{-1}x$$
-          5. نجمع حدّي $\tanh^{-1}x$:
+          4. نكامل. و$\int\frac{dx}{1-x^2}=\tanh^{-1}x$ لأن $|x|<1$:
+             $$\frac{x^2}{2}\tanh^{-1}x-\frac12\big(-x+\tanh^{-1}x\big)$$
+          5. نجمع حدّي $\tanh^{-1}x$: $\frac{x^2}{2}-\frac12=\frac{x^2-1}{2}$:
         answer: |-
           \frac{x^2-1}{2}\tanh^{-1}x+\frac x2+C
         domain: '|x|<1'
@@ -116,21 +102,16 @@ patterns:
         page: 25
         prompt: 'Evaluate the integral.'
         q: '\int e^{2x}\sin x\,dx'
-        hint: |
-          أسّية × $\sin$: جزّئ مرتين (الأسّية هي $dv$ في المرتين)، بيرجع لك نفس التكامل. سمّه $I$ وحلّه كمعادلة.
         solution: |
-          1. نسمّي التكامل $I$. نخلي الأسّية $dv$ (نكاملها بسهولة)، و$\sin x$ هي $u$:
-             $$u=\sin x,\qquad dv=e^{2x}dx,\qquad du=\cos x\,dx,\qquad v=\tfrac12e^{2x}$$
-             $$I=\tfrac12e^{2x}\sin x-\tfrac12\int e^{2x}\cos x\,dx$$
-          2. نجزّئ التكامل الجديد **بنفس الاختيار** (الأسّية $dv$ مرة ثانية):
-             $$u=\cos x,\qquad dv=e^{2x}dx,\qquad du=-\sin x\,dx,\qquad v=\tfrac12e^{2x}$$
-             $$\int e^{2x}\cos x\,dx=\tfrac12e^{2x}\cos x+\tfrac12\int e^{2x}\sin x\,dx=\tfrac12e^{2x}\cos x+\tfrac12I$$
-          3. نعوّض في المعادلة الأولى. رجع $I$ نفسه:
-             $$I=\tfrac12e^{2x}\sin x-\tfrac14e^{2x}\cos x-\tfrac14I$$
-          4. ننقل $I$ لليسار ونجمع: $I+\frac14I=\frac54I$:
-             $$\tfrac54I=\tfrac12e^{2x}\sin x-\tfrac14e^{2x}\cos x$$
+          1. **وش النمط؟** أسّية × $\sin$. الثنتين ما تختفي بالاشتقاق، ومشتقاتهم تدوّر. فنجزّئ لين يرجع نفس السؤال، ونحله كمعادلة.
+          2. **الجدول:** نشتق $\sin x$، ونكامل $e^{2x}$ (كل تكامل نقسم على 2). ونوقف في الصف الثالث لأن ضربه $(-\sin x)\cdot\frac14e^{2x}$ رجع نفس السؤال مضروب في رقم:
+             @di \sin x & e^{2x} ;; \cos x & \frac12e^{2x} ;; !-\sin x & \frac14e^{2x}
+          3. نسمّي السؤال $I$. نأخذ القطرين بإشاراتهم، وبعدهم تكامل ضرب الصف الأخير بإشارته ($+$):
+             $$I=\frac12e^{2x}\sin x-\frac14e^{2x}\cos x+\int\Big(-\frac14e^{2x}\sin x\Big)dx$$
+          4. التكامل الأخير هو $-\frac14I$. ننقله لليسار: $I+\frac14I=\frac54I$:
+             $$\frac54I=\frac12e^{2x}\sin x-\frac14e^{2x}\cos x$$
           5. نضرب الطرفين في $\frac45$:
-             $$I=\tfrac25e^{2x}\sin x-\tfrac15e^{2x}\cos x$$
+             $$I=\frac25e^{2x}\sin x-\frac15e^{2x}\cos x$$
         answer: |-
           \frac{e^{2x}}{5}\big(2\sin x-\cos x\big)+C
         domain: 'x\in\mathbb{R}'
@@ -140,24 +121,37 @@ patterns:
           ans: 'exp(2*x)/5*(2*sin(x) - cos(x))'
           samples: [-1.0, 0.5, 2.0]
 
+      - id: F471-2-6
+        marks: 2
+        page: 12
+        prompt: 'Evaluate the integral.'
+        q: '\int\tan^3x\,\sec^2x\,dx'
+        solution: |
+          1. $\sec^2x$ هي مشتقة $\tan x$، وموجودة جاهزة جنب $\tan^3x$. فما نحتاج نحجز ولا نحوّل: القوة العكسية مباشرة، نزيد الأس واحد ونقسم عليه:
+             $$\int\tan^3x\,\big(\sec^2x\,dx\big)=\frac{\tan^4x}{4}$$
+        answer: |-
+          \frac{\tan^4x}{4}+C
+        domain: '\cos x\ne0'
+        note: |
+          مفتاح الاختبار نفسه حلها كذا بسطر واحد، بدون $u$.
+        check:
+          kind: indef
+          f: 'tan(x)**3*sec(x)**2'
+          ans: 'tan(x)**4/4'
+          samples: [-1.0, 0.3, 1.2, 2.5]
+
       - id: F452-2-6
         marks: 2
         page: 29
         prompt: 'Evaluate the integral.'
         q: '\int\sin^5x\,\cos^6x\,dx'
-        hint: |
-          قوة $\sin$ فردية: احجز $\sin x$ واحد، وحوّل الباقي لـ $\cos$.
-          $$u=\cos x$$
         solution: |
-          1. قوة $\sin$ فردية (5)، وقوة $\cos$ زوجية. نحجز $\sin x$ واحد لأنه (مع سالب) مشتقة $\cos x$، ونحوّل الباقي بـ $\sin^2x=1-\cos^2x$:
-             $$\sin^5x=\big(\sin^2x\big)^2\sin x=\big(1-\cos^2x\big)^2\sin x$$
-          2. نعوّض، وننتبه للسالب:
-             $$u=\cos x,\qquad du=-\sin x\,dx\quad\Rightarrow\quad\sin x\,dx=-du$$
-             $$\int\sin^5x\cos^6x\,dx=-\int\big(1-u^2\big)^2u^6\,du$$
-          3. نفك المربع ونضرب في $u^6$:
-             $$\big(1-u^2\big)^2u^6=\big(1-2u^2+u^4\big)u^6=u^6-2u^8+u^{10}$$
-          4. نكامل، والسالب يتوزع على كل الحدود:
-             $$-\Big(\frac{u^7}{7}-\frac{2u^9}{9}+\frac{u^{11}}{11}\Big)+C$$
+          1. هنا $\sin$ هي الفردية (5)، فنحجز $\sin x$، ونحوّل الباقي لـ $\cos$ بـ $\sin^2x=1-\cos^2x$:
+             $$\sin^5x\cos^6x=\big(1-\cos^2x\big)^2\cos^6x\,\sin x$$
+          2. نفك القوس ونضرب في $\cos^6x$:
+             $$=\big(\cos^6x-2\cos^8x+\cos^{10}x\big)\sin x$$
+          3. القوة العكسية، بس **بسالب**: مشتقة $\cos x$ هي $-\sin x$، فـ $\int\cos^kx\sin x\,dx=-\frac{\cos^{k+1}x}{k+1}$:
+             $$-\frac{\cos^7x}{7}+\frac{2\cos^9x}{9}-\frac{\cos^{11}x}{11}$$
         answer: |-
           -\frac{\cos^7x}{7}+\frac{2\cos^9x}{9}-\frac{\cos^{11}x}{11}+C
         domain: 'x\in\mathbb{R}'
@@ -172,15 +166,13 @@ patterns:
         page: 5
         prompt: 'Evaluate the integral.'
         q: '\int e^{-x}\cosh x\,dx'
-        hint: |
-          لا تجزّئ: اكتب $\cosh x$ بالتعريف بـ $e^x$، واضرب.
         solution: |
-          1. نكتب $\cosh x$ بالتعريف (من 4.1):
+          1. أسّية × $\cosh$: ما نجزّئ. $\cosh$ أصلًا أسّيات، فنكتبها بالتعريف:
              $$\cosh x=\frac{e^x+e^{-x}}{2}$$
-          2. نضرب $e^{-x}$ في القوس. الأسس تنجمع: $e^{-x}e^{x}=e^0=1$ و$e^{-x}e^{-x}=e^{-2x}$:
-             $$e^{-x}\cosh x=\frac{e^{-x}e^{x}+e^{-x}e^{-x}}{2}=\frac12+\frac12e^{-2x}$$
-          3. نكامل كل حد. تكامل $e^{kx}$ هو $\frac{e^{kx}}{k}$:
-             $$\int\Big(\frac12+\frac12e^{-2x}\Big)dx=\frac x2+\frac12\cdot\frac{e^{-2x}}{-2}$$
+          2. نضرب في $e^{-x}$، والأسس تنجمع: $e^{-x}e^{x}=e^0=1$ و$e^{-x}e^{-x}=e^{-2x}$:
+             $$e^{-x}\cosh x=\frac12+\frac12e^{-2x}$$
+          3. نكامل كل حد: الثابت تكامله $x$، و$\int e^{kx}dx=\frac{e^{kx}}{k}$ (نقسم على $-2$):
+             $$\frac x2+\frac12\cdot\frac{e^{-2x}}{-2}$$
         answer: |-
           \frac x2-\frac{e^{-2x}}{4}+C
         domain: 'x\in\mathbb{R}'
@@ -195,13 +187,11 @@ patterns:
         page: 6
         prompt: 'Evaluate the integral.'
         q: '\int e^{x}\cosh2x\,dx'
-        hint: |
-          اكتب $\cosh2x$ بالتعريف بـ $e^{2x}$ و$e^{-2x}$، واضرب في $e^x$.
         solution: |
-          1. نكتب $\cosh2x$ بالتعريف:
+          1. أسّية × $\cosh$: نكتب $\cosh2x$ بالتعريف (فيه جمع):
              $$\cosh2x=\frac{e^{2x}+e^{-2x}}{2}$$
-          2. نضرب في $e^x$ (الأسس تنجمع):
-             $$e^x\cosh2x=\frac{e^{3x}+e^{-x}}{2}$$
+          2. نضرب في $e^x$، والأسس تنجمع ($1+2=3$ و$1-2=-1$):
+             $$e^x\cosh2x=\frac12e^{3x}+\frac12e^{-x}$$
           3. نكامل كل حد ($\int e^{kx}dx=\frac{e^{kx}}{k}$):
              $$\frac12\cdot\frac{e^{3x}}{3}+\frac12\cdot\frac{e^{-x}}{-1}$$
         answer: |-
@@ -218,15 +208,14 @@ patterns:
         page: 22
         prompt: 'Evaluate the integral.'
         q: '\int e^{x/2}\sinh3x\,dx'
-        hint: |
-          اكتب $\sinh3x$ بالتعريف، واضرب في $e^{x/2}$. انتبه للسالب في تعريف $\sinh$.
         solution: |
-          1. نكتب $\sinh3x$ بالتعريف (فيه طرح):
+          1. **وش النمط؟** أسّية × $\sinh$. تقدر تجزّئ، بس فيه طريق أقصر بكثير: $\sinh$ أصلًا أسّيات. نكتبها بالتعريف (فيه طرح):
              $$\sinh3x=\frac{e^{3x}-e^{-3x}}{2}$$
-          2. نضرب في $e^{x/2}$ ونجمع الأسس: $\frac12+3=\frac72$ و$\frac12-3=-\frac52$:
-             $$e^{x/2}\sinh3x=\frac{e^{7x/2}-e^{-5x/2}}{2}$$
-          3. نكامل كل حد ($\int e^{kx}dx=\frac{e^{kx}}{k}$):
-             $$\frac12\cdot\frac{e^{7x/2}}{7/2}-\frac12\cdot\frac{e^{-5x/2}}{-5/2}=\frac{e^{7x/2}}{7}+\frac{e^{-5x/2}}{5}$$
+          2. **نضرب في $e^{x/2}$.** الأسس تنجمع: $\frac12+3=\frac72$ و$\frac12-3=-\frac52$. وصار عندنا أسّيات بس:
+             $$e^{x/2}\sinh3x=\frac12e^{7x/2}-\frac12e^{-5x/2}$$
+          3. **نكامل كل حد:** $\int e^{kx}dx=\frac{e^{kx}}{k}$. والقسمة على $\frac72$ = الضرب في $\frac27$:
+             $$\frac12\cdot\frac27e^{7x/2}-\frac12\cdot\Big(-\frac25\Big)e^{-5x/2}$$
+          4. نبسّط: $\frac12\cdot\frac27=\frac17$، وناقص في ناقص يصير زائد:
         answer: |-
           \frac{e^{7x/2}}{7}+\frac{e^{-5x/2}}{5}+C
         domain: 'x\in\mathbb{R}'

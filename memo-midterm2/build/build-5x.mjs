@@ -1,5 +1,8 @@
-// بناء ملف 5.1 و5.2 (A4): شرح + أنماط + تدريب + تلميحات + حلول + ملحق
+// بناء ملف 5.1 و5.2 (A4): التكامل بالتجزئة والتكاملات المثلثية
 // التشغيل: node build/build-5x.mjs
+// نفس نظام ملف 5.3: بدون صفحة تلميحات، والتدريب تحت كل نمط، وكل سؤال له رابط لحله الكامل والحل فيه رابط يرجعك.
+// والحلول بحيل بدل u وdu: القوة العكسية، خمّن واشتق، وجدول التجزئة (@di).
+// أسئلة الاختبارات كلها، ومن المذكرة 3 مسائل بس (اللي في patterns.yaml).
 import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
@@ -23,19 +26,27 @@ const files = [
   path.join(CONTENT, '5x', 'data', 'notes51.yaml'),
   path.join(CONTENT, '5x', 'data', 'notes52.yaml'),
 ];
-const PATTERNS = load(path.join(CONTENT, '5x', 'patterns.yaml')).patterns;
+const PCONF = load(path.join(CONTENT, '5x', 'patterns.yaml'));
+const PATTERNS = PCONF.patterns;
+const SAME = PCONF.same || {};
+const CHECKS = load(path.join(CONTENT, '5x', 'checks.yaml')).groups;
 PATTERNS.forEach((p, i) => { p.n = i + 1; });
 const titleHtml = (p) => p.titleHtml ?? (p.titleHtml = md.renderInline(p.title));
 const PAT = Object.fromEntries(PATTERNS.map((p) => [p.key, p]));
+const dupOf = new Map();
+for (const [main, dups] of Object.entries(SAME)) for (const d of dups) dupOf.set(d, main);
 
+// نأخذ بس الأسئلة اللي في الأنماط (ومسائل المذكرة الباقية تبقى في ملفاتها متحقق منها، بس ما تنعرض)
+const WANTED = new Set(PATTERNS.flatMap((p) => p.ids));
 const byId = new Map();
 for (const file of files) {
   const doc = load(file);
   for (const p of doc.patterns) {
     for (const q of p.questions) {
+      if (dupOf.has(q.id) || !WANTED.has(q.id)) continue; // مكرر بالضبط، أو مسألة مذكرة ما اخترناها
       if (byId.has(q.id)) throw new Error('مكرر: ' + q.id);
-      q.sec = doc.section;
       q.src = q.id[0] === 'F' ? 'fin' : q.id[0] === 'M' ? 'mid' : q.kind === 'example' ? 'ne' : 'nx';
+      q.same = SAME[q.id] || [];
       byId.set(q.id, q);
     }
   }
@@ -51,8 +62,15 @@ for (const p of PATTERNS) {
 }
 for (const q of byId.values()) if (!q.pat) throw new Error('سؤال بدون نمط: ' + q.id);
 const practice = PATTERNS.flatMap((p) => p.qs);
+// الأمثلة الكاملة نعرفها من ملفات الشرح قبل الرسم
+const WORKED = new Set();
+for (const f of fs.readdirSync(path.join(CONTENT, '5x')).filter((f) => f.endsWith('.md'))) {
+  for (const m of fs.readFileSync(path.join(CONTENT, '5x', f), 'utf8').matchAll(/^[ \t]*@example[ \t]+(\S+)/gm)) WORKED.add(m[1]);
+}
 const counts = { mid: 0, fin: 0, ne: 0, nx: 0 };
 for (const q of byId.values()) counts[q.src]++;
+const dupCount = { mid: 0, fin: 0 };
+for (const d of dupOf.keys()) dupCount[d[0] === 'F' ? 'fin' : 'mid']++;
 
 // ---------- رموز وأوسمة ----------
 function examInfo(id) {
@@ -62,20 +80,18 @@ function examInfo(id) {
   return { year, sem, qn, part, fin: id[0] === 'F' };
 }
 const isPast = (q) => q.src === 'mid' || q.src === 'fin';
+const examName = (q) => { const e = examInfo(q.id); return `${e.fin ? 'نهائي' : 'فصلي'} ${e.year}`; };
 function tag(q) {
-  if (isPast(q)) {
-    const e = examInfo(q.id);
-    const kind = e.fin ? 'نهائي' : 'فصلي';
-    const cls = e.fin ? 'tag-fin' : 'tag-past';
-    return e.year === 1447
-      ? `<span class="tag tag-last">${kind} 1447 · السنة الماضية</span>`
-      : `<span class="tag ${cls}">${kind} ${e.year}</span>`;
-  }
-  return `<span class="tag tag-notes">من المذكرة</span>`;
+  if (!isPast(q)) return '';
+  const e = examInfo(q.id);
+  return e.year === 1447
+    ? `<span class="tag tag-last">${examName(q)} · السنة الماضية</span>`
+    : `<span class="tag tag-past">${examName(q)}</span>`;
 }
+const sameText = (q) => (q.same.length ? `<span class="same">ونفسه بالضبط: ${q.same.map((d) => `<span class="qid">${d}</span>`).join(' ')}</span>` : '');
 function label(q) {
-  if (isPast(q)) return `<span class="qid${q.src === 'fin' ? ' qid-fin' : ''}">${q.id}</span>`;
-  return `<span class="qid qid-notes">${q.sec} · ${q.ref}</span>`;
+  if (isPast(q)) return `<span class="qid">${q.id}</span>`;
+  return `<span class="qid qid-notes">${q.ref}</span>`;
 }
 function srcText(q) {
   if (isPast(q)) {
@@ -85,30 +101,49 @@ function srcText(q) {
   return `المذكرة ص${q.page}`;
 }
 function head(q, extra = '') {
-  return `${label(q)}${tag(q)}<span class="src">${srcText(q)}</span>${marksChip(q)}${extra}`;
+  return `${label(q)}${tag(q)}<span class="src">${srcText(q)}</span>${marksChip(q)}${sameText(q)}${extra}`;
+}
+function marksText(q) {
+  if (q.marks == null) return '';
+  const m = Number(q.marks);
+  return m === 1 ? 'درجة' : m === 2 ? 'درجتين' : m >= 3 && m <= 10 && Number.isInteger(m) ? `${m} درجات` : `${m} درجة`;
 }
 
+const countText = (n) => (n === 1 ? 'سؤال واحد' : n === 2 ? 'سؤالين' : n <= 10 ? `${n} أسئلة` : `${n} سؤال`);
 const CAME = { mid: 'جاء في الفصلي الثاني', fin: 'جاء في النهائي', notes: 'المذكرة بس' };
 function patternMeta(p) {
   const past = p.qs.filter(isPast).length;
   const notes = p.qs.length - past;
   const tags = p.came.map((c) => `<span class="came came-${c}">${CAME[c]}</span>`).join('');
-  const cnt = past ? `${p.qs.length} سؤال: ${past} سابقات و${notes} مذكرة` : `${p.qs.length} أسئلة من المذكرة`;
+  const cnt = !past ? `${countText(p.qs.length)} من المذكرة` : !notes ? `${countText(p.qs.length)}، كلها من الاختبارات` : `${countText(p.qs.length)}: ${past} من الاختبارات و${notes} من المذكرة`;
   return `<div class="pat-meta">${tags}<span class="pat-count">${cnt}</span><a class="plink" href="#pr-${p.key}">تدريبه</a></div>`;
 }
+// عنوان النمط بنص عادي للفهرس الجانبي (Bookmarks)
+const plainTitle = (t) => t.replace(/\$/g, '').replace(/\\(sinh|cosh|sin|cos|tan|sec|cot|csc|ln)/g, '$1').replace(/\s+/g, ' ').replace(/\( /g, '(').replace(/ \)/g, ')').trim();
 const pk = (p) => `<span class="pk">${p.sec} · النمط ${p.n}</span>`;
 
 const used = new Set();
 const md = makeMarkdown({ byId, used, diffHead: (q) => `${label(q)}${tag(q)}${marksChip(q)}` });
 
-// الخانات الأربع في سطر واحد (u, dv, du, v) تنعرض شبكة 2×2 عشان تدخل في عمود المعادلات
-const FOUR = /^\s*u=(.+?),\\qquad dv=(.+?),\\qquad du=(.+?),\\qquad v=(.+?)\s*$/s;
-md.renderer.rules.math_block = (tokens, idx) => {
-  let t = tokens[idx].content;
-  const m = t.match(FOUR);
-  if (m) t = `\\begin{aligned}u&=${m[1]},&\\qquad dv&=${m[2]}\\\\du&=${m[3]},&\\qquad v&=${m[4]}\\end{aligned}`;
-  return mathBlockHtml(t) + '\n';
-};
+// ---------- جدول التجزئة ----------
+// @di نشتق & نكامل ;; نشتق & نكامل ;; ...  والصف اللي يبدأ بـ ! هو اللي نكامل ضربه (نوقف عنده)
+// الإشارات + − + بالتناوب، وسهم قطري ↙ من خانة «نشتق» للي تحتها في «نكامل».
+function diTable(arg, cls = '') {
+  const rows = arg.split(';;').map((r) => r.trim()).filter(Boolean).map((r) => {
+    const stop = r.startsWith('!');
+    const parts = (stop ? r.slice(1) : r).split('&').map((t) => t.trim());
+    if (parts.length !== 2) throw new Error('@di: صف لازم يكون «نشتق & نكامل»: ' + r);
+    return { d: parts[0], i: parts[1], stop };
+  });
+  const cell = (t) => `<span class="m">${tex('\\displaystyle ' + t, false)}</span>`;
+  const body = rows.map((r, k) => {
+    const zero = r.d === '0';
+    const sign = zero ? '' : k % 2 === 0 ? '+' : '−';
+    const mid = r.stop ? '<span class="di-x">×</span>' : k < rows.length - 1 && !zero ? '<span class="di-arr">↙</span>' : '';
+    return `<tr class="${r.stop ? 'di-stop' : ''}${zero ? ' di-zero' : ''}"><td class="di-sg">${sign}</td><td class="di-d">${cell(r.d)}</td><td class="di-mid">${mid}</td><td class="di-i">${cell(r.i)}</td></tr>`;
+  }).join('');
+  return `<table class="di${cls ? ' ' + cls : ''}"><thead><tr><th class="di-sg"></th><th>نشتق</th><th class="di-mid"></th><th>نكامل</th></tr></thead><tbody>${body}</tbody></table>`;
+}
 
 // ---------- أجزاء مكررة ----------
 function box(type, title, body) {
@@ -132,49 +167,48 @@ function solutionBody(q) {
 function workedExample(q) {
   used.add(q.id);
   q.worked = true;
-  const lbl = 'مثال كامل';
   return `<div class="example${isPast(q) ? '' : ' example-notes'}" id="ex-${q.id}">
-  <div class="ex-top"><div class="ex-head"><span class="ex-label">${lbl}</span>${head(q)}</div><div class="ex-q">${mathBlockHtml(q.q)}</div></div>
+  <div class="ex-top"><div class="ex-head"><span class="ex-label">مثال كامل</span>${head(q)}</div><div class="ex-q">${mathBlockHtml(q.q)}</div></div>
   ${solutionBody(q)}
 </div>`;
 }
 
-// ---------- رسمة الغلاف: sin وcos والمساحة تحت sin ----------
+// بطاقة تدريب: الرمز والسؤال، وتحته دائرتين للمتابعة ورابط الحل
+function card(q, prefix = 'p', extra = '') {
+  const last = isPast(q) && examInfo(q.id).year === 1447;
+  const meta = isPast(q)
+    ? (last ? `<span class="tag tag-last">${examName(q)} · السنة الماضية</span>` : `<span class="exn">${examName(q)}</span>`)
+    : '';
+  return `<div class="pcard" id="${prefix}-${q.id}">
+<div class="q-head">${label(q)}${meta}${extra}<span class="mk">${marksText(q)}</span></div>
+${questionMath(q)}
+<div class="pfoot"><span class="dot"></span><span class="dot"></span><span class="ln"><a href="#s-${q.id}">الحل ←</a></span></div>
+</div>`;
+}
+function practiceGrid(key) {
+  const p = PAT[key];
+  if (!p) throw new Error('@practice: نمط غير موجود ' + key);
+  const qs = p.qs.filter((q) => !q.worked);
+  const lede = p.n === 1 ? '<p class="prac-lede">حل كل سؤال لحالك وأنت مسكّر الحل. ما عرفت؟ اضغط «الحل»، وفي آخر الحل «رجوع» يرجعك هنا.</p>' : '';
+  return `<div class="prac"><div class="h3 prac-title" id="pr-${p.key}">تدرّب على النمط ${p.n}: ${countText(qs.length)}</div>${lede}
+<div class="pgrid">${qs.map((q) => card(q)).join('')}</div></div>`;
+}
+function checksBox(key) {
+  const g = CHECKS.find((c) => c.key === key);
+  if (!g) throw new Error('@checks: غير موجود ' + key);
+  const items = g.items.map((it) => `<li id="c-${it.id}"><div class="cq">${md.renderInline(it.q)}</div><div class="ca"><span class="ca-l">الجواب</span><div class="ca-b">${renderMd(it.a)}</div></div></li>`).join('');
+  return `<div class="box box-check" id="chk-${key}"><div class="box-title">أسئلة فهم سريعة: فكّر بالجواب، بعدين اقرأه</div><div class="box-body"><ol class="checks">${items}</ol></div></div>`;
+}
+
+// ---------- رسمة الغلاف: جدول تجزئة كبير ----------
 function coverArt() {
-  const w = 520, h = 230, ox = 40, oy = 118, sx = 52, sy = 62;
-  const P = (x, y) => `${(ox + x * sx).toFixed(1)},${(oy - y * sy).toFixed(1)}`;
-  const curve = (f, a, b) => {
-    let d = '';
-    for (let i = 0; i <= 240; i++) { const x = a + ((b - a) * i) / 240; d += `${i ? 'L' : 'M'}${P(x, f(x))}`; }
-    return d;
-  };
-  let area = `M${P(0, 0)}`;
-  for (let i = 0; i <= 120; i++) { const x = (Math.PI * i) / 120; area += `L${P(x, Math.sin(x))}`; }
-  area += `L${P(Math.PI, 0)}Z`;
-  const xmax = (w - ox - 16) / sx;
-  return `<svg class="cover-art" viewBox="0 0 ${w} ${h}" aria-hidden="true">
-<defs>
-<linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e3f1f4"/><stop offset="1" stop-color="#f7efe1"/></linearGradient>
-<linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c97a10" stop-opacity="0.45"/><stop offset="1" stop-color="#c97a10" stop-opacity="0.12"/></linearGradient>
-</defs>
-<rect x="0" y="0" width="${w}" height="${h}" rx="18" fill="url(#cg)"/>
-<g stroke="#9fb7c0" stroke-width="1">
-<line x1="${ox - 20}" y1="${oy}" x2="${w - 14}" y2="${oy}"/>
-<line x1="${ox}" y1="${h - 14}" x2="${ox}" y2="14"/>
-</g>
-${[1, 2, 3, 4, 5, 6, 7, 8].map((k) => `<line x1="${ox + ((k * Math.PI) / 2) * sx}" y1="${oy - 4}" x2="${ox + ((k * Math.PI) / 2) * sx}" y2="${oy + 4}" stroke="#9fb7c0"/>`).join('')}
-<path d="${area}" fill="url(#ag)" stroke="none"/>
-<path d="${curve(Math.cos, -0.6, xmax)}" fill="none" stroke="#7a4fc9" stroke-width="2.4" stroke-dasharray="7 5" stroke-linecap="round"/>
-<path d="${curve(Math.sin, -0.6, xmax)}" fill="none" stroke="#0b5d73" stroke-width="3.4" stroke-linecap="round"/>
-<circle cx="${ox}" cy="${oy}" r="3" fill="#0b5d73"/>
-<circle cx="${ox + Math.PI * sx}" cy="${oy}" r="4.5" fill="#c97a10" stroke="#fff" stroke-width="1.5"/>
-</svg>`;
+  return `<div class="cover-di">${diTable('x^2 & \\cos x ;; 2x & \\sin x ;; 2 & -\\cos x ;; 0 & -\\sin x', 'di-cover')}</div>`;
 }
 
 // ---------- Markdown بأوامر ----------
 function renderMd(text) {
   const holders = [];
-  const pre = text.replace(/^([ \t]*)@(example|toc|cover|pattern|formula)(?:[ \t]+(.+?))?[ \t]*$/gm, (_, indent, cmd, arg) => {
+  const pre = text.replace(/^([ \t]*)@(example|toc|cover|pattern|formula|practice|checks|di)(?:[ \t]+(.+?))?[ \t]*$/gm, (_, indent, cmd, arg) => {
     holders.push([cmd, arg]);
     return `\n${indent}<div class="holder" data-n="${holders.length - 1}"></div>\n\n`;
   });
@@ -189,88 +223,52 @@ function renderMd(text) {
     if (cmd === 'pattern') {
       const p = PAT[arg];
       if (!p) throw new Error('@pattern: غير موجود ' + arg);
-      return `<h2 id="pat-${p.key}">${pk(p)}${titleHtml(p)}</h2>${patternMeta(p)}`;
+      return `<h2 id="pat-${p.key}" data-plain="${plainTitle(p.title)}">${pk(p)}${titleHtml(p)}</h2>${patternMeta(p)}`;
     }
+    if (cmd === 'practice') return practiceGrid(arg);
+    if (cmd === 'checks') return checksBox(arg);
+    if (cmd === 'di') return diTable(arg);
     if (cmd === 'toc') return '<nav class="toc" id="toc"></nav>';
     if (cmd === 'cover') return coverArt();
-    if (cmd === 'formula') return `<div class="cover-formula">${tex('\\int u\\,dv=uv-\\int v\\,du', true)}</div>`;
+    if (cmd === 'formula') return `<div class="cover-formula">${tex('\\int\\big[f(x)\\big]^{n}f\'(x)\\,dx=\\frac{\\big[f(x)\\big]^{n+1}}{n+1}+C', true)}</div>`;
     return '';
   });
   // عناوين .h3 مكتوبة HTML، فنعالج الرياضيات اللي داخلها هنا
   html = html.replace(/<div class="h3([^"]*)">([^<]*(?:<(?!\/div>)[^<]*)*)<\/div>/g, (_, cls, inner) => `<div class="h3${cls}">${md.renderInline(inner)}</div>`);
+  // وكذلك سطر المقدمة (lede)
+  html = html.replace(/<p class="lede">([\s\S]*?)<\/p>/g, (_, inner) => `<p class="lede">${md.renderInline(inner)}</p>`);
   return html.replace(/\{\{(\w+)\}\}/g, (_, k) => ({
     past: counts.mid + counts.fin, mid: counts.mid, fin: counts.fin, notes: counts.ne + counts.nx,
-    practice: practice.length, total: byId.size, patterns: PATTERNS.length,
+    examples: counts.ne, exercises: counts.nx, practice: practice.length, total: byId.size, patterns: PATTERNS.length,
+    pastAll: counts.mid + counts.fin + dupCount.mid + dupCount.fin,
+    checks: CHECKS.reduce((a, g) => a + g.items.length, 0),
+    grid: practice.filter((q) => !WORKED.has(q.id)).length,
   }[k] ?? `{{${k}}}`));
 }
 
-// ---------- أقسام مولّدة ----------
-function patHead(p, prefix) {
-  return `<h2 id="${prefix}-${p.key}">${pk(p)}${titleHtml(p)}</h2>`;
-}
-function practiceSection() {
-  let h = '';
-  for (const p of PATTERNS) {
-    h += patHead(p, 'pr');
-    h += '<div class="pgrid">';
-    for (const q of p.qs) {
-      h += `<div class="pcard${q.worked ? ' pcard-worked' : ''}" id="p-${q.id}">
-<div class="q-head">${label(q)}${tag(q)}${marksChip(q)}</div>
-${questionMath(q)}
-<div class="ticks"><span class="tick">حليته</span><span class="tick">أعيده</span><span class="links"><a class="plink" href="#h-${q.id}">تلميح</a><a class="plink" href="#s-${q.id}">الحل</a></span></div>
-</div>`;
-    }
-    h += '</div>';
-  }
-  return h;
+// ---------- «اختبر نفسك»: أسئلة الاختبارات بدون أسماء الأنماط ----------
+function testSection() {
+  const order = ['M472', 'F472', 'F471', 'M471', 'F462', 'M462', 'F461', 'M461', 'F452', 'M452', 'F451', 'M451'];
+  const qs = practice.filter(isPast).sort((a, b) => order.indexOf(a.id.slice(0, 4)) - order.indexOf(b.id.slice(0, 4)));
+  return `<div class="pgrid tgrid">${qs.map((q) => card(q, 't', `<span class="sem">الفصل ${examInfo(q.id).sem}</span>`)).join('')}</div>`;
 }
 
-function examOrder() {
-  const group = (prefix, title) => {
-    const exams = [`${prefix}472`, `${prefix}471`, `${prefix}462`, `${prefix}461`, `${prefix}452`, `${prefix}451`];
-    let h = `<div class="h3">${title}</div><div class="exam-grid">`;
-    for (const ex of exams) {
-      const e = examInfo(ex + '-0-0');
-      const ids = practice.filter((q) => isPast(q) && q.id.startsWith(ex)).map((q) => q.id)
-        .sort((a, b) => { const [, a1, a2] = a.split('-').map(Number); const [, b1, b2] = b.split('-').map(Number); return a1 - b1 || a2 - b2; });
-      if (!ids.length) continue;
-      h += `<div class="exam-box${e.year === 1447 ? ' exam-last' : ''}"><div class="exam-title">${e.year} · الفصل ${e.sem}${e.year === 1447 ? ' <span class="star">السنة الماضية</span>' : ''}</div><div class="exam-ids">${ids.map((id) => `<a href="#p-${id}"><span class="qid${id[0] === 'F' ? ' qid-fin' : ''}">${id}</span></a>`).join('')}</div></div>`;
-    }
-    return h + '</div>';
-  };
-  return group('M', 'الفصلي الثاني') + group('F', 'النهائي');
-}
-
-function hintsSection() {
-  let h = '';
-  for (const p of PATTERNS) {
-    h += patHead(p, 'hi');
-    h += '<div class="hgrid">';
-    for (const q of p.qs) {
-      if (!q.hint) throw new Error('تلميح ناقص: ' + q.id);
-      // رابط الحل في آخر سطر من التلميح (يوفّر سطر في كل بطاقة)
-      let body = renderMd(q.hint).trim();
-      const link = ` <a class="go-inline" href="#s-${q.id}">الحل ←</a>`;
-      body = body.endsWith('</p>') ? body.slice(0, -4) + link + '</p>' : body + `<p class="go-line">${link}</p>`;
-      h += `<div class="hint" id="h-${q.id}"><div class="hint-head">${label(q)}<span class="hint-q">${tex(q.q, false)}</span></div><div class="hint-body">${body}</div></div>`;
-    }
-    h += '</div>';
-  }
-  return h;
-}
-
+// ---------- الحلول، وأجوبة أسئلة الفهم ----------
 function solutionsSection() {
   let h = '';
   for (const p of PATTERNS) {
-    h += patHead(p, 'so');
+    h += `<h2 id="so-${p.key}" data-plain="${plainTitle(p.title)}">${pk(p)}${titleHtml(p)}</h2>`;
     for (const q of p.qs) {
-      const top = `<div class="sol-top"><div class="ex-head"><span class="ex-label">حل</span>${head(q)}<a class="go" href="#p-${q.id}">السؤال</a></div><div class="sol-q">${mathBlockHtml(q.q)}</div></div>`;
+      const backs = [q.worked ? `<a class="back" href="#ex-${q.id}">↑ رجوع للمثال</a>` : `<a class="back" href="#p-${q.id}">↑ رجوع لسؤاله في النمط ${p.n}</a>`];
+      if (isPast(q)) backs.push(`<a class="back" href="#t-${q.id}">↑ رجوع لاختبر نفسك</a>`);
+      const foot = `<div class="sol-foot">${backs.join('')}</div>`;
+      const top = `<div class="sol-top"><div class="ex-head"><span class="ex-label">حل</span>${head(q)}</div><div class="sol-q">${mathBlockHtml(q.q)}</div></div>`;
       if (q.worked) {
         h += `<div class="solution sol-linked" id="s-${q.id}">${top}
 <p class="linked">محلول خطوة بخطوة في الشرح: <a href="#ex-${q.id}">اضغط هنا وارجع للمثال الكامل</a>. وهذا جوابه للتأكد:</p>
-${answerBlock(q)}</div>`;
+${answerBlock(q)}${foot}</div>`;
       } else {
-        h += `<div class="solution" id="s-${q.id}">${top}${solutionBody(q)}</div>`;
+        h += `<div class="solution" id="s-${q.id}">${top}${solutionBody(q)}${foot}</div>`;
       }
     }
   }
@@ -282,7 +280,6 @@ function nm(p) { return 'file://' + path.join(ROOT, 'node_modules', p); }
 function iconCss() {
   const ic = {
     recog: "<circle cx='10.5' cy='10.5' r='6.5'/><path d='M15.5 15.5L21 21'/>",
-    first: "<path d='M5 21V4h11l-2 4 2 4H5'/>",
     steps: "<path d='M9 6h11M9 12h11M9 18h11'/><path d='M4 6h1M4 12h1M4 18h1'/>",
     why: "<path d='M9 18h6M10 21h4'/><path d='M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3z'/>",
     warn: "<path d='M12 3L2 20h20L12 3z'/><path d='M12 10v4M12 17h.01'/>",
@@ -294,6 +291,9 @@ function iconCss() {
     note: "<circle cx='12' cy='12' r='9'/><path d='M12 11v6M12 7.5h.01'/>",
     use: "<path d='M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6-4.5-4.2 6.1-.7L12 3z'/>",
     scope: "<rect x='4' y='4' width='16' height='16' rx='2'/><path d='M8 9h8M8 13h8M8 17h5'/>",
+    plan: "<path d='M4 6h16M4 12h10M4 18h6'/><circle cx='19' cy='17' r='3'/>",
+    exam: "<rect x='5' y='3' width='14' height='18' rx='2'/><path d='M9 8h6M9 12h6M9 16h3'/>",
+    check: "<circle cx='12' cy='12' r='9'/><path d='M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.5v.5M12 17h.01'/>",
   };
   let css = '';
   for (const [k, inner] of Object.entries(ic)) {
@@ -303,8 +303,7 @@ function iconCss() {
   return css;
 }
 
-const LEARN = ['10-parts.md', '11-p1.md', '12-p2.md', '13-p3.md', '14-p4.md', '15-p5.md',
-  '20-trig.md', '21-q1.md', '22-q2.md', '23-q3.md', '24-q4.md', '25-q5.md', '30-review.md'];
+const LEARN = ['10-basics.md', '20-p1.md', '21-p2.md', '22-p3.md', '23-p4.md', '24-p5.md', '30-q1.md', '31-q2.md', '40-notes.md', '50-review.md'];
 
 function build() {
   const dir = path.join(CONTENT, '5x');
@@ -313,11 +312,10 @@ function build() {
   body += `<section class="pg-cover">${part('00-cover.md')}</section>`;
   body += `<section class="pg-start">${part('05-start.md')}</section>`;
   body += `<section class="pg-learn">${LEARN.map(part).join('\n')}</section>`;
-  body += `<section class="pg-practice">${part('60-practice.md')}${practiceSection()}<h2 id="pr-exams">النماذج بترتيبها الأصلي</h2>${part('61-exams.md')}${examOrder()}</section>`;
-  body += `<section class="pg-hints">${part('70-hints.md')}${hintsSection()}</section>`;
+  body += `<section class="pg-practice">${part('60-test.md')}${testSection()}</section>`;
   body += `<section class="pg-sols">${part('80-solutions.md')}${solutionsSection()}</section>`;
   body += `<section class="pg-appx">${part('90-appendix.md')}</section>`;
-  const css = readText(path.join(ROOT, 'build', 'style-5x.css')) + iconCss();
+  const css = ['style-5x.css', 'style-61.css', 'style-5x2.css'].map((f) => readText(path.join(ROOT, 'build', f))).join('\n') + iconCss();
   return `<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -359,7 +357,9 @@ async function outline(pdfPath) {
 const html = build();
 fs.writeFileSync(HTML, html);
 const missing = [...byId.values()].filter((q) => isPast(q) && !used.has(q.id));
-if (missing.length) console.warn('أسئلة سابقات ما انذكرت في الشرح:', missing.map((q) => q.id).join(' '));
+if (missing.length) console.warn('أسئلة اختبارات ما انذكرت في الشرح:', missing.map((q) => q.id).join(' '));
+const unpracticed = PATTERNS.filter((p) => !html.includes(`id="pr-${p.key}"`)).map((p) => p.key);
+if (unpracticed.length) console.warn('أنماط بدون تدريب في الشرح:', unpracticed.join(' '));
 
 const browser = await chromium.launch();
 // عرض منطقة الكتابة في A4 = 210 − 2×15 = 180mm
@@ -368,12 +368,12 @@ await pg.emulateMedia({ media: 'print' });
 await pg.goto('file://' + HTML);
 await pg.evaluate(() => document.fonts.ready);
 
-// الخطوات: السبب يمين والمعادلات يسار في نفس السطر، والمعادلة الطويلة تاخذ العرض كامل
+// الخطوات: السبب يمين والمعادلات (وجدول التجزئة) يسار في نفس السطر، والطويل ياخذ العرض كامل
 const layout = await pg.evaluate(() => {
   let grid = 0, stacked = 0;
   for (const li of document.querySelectorAll('.sol-steps ol > li')) {
     const kids = [...li.childNodes];
-    const isEq = (n) => n.nodeType === 1 && n.classList.contains('eq');
+    const isEq = (n) => n.nodeType === 1 && (n.classList.contains('eq') || n.classList.contains('di'));
     const blank = (n) => n.nodeType === 3 && !n.textContent.trim();
     const first = kids.findIndex(isEq);
     if (first <= 0) continue;
@@ -395,9 +395,10 @@ const layout = await pg.evaluate(() => {
   for (const li of document.querySelectorAll('li.st-grid')) {
     const why0 = li.querySelector('.st-why');
     const tooWide = [...li.querySelectorAll('.st-eqs .eq')].some((el) => el.scrollWidth > el.clientWidth + 2)
+      || [...li.querySelectorAll('.st-eqs table.di')].some((t) => t.getBoundingClientRect().width > li.querySelector('.st-eqs').clientWidth + 1)
       || why0.scrollWidth > why0.clientWidth + 2
       || [...why0.querySelectorAll('.m')].some((m) => m.getBoundingClientRect().width > why0.clientWidth);
-    const longWhy = li.querySelector('.st-why').getBoundingClientRect().height > 4.2 * parseFloat(getComputedStyle(li).lineHeight || 20);
+    const longWhy = why0.getBoundingClientRect().height > 4.6 * parseFloat(getComputedStyle(li).lineHeight || 20);
     if (tooWide || longWhy) { li.classList.remove('st-grid'); li.classList.add('st-stack'); stacked++; }
   }
   return { grid, stacked };
@@ -407,9 +408,16 @@ const over = await pg.evaluate(() => {
   const out = [];
   for (const el of document.querySelectorAll('.eq')) if (el.scrollWidth > el.clientWidth + 3) out.push(['eq', el.dataset.tex, el.scrollWidth - el.clientWidth]);
   const W = document.body.clientWidth;
-  for (const el of document.querySelectorAll('.box, .example, .solution, .pcard, .diff, .hint, table, .exam-grid')) {
+  for (const el of document.querySelectorAll('.box, .example, .solution, .pcard, .diff, table')) {
     const r = el.getBoundingClientRect();
     if (r.width > W + 1) out.push(['box', el.className, r.width - W]);
+  }
+  for (const el of document.querySelectorAll('.pcard')) if (el.scrollWidth > el.clientWidth + 2) out.push(['card', el.id, el.scrollWidth - el.clientWidth]);
+  // جدول التجزئة لازم يبقى داخل عموده
+  for (const t of document.querySelectorAll('table.di')) {
+    const box = t.parentElement.getBoundingClientRect();
+    const r = t.getBoundingClientRect();
+    if (r.left < box.left - 1 || r.right > box.right + 1) out.push(['di', t.textContent.slice(0, 40), Math.round(Math.max(box.left - r.left, r.right - box.right))]);
   }
   return out;
 });
@@ -419,6 +427,7 @@ const heads = await pg.evaluate(() => [...document.querySelectorAll('h1[id], h2[
   let text = h.textContent;
   if (num) text = text.replace(num.textContent, num.textContent + ' · ');
   if (pkEl) text = text.replace(pkEl.textContent, pkEl.textContent + ' · ');
+  if (h.dataset.plain) text = (pkEl ? pkEl.textContent + ' · ' : '') + h.dataset.plain;
   return { id: h.id, lvl: h.tagName, text: text.replace(/\s+/g, ' ').trim(), html: h.innerHTML, learn: !!h.closest('.pg-learn') };
 }));
 const opts = { path: PDF, preferCSSPageSize: true, printBackground: true, outline: true, tagged: true };
@@ -451,7 +460,7 @@ const { execFileSync } = await import('child_process');
 execFileSync('python3', [path.join(ROOT, 'build', 'outline.py'), PDF, outlineJson], { stdio: 'inherit' });
 
 const sections = Object.fromEntries(heads.filter((h) => h.lvl === 'H1').map((h) => [h.text, pages2[h.id]]));
-console.log(`${path.basename(PDF)}: ${n} صفحة · أسئلة: ${byId.size} (فصلي ${counts.mid}، نهائي ${counts.fin}، أمثلة مذكرة ${counts.ne}، تمارين مذكرة ${counts.nx}) · خطوات بعمودين ${layout.grid - layout.stacked}، بسطر كامل ${layout.stacked}`);
+console.log(`${path.basename(PDF)}: ${n} صفحة · أسئلة: ${byId.size} (فصلي ${counts.mid}، نهائي ${counts.fin}، أمثلة مذكرة ${counts.ne}، تمارين مذكرة ${counts.nx}، ومكررة ${dupOf.size}) · خطوات بعمودين ${layout.grid - layout.stacked}، بسطر كامل ${layout.stacked}`);
 console.log('بداية الأقسام:', JSON.stringify(sections));
 if (over.length) { console.log('تجاوز عرض:'); for (const o of over) console.log('  ', JSON.stringify(o)); }
 fs.writeFileSync(path.join(OUT, 'build-5x-report.json'), JSON.stringify({ pages: n, overflow: over, toc: pages2, layout }, null, 2));

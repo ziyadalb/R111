@@ -1,4 +1,5 @@
-# القسم 5.2 — التكاملات المثلثية
+# القسم 5.2: التكاملات المثلثية (أسئلة الفصلي الثاني)
+# الحلول بالقوة العكسية: ∫fⁿ·f′ dx = fⁿ⁺¹/(n+1)، بدون u وdu.
 section: '5.2'
 slug: s52
 title: 'التكاملات المثلثية'
@@ -11,22 +12,17 @@ patterns:
         page: 6
         prompt: 'Evaluate the integral.'
         q: '\int\sin^2x\,\cos^5x\,dx'
-        hint: |
-          قوة $\cos$ فردية: احجز $\cos x$ واحد، وحوّل الباقي لـ $\sin$.
         solution: |
-          1. قوة $\cos$ فردية (5)، فنحجز $\cos x$ واحد. ليش؟ لأنه مشتقة $\sin x$، فبيصير هو $du$:
+          1. **وش النمط؟** $\sin$ و$\cos$ مضروبين، وقوة $\cos$ فردية (5).
+          2. **نحجز $\cos x$ واحد.** ليش؟ لأنه مشتقة $\sin x$. إذا صار كل الباقي بـ $\sin$، يصير كل حد «$\sin$ أس شي × $\cos x$»، وهذا تكامله مباشر بالقوة العكسية:
              $$\cos^5x=\cos^4x\cdot\cos x=\big(\cos^2x\big)^2\cos x$$
-          2. الباقي قوته زوجية، فنحوّله لـ $\sin$ بالهوية $\cos^2x=1-\sin^2x$:
-             $$\big(\cos^2x\big)^2=\big(1-\sin^2x\big)^2$$
-          3. نعوّض:
-             $$u=\sin x,\qquad du=\cos x\,dx$$
-             $$\int\sin^2x\cos^5x\,dx=\int u^2\big(1-u^2\big)^2du$$
-          4. نفك المربع (التربيع ما يتوزع على الجمع)، ونضرب في $u^2$:
-             $$\big(1-u^2\big)^2=1-2u^2+u^4$$
-             $$u^2\big(1-2u^2+u^4\big)=u^2-2u^4+u^6$$
-          5. نكامل كل حد (نزيد الأس ونقسم على الجديد):
-             $$\int\big(u^2-2u^4+u^6\big)du=\frac{u^3}{3}-\frac{2u^5}{5}+\frac{u^7}{7}+C$$
-          6. نرجع لـ $x$:
+          3. **نحوّل الباقي لـ $\sin$** بالمتطابقة $\cos^2x=1-\sin^2x$. والقوة الباقية زوجية (4)، وهذا اللي يخلي التحويل ممكن:
+             $$\sin^2x\cos^5x=\sin^2x\big(1-\sin^2x\big)^2\cos x$$
+          4. **نفك القوس:** المربع ما يتوزع، $(1-s)^2=1-2s+s^2$. بعدين نضرب في $\sin^2x$:
+             $$=\big(\sin^2x-2\sin^4x+\sin^6x\big)\cos x$$
+          5. **نكامل كل حد بالقوة العكسية:** $\int\sin^kx\cos x\,dx=\frac{\sin^{k+1}x}{k+1}$. نزيد الأس واحد ونقسم عليه، و$\cos x$ يروح:
+             $$\frac{\sin^3x}{3}-\frac{2\sin^5x}{5}+\frac{\sin^7x}{7}$$
+          6. **تأكد بسرعة:** اشتق $\frac{\sin^3x}{3}$، يطلع $\sin^2x\cos x$. يعني الحد الأول صح، والباقي بنفس الطريقة.
         answer: |-
           \frac{\sin^3x}{3}-\frac{2\sin^5x}{5}+\frac{\sin^7x}{7}+C
         domain: 'x\in\mathbb{R}'
@@ -41,18 +37,13 @@ patterns:
         page: 7
         prompt: 'Evaluate the integral.'
         q: '\int\sin^4x\,\cos^5x\,dx'
-        hint: |
-          نفس M471-2-3: قوة $\cos$ فردية، احجز $\cos x$ واحد.
         solution: |
-          1. قوة $\cos$ فردية، نحجز $\cos x$ واحد ونحوّل الباقي:
-             $$\cos^5x=\big(\cos^2x\big)^2\cos x=\big(1-\sin^2x\big)^2\cos x$$
-          2. نعوّض:
-             $$u=\sin x,\qquad du=\cos x\,dx$$
-             $$\int\sin^4x\cos^5x\,dx=\int u^4\big(1-u^2\big)^2du$$
-          3. نفك ونضرب في $u^4$:
-             $$u^4\big(1-2u^2+u^4\big)=u^4-2u^6+u^8$$
-          4. نكامل:
-             $$\int\big(u^4-2u^6+u^8\big)du=\frac{u^5}{5}-\frac{2u^7}{7}+\frac{u^9}{9}+C$$
+          1. قوة $\cos$ فردية (5): نحجز $\cos x$، ونحوّل $\cos^4x=\big(1-\sin^2x\big)^2$:
+             $$\sin^4x\cos^5x=\sin^4x\big(1-\sin^2x\big)^2\cos x$$
+          2. نفك القوس ونضرب في $\sin^4x$:
+             $$=\big(\sin^4x-2\sin^6x+\sin^8x\big)\cos x$$
+          3. كل حد «$\sin$ أس شي × $\cos x$»: نزيد الأس ونقسم عليه:
+             $$\frac{\sin^5x}{5}-\frac{2\sin^7x}{7}+\frac{\sin^9x}{9}$$
         answer: |-
           \frac{\sin^5x}{5}-\frac{2\sin^7x}{7}+\frac{\sin^9x}{9}+C
         domain: 'x\in\mathbb{R}'
@@ -67,21 +58,18 @@ patterns:
         page: 7
         prompt: 'Evaluate the integral.'
         q: '\int\sin^5x\,\cos^3x\,dx'
-        hint: |
-          القوتين فرديتين: احجز من القوة الأصغر عشان يكون الفك أقل.
         solution: |
-          1. القوتين فرديتين. نحجز من القوة الأصغر ($\cos^3$) عشان يكون الفك أقل:
-             $$\cos^3x=\cos^2x\cdot\cos x=\big(1-\sin^2x\big)\cos x$$
-          2. نعوّض:
-             $$u=\sin x,\qquad du=\cos x\,dx$$
-             $$\int\sin^5x\cos^3x\,dx=\int u^5\big(1-u^2\big)du=\int\big(u^5-u^7\big)du$$
-          3. نكامل:
-             $$=\frac{u^6}{6}-\frac{u^8}{8}+C$$
+          1. القوتين فرديتين، فنقدر نحجز من أي وحدة. نحجز من **الأصغر** ($\cos^3x$)، عشان القوس اللي نفكه أصغر:
+             $$\sin^5x\cos^3x=\sin^5x\cos^2x\cdot\cos x=\sin^5x\big(1-\sin^2x\big)\cos x$$
+          2. نوزّع:
+             $$=\big(\sin^5x-\sin^7x\big)\cos x$$
+          3. القوة العكسية لكل حد:
+             $$\frac{\sin^6x}{6}-\frac{\sin^8x}{8}$$
         answer: |-
           \frac{\sin^6x}{6}-\frac{\sin^8x}{8}+C
         domain: 'x\in\mathbb{R}'
         note: |
-          لو حجزت $\sin x$ بداله، يطلع جواب بـ $\cos$ وشكله مختلف، والفرق ثابت. اخترنا $\cos$ بس عشان الجبر أقل.
+          لو حجزت $\sin x$ بداله، يطلع جواب بـ $\cos$ وشكله مختلف، والفرق بينهم ثابت. الاثنين صح، واخترنا $\cos$ بس عشان الفك أقصر.
         check:
           kind: indef
           f: 'sin(x)**5*cos(x)**3'
@@ -96,18 +84,14 @@ patterns:
         page: 23
         prompt: 'Evaluate the integral.'
         q: '\int\tan^2x\,\sec^4x\,dx'
-        hint: |
-          قوة $\sec$ زوجية: احجز $\sec^2x$، وحوّل الباقي لـ $\tan$.
         solution: |
-          1. قوة $\sec$ زوجية (4)، فنحجز $\sec^2x$ لأنه مشتقة $\tan x$:
+          1. **وش النمط؟** $\tan$ و$\sec$ مضروبين، وقوة $\sec$ زوجية (4).
+          2. **نحجز $\sec^2x$.** ليش؟ لأنه مشتقة $\tan x$. إذا صار الباقي كله بـ $\tan$، يصير كل حد «$\tan$ أس شي × $\sec^2x$»، وتكامله بالقوة العكسية:
              $$\sec^4x=\sec^2x\cdot\sec^2x$$
-          2. الـ $\sec^2$ الثاني نحوّله لـ $\tan$ بالهوية $\sec^2x=1+\tan^2x$:
-             $$\tan^2x\sec^4x=\tan^2x\,\big(1+\tan^2x\big)\sec^2x$$
-          3. نعوّض:
-             $$u=\tan x,\qquad du=\sec^2x\,dx$$
-             $$\int\tan^2x\sec^4x\,dx=\int u^2\big(1+u^2\big)du=\int\big(u^2+u^4\big)du$$
-          4. نكامل:
-             $$=\frac{u^3}{3}+\frac{u^5}{5}+C$$
+          3. **نحوّل الـ $\sec^2x$ الثاني لـ $\tan$** بالمتطابقة $\sec^2x=1+\tan^2x$، ونوزّع:
+             $$\tan^2x\sec^4x=\tan^2x\big(1+\tan^2x\big)\sec^2x=\big(\tan^2x+\tan^4x\big)\sec^2x$$
+          4. **القوة العكسية لكل حد:** $\int\tan^kx\sec^2x\,dx=\frac{\tan^{k+1}x}{k+1}$:
+             $$\frac{\tan^3x}{3}+\frac{\tan^5x}{5}$$
         answer: |-
           \frac{\tan^3x}{3}+\frac{\tan^5x}{5}+C
         domain: '\cos x\ne0'
@@ -122,18 +106,13 @@ patterns:
         page: 21
         prompt: 'Evaluate the integral.'
         q: '\int\sec^3x\,\tan^3x\,dx'
-        hint: |
-          قوة $\sec$ فردية، لكن قوة $\tan$ فردية: احجز $\sec x\tan x$، وحوّل الباقي لـ $\sec$.
         solution: |
-          1. قوة $\sec$ فردية (3): لو حجزنا $\sec^2$ يبقى $\sec$ واحد ما نقدر نحوّله لـ $\tan$. لكن قوة $\tan$ فردية، فنحجز $\sec x\tan x$ لأنه مشتقة $\sec x$:
-             $$\sec^3x\tan^3x=\sec^2x\cdot\tan^2x\cdot\big(\sec x\tan x\big)$$
-          2. نحوّل $\tan^2$ لـ $\sec$ بالهوية $\tan^2x=\sec^2x-1$:
-             $$=\sec^2x\,\big(\sec^2x-1\big)\big(\sec x\tan x\big)$$
-          3. نعوّض:
-             $$u=\sec x,\qquad du=\sec x\tan x\,dx$$
-             $$\int\sec^3x\tan^3x\,dx=\int u^2\big(u^2-1\big)du=\int\big(u^4-u^2\big)du$$
-          4. نكامل:
-             $$=\frac{u^5}{5}-\frac{u^3}{3}+C$$
+          1. قوة $\sec$ فردية (3)، فلو حجزنا $\sec^2x$ يبقى $\sec x$ واحد ما يتحوّل لـ $\tan$. بس قوة $\tan$ فردية، فنحجز $\sec x\tan x$، لأنه مشتقة $\sec x$:
+             $$\sec^3x\tan^3x=\sec^2x\tan^2x\cdot\big(\sec x\tan x\big)$$
+          2. الباقي نبيه كله $\sec$: نحوّل $\tan^2x=\sec^2x-1$ ونوزّع:
+             $$=\big(\sec^4x-\sec^2x\big)\big(\sec x\tan x\big)$$
+          3. القوة العكسية: $\int\sec^kx\,\big(\sec x\tan x\big)\,dx=\frac{\sec^{k+1}x}{k+1}$:
+             $$\frac{\sec^5x}{5}-\frac{\sec^3x}{3}$$
         answer: |-
           \frac{\sec^5x}{5}-\frac{\sec^3x}{3}+C
         domain: '\cos x\ne0'
@@ -148,16 +127,11 @@ patterns:
         page: 22
         prompt: 'Evaluate the integral.'
         q: '\int\cot^4x\,\csc^4x\,dx'
-        hint: |
-          نفس فكرة $\tan$ و$\sec$: قوة $\csc$ زوجية، احجز $\csc^2x$. وانتبه: مشتقة $\cot$ فيها سالب.
         solution: |
-          1. قوة $\csc$ زوجية، فنحجز $\csc^2x$ (هو مشتقة $\cot x$ بس بسالب)، ونحوّل الباقي بالهوية $\csc^2x=1+\cot^2x$:
-             $$\csc^4x=\csc^2x\cdot\csc^2x=\big(1+\cot^2x\big)\csc^2x$$
-          2. نعوّض، وننتبه للسالب:
-             $$u=\cot x,\qquad du=-\csc^2x\,dx\quad\Rightarrow\quad\csc^2x\,dx=-du$$
-          3. $$\int\cot^4x\csc^4x\,dx=-\int u^4\big(1+u^2\big)du=-\int\big(u^4+u^6\big)du$$
-          4. نكامل:
-             $$=-\frac{u^5}{5}-\frac{u^7}{7}+C$$
+          1. $\cot$ و$\csc$ نفس فكرة $\tan$ و$\sec$. قوة $\csc$ زوجية، فنحجز $\csc^2x$، ونحوّل الباقي بـ $\csc^2x=1+\cot^2x$:
+             $$\cot^4x\csc^4x=\cot^4x\big(1+\cot^2x\big)\csc^2x=\big(\cot^4x+\cot^6x\big)\csc^2x$$
+          2. القوة العكسية، بس **بسالب**: مشتقة $\cot x$ هي $-\csc^2x$، فـ $\int\cot^kx\csc^2x\,dx=-\frac{\cot^{k+1}x}{k+1}$:
+             $$-\frac{\cot^5x}{5}-\frac{\cot^7x}{7}$$
         answer: |-
           -\frac{\cot^5x}{5}-\frac{\cot^7x}{7}+C
         domain: '\sin x\ne0'
