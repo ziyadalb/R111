@@ -358,6 +358,30 @@ def general_checks():
     rec('5.x الدرس 4: ∫sin²x، ∫tan⁴x، ∫sin7x cos5x، ∫e^{√x}',
         anti('sin(x)**2', 'x/2 - sin(2*x)/4') and anti('tan(x)**4', 'tan(x)**3/3 - tan(x) + x')
         and anti('sin(7*x)*cos(5*x)', '-cos(2*x)/4 - cos(12*x)/24') and anti('exp(sqrt(x))', '2*(sqrt(x)-1)*exp(sqrt(x))', [0.3, 1.5, 4.0]))
+
+    # 20) 5.4: الحيل (التغطية، اختصار النمط 1 كامل مع التكامل، حيلة x²=t) وأجوبة أسئلة الفهم وأمثلة الدرس 3
+    def same_fn(a_s, b_s):
+        return sp.simplify(sp.sympify(a_s) - sp.sympify(b_s)) == 0
+    pp, qq, rr2 = sp.symbols('p q r', real=True)
+    aa3 = sp.Symbol('a', positive=True)
+    A3 = rr2 / aa3**2
+    F54 = A3 * sp.log(x) + (pp - A3) / 2 * sp.log(x**2 + aa3**2) + qq / aa3 * sp.atan(x / aa3)
+    rec('5.4 اختصار النمط 1 كامل: ∫(px²+qx+r)/(x(x²+a²)) = A ln x + (B/2)ln(x²+a²) + (D/a)tan⁻¹(x/a)',
+        sp.simplify(sp.diff(F54, x) - (pp * x**2 + qq * x + rr2) / (x * (x**2 + aa3**2))) == 0)
+    rec('5.4 التغطية: (x+5)/((x−1)(x+2)) = 2/(x−1) − 1/(x+2)، و(5x−1)/((x−1)(x+1)) = 2/(x−1) + 3/(x+1)',
+        same_fn('(x+5)/((x-1)*(x+2))', '2/(x-1) - 1/(x+2)') and same_fn('(5*x-1)/((x-1)*(x+1))', '2/(x-1) + 3/(x+1)'))
+    rec('5.4 فهم: (2x²+3x+18)/(x(x²+9)) = 2/x + 3/(x²+9)، و(3x+1)/(x²(x−1)) = −4/x − 1/x² + 4/(x−1)',
+        same_fn('(2*x**2+3*x+18)/(x*(x**2+9))', '2/x + 3/(x**2+9)') and same_fn('(3*x+1)/(x**2*(x-1))', '-4/x - 1/x**2 + 4/(x-1)'))
+    rec('5.4 فهم: 1/((x²+1)(x²+9)) = (1/8)/(x²+1) − (1/8)/(x²+9)، وx²−x−6 = (x−3)(x+2)',
+        same_fn('1/((x**2+1)*(x**2+9))', 'Rational(1,8)/(x**2+1) - Rational(1,8)/(x**2+9)') and sp.expand((x - 3) * (x + 2)) == x**2 - x - 6)
+    rec('5.4 التكاملات الجاهزة: 3/(x+2)، 4/(x−1)²، x/(x²+9)، 5/(x²+9)، 1/(x+1)²',
+        anti('3/(x+2)', '3*log(Abs(x+2))', [-3.0, 0.5, 2.0]) and anti('4/(x-1)**2', '-4/(x-1)', [-2.0, 0.5, 3.0])
+        and anti('x/(x**2+9)', 'log(x**2+9)/2') and anti('5/(x**2+9)', '5*atan(x/3)/3') and anti('1/(x+1)**2', '-1/(x+1)', [-3.0, 0.5, 2.0]))
+    rec('5.4 الدرس 3: ∫(x³−1)/(x²+x) = x²/2 − x − ln(abs x) + 2ln(abs(x+1))',
+        same_fn('(x**3-1)/(x**2+x)', 'x - 1 - 1/x + 2/(x+1)') and anti('(x**3-1)/(x**2+x)', 'x**2/2 - x - log(Abs(x)) + 2*log(Abs(x+1))', [-3.0, -0.5, 0.7, 2.0]))
+    rec('5.4 الدرس 3: ∫cos x/(sin²x+5sin x+6) = ln(sin x+2) − ln(sin x+3)، وتمرين 12',
+        anti('cos(x)/(sin(x)**2+5*sin(x)+6)', 'log(sin(x)+2) - log(sin(x)+3)')
+        and anti('4*exp(x)/(exp(2*x)+2*exp(x)-3)', 'log(Abs(exp(x)-1)) - log(exp(x)+3)', [-1.0, 0.5, 1.5]))
     return out
 
 
@@ -367,6 +391,7 @@ def main():
     files += sorted(glob.glob(os.path.join(ROOT, 'content', '5x', 'data', '*.yaml')))
     files += sorted(glob.glob(os.path.join(ROOT, 'content', '61', 'data', '*.yaml')))
     files += sorted(glob.glob(os.path.join(ROOT, 'content', '53', 'data', '*.yaml')))
+    files += sorted(glob.glob(os.path.join(ROOT, 'content', '54', 'data', '*.yaml')))
     total = 0
     lines.append('# تقرير التحقق الآلي\n')
     lines.append('كل سطر: المعرّف، نوع الفحص، النتيجة، والتفاصيل. الفحص عددي بدقة 40 خانة في نقاط من كل فرع من المجال.\n')

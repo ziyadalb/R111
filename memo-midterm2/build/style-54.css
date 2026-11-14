@@ -1,0 +1,11 @@
+/* ===== ملف 5.4: نفس تصميم 5.1/5.2 (style-5x2.css)، بعنوانه ورسمة غلافه ===== */
+@page { @top-right { content: "ريض 111 · 5.4 الكسور الجزئية"; } }
+
+/* الغلاف: كسر يتفكك لكسور بسيطة */
+.cover-split { display: flex; align-items: center; justify-content: center; height: 60mm; border-radius: 18px; background: linear-gradient(135deg, #e3f1f4 0%, #f7efe1 100%); margin: 0.3em 0 0.2em; direction: ltr; }
+.cover-split .katex-display { margin: 0; }
+.cover-split .katex { font-size: 2.1em; color: var(--brand); }
+
+/* درس الأنماط يبدأ صفحة جديدة، وعنوان التدريب يبقى مع أسئلته */
+.pg-learn > h1:nth-of-type(2) { break-before: page; margin-top: 0; }
+.prac { break-inside: avoid; }

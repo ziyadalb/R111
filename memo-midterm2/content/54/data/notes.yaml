@@ -1,0 +1,163 @@
+# مسائل مذكرة المقرر المختارة (القسم 5.4: تكامل الدوال الكسرية، ص82 إلى ص87)
+# خلّينا 6 بس: للأنماط اللي فيها سؤال اختبار واحد، عشان يكون لها تدريب.
+# kind: example = مثال محلول في المذكرة ، kind: exercise = تمرين بدون حل في المذكرة
+section: '5.4'
+slug: n54
+title: 'مسائل المذكرة 5.4'
+patterns:
+  - key: K2
+    questions:
+      - id: n54e4-2
+        kind: example
+        ref: 'مثال 4 فقرة 2'
+        page: 84
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{7x^2+11x+5}{x^3+2x^2+x}\,dx'
+        solution: |
+          1. نحلّل المقام: $x$ عامل مشترك، والباقي مربع كامل:
+             $$x^3+2x^2+x=x\big(x^2+2x+1\big)=x(x+1)^2$$
+          2. القالب: $(x+1)$ مكرر، فله حدين:
+             $$\frac{7x^2+11x+5}{x(x+1)^2}=\frac Ax+\frac{B}{x+1}+\frac{C}{(x+1)^2}$$
+          3. بالتغطية: $A$ عند $x=0$، و$C$ (فوق القوة الأعلى) عند $x=-1$:
+             $$A=\frac{5}{1}=5,\qquad C=\frac{7-11+5}{-1}=-1$$
+          4. $B$ من معامل $x^2$. بعد الضرب في المقام: $A(x+1)^2+Bx(x+1)+Cx$، ومعامل $x^2$ فيه $A+B$:
+             $$A+B=7\;\Rightarrow\;B=2$$
+          5. نكامل. و$\int\frac{-1}{(x+1)^2}\,dx=\frac{1}{x+1}$ بالقوة العكسية:
+             $$5\ln|x|+2\ln|x+1|+\frac{1}{x+1}$$
+        answer: |-
+          5\ln|x|+2\ln|x+1|+\frac{1}{x+1}+C
+        domain: 'x\ne0,\;x\ne-1'
+        check:
+          kind: indef
+          f: '(7*x**2+11*x+5)/(x**3+2*x**2+x)'
+          ans: '5*log(Abs(x)) + 2*log(Abs(x+1)) + 1/(x+1)'
+          samples: [-2.0, -0.5, 1.0]
+          identities:
+            - ['(7*x**2+11*x+5)/(x**3+2*x**2+x)', '5/x + 2/(x+1) - 1/(x+1)**2']
+
+      - id: n54x2
+        kind: exercise
+        ref: 'تمرين 2'
+        page: 87
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{5x^2+3x-2}{x^3+2x^2}\,dx'
+        solution: |
+          1. نحلّل: $x^3+2x^2=x^2(x+2)$. و$x$ مكرر، فله حدين:
+             $$\frac{5x^2+3x-2}{x^2(x+2)}=\frac Ax+\frac{B}{x^2}+\frac{C}{x+2}$$
+          2. بالتغطية: $B$ عند $x=0$ (نغطي $x^2$)، و$C$ عند $x=-2$:
+             $$B=\frac{-2}{2}=-1,\qquad C=\frac{20-6-2}{4}=3$$
+          3. $A$ من معامل $x^2$. بعد الضرب: $Ax(x+2)+B(x+2)+Cx^2$، ومعامل $x^2$ فيه $A+C$:
+             $$A+C=5\;\Rightarrow\;A=2$$
+          4. نكامل. و$\int\frac{-1}{x^2}\,dx=\frac1x$:
+             $$2\ln|x|+\frac1x+3\ln|x+2|$$
+        answer: |-
+          2\ln|x|+\frac1x+3\ln|x+2|+C
+        domain: 'x\ne0,\;x\ne-2'
+        check:
+          kind: indef
+          f: '(5*x**2+3*x-2)/(x**3+2*x**2)'
+          ans: '2*log(Abs(x)) + 1/x + 3*log(Abs(x+2))'
+          samples: [-3.0, -1.0, 1.0]
+          identities:
+            - ['(5*x**2+3*x-2)/(x**3+2*x**2)', '2/x - 1/x**2 + 3/(x+2)']
+
+  - key: K3
+    questions:
+      - id: n54e4-1
+        kind: example
+        ref: 'مثال 4 فقرة 1'
+        page: 83
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{x-7}{x^2+x-6}\,dx'
+        solution: |
+          1. نحلّل المقام: رقمين ضربهم $-6$ وجمعهم $1$، يعني $3$ و$-2$:
+             $$x^2+x-6=(x-2)(x+3)$$
+          2. القالب، والثابتين بالتغطية ($x=2$ ثم $x=-3$):
+             $$\frac{x-7}{(x-2)(x+3)}=\frac{A}{x-2}+\frac{B}{x+3}$$
+             $$A=\frac{2-7}{2+3}=-1,\qquad B=\frac{-3-7}{-3-2}=2$$
+          3. نكامل:
+             $$-\ln|x-2|+2\ln|x+3|$$
+        answer: |-
+          -\ln|x-2|+2\ln|x+3|+C
+        domain: 'x\ne2,\;x\ne-3'
+        check:
+          kind: indef
+          f: '(x-7)/(x**2+x-6)'
+          ans: '-log(Abs(x-2)) + 2*log(Abs(x+3))'
+          samples: [-5.0, 0.0, 3.0]
+          identities:
+            - ['(x-7)/(x**2+x-6)', '-1/(x-2) + 2/(x+3)']
+
+      - id: n54x1
+        kind: exercise
+        ref: 'تمرين 1'
+        page: 87
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{8x+2}{x^2+2x-8}\,dx'
+        solution: |
+          1. نحلّل: $x^2+2x-8=(x-2)(x+4)$، نفس مقام F452-2-4:
+             $$\frac{8x+2}{(x-2)(x+4)}=\frac{A}{x-2}+\frac{B}{x+4}$$
+          2. بالتغطية ($x=2$ ثم $x=-4$):
+             $$A=\frac{16+2}{2+4}=3,\qquad B=\frac{-32+2}{-4-2}=5$$
+          3. نكامل:
+             $$3\ln|x-2|+5\ln|x+4|$$
+        answer: |-
+          3\ln|x-2|+5\ln|x+4|+C
+        domain: 'x\ne2,\;x\ne-4'
+        check:
+          kind: indef
+          f: '(8*x+2)/(x**2+2*x-8)'
+          ans: '3*log(Abs(x-2)) + 5*log(Abs(x+4))'
+          samples: [-6.0, 0.0, 3.0]
+          identities:
+            - ['(8*x+2)/(x**2+2*x-8)', '3/(x-2) + 5/(x+4)']
+
+  - key: K4
+    questions:
+      - id: n54e4-4
+        kind: example
+        ref: 'مثال 4 فقرة 4'
+        page: 85
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{3}{\big(x^2+1\big)\big(x^2+4\big)}\,dx'
+        solution: |
+          1. كل الـ $x$ مربّعة: اعتبر $x^2=t$، والثابتين بالتغطية ($t=-1$ ثم $t=-4$):
+             $$\frac{3}{(t+1)(t+4)}=\frac{A}{t+1}+\frac{B}{t+4}$$
+             $$A=\frac{3}{-1+4}=1,\qquad B=\frac{3}{-4+1}=-1$$
+          2. نرجع $t=x^2$، ونكامل بقانون $\tan^{-1}$:
+             $$\int\Big(\frac{1}{x^2+1}-\frac{1}{x^2+4}\Big)dx=\tan^{-1}x-\frac12\tan^{-1}\frac x2$$
+        answer: |-
+          \tan^{-1}x-\frac12\tan^{-1}\Big(\frac x2\Big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '3/((x**2+1)*(x**2+4))'
+          ans: 'atan(x) - atan(x/2)/2'
+          samples: [-2.0, 0.5, 3.0]
+          identities:
+            - ['3/((x**2+1)*(x**2+4))', '1/(x**2+1) - 1/(x**2+4)']
+
+      - id: n54x4
+        kind: exercise
+        ref: 'تمرين 4'
+        page: 87
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{5}{x^4+13x^2+36}\,dx'
+        solution: |
+          1. نحلّل المقام كأنه تربيعي في $x^2$: رقمين ضربهم 36 وجمعهم 13، يعني 4 و9:
+             $$x^4+13x^2+36=\big(x^2+4\big)\big(x^2+9\big)$$
+          2. اعتبر $x^2=t$، والثابتين بالتغطية ($t=-4$ ثم $t=-9$):
+             $$\frac{5}{(t+4)(t+9)}=\frac{A}{t+4}+\frac{B}{t+9}$$
+             $$A=\frac{5}{-4+9}=1,\qquad B=\frac{5}{-9+4}=-1$$
+          3. نرجع ونكامل بقانون $\tan^{-1}$:
+             $$\int\Big(\frac{1}{x^2+4}-\frac{1}{x^2+9}\Big)dx=\frac12\tan^{-1}\frac x2-\frac13\tan^{-1}\frac x3$$
+        answer: |-
+          \frac12\tan^{-1}\Big(\frac x2\Big)-\frac13\tan^{-1}\Big(\frac x3\Big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '5/(x**4+13*x**2+36)'
+          ans: 'atan(x/2)/2 - atan(x/3)/3'
+          samples: [-2.0, 0.5, 3.0]
+          identities:
+            - ['5/(x**4+13*x**2+36)', '1/(x**2+4) - 1/(x**2+9)']

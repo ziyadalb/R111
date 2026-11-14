@@ -1,0 +1,157 @@
+# أسئلة 5.4 اللي جات في الاختبارات النهائية (1445 إلى 1447): كل نهائي فيه سؤال واحد
+# المعرف: F + السنة والفصل + السؤال + الفقرة. والصفحة: صفحة الـ PDF في ملف النماذج.
+section: '5.4'
+slug: fin54
+title: 'كسور النهائيات'
+patterns:
+  - key: FIN
+    questions:
+      - id: F451-2-4
+        marks: 3
+        page: 12
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{4x^2-x+12}{x^3+4x}\,dx'
+        solution: |
+          1. نحلّل المقام: $x^3+4x=x\big(x^2+4\big)$، والقالب ثابت فوق $x$ وخطي فوق $x^2+4$:
+             $$\frac{4x^2-x+12}{x\big(x^2+4\big)}=\frac Ax+\frac{Bx+D}{x^2+4}$$
+          2. نضرب ونقارن، أو بالاختصار ($A=\frac{12}{4}$، $D=-1$، $B=4-A$):
+             $$4x^2-x+12=(A+B)x^2+Dx+4A\;\Rightarrow\;A=3,\;D=-1,\;B=1$$
+          3. نفصل ونكامل. $\frac{x}{x^2+4}$ نضربه ونقسمه على 2 عشان تطلع مشتقة المقام:
+             $$\int\Big(\frac3x+\frac{x}{x^2+4}-\frac{1}{x^2+4}\Big)dx=3\ln|x|+\frac12\ln\big(x^2+4\big)-\frac12\tan^{-1}\frac x2$$
+        answer: |-
+          3\ln|x|+\frac12\ln\big(x^2+4\big)-\frac12\tan^{-1}\Big(\frac x2\Big)+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: '(4*x**2-x+12)/(x**3+4*x)'
+          ans: '3*log(Abs(x)) + log(x**2+4)/2 - atan(x/2)/2'
+          samples: [-3.0, -0.5, 0.5, 3.0]
+          identities:
+            - ['(4*x**2-x+12)/(x**3+4*x)', '3/x + (x-1)/(x**2+4)']
+
+      - id: F461-2-4
+        marks: 3
+        page: 12
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{3x+1}{x^3+x}\,dx'
+        solution: |
+          1. نحلّل المقام: $x^3+x=x\big(x^2+1\big)$، يعني $a^2=1$. وما فيه $x^2$ في البسط، يعني $p=0$:
+             $$\frac{3x+1}{x\big(x^2+1\big)}=\frac Ax+\frac{Bx+D}{x^2+1}$$
+          2. نضرب ونقارن، أو بالاختصار ($A=\frac11$، $D=3$، $B=0-A$):
+             $$3x+1=(A+B)x^2+Dx+A\;\Rightarrow\;A=1,\;D=3,\;B=-1$$
+          3. نفصل ونكامل. $\frac{-x}{x^2+1}$ تكامله $-\frac12\ln(x^2+1)$، و$\frac{3}{x^2+1}$ تكامله $3\tan^{-1}x$:
+             $$\int\Big(\frac1x-\frac{x}{x^2+1}+\frac{3}{x^2+1}\Big)dx=\ln|x|-\frac12\ln\big(x^2+1\big)+3\tan^{-1}x$$
+        answer: |-
+          \ln|x|-\frac12\ln\big(x^2+1\big)+3\tan^{-1}x+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: '(3*x+1)/(x**3+x)'
+          ans: 'log(Abs(x)) - log(x**2+1)/2 + 3*atan(x)'
+          samples: [-3.0, -0.5, 0.5, 3.0]
+          identities:
+            - ['(3*x+1)/(x**3+x)', '1/x + (-x+3)/(x**2+1)']
+
+      - id: F462-2-3
+        marks: 3
+        page: 26
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{3x^2+x+8}{x^3+4x}\,dx'
+        solution: |
+          1. نحلّل المقام: $x^3+4x=x\big(x^2+4\big)$، والقالب نفسه:
+             $$\frac{3x^2+x+8}{x\big(x^2+4\big)}=\frac Ax+\frac{Bx+D}{x^2+4}$$
+          2. نضرب ونقارن، أو بالاختصار ($A=\frac84$، $D=1$، $B=3-A$):
+             $$3x^2+x+8=(A+B)x^2+Dx+4A\;\Rightarrow\;A=2,\;D=1,\;B=1$$
+          3. نفصل ونكامل:
+             $$\int\Big(\frac2x+\frac{x}{x^2+4}+\frac{1}{x^2+4}\Big)dx=2\ln|x|+\frac12\ln\big(x^2+4\big)+\frac12\tan^{-1}\frac x2$$
+        answer: |-
+          2\ln|x|+\frac12\ln\big(x^2+4\big)+\frac12\tan^{-1}\Big(\frac x2\Big)+C
+        domain: 'x\ne0'
+        check:
+          kind: indef
+          f: '(3*x**2+x+8)/(x**3+4*x)'
+          ans: '2*log(Abs(x)) + log(x**2+4)/2 + atan(x/2)/2'
+          samples: [-3.0, -0.5, 0.5, 3.0]
+          identities:
+            - ['(3*x**2+x+8)/(x**3+4*x)', '2/x + (x+1)/(x**2+4)']
+
+      - id: F471-2-4
+        marks: 3
+        page: 11
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{5x^2+6x+4}{(x+1)\big(x^2+x+1\big)}\,dx'
+        solution: |
+          1. خطي × تربيعي، بس الخطي $x+1$ والتربيعي فيه حد $x$. هل $x^2+x+1$ يتحلل؟ المميّز $1-4<0$، فما يتحلل. القالب:
+             $$\frac{5x^2+6x+4}{(x+1)\big(x^2+x+1\big)}=\frac{A}{x+1}+\frac{Bx+C}{x^2+x+1}$$
+          2. **$A$ بالتغطية:** غطّ $x+1$ وعوّض جذره $x=-1$ في الباقي:
+             $$A=\frac{5-6+4}{1-1+1}=3$$
+          3. الباقي بمقارنة معاملين بس. بعد الضرب في المقام: معامل $x^2$ يعطي $A+B=5$، يعني $B=2$. والثابت يعطي $A+C=4$، يعني $C=1$:
+             $$5x^2+6x+4=A\big(x^2+x+1\big)+(Bx+C)(x+1)$$
+          4. صار البسط $2x+1$، وهو بالضبط مشتقة $x^2+x+1$. فتكامله $\ln$ مباشرة، و$x^2+x+1$ موجب دايم:
+             $$\int\Big(\frac{3}{x+1}+\frac{2x+1}{x^2+x+1}\Big)dx=3\ln|x+1|+\ln\big(x^2+x+1\big)$$
+        answer: |-
+          3\ln|x+1|+\ln\big(x^2+x+1\big)+C
+        domain: 'x\ne-1'
+        check:
+          kind: indef
+          f: '(5*x**2+6*x+4)/((x+1)*(x**2+x+1))'
+          ans: '3*log(Abs(x+1)) + log(x**2+x+1)'
+          samples: [-3.0, -0.5, 0.5, 3.0]
+          identities:
+            - ['(5*x**2+6*x+4)/((x+1)*(x**2+x+1))', '3/(x+1) + (2*x+1)/(x**2+x+1)']
+
+      - id: F452-2-4
+        marks: 3
+        page: 28
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{3x+1}{x^2+2x-8}\,dx'
+        solution: |
+          1. **وش النمط؟** المقام تربيعي يتحلل لعاملين خطيين مختلفين. نبي رقمين ضربهم $-8$ وجمعهم $2$: يعني $4$ و$-2$:
+             $$x^2+2x-8=(x-2)(x+4)$$
+          2. **القالب:** فوق كل عامل خطي ثابت:
+             $$\frac{3x+1}{(x-2)(x+4)}=\frac{A}{x-2}+\frac{B}{x+4}$$
+          3. **التغطية:** عشان $A$ غطّ $(x-2)$ وعوّض جذره $x=2$ في الباقي. ليش تنفع؟ لو ضربنا الطرفين في $(x-2)$ وحطينا $x=2$، حد $B$ يصير صفر ويبقى $A$ لحاله:
+             $$A=\frac{3(2)+1}{2+4}=\frac76$$
+          4. وعشان $B$ غطّ $(x+4)$ وعوّض $x=-4$:
+             $$B=\frac{3(-4)+1}{-4-2}=\frac{-11}{-6}=\frac{11}{6}$$
+          5. **نكامل:** كل كسر $\frac{k}{x-a}$ تكامله $k\ln|x-a|$:
+             $$\frac76\ln|x-2|+\frac{11}{6}\ln|x+4|$$
+        answer: |-
+          \frac76\ln|x-2|+\frac{11}{6}\ln|x+4|+C
+        domain: 'x\ne2,\;x\ne-4'
+        check:
+          kind: indef
+          f: '(3*x+1)/(x**2+2*x-8)'
+          ans: 'Rational(7,6)*log(Abs(x-2)) + Rational(11,6)*log(Abs(x+4))'
+          samples: [-6.0, -1.0, 3.0]
+          identities:
+            - ['(3*x+1)/(x**2+2*x-8)', 'Rational(7,6)/(x-2) + Rational(11,6)/(x+4)']
+
+      - id: F472-2-4
+        marks: 3
+        page: 26
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{3x^2+1}{\big(x^2-1\big)\big(x^2+1\big)}\,dx'
+        solution: |
+          1. **وش النمط؟** كل الـ $x$ في البسط والمقام مربّعة ($x^2$ بس). المفتاح حلها بأربع معادلات، بس فيه حيلة أسرع.
+          2. **حيلة $x^2=t$:** اعتبر $x^2$ حرف واحد $t$. يصير كسر بعاملين خطيين، ونطلع الثابتين بالتغطية:
+             $$\frac{3t+1}{(t-1)(t+1)}=\frac{A}{t-1}+\frac{B}{t+1}$$
+          3. **التغطية:** $t=1$ يعطي $A$، و$t=-1$ يعطي $B$:
+             $$A=\frac{3+1}{1+1}=2,\qquad B=\frac{-3+1}{-1-1}=1$$
+          4. نرجع $t=x^2$:
+             $$\frac{3x^2+1}{\big(x^2-1\big)\big(x^2+1\big)}=\frac{2}{x^2-1}+\frac{1}{x^2+1}$$
+          5. $\frac{2}{x^2-1}$ نفكه بالتغطية مرة ثانية. $x^2-1=(x-1)(x+1)$، وعند $x=1$ يطلع $\frac22=1$، وعند $x=-1$ يطلع $\frac{2}{-2}=-1$:
+             $$\frac{2}{x^2-1}=\frac{1}{x-1}-\frac{1}{x+1}$$
+          6. **نكامل:**
+             $$\ln|x-1|-\ln|x+1|+\tan^{-1}x$$
+        answer: |-
+          \ln|x-1|-\ln|x+1|+\tan^{-1}x+C
+        domain: 'x\ne\pm1'
+        check:
+          kind: indef
+          f: '(3*x**2+1)/((x**2-1)*(x**2+1))'
+          ans: 'log(Abs(x-1)) - log(Abs(x+1)) + atan(x)'
+          samples: [-3.0, -0.5, 0.5, 3.0]
+          identities:
+            - ['(3*x**2+1)/((x**2-1)*(x**2+1))', '2/(x**2-1) + 1/(x**2+1)']
+            - ['2/(x**2-1)', '1/(x-1) - 1/(x+1)']
