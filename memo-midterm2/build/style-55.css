@@ -1,0 +1,10 @@
+/* ===== ملف 5.5: نفس تصميم 5.4 (style-5x2.css)، بعنوانه ورسمة غلافه ===== */
+@page { @top-right { content: "ريض 111 · 5.5 تعويضات متنوعة"; } }
+
+/* الغلاف: التبديل يشيل الجذور */
+.cover-split { display: flex; align-items: center; justify-content: center; height: 60mm; border-radius: 18px; background: linear-gradient(135deg, #e3f1f4 0%, #f7efe1 100%); margin: 0.3em 0 0.2em; direction: ltr; }
+.cover-split .katex-display { margin: 0; }
+.cover-split .katex { font-size: 1.9em; color: var(--brand); }
+
+/* عنوان التدريب يبقى مع أسئلته */
+.prac { break-inside: avoid; }

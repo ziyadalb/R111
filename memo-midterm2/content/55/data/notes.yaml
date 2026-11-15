@@ -1,0 +1,293 @@
+# مسائل مذكرة المقرر (القسم 5.5: تعويضات متنوعة، ص88 إلى ص91)
+# كلها هنا: أسئلة الاختبار في 5.5 قليلة، ومسائل المذكرة كلها على نفس أنماطها.
+# مثال 1 فقرة 1 هو نفسه F451-2-5، فما كررناه.
+# kind: example = مثال محلول في المذكرة ، kind: exercise = تمرين بدون حل في المذكرة
+section: '5.5'
+slug: n55
+title: 'مسائل المذكرة 5.5'
+patterns:
+  - key: H1
+    questions:
+      - id: n55e1-2
+        kind: example
+        ref: 'مثال 1 فقرة 2'
+        page: 88
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{x}+\sqrt[6]{x}}'
+        solution: |
+          1. المقامات 2 و6، والمضاعف المشترك 6:
+             $$x=t^6,\qquad dx=6t^5\,dt,\qquad\sqrt x=t^3,\qquad\sqrt[6]x=t$$
+          2. نعوّض، ونطلّع $t$ عامل مشترك ونشطبه:
+             $$\int\frac{6t^5\,dt}{t^3+t}=6\int\frac{t^4}{t^2+1}\,dt$$
+          3. القسمة على $t^2+1$. تتأكد بالضرب: $(t^2+1)(t^2-1)+1=t^4$:
+             $$\frac{t^4}{t^2+1}=t^2-1+\frac{1}{t^2+1}$$
+          4. نكامل، والأخير $\tan^{-1}$:
+             $$6\Big(\frac{t^3}{3}-t+\tan^{-1}t\Big)=2t^3-6t+6\tan^{-1}t$$
+          5. نرجع: $t=\sqrt[6]x$، و$t^3=\sqrt x$:
+        answer: |-
+          2\sqrt{x}-6\sqrt[6]{x}+6\tan^{-1}\sqrt[6]{x}+C
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: '1/(sqrt(x)+x**Rational(1,6))'
+          ans: '2*sqrt(x) - 6*x**Rational(1,6) + 6*atan(x**Rational(1,6))'
+          samples: [0.2, 1.0, 5.0]
+          identities:
+            - ['x**4/(x**2+1)', 'x**2-1+1/(x**2+1)']
+
+      - id: n55x1
+        kind: exercise
+        ref: 'تمرين 1'
+        page: 91
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x^{1/3}+x^{1/6}}'
+        solution: |
+          1. المقامات 3 و6، والمضاعف المشترك 6:
+             $$x=t^6,\qquad dx=6t^5\,dt,\qquad x^{1/3}=t^2,\qquad x^{1/6}=t$$
+          2. نعوّض، ونطلّع $t$ ونشطبه:
+             $$\int\frac{6t^5\,dt}{t^2+t}=6\int\frac{t^4}{t+1}\,dt$$
+          3. القسمة المتناوبة. الأس 4 زوجي، فالباقي $+\frac{1}{t+1}$:
+             $$\frac{t^4}{t+1}=t^3-t^2+t-1+\frac{1}{t+1}$$
+          4. نكامل ونضرب في 6:
+             $$\frac32t^4-2t^3+3t^2-6t+6\ln(t+1)$$
+          5. نرجع: $t^4=x^{2/3}$، و$t^3=\sqrt x$، و$t^2=\sqrt[3]x$:
+        answer: |-
+          \frac32x^{2/3}-2\sqrt{x}+3\sqrt[3]{x}-6\sqrt[6]{x}+6\ln\big(1+\sqrt[6]{x}\big)+C
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: '1/(x**Rational(1,3)+x**Rational(1,6))'
+          ans: 'Rational(3,2)*x**Rational(2,3) - 2*sqrt(x) + 3*x**Rational(1,3) - 6*x**Rational(1,6) + 6*log(1+x**Rational(1,6))'
+          samples: [0.2, 1.0, 5.0]
+          identities:
+            - ['x**4/(x+1)', 'x**3-x**2+x-1+1/(x+1)']
+
+      - id: n55x2
+        kind: exercise
+        ref: 'تمرين 2'
+        page: 91
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x^{1/4}+x^{1/3}}'
+        solution: |
+          1. المقامات 4 و3، والمضاعف المشترك 12:
+             $$x=t^{12},\qquad dx=12t^{11}\,dt,\qquad x^{1/4}=t^3,\qquad x^{1/3}=t^4$$
+          2. نعوّض، ونطلّع $t^3$ ونشطبه:
+             $$\int\frac{12t^{11}\,dt}{t^3+t^4}=12\int\frac{t^8}{t+1}\,dt$$
+          3. القسمة المتناوبة: قوى من $t^7$ لين الثابت بإشارات متناوبة، والباقي $+\frac{1}{t+1}$ لأن 8 زوجي:
+             $$\frac{t^8}{t+1}=t^7-t^6+t^5-t^4+t^3-t^2+t-1+\frac{1}{t+1}$$
+          4. نكامل كل حد ونضرب في 12:
+             $$\frac32t^8-\frac{12}{7}t^7+2t^6-\frac{12}{5}t^5+3t^4-4t^3+6t^2-12t+12\ln(t+1)$$
+          5. نرجع بـ $t=\sqrt[12]x$. الأسئلة ما تجي بهالطول، بس الطريقة نفسها بالضبط.
+        answer: |-
+          \frac32t^8-\frac{12}{7}t^7+2t^6-\frac{12}{5}t^5+3t^4-4t^3+6t^2-12t+12\ln(1+t)+C,\quad t=\sqrt[12]{x}
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: '1/(x**Rational(1,4)+x**Rational(1,3))'
+          ans: 'Rational(3,2)*x**Rational(2,3) - Rational(12,7)*x**Rational(7,12) + 2*sqrt(x) - Rational(12,5)*x**Rational(5,12) + 3*x**Rational(1,3) - 4*x**Rational(1,4) + 6*x**Rational(1,6) - 12*x**Rational(1,12) + 12*log(1+x**Rational(1,12))'
+          samples: [0.2, 1.0, 5.0]
+
+      - id: n55x3
+        kind: exercise
+        ref: 'تمرين 3'
+        page: 91
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{x^{1/2}+x^{1/5}}'
+        solution: |
+          1. المقامات 2 و5، والمضاعف المشترك 10:
+             $$x=t^{10},\qquad dx=10t^9\,dt,\qquad x^{1/2}=t^5,\qquad x^{1/5}=t^2$$
+          2. نعوّض، ونطلّع $t^2$ ونشطبه:
+             $$\int\frac{10t^9\,dt}{t^5+t^2}=10\int\frac{t^7}{t^3+1}\,dt$$
+          3. المقام هنا $t^3+1$ مو $t+1$. نقسم (تتأكد بالضرب: $(t^3+1)(t^4-t)+t=t^7$):
+             $$\frac{t^7}{t^3+1}=t^4-t+\frac{t}{t^3+1}$$
+          4. الباقي كسور جزئية (5.4): $t^3+1=(t+1)(t^2-t+1)$، والتربيعي ما يتحلل. التغطية عند $t=-1$ تعطي $-\frac13$، والباقي من المقارنة:
+             $$\frac{t}{t^3+1}=-\frac13\cdot\frac{1}{t+1}+\frac13\cdot\frac{t+1}{t^2-t+1}$$
+          5. $\frac{t+1}{t^2-t+1}$: البسط $\frac12(2t-1)+\frac32$. الأول نص مشتقة المقام، والثاني بعد إكمال المربع $\tan^{-1}$:
+             $$\int\frac{t+1}{t^2-t+1}\,dt=\frac12\ln\big(t^2-t+1\big)+\sqrt3\tan^{-1}\frac{2t-1}{\sqrt3}$$
+          6. نجمع ونضرب في 10:
+             $$2t^5-5t^2-\frac{10}{3}\ln(t+1)+\frac53\ln\big(t^2-t+1\big)+\frac{10}{\sqrt3}\tan^{-1}\frac{2t-1}{\sqrt3}$$
+        answer: |-
+          2t^5-5t^2-\frac{10}{3}\ln(1+t)+\frac53\ln\big(t^2-t+1\big)+\frac{10}{\sqrt3}\tan^{-1}\frac{2t-1}{\sqrt3}+C,\quad t=\sqrt[10]{x}
+        domain: 'x>0'
+        note: |
+          هذا أطول من أي سؤال اختبار، لأن المقام بعد التبديل صار $t^3+1$. خله آخر شي، والمهم منه الخطوتين الأولى والثانية.
+        check:
+          kind: indef
+          f: '1/(sqrt(x)+x**Rational(1,5))'
+          ans: '2*x**Rational(1,2) - 5*x**Rational(1,5) - Rational(10,3)*log(1+x**Rational(1,10)) + Rational(5,3)*log(x**Rational(1,5)-x**Rational(1,10)+1) + 10/sqrt(3)*atan((2*x**Rational(1,10)-1)/sqrt(3))'
+          samples: [0.2, 1.0, 5.0]
+          identities:
+            - ['x**7/(x**3+1)', 'x**4-x+x/(x**3+1)']
+            - ['x/(x**3+1)', '-Rational(1,3)/(x+1) + Rational(1,3)*(x+1)/(x**2-x+1)']
+
+      - id: n55x7
+        kind: exercise
+        ref: 'تمرين 7'
+        page: 91
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{1-\sqrt{x}}{1+\sqrt{x}}\,dx'
+        solution: |
+          1. فيه $\sqrt x$ بس، فـ $n=2$:
+             $$x=t^2,\qquad dx=2t\,dt,\qquad\sqrt x=t$$
+          2. نعوّض:
+             $$\int\frac{1-t}{1+t}\cdot2t\,dt=2\int\frac{t-t^2}{t+1}\,dt$$
+          3. نقسم (تتأكد بالضرب: $(t+1)(2-t)-2=t-t^2$):
+             $$\frac{t-t^2}{t+1}=-t+2-\frac{2}{t+1}$$
+          4. نكامل:
+             $$2\Big(-\frac{t^2}{2}+2t-2\ln(t+1)\Big)=-t^2+4t-4\ln(t+1)$$
+          5. نرجع: $t=\sqrt x$ و$t^2=x$:
+        answer: |-
+          -x+4\sqrt{x}-4\ln\big(1+\sqrt{x}\big)+C
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: '(1-sqrt(x))/(1+sqrt(x))'
+          ans: '-x + 4*sqrt(x) - 4*log(1+sqrt(x))'
+          samples: [0.2, 1.0, 5.0]
+          identities:
+            - ['(x-x**2)/(x+1)', '-x+2-2/(x+1)']
+
+  - key: H2
+    questions:
+      - id: n55e2-1
+        kind: example
+        ref: 'مثال 2 فقرة 1'
+        page: 89
+        prompt: 'Evaluate the integral.'
+        q: '\int\sqrt{1+\sqrt{x}}\,dx'
+        solution: |
+          1. جذر فوقه جذر، وما فيه مشتقة جاهزة. نبدّل الجذر الخارجي كله، ونطلّع $x$ (نربّع مرتين):
+             $$t=\sqrt{1+\sqrt x}\;\Rightarrow\;\sqrt x=t^2-1\;\Rightarrow\;x=\big(t^2-1\big)^2$$
+          2. $dx$ بقاعدة السلسلة:
+             $$dx=2\big(t^2-1\big)\cdot2t\,dt=4t\big(t^2-1\big)dt$$
+          3. نعوّض: الجذر كله صار $t$:
+             $$\int t\cdot4t\big(t^2-1\big)dt=4\int\big(t^4-t^2\big)dt=\frac45t^5-\frac43t^3$$
+          4. نرجع: $t^5=\big(1+\sqrt x\big)^{5/2}$ و$t^3=\big(1+\sqrt x\big)^{3/2}$:
+        answer: |-
+          \frac45\big(1+\sqrt{x}\big)^{5/2}-\frac43\big(1+\sqrt{x}\big)^{3/2}+C
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: 'sqrt(1+sqrt(x))'
+          ans: 'Rational(4,5)*(1+sqrt(x))**Rational(5,2) - Rational(4,3)*(1+sqrt(x))**Rational(3,2)'
+          samples: [0.3, 2.0, 9.0]
+
+      - id: n55x4
+        kind: exercise
+        ref: 'تمرين 4'
+        page: 91
+        prompt: 'Evaluate the integral.'
+        q: '\int\sqrt{3+\sqrt{x}}\,dx'
+        solution: |
+          1. نبدّل الجذر الخارجي كله، ونطلّع $x$ و$dx$:
+             $$t=\sqrt{3+\sqrt x}\;\Rightarrow\;x=\big(t^2-3\big)^2,\qquad dx=4t\big(t^2-3\big)dt$$
+          2. نعوّض ونكامل:
+             $$\int t\cdot4t\big(t^2-3\big)dt=4\int\big(t^4-3t^2\big)dt=\frac45t^5-4t^3$$
+          3. نرجع بـ $t=\sqrt{3+\sqrt x}$:
+        answer: |-
+          \frac45\big(3+\sqrt{x}\big)^{5/2}-4\big(3+\sqrt{x}\big)^{3/2}+C
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: 'sqrt(3+sqrt(x))'
+          ans: 'Rational(4,5)*(3+sqrt(x))**Rational(5,2) - 4*(3+sqrt(x))**Rational(3,2)'
+          samples: [0.3, 2.0, 9.0]
+
+      - id: n55x5
+        kind: exercise
+        ref: 'تمرين 5'
+        page: 91
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{2+\sqrt{x}}}'
+        solution: |
+          1. نفس M452-2-6 بالضبط، بس 2 بدل 4:
+             $$t=\sqrt{2+\sqrt x}\;\Rightarrow\;x=\big(t^2-2\big)^2,\qquad dx=4t\big(t^2-2\big)dt$$
+          2. نعوّض ونشطب $t$:
+             $$\int\frac{4t\big(t^2-2\big)}{t}\,dt=4\int\big(t^2-2\big)dt=\frac43t^3-8t$$
+          3. نرجع بـ $t=\sqrt{2+\sqrt x}$:
+        answer: |-
+          \frac43\big(2+\sqrt{x}\big)^{3/2}-8\sqrt{2+\sqrt{x}}+C
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: '1/sqrt(2+sqrt(x))'
+          ans: 'Rational(4,3)*(2+sqrt(x))**Rational(3,2) - 8*sqrt(2+sqrt(x))'
+          samples: [0.3, 2.0, 9.0]
+
+      - id: n55x6
+        kind: exercise
+        ref: 'تمرين 6'
+        page: 91
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{\sqrt{1+\sqrt{x}}}{\sqrt{x}}\,dx'
+        solution: |
+          1. **قبل أي تبديل:** مشتقة $1+\sqrt x$ هي $\frac{1}{2\sqrt x}$، وموجودة (ينقصها 2 بس). نكتبها واضحة:
+             $$\frac{\sqrt{1+\sqrt x}}{\sqrt x}=2\big(1+\sqrt x\big)^{1/2}\cdot\frac{1}{2\sqrt x}$$
+          2. القوة العكسية: نزيد الأس ($\frac12$ يصير $\frac32$) ونقسم عليه، والمشتقة تروح:
+             $$2\cdot\frac{\big(1+\sqrt x\big)^{3/2}}{3/2}=\frac43\big(1+\sqrt x\big)^{3/2}$$
+        answer: |-
+          \frac43\big(1+\sqrt{x}\big)^{3/2}+C
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: 'sqrt(1+sqrt(x))/sqrt(x)'
+          ans: 'Rational(4,3)*(1+sqrt(x))**Rational(3,2)'
+          samples: [0.3, 2.0, 9.0]
+
+  - key: H3
+    questions:
+      - id: n55e2-2
+        kind: example
+        ref: 'مثال 2 فقرة 2'
+        page: 89
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{e^{x}+1}}'
+        solution: |
+          1. **وش النمط؟** $e^x$ تحت الجذر، وما فيه مشتقة جاهزة. فنبدّل الجذر كله:
+             $$t=\sqrt{e^x+1}$$
+          2. **نطلّع $x$:** نربّع، ونعزل $e^x$، وناخذ $\ln$:
+             $$t^2=e^x+1\;\Rightarrow\;e^x=t^2-1\;\Rightarrow\;x=\ln\big(t^2-1\big)$$
+          3. **$dx$:** مشتقة $\ln$ = مشتقة اللي داخله على اللي داخله:
+             $$dx=\frac{2t}{t^2-1}\,dt$$
+          4. **نعوّض:** الجذر صار $t$، ونشطب $t$:
+             $$\int\frac1t\cdot\frac{2t}{t^2-1}\,dt=\int\frac{2}{t^2-1}\,dt$$
+          5. **كسور جزئية بالتغطية (5.4):** $t^2-1=(t-1)(t+1)$. عند $t=1$ يطلع $\frac22=1$، وعند $t=-1$ يطلع $\frac{2}{-2}=-1$:
+             $$\int\Big(\frac{1}{t-1}-\frac{1}{t+1}\Big)dt=\ln|t-1|-\ln|t+1|$$
+          6. **نرجع:** $t=\sqrt{e^x+1}>1$، فـ $t-1$ و$t+1$ موجبين، وما نحتاج قيمة مطلقة:
+        answer: |-
+          \ln\big(\sqrt{e^x+1}-1\big)-\ln\big(\sqrt{e^x+1}+1\big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '1/sqrt(exp(x)+1)'
+          ans: 'log(sqrt(exp(x)+1)-1) - log(sqrt(exp(x)+1)+1)'
+          samples: [-1.0, 0.5, 2.0]
+          identities:
+            - ['2/(x**2-1)', '1/(x-1) - 1/(x+1)']
+
+      - id: n55x8
+        kind: exercise
+        ref: 'تمرين 8'
+        page: 91
+        prompt: 'Evaluate the integral.'
+        q: '\int\sqrt{e^{x}-1}\,dx'
+        solution: |
+          1. نبدّل الجذر كله، ونطلّع $x$ و$dx$:
+             $$t=\sqrt{e^x-1}\;\Rightarrow\;e^x=t^2+1\;\Rightarrow\;x=\ln\big(t^2+1\big),\qquad dx=\frac{2t}{t^2+1}\,dt$$
+          2. نعوّض:
+             $$\int t\cdot\frac{2t}{t^2+1}\,dt=2\int\frac{t^2}{t^2+1}\,dt$$
+          3. البسط = المقام ناقص 1:
+             $$\frac{t^2}{t^2+1}=1-\frac{1}{t^2+1}$$
+          4. نكامل:
+             $$2\big(t-\tan^{-1}t\big)$$
+          5. نرجع بـ $t=\sqrt{e^x-1}$:
+        answer: |-
+          2\sqrt{e^x-1}-2\tan^{-1}\sqrt{e^x-1}+C
+        domain: 'x>0'
+        check:
+          kind: indef
+          f: 'sqrt(exp(x)-1)'
+          ans: '2*sqrt(exp(x)-1) - 2*atan(sqrt(exp(x)-1))'
+          samples: [0.3, 1.0, 2.5]
+          identities:
+            - ['x**2/(x**2+1)', '1-1/(x**2+1)']

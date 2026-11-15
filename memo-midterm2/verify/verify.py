@@ -382,6 +382,27 @@ def general_checks():
     rec('5.4 الدرس 3: ∫cos x/(sin²x+5sin x+6) = ln(sin x+2) − ln(sin x+3)، وتمرين 12',
         anti('cos(x)/(sin(x)**2+5*sin(x)+6)', 'log(sin(x)+2) - log(sin(x)+3)')
         and anti('4*exp(x)/(exp(2*x)+2*exp(x)-3)', 'log(Abs(exp(x)-1)) - log(exp(x)+3)', [-1.0, 0.5, 1.5]))
+
+    # 21) 5.5: جدول ما بعد التبديل (8 صفوف)، والقسمة المتناوبة، وقانونا النمط 2، وأسئلة الفهم
+    tpos = [0.3, 1.2, 3.5]
+    tbl55 = [('1/(x+1)', 'log(x+1)'), ('x/(x+1)', 'x - log(x+1)'), ('x**2/(x+1)', 'x**2/2 - x + log(x+1)'),
+             ('x**3/(x+1)', 'x**3/3 - x**2/2 + x - log(x+1)'), ('1/(x**2+1)', 'atan(x)'), ('x/(x**2+1)', 'log(x**2+1)/2'),
+             ('x**2/(x**2+1)', 'x - atan(x)'), ('x**4/(x**2+1)', 'x**3/3 - x + atan(x)')]
+    rec('5.5 جدول ما بعد التبديل (8 صفوف)', all(anti(f_s, F_s, tpos) for f_s, F_s in tbl55))
+    rec('5.5 القسمة المتناوبة: tᵏ/(t+1) من k=1 لين 8',
+        all(sp.simplify(x**k / (x + 1) - (sum((-1)**j * x**(k - 1 - j) for j in range(k)) + (-1)**k / (x + 1))) == 0 for k in range(1, 9)))
+    aa5 = sp.Symbol('a', positive=True)
+    xp5 = sp.Symbol('xp', positive=True)
+    G1 = sp.Rational(4, 3) * (aa5 + sp.sqrt(xp5))**sp.Rational(3, 2) - 4 * aa5 * sp.sqrt(aa5 + sp.sqrt(xp5))
+    G2 = sp.Rational(4, 5) * (aa5 + sp.sqrt(xp5))**sp.Rational(5, 2) - 4 * aa5 / 3 * (aa5 + sp.sqrt(xp5))**sp.Rational(3, 2)
+    rec('5.5 قانونا النمط 2: ∫dx/√(a+√x) و∫√(a+√x)dx (أي a>0)',
+        sp.simplify(sp.diff(G1, xp5) - 1 / sp.sqrt(aa5 + sp.sqrt(xp5))) == 0 and sp.simplify(sp.diff(G2, xp5) - sp.sqrt(aa5 + sp.sqrt(xp5))) == 0)
+    rec('5.5 الخطوة صفر: ∫dx/(√x(1+x)) = 2tan⁻¹√x، و∫∛(1+√x)/√x = (3/2)(1+√x)^{4/3}',
+        anti('1/(sqrt(x)*(1+x))', '2*atan(sqrt(x))', tpos) and anti('(1+sqrt(x))**Rational(1,3)/sqrt(x)', 'Rational(3,2)*(1+sqrt(x))**Rational(4,3)', tpos))
+    rec('5.5 فهم: ∫dx/(x^{1/3}+x^{2/3}) = 3t − 3ln(t+1)، t=∛x',
+        anti('1/(x**Rational(1,3)+x**Rational(2,3))', '3*x**Rational(1,3) - 3*log(1+x**Rational(1,3))', tpos))
+    rec('5.5 فهم: t³/(t²+1) = t − t/(t²+1)، وتكامله t²/2 − ½ln(t²+1)',
+        sp.simplify(x**3 / (x**2 + 1) - (x - x / (x**2 + 1))) == 0 and anti('x**3/(x**2+1)', 'x**2/2 - log(x**2+1)/2', tpos))
     return out
 
 
@@ -392,6 +413,7 @@ def main():
     files += sorted(glob.glob(os.path.join(ROOT, 'content', '61', 'data', '*.yaml')))
     files += sorted(glob.glob(os.path.join(ROOT, 'content', '53', 'data', '*.yaml')))
     files += sorted(glob.glob(os.path.join(ROOT, 'content', '54', 'data', '*.yaml')))
+    files += sorted(glob.glob(os.path.join(ROOT, 'content', '55', 'data', '*.yaml')))
     total = 0
     lines.append('# تقرير التحقق الآلي\n')
     lines.append('كل سطر: المعرّف، نوع الفحص، النتيجة، والتفاصيل. الفحص عددي بدقة 40 خانة في نقاط من كل فرع من المجال.\n')
