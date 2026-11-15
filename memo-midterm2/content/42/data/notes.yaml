@@ -1,4 +1,5 @@
-# مسائل مذكرة المقرر (القسم 4.2) اللي على نفس أنماط السابقات
+# مسائل مذكرة المقرر (القسم 4.2). الملف الجديد يعرض بس اللي في content/42/patterns.yaml (3 مسائل لحالات ما جات في الاختبارات)،
+# والباقي يبقى هنا متحقق منه.
 # kind: example = مثال محلول في المذكرة (نعرضه داخل الشرح)
 # kind: exercise = تمرين بدون حل في المذكرة (يدخل التدريب، وحله الكامل في قسم الحلول)
 # page = صفحة PDF في ملف المذكرة. ref = رقمه في المذكرة.
@@ -188,24 +189,18 @@ patterns:
         page: 62
         prompt: 'Find the derivative.'
         q: 'f(x)=\sech^{-1}\Big(\frac{1}{x}\Big)+e^{\cosh x}'
-        hint: |
-          داخل $\sech^{-1}$ مقلوب: استخدم التعريف
-          $$\sech^{-1}\frac1x=\cosh^{-1}x$$
         solution: |
-          1. **الحد الأول:** الداخل مقلوب، فنستخدم التعريف (نفس فكرة اختصار $\csch^{-1}$):
-             $$\sech^{-1}w=\cosh^{-1}\frac1w,\qquad0<w\le1$$
-             $$\sech^{-1}\frac1x=\cosh^{-1}x$$
-             $$\frac{d}{dx}\cosh^{-1}x=\frac{1}{\sqrt{x^2-1}}$$
-          2. **الحد الثاني:** أسّية داخلها $\cosh x$، ومشتقة $\cosh$ هي $\sinh$:
-             $$\frac{d}{dx}e^{\cosh x}=e^{\cosh x}\cdot\sinh x$$
+          1. **الحد الأول: اقلب.** $\sech^{-1}w=\cosh^{-1}\frac1w$، ومقلوب $\frac1x$ هو $x$. فالحد يصير $\cosh^{-1}x$، ومشتقته مباشرة:
+             $$\sech^{-1}\frac1x=\cosh^{-1}x\quad\Rightarrow\quad\frac{d}{dx}\cosh^{-1}x=\frac{1}{\sqrt{x^2-1}}$$
+          2. **الحد الثاني:** أسّية داخلها $\cosh x$. مشتقة $e^{g}$ هي $e^{g}\cdot g'$، ومشتقة $\cosh$ هي $\sinh$:
+             $$\frac{d}{dx}e^{\cosh x}=e^{\cosh x}\sinh x$$
         answer: |-
           f'(x)=\frac{1}{\sqrt{x^2-1}}+e^{\cosh x}\sinh x
         domain: 'x>1'
         domain_why: 'لأن $\sech^{-1}\frac1x$ يبي $0<\frac1x<1$.'
         more: |
-          بالقانون مباشرة توصل لنفس الشي:
-          $$u=\frac1x,\qquad u'=-\frac{1}{x^2}$$
-          $$\frac{-u'}{u\sqrt{1-u^2}}=\frac{\frac{1}{x^2}}{\frac1x\cdot\frac{\sqrt{x^2-1}}{x}}=\frac{1}{\sqrt{x^2-1}}$$
+          بالقانون مباشرة توصل لنفس الشي. الداخل $\frac1x$ ومشتقته $-\frac{1}{x^2}$، و$x>1$:
+          $$\frac{\frac{1}{x^2}}{\frac1x\sqrt{1-\frac{1}{x^2}}}=\frac{\frac{1}{x^2}}{\frac1x\cdot\frac{\sqrt{x^2-1}}{x}}=\frac{1}{\sqrt{x^2-1}}$$
         check:
           kind: deriv
           f: 'asech(1/x)+exp(cosh(x))'
@@ -415,17 +410,15 @@ patterns:
         prompt: 'Evaluate the integral.'
         q: '\int\frac{x}{\sqrt{x^4-16}}\,dx'
         solution: |
-          1. $x^4=(x^2)^2$، ومشتقة $x^2$ هي $2x$، و$x$ موجودة فوق:
-             $$u=x^2,\qquad du=2x\,dx\quad\Rightarrow\quad x\,dx=\frac{du}{2}$$
-          2. نعوّض، و$16=4^2$:
-             $$\int\frac{x\,dx}{\sqrt{x^4-16}}=\frac12\int\frac{du}{\sqrt{u^2-4^2}}$$
-          3. هنا $u=x^2$ موجب دايم، و$u>4$ على المجال، فـ $\cosh^{-1}$ تنفع على الجهتين:
-             $$=\frac12\cosh^{-1}\frac u4+C$$
+          1. **وش المربّع؟** $x^4=\big(x^2\big)^2$، فـ $f=x^2$، ومشتقته $2x$. وفوق $x$، يعني نص المشتقة:
+             $$x=\frac12\big(x^2\big)'$$
+          2. **جذر لحاله، وطرح، والمربّع أول:** شكل $\cosh^{-1}$ مع $a=4$. وهنا $f=x^2$ أكبر من 4 دايم على المجال، فـ $\cosh^{-1}$ تصح كاملة:
+             $$\int\frac{x\,dx}{\sqrt{x^4-16}}=\frac12\int\frac{f'}{\sqrt{f^2-4^2}}\,dx=\frac12\cosh^{-1}\frac f4+C$$
         answer: |-
           \frac12\cosh^{-1}\Big(\frac{x^2}{4}\Big)+C
         domain: '|x|>2'
         note: |
-          ليش ما احتجنا الصيغة اللوغاريتمية هنا؟ لأن $u=x^2$ موجب دايم. قارن مع M461-2-2، هناك $u=x+3$ ممكن يكون سالب.
+          ليش ما احتجنا صيغة $\ln$ هنا؟ لأن $f=x^2$ موجب دايم، وأكبر من 4 على المجال كله. قارن مع M461-2-2: هناك $f=x+3$ ممكن يكون أقل من $-5$.
         check:
           kind: indef
           f: 'x/sqrt(x**4-16)'
@@ -685,16 +678,12 @@ patterns:
         page: 62
         prompt: 'Evaluate the integral.'
         q: '\int\frac{2}{\sqrt{9-e^{6x}}}\,dx'
-        hint: |
-          $$e^{6x}=\big(e^{3x}\big)^2$$
-          اكتب $dx$ كامل بدلالة $u$، وشوف وش يطلع في المقام.
         solution: |
-          1. $e^{6x}=(e^{3x})^2$. نعوّض الأساس ونكتب $dx$ كامل:
-             $$u=e^{3x},\qquad du=3e^{3x}dx=3u\,dx\quad\Rightarrow\quad dx=\frac{du}{3u}$$
-          2. نعوّض، و$9=3^2$:
-             $$\int\frac{2}{\sqrt{9-u^2}}\cdot\frac{du}{3u}=\frac23\int\frac{du}{u\sqrt{3^2-u^2}}$$
-          3. قانون $\sech^{-1}$، و$u=e^{3x}$ موجب:
-             $$=\frac23\Big(-\frac13\sech^{-1}\frac u3\Big)+C$$
+          1. **وش المربّع؟** $e^{6x}=\big(e^{3x}\big)^2$، فـ $f=e^{3x}$، ومشتقته $3e^{3x}$. والمشتقة ناقصة.
+          2. **نضرب فوق وتحت في $e^{3x}$:** فوق تطلع المشتقة (ناقصها 3)، وتحت يطلع $f$ برّا الجذر:
+             $$\frac{2}{\sqrt{9-e^{6x}}}=\frac23\cdot\frac{3e^{3x}}{e^{3x}\sqrt{3^2-\big(e^{3x}\big)^2}}$$
+          3. **$f$ برّا الجذر، وتحته $a^2-f^2$:** $\sech^{-1}$ مع $a=3$. و$e^{3x}>0$، فـ $|f|=f$:
+             $$\frac23\cdot\Big(-\frac13\Big)\sech^{-1}\frac{e^{3x}}{3}+C$$
         answer: |-
           -\frac29\sech^{-1}\Big(\frac{e^{3x}}{3}\Big)+C
         domain: 'x<\tfrac{\ln3}{3}'

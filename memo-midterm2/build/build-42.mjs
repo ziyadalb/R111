@@ -1,181 +1,223 @@
-// بناء ملف 4.2 الواحد: فهم + قوانين + أنماط + تدريب + تلميحات + حلول + ملحق
+// بناء ملف 4.2 (A4): الدوال الزائدية العكسية، مع تكاملات 4.1 اللي تجي معها
 // التشغيل: node build/build-42.mjs
+// نفس نظام ملفات 5.x: بدون تلميحات، والتدريب تحت كل نمط، وكل سؤال له رابط لحله والحل فيه رابط يرجعك.
+// بدون u وdu: القوانين بـ f(x) مثل المذكرة، وجدول واحد بتسع خانات لكل التكاملات.
+// كل أسئلة الاختبارات على 4.1 و4.2 (الفصلي والنهائي، وسؤالين من فصلي أول)، و3 مسائل بس من المذكرة.
 import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 import { createRequire } from 'module';
-import {
-  ROOT, CONTENT, EXAMS, makeMarkdown, marksChip, questionMath, mathBlockHtml, mathInlineHtml, readText, tex,
-} from './lib.mjs';
-import { plot, coverArt } from './plots.mjs';
+import { ROOT, CONTENT, makeMarkdown, marksChip, questionMath, mathBlockHtml, readText, tex } from './lib.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 
 const OUT = path.join(ROOT, 'out');
-const HTML = path.join(OUT, 'html', '4.2.html');
+const HTML = path.join(OUT, 'html', '42.html');
 const PDF = path.join(OUT, 'ريض111-4.2-الدوال-الزائدية-العكسية.pdf');
 fs.mkdirSync(path.dirname(HTML), { recursive: true });
 
 // ---------- البيانات ----------
 const load = (p) => yaml.load(fs.readFileSync(p, 'utf8'));
 const files = [
-  [path.join(CONTENT, 'questions', '4.2-derivatives.yaml'), 'past'],
-  [path.join(CONTENT, 'questions', '4.2-integrals.yaml'), 'past'],
-  [path.join(CONTENT, '42', 'data', 'notes.yaml'), 'notes'],
-  [path.join(CONTENT, '42', 'data', 'past-4.1.yaml'), 'past'],
+  path.join(CONTENT, 'questions', '4.2-derivatives.yaml'),
+  path.join(CONTENT, 'questions', '4.2-integrals.yaml'),
+  path.join(CONTENT, '42', 'data', 'past-4.1.yaml'),
+  path.join(CONTENT, '42', 'data', 'finals.yaml'),
+  path.join(CONTENT, '42', 'data', 'notes.yaml'),
 ];
+const PCONF = load(path.join(CONTENT, '42', 'patterns.yaml'));
+const PATTERNS = PCONF.patterns;
+const SAME = PCONF.same || {};
+const CHECKS = load(path.join(CONTENT, '42', 'checks.yaml')).groups;
+PATTERNS.forEach((p, i) => { p.n = i + 1; });
+const titleHtml = (p) => p.titleHtml ?? (p.titleHtml = md.renderInline(p.title));
+const PAT = Object.fromEntries(PATTERNS.map((p) => [p.key, p]));
+const dupOf = new Map();
+for (const [main, dups] of Object.entries(SAME)) for (const d of dups) dupOf.set(d, main);
 
-const PATTERNS = {
-  A: { title: 'دالة زائدية أو عكسية، وداخلها دالة', sec: 'المشتقات' },
-  B1: { title: 'إكمال المربع تحت الجذر', sec: 'التكاملات' },
-  B2: { title: 'إكمال المربع، و(x − c) مضروب برّا الجذر', sec: 'التكاملات' },
-  B3: { title: 'الداخل ومشتقته موجودين', sec: 'التكاملات' },
-  B4: { title: 'عوّض واكتب dx كامل', sec: 'التكاملات' },
-  T41: { title: 'تكامل دالة زائدية بالتعويض (4.1)', sec: 'تكاملات 4.1' },
-};
-const ORDER = ['A', 'B1', 'B2', 'B3', 'B4', 'T41'];
-
+// نأخذ بس الأسئلة اللي في الأنماط (ومسائل المذكرة الباقية تبقى في ملفاتها متحقق منها، بس ما تنعرض)
+const WANTED = new Set(PATTERNS.flatMap((p) => p.ids));
 const byId = new Map();
-const byPattern = Object.fromEntries(ORDER.map((k) => [k, { past: [], ne: [], nx: [] }]));
-for (const [file, kind] of files) {
+for (const file of files) {
   const doc = load(file);
   for (const p of doc.patterns) {
     for (const q of p.questions) {
+      if (dupOf.has(q.id) || !WANTED.has(q.id)) continue; // مكرر بالضبط، أو مسألة مذكرة ما اخترناها
       if (byId.has(q.id)) throw new Error('مكرر: ' + q.id);
-      q.pkey = p.key;
-      q.src = kind === 'past' ? 'past' : q.kind === 'example' ? 'ne' : 'nx';
+      q.src = q.id[0] === 'F' ? 'fin' : q.id[0] === 'M' ? 'mid' : q.id[0] === 'A' ? 'first' : q.kind === 'example' ? 'ne' : 'nx';
+      q.same = SAME[q.id] || [];
       byId.set(q.id, q);
-      byPattern[p.key][q.src].push(q);
     }
   }
 }
-const practice = ORDER.flatMap((k) => [...byPattern[k].past, ...byPattern[k].nx]);
-const counts = { past: 0, ne: 0, nx: 0 };
+for (const p of PATTERNS) {
+  p.qs = p.ids.map((id) => {
+    const q = byId.get(id);
+    if (!q) throw new Error(`النمط ${p.key}: سؤال غير موجود ${id}`);
+    if (q.pat) throw new Error(`السؤال ${id} في نمطين`);
+    q.pat = p;
+    return q;
+  });
+}
+for (const q of byId.values()) if (!q.pat) throw new Error('سؤال بدون نمط: ' + q.id);
+const practice = PATTERNS.flatMap((p) => p.qs);
+// الأمثلة الكاملة نعرفها من ملفات الشرح قبل الرسم
+const WORKED = new Set();
+for (const f of fs.readdirSync(path.join(CONTENT, '42')).filter((f) => f.endsWith('.md'))) {
+  for (const m of fs.readFileSync(path.join(CONTENT, '42', f), 'utf8').matchAll(/^[ \t]*@example[ \t]+(\S+)/gm)) WORKED.add(m[1]);
+}
+const counts = { mid: 0, fin: 0, first: 0, ne: 0, nx: 0 };
 for (const q of byId.values()) counts[q.src]++;
+const dupCount = { mid: 0, fin: 0 };
+for (const d of dupOf.keys()) dupCount[d[0] === 'F' ? 'fin' : 'mid']++;
 
 // ---------- رموز وأوسمة ----------
 function examInfo(id) {
-  const e = EXAMS[id.slice(0, 4)];
+  const year = 1400 + Number(id.slice(1, 3));
+  const sem = id[3] === '1' ? 'الأول' : 'الثاني';
   const [, qn, part] = id.split('-');
-  return { ...e, qn, part };
+  return { year, sem, qn, part, fin: id[0] === 'F', first: id[0] === 'A' };
 }
+const isPast = (q) => q.src === 'mid' || q.src === 'fin' || q.src === 'first';
+const examName = (q) => { const e = examInfo(q.id); return `${e.fin ? 'نهائي' : e.first ? 'فصلي أول' : 'فصلي'} ${e.year}`; };
 function tag(q) {
-  if (q.src === 'past') {
-    const e = examInfo(q.id);
-    return e.year === 1447
-      ? `<span class="tag tag-last">سابقات 1447 · السنة الماضية</span>`
-      : `<span class="tag tag-past">سابقات ${e.year}</span>`;
-  }
-  return `<span class="tag tag-notes">من المذكرة</span>`;
+  if (!isPast(q)) return '';
+  const e = examInfo(q.id);
+  return e.year === 1447
+    ? `<span class="tag tag-last">${examName(q)} · السنة الماضية</span>`
+    : `<span class="tag tag-past">${examName(q)}</span>`;
 }
+const sameText = (q) => (q.same.length ? `<span class="same">ونفسه بالضبط: ${q.same.map((d) => `<span class="qid">${d}</span>`).join(' ')}</span>` : '');
 function label(q) {
-  if (q.src === 'past') return `<span class="qid">${q.id}</span>`;
-  return `<span class="qid qid-notes">${q.ref.replace('مثال ', 'مثال ').replace('تمرين ', 'تمرين ')}</span>`;
+  if (isPast(q)) return `<span class="qid">${q.id}</span>`;
+  return `<span class="qid qid-notes">${q.ref}</span>`;
 }
 function srcText(q) {
-  if (q.src === 'past') {
+  if (isPast(q)) {
     const e = examInfo(q.id);
     return `الفصل ${e.sem} · س${e.qn} فقرة ${e.part}`;
   }
   return `المذكرة ص${q.page}`;
 }
 function head(q, extra = '') {
-  return `${label(q)}${tag(q)}<span class="src">${srcText(q)}</span>${marksChip(q)}${extra}`;
+  return `${label(q)}${tag(q)}<span class="src">${srcText(q)}</span>${marksChip(q)}${sameText(q)}${extra}`;
 }
+function marksText(q) {
+  if (q.marks == null) return '';
+  const m = Number(q.marks);
+  return m === 1 ? 'درجة' : m === 2 ? 'درجتين' : m >= 3 && m <= 10 && Number.isInteger(m) ? `${m} درجات` : `${m} درجة`;
+}
+
+const countText = (n) => (n === 1 ? 'سؤال واحد' : n === 2 ? 'سؤالين' : n <= 10 ? `${n} أسئلة` : `${n} سؤال`);
+const CAME = { mid: 'جاء في الفصلي الثاني', fin: 'جاء في النهائي', first: 'وفي الفصلي الأول', notes: 'المذكرة بس' };
+function patternMeta(p) {
+  const past = p.qs.filter(isPast).length;
+  const notes = p.qs.length - past;
+  const tags = p.came.map((c) => `<span class="came came-${c}">${CAME[c]}</span>`).join('');
+  const cnt = !past ? `${countText(p.qs.length)} من المذكرة` : !notes ? `${countText(p.qs.length)}، كلها من الاختبارات` : `${countText(p.qs.length)}: ${past} من الاختبارات و${notes} من المذكرة`;
+  return `<div class="pat-meta">${tags}<span class="pat-count">${cnt}</span><a class="plink" href="#pr-${p.key}">تدريبه</a></div>`;
+}
+// عنوان النمط بنص عادي للفهرس الجانبي (Bookmarks)
+const plainTitle = (t) => t.replace(/\$/g, '').replace(/\\(sinh|cosh|tanh|coth|sech|csch|sin|cos|tan|sec|ln)/g, '$1').replace(/\^\{-1\}/g, '⁻¹').replace(/\^2/g, '²').replace(/\s+/g, ' ').replace(/\( /g, '(').replace(/ \)/g, ')').trim();
+const pk = (p) => `<span class="pk">${p.sec} · النمط ${p.n}</span>`;
 
 const used = new Set();
 const md = makeMarkdown({ byId, used, diffHead: (q) => `${label(q)}${tag(q)}${marksChip(q)}` });
 
+// ---------- جدول الخانات التسع: شكل المقام يختار الدالة ----------
+// الصفوف: بدون جذر، جذر لحاله، f برّا الجذر. والأعمدة: a²−f²، a²+f²، f²−a². الخانات المثلثية (من 3.4) بلون ثاني.
+function shapesTable() {
+  const m = (t) => `<span class="m">${tex('\\displaystyle ' + t, false)}</span>`;
+  const cell = (t, cap = '', cls = '') => `<td class="${cls}">${m(t)}${cap ? `<span class="cap">${md.renderInline(cap)}</span>` : ''}</td>`;
+  const trig = (t) => cell(t, 'مثلثية (3.4)', 'trig');
+  const head = ['a^2-f^2', 'a^2+f^2', 'f^2-a^2'].map((t) => `<th>${m(t)}</th>`).join('');
+  const rows = [
+    ['بدون جذر', '\\int\\frac{f\'}{\\square}\\,dx', [
+      cell('\\frac1a\\tanh^{-1}\\frac fa', 'لما $|f|<a$'),
+      trig('\\frac1a\\tan^{-1}\\frac fa'),
+      cell('-\\frac1a\\tanh^{-1}\\frac fa', 'الأولى بسالب'),
+    ]],
+    ['جذر لحاله', '\\int\\frac{f\'}{\\sqrt{\\square}}\\,dx', [
+      trig('\\sin^{-1}\\frac fa'),
+      cell('\\sinh^{-1}\\frac fa'),
+      cell('\\cosh^{-1}\\frac fa', 'لما $f>a$. وعلى الجهتين: $\\ln\\big|f+\\sqrt{f^2-a^2}\\big|$'),
+    ]],
+    ['$f$ برّا الجذر', '\\int\\frac{f\'}{f\\sqrt{\\square}}\\,dx', [
+      cell('-\\frac1a\\sech^{-1}\\frac{|f|}a'),
+      cell('-\\frac1a\\csch^{-1}\\frac{|f|}a'),
+      trig('\\frac1a\\sec^{-1}\\frac{|f|}a'),
+    ]],
+  ];
+  const body = rows.map(([lbl, form, cells]) => `<tr><th class="rh"><span class="rl">${md.renderInline(lbl)}</span>${m(form)}</th>${cells.join('')}</tr>`).join('');
+  return `<table class="shapes"><thead><tr><th class="corner">${md.renderInline('حط العمود مكان $\\square$ ←')}</th>${head}</tr></thead><tbody>${body}</tbody></table>`;
+}
+
 // ---------- أجزاء مكررة ----------
+function box(type, title, body) {
+  return `<div class="box box-${type}"><div class="box-title">${title}</div><div class="box-body">${body}</div></div>`;
+}
 function answerBlock(q) {
   const why = q.domain_why ? `<div class="dom-why">${md.renderInline(q.domain_why)}</div>` : '';
-  const dom = q.domain ? `<div class="domain"><span class="lbl">المجال</span><div class="dom-math">${mathBlockHtml(q.domain)}</div></div>${why}` : '';
-  return `<div class="answer"><div class="ans-label">الجواب</div>${mathBlockHtml(q.answer)}</div>${dom}`;
+  const dom = q.domain ? `<div class="dom-chip"><span class="lbl">المجال</span><span class="m">${tex(q.domain, false)}</span></div>` : '';
+  return `<div class="answer"><div class="ans-label">الجواب</div>${mathBlockHtml(q.answer)}${dom}</div>${why}`;
 }
 function notesBlock(q) {
   let h = '';
-  if (q.fix) h += box('fix', q.src === 'past' ? 'تصحيح للمفتاح المطبوع' : 'تصحيح لحل المذكرة', renderMd(q.fix));
+  if (q.fix) h += box('fix', isPast(q) ? 'تصحيح للمفتاح المطبوع' : 'تصحيح لحل المذكرة', renderMd(q.fix));
+  if (q.trick) h += box('short', 'حيلة أسرع', renderMd(q.trick));
   if (q.note) h += box('note', 'ملاحظة', renderMd(q.note));
   if (q.more) h += box('more', 'إذا احتجت', renderMd(q.more));
   return h;
 }
-function box(type, title, body) {
-  return `<div class="box box-${type}"><div class="box-title">${title}</div><div class="box-body">${body}</div></div>`;
-}
 function solutionBody(q) {
   return `<div class="sol-steps">${renderMd(q.solution)}</div>${answerBlock(q)}${notesBlock(q)}`;
 }
-
 function workedExample(q) {
   used.add(q.id);
   q.worked = true;
-  const lbl = q.src === 'ne' ? 'مثال محلول من المذكرة' : 'مثال كامل';
-  return `<div class="example${q.src === 'ne' ? ' example-notes compact' : ''}" id="ex-${q.id}">
-  <div class="ex-head"><span class="ex-label">${lbl}</span>${head(q)}</div>
-  ${questionMath(q)}
+  return `<div class="example${isPast(q) ? '' : ' example-notes'}" id="ex-${q.id}">
+  <div class="ex-top"><div class="ex-head"><span class="ex-label">مثال كامل</span>${head(q)}</div><div class="ex-q">${mathBlockHtml(q.q)}</div></div>
   ${solutionBody(q)}
 </div>`;
 }
 
-// ---------- رسوم ----------
-function graphsGrid() {
-  const C = '#0b5d73';
-  const cells = [
-    { name: '\\sinh^{-1}x', dom: '\\mathbb R', rng: '\\mathbb R', o: { xmin: -4, xmax: 4, ymin: -2.6, ymax: 2.6, curves: [{ fn: 'asinh', color: C }], ticksX: [-3, 3], ticksY: [-2, 2] } },
-    { name: '\\cosh^{-1}x', dom: 'x\\ge1', rng: 'y\\ge0', o: { xmin: -1, xmax: 6, ymin: -0.8, ymax: 2.8, curves: [{ fn: 'acosh', color: C, from: 1 }], dots: [[1, 0, 'filled']], ticksX: [1, 5], ticksY: [2] } },
-    { name: '\\tanh^{-1}x', dom: '|x|<1', rng: '\\mathbb R', o: { xmin: -2, xmax: 2, ymin: -3, ymax: 3, vlines: [-1, 1], curves: [{ fn: 'atanh', color: C, from: -0.9999, to: 0.9999 }], ticksX: [-1, 1], ticksY: [-2, 2] } },
-    { name: '\\coth^{-1}x', dom: '|x|>1', rng: 'y\\ne0', o: { xmin: -4, xmax: 4, ymin: -3, ymax: 3, vlines: [-1, 1], curves: [{ fn: 'acoth', color: C, from: 1.0001, to: 4 }, { fn: 'acoth', color: C, from: -4, to: -1.0001 }], ticksX: [-1, 1], ticksY: [-2, 2] } },
-    { name: '\\sech^{-1}x', dom: '0<x\\le1', rng: 'y\\ge0', o: { xmin: -0.5, xmax: 2, ymin: -0.6, ymax: 3.2, vlines: [1], curves: [{ fn: 'asech', color: C, from: 0.004, to: 1 }], dots: [[1, 0, 'filled']], ticksX: [1], ticksY: [2] } },
-    { name: '\\csch^{-1}x', dom: 'x\\ne0', rng: 'y\\ne0', o: { xmin: -4, xmax: 4, ymin: -3, ymax: 3, curves: [{ fn: 'acsch', color: C, from: 0.0001, to: 4 }, { fn: 'acsch', color: C, from: -4, to: -0.0001 }], ticksX: [-3, 3], ticksY: [-2, 2] } },
-  ];
-  return `<div class="graphs">${cells.map((c, i) => `<figure class="gcell">
-<div class="gname">${tex('y=' + c.name, false)}</div>
-${plot({ ...c.o, w: 200, h: 128, id: 'g' + i })}
-<figcaption><span>المجال ${mathInlineHtml(c.dom)}</span><span>المدى ${mathInlineHtml(c.rng)}</span></figcaption>
-</figure>`).join('')}</div>`;
-}
-
-function graph41() {
-  const o = { xmin: -2.6, xmax: 2.6, ymin: -3.5, ymax: 4.2, w: 260, h: 165, id: 'h', ticksX: [-2, 2], ticksY: [-2, 2, 4],
-    curves: [{ fn: 'cosh', color: '#c97a10' }, { fn: 'sinh', color: '#0b5d73' }, { fn: 'tanh', color: '#7a4fc9', dash: '5 4', width: 1.8 }] };
-  return `<figure class="g41">${plot(o)}<figcaption><span class="lg lg-sinh">${mathInlineHtml('\\sinh x')}</span><span class="lg lg-cosh">${mathInlineHtml('\\cosh x')}</span><span class="lg lg-tanh">${mathInlineHtml('\\tanh x')}</span></figcaption></figure>`;
-}
-
-function chart() {
-  const L = (t) => mathInlineHtml(t);
-  return `<div class="chart">
-<div class="cq">فيه جذر في المقام؟</div>
-<div class="cbranches">
-  <div class="cbr">
-    <div class="cans">لا</div>
-    <div class="cleaf"><div class="cform">${L('a^2-u^2')}</div><div class="cres">${L('\\tfrac1a\\tanh^{-1}\\tfrac ua')}</div><div class="ccond">بشرط ${L('|u|<a')}</div></div>
-    <div class="cleaf cleaf-out"><div class="cform">${L('u^2+a^2')}</div><div class="cres">${L('\\tfrac1a\\tan^{-1}\\tfrac ua')}</div><div class="ccond">مثلثية، مو 4.2</div></div>
-  </div>
-  <div class="cbr">
-    <div class="cans">إيه</div>
-    <div class="cq cq2">فيه ${L('u')} مضروبة برّا الجذر؟</div>
-    <div class="cbranches cb2">
-      <div class="cbr">
-        <div class="cans">لا</div>
-        <div class="cleaf"><div class="cform">${L('u^2+a^2')}</div><div class="cres">${L('\\sinh^{-1}\\tfrac ua')}</div></div>
-        <div class="cleaf"><div class="cform">${L('u^2-a^2')}</div><div class="cres">${L('\\ln\\big|u+\\sqrt{u^2-a^2}\\big|')}</div><div class="ccond">أو ${L('\\cosh^{-1}\\tfrac ua')} لما ${L('u>a')}</div></div>
-      </div>
-      <div class="cbr">
-        <div class="cans">إيه</div>
-        <div class="cleaf"><div class="cform">${L('a^2-u^2')}</div><div class="cres">${L('-\\tfrac1a\\sech^{-1}\\tfrac{|u|}a')}</div></div>
-        <div class="cleaf"><div class="cform">${L('a^2+u^2')}</div><div class="cres">${L('-\\tfrac1a\\csch^{-1}\\tfrac{|u|}a')}</div></div>
-      </div>
-    </div>
-  </div>
-</div>
+// بطاقة تدريب: الرمز والسؤال، وتحته دائرتين للمتابعة ورابط الحل
+function card(q, prefix = 'p', extra = '') {
+  const last = isPast(q) && examInfo(q.id).year === 1447;
+  const meta = isPast(q)
+    ? (last ? `<span class="tag tag-last">${examName(q)} · السنة الماضية</span>` : `<span class="exn">${examName(q)}</span>`)
+    : '';
+  return `<div class="pcard" id="${prefix}-${q.id}">
+<div class="q-head">${label(q)}${meta}${extra}<span class="mk">${marksText(q)}</span></div>
+${questionMath(q)}
+<div class="pfoot"><span class="dot"></span><span class="dot"></span><span class="ln"><a href="#s-${q.id}">الحل ←</a></span></div>
 </div>`;
+}
+function practiceGrid(key) {
+  const p = PAT[key];
+  if (!p) throw new Error('@practice: نمط غير موجود ' + key);
+  const qs = p.qs.filter((q) => !q.worked);
+  const lede = p.n === 1 ? '<p class="prac-lede">حل كل سؤال لحالك وأنت مسكّر الحل. ما عرفت؟ اضغط «الحل»، وفي آخر الحل «رجوع» يرجعك هنا.</p>' : '';
+  return `<div class="prac"><div class="h3 prac-title" id="pr-${p.key}">تدرّب على النمط ${p.n}: ${countText(qs.length)}</div>${lede}
+<div class="pgrid pg-${p.key}">${qs.map((q) => card(q)).join('')}</div></div>`;
+}
+function checksBox(key) {
+  const g = CHECKS.find((c) => c.key === key);
+  if (!g) throw new Error('@checks: غير موجود ' + key);
+  const items = g.items.map((it) => `<li id="c-${it.id}"><div class="cq">${md.renderInline(it.q)}</div><div class="ca"><span class="ca-l">الجواب</span><div class="ca-b">${renderMd(it.a)}</div></div></li>`).join('');
+  return `<div class="box box-check" id="chk-${key}"><div class="box-title">أسئلة فهم سريعة: فكّر بالجواب، بعدين اقرأه</div><div class="box-body"><ol class="checks">${items}</ol></div></div>`;
+}
+
+// ---------- رسمة الغلاف: التكامل هو المشتقة بالعكس ----------
+function coverArt() {
+  return `<div class="cover-split">${tex('\\begin{aligned}\\Big(\\sinh^{-1}\\frac fa\\Big)\'&=\\frac{f\'}{\\sqrt{f^2+a^2}}\\\\[4pt]\\int\\frac{f\'}{\\sqrt{f^2+a^2}}\\,dx&=\\sinh^{-1}\\frac fa+C\\end{aligned}', true)}</div>`;
 }
 
 // ---------- Markdown بأوامر ----------
 function renderMd(text) {
   const holders = [];
-  const pre = text.replace(/^([ \t]*)@(example|toc|graphs|graph41|chart|cover)(?:[ \t]+(.+?))?[ \t]*$/gm, (_, indent, cmd, arg) => {
+  const pre = text.replace(/^([ \t]*)@(example|toc|cover|pattern|practice|checks|shapes)(?:[ \t]+(.+?))?[ \t]*$/gm, (_, indent, cmd, arg) => {
     holders.push([cmd, arg]);
     return `\n${indent}<div class="holder" data-n="${holders.length - 1}"></div>\n\n`;
   });
@@ -187,74 +229,57 @@ function renderMd(text) {
       if (!q) throw new Error('@example: غير موجود ' + arg);
       return workedExample(q);
     }
+    if (cmd === 'pattern') {
+      const p = PAT[arg];
+      if (!p) throw new Error('@pattern: غير موجود ' + arg);
+      return `<h2 id="pat-${p.key}" data-plain="${plainTitle(p.title)}">${pk(p)}${titleHtml(p)}</h2>${patternMeta(p)}`;
+    }
+    if (cmd === 'practice') return practiceGrid(arg);
+    if (cmd === 'checks') return checksBox(arg);
+    if (cmd === 'shapes') return shapesTable();
     if (cmd === 'toc') return '<nav class="toc" id="toc"></nav>';
-    if (cmd === 'graphs') return graphsGrid();
-    if (cmd === 'graph41') return graph41();
-    if (cmd === 'chart') return chart();
     if (cmd === 'cover') return coverArt();
     return '';
   });
   // عناوين .h3 مكتوبة HTML، فنعالج الرياضيات اللي داخلها هنا
   html = html.replace(/<div class="h3([^"]*)">([^<]*(?:<(?!\/div>)[^<]*)*)<\/div>/g, (_, cls, inner) => `<div class="h3${cls}">${md.renderInline(inner)}</div>`);
+  // وكذلك سطر المقدمة (lede)
+  html = html.replace(/<p class="lede">([\s\S]*?)<\/p>/g, (_, inner) => `<p class="lede">${md.renderInline(inner)}</p>`);
   return html.replace(/\{\{(\w+)\}\}/g, (_, k) => ({
-    past: counts.past, notes: counts.ne + counts.nx, practice: practice.length, total: byId.size,
+    past: counts.mid + counts.fin + counts.first, mid: counts.mid, fin: counts.fin, first: counts.first, notes: counts.ne + counts.nx,
+    examples: counts.ne, exercises: counts.nx, practice: practice.length, total: byId.size, patterns: PATTERNS.length,
+    pastAll: counts.mid + counts.fin + dupCount.mid + dupCount.fin,
+    checks: CHECKS.reduce((a, g) => a + g.items.length, 0),
+    grid: practice.filter((q) => !WORKED.has(q.id)).length,
   }[k] ?? `{{${k}}}`));
 }
 
-// ---------- أقسام مولّدة ----------
-function practiceSection() {
-  let h = '';
-  for (const k of ORDER) {
-    const qs = [...byPattern[k].past, ...byPattern[k].nx];
-    h += `<h2 id="pr-${k}"><span class="pk">${PATTERNS[k].sec}</span>${PATTERNS[k].title}</h2>`;
-    for (const q of qs) {
-      h += `<div class="pcard" id="p-${q.id}">
-<div class="q-head">${head(q, `<span class="ticks"><span class="tick">حليته</span><span class="tick">أعيده</span><a class="plink" href="#h-${q.id}">تلميح</a><a class="plink" href="#s-${q.id}">الحل</a></span>`)}</div>
-${questionMath(q)}
-</div>`;
-    }
-  }
-  return h;
+// ---------- «اختبر نفسك»: أسئلة الاختبارات بدون أسماء الأنماط ----------
+function testSection() {
+  const order = ['M472', 'A472', 'F472', 'F471', 'M471', 'F462', 'M462', 'F461', 'M461', 'F452', 'M452', 'F451', 'M451'];
+  const key = (q) => { const e = examInfo(q.id); return [order.indexOf(q.id.slice(0, 4)), Number(e.qn), Number(e.part)]; };
+  const cmp = (a, b) => { const x = key(a), y = key(b); return x[0] - y[0] || x[1] - y[1] || x[2] - y[2]; };
+  const qs = practice.filter(isPast).sort(cmp);
+  for (const q of qs) if (order.indexOf(q.id.slice(0, 4)) < 0) throw new Error('اختبار غير معروف: ' + q.id);
+  return `<div class="pgrid tgrid">${qs.map((q) => card(q, 't', `<span class="sem">الفصل ${examInfo(q.id).sem}</span>`)).join('')}</div>`;
 }
 
-function examOrder() {
-  const exams = ['M472', 'M471', 'M462', 'M461', 'M452', 'M451'];
-  let h = '<div class="exam-grid">';
-  for (const ex of exams) {
-    const e = EXAMS[ex];
-    const ids = practice.filter((q) => q.src === 'past' && q.id.startsWith(ex)).map((q) => q.id)
-      .sort((a, b) => { const [, a1, a2] = a.split('-').map(Number); const [, b1, b2] = b.split('-').map(Number); return a1 - b1 || a2 - b2; });
-    h += `<div class="exam-box${e.year === 1447 ? ' exam-last' : ''}"><div class="exam-title">${e.year} · الفصل ${e.sem}${e.year === 1447 ? ' <span class="star">السنة الماضية</span>' : ''}</div><div class="exam-ids">${ids.map((id) => `<a href="#p-${id}"><span class="qid">${id}</span></a>`).join('')}</div></div>`;
-  }
-  return h + '</div>';
-}
-
-function hintsSection() {
-  let h = '';
-  for (const k of ORDER) {
-    const qs = [...byPattern[k].past, ...byPattern[k].nx];
-    h += `<h2 id="hi-${k}"><span class="pk">${PATTERNS[k].sec}</span>${PATTERNS[k].title}</h2>`;
-    for (const q of qs) {
-      if (!q.hint) throw new Error('تلميح ناقص: ' + q.id);
-      h += `<div class="hint" id="h-${q.id}"><div class="hint-head">${label(q)}${tag(q)}<a class="go" href="#s-${q.id}">الحل ←</a></div><div class="hint-body">${renderMd(q.hint)}</div></div>`;
-    }
-  }
-  return h;
-}
-
+// ---------- الحلول، وأجوبة أسئلة الفهم ----------
 function solutionsSection() {
   let h = '';
-  for (const k of ORDER) {
-    const qs = [...byPattern[k].past, ...byPattern[k].nx];
-    h += `<h2 id="so-${k}"><span class="pk">${PATTERNS[k].sec}</span>${PATTERNS[k].title}</h2>`;
-    for (const q of qs) {
-      const top = `<div class="ex-head"><span class="ex-label">حل</span>${head(q)}<a class="go" href="#p-${q.id}">السؤال</a></div>`;
+  for (const p of PATTERNS) {
+    h += `<h2 id="so-${p.key}" data-plain="${plainTitle(p.title)}">${pk(p)}${titleHtml(p)}</h2>`;
+    for (const q of p.qs) {
+      const backs = [q.worked ? `<a class="back" href="#ex-${q.id}">↑ رجوع للمثال</a>` : `<a class="back" href="#p-${q.id}">↑ رجوع لسؤاله في النمط ${p.n}</a>`];
+      if (isPast(q)) backs.push(`<a class="back" href="#t-${q.id}">↑ رجوع لاختبر نفسك</a>`);
+      const foot = `<div class="sol-foot">${backs.join('')}</div>`;
+      const top = `<div class="sol-top"><div class="ex-head"><span class="ex-label">حل</span>${head(q)}</div><div class="sol-q">${mathBlockHtml(q.q)}</div></div>`;
       if (q.worked) {
-        h += `<div class="solution sol-linked" id="s-${q.id}">${top}${questionMath(q)}
-<p class="linked">هذا السؤال محلول خطوة بخطوة في الشرح: <a href="#ex-${q.id}">اضغط هنا وارجع للمثال الكامل</a>. وهذا جوابه للتأكد:</p>
-${answerBlock(q)}</div>`;
+        h += `<div class="solution sol-linked" id="s-${q.id}">${top}
+<p class="linked">محلول خطوة بخطوة في الشرح: <a href="#ex-${q.id}">اضغط هنا وارجع للمثال الكامل</a>. وهذا جوابه للتأكد:</p>
+${answerBlock(q)}${foot}</div>`;
       } else {
-        h += `<div class="solution" id="s-${q.id}">${top}${questionMath(q)}${solutionBody(q)}</div>`;
+        h += `<div class="solution" id="s-${q.id}">${top}${solutionBody(q)}${foot}</div>`;
       }
     }
   }
@@ -266,7 +291,6 @@ function nm(p) { return 'file://' + path.join(ROOT, 'node_modules', p); }
 function iconCss() {
   const ic = {
     recog: "<circle cx='10.5' cy='10.5' r='6.5'/><path d='M15.5 15.5L21 21'/>",
-    first: "<path d='M5 21V4h11l-2 4 2 4H5'/>",
     steps: "<path d='M9 6h11M9 12h11M9 18h11'/><path d='M4 6h1M4 12h1M4 18h1'/>",
     why: "<path d='M9 18h6M10 21h4'/><path d='M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3z'/>",
     warn: "<path d='M12 3L2 20h20L12 3z'/><path d='M12 10v4M12 17h.01'/>",
@@ -277,6 +301,10 @@ function iconCss() {
     law: "<path d='M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5z'/><path d='M4 19a2 2 0 0 1 2-2h13'/>",
     note: "<circle cx='12' cy='12' r='9'/><path d='M12 11v6M12 7.5h.01'/>",
     use: "<path d='M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6-4.5-4.2 6.1-.7L12 3z'/>",
+    scope: "<rect x='4' y='4' width='16' height='16' rx='2'/><path d='M8 9h8M8 13h8M8 17h5'/>",
+    plan: "<path d='M4 6h16M4 12h10M4 18h6'/><circle cx='19' cy='17' r='3'/>",
+    exam: "<rect x='5' y='3' width='14' height='18' rx='2'/><path d='M9 8h6M9 12h6M9 16h3'/>",
+    check: "<circle cx='12' cy='12' r='9'/><path d='M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.5v.5M12 17h.01'/>",
   };
   let css = '';
   for (const [k, inner] of Object.entries(ic)) {
@@ -286,17 +314,19 @@ function iconCss() {
   return css;
 }
 
+const LEARN = ['10-basics.md', '20-d1.md', '21-d2.md', '22-d3.md', '30-i1.md', '31-i2.md', '32-i3.md', '33-i4.md', '40-h.md', '50-review.md'];
+
 function build() {
   const dir = path.join(CONTENT, '42');
   const part = (f) => renderMd(readText(path.join(dir, f)));
   let body = '';
   body += `<section class="pg-cover">${part('00-cover.md')}</section>`;
-  body += `<section class="pg-learn">${['10-basics.md', '20-derivatives.md', '30-integrals.md', '40-t41.md', '50-review.md'].map(part).join('\n')}</section>`;
-  body += `<section class="pg-practice">${part('60-practice.md')}${practiceSection()}<h2 id="pr-exams">النماذج بترتيبها الأصلي</h2>${part('61-exams.md')}${examOrder()}</section>`;
-  body += `<section class="pg-hints">${part('70-hints.md')}${hintsSection()}</section>`;
+  body += `<section class="pg-start">${part('05-start.md')}</section>`;
+  body += `<section class="pg-learn">${LEARN.map(part).join('\n')}</section>`;
+  body += `<section class="pg-practice">${part('60-test.md')}${testSection()}</section>`;
   body += `<section class="pg-sols">${part('80-solutions.md')}${solutionsSection()}</section>`;
   body += `<section class="pg-appx">${part('90-appendix.md')}</section>`;
-  const css = readText(path.join(ROOT, 'build', 'style-42.css')) + iconCss();
+  const css = ['style-5x.css', 'style-61.css', 'style-5x2.css', 'style-42.css'].map((f) => readText(path.join(ROOT, 'build', f))).join('\n') + iconCss();
   return `<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -337,33 +367,71 @@ async function outline(pdfPath) {
 
 const html = build();
 fs.writeFileSync(HTML, html);
-const missing = [...byId.values()].filter((q) => q.src !== 'nx' && !used.has(q.id) && !q.worked);
-if (missing.length) console.warn('ما ذُكرت في الشرح:', missing.map((q) => q.id).join(' '));
-const unused = [...byId.values()].filter((q) => q.src === 'ne' && !used.has(q.id));
-if (unused.length) console.warn('أمثلة مذكرة ما انعرضت:', unused.map((q) => q.id).join(' '));
+const missing = [...byId.values()].filter((q) => isPast(q) && !used.has(q.id));
+if (missing.length) console.warn('أسئلة اختبارات ما انذكرت في الشرح:', missing.map((q) => q.id).join(' '));
+const unpracticed = PATTERNS.filter((p) => !html.includes(`id="pr-${p.key}"`)).map((p) => p.key);
+if (unpracticed.length) console.warn('أنماط بدون تدريب في الشرح:', unpracticed.join(' '));
 
 const browser = await chromium.launch();
-const pg = await browser.newPage({ viewport: { width: Math.floor((124 / 25.4) * 96), height: 900 } });
+// عرض منطقة الكتابة في A4 = 210 − 2×15 = 180mm
+const pg = await browser.newPage({ viewport: { width: Math.floor((180 / 25.4) * 96), height: 1100 } });
 await pg.emulateMedia({ media: 'print' });
 await pg.goto('file://' + HTML);
 await pg.evaluate(() => document.fonts.ready);
+
+// الخطوات: السبب يمين والمعادلات (وجدول التجزئة) يسار في نفس السطر، والطويل ياخذ العرض كامل
+const layout = await pg.evaluate(() => {
+  let grid = 0, stacked = 0;
+  for (const li of document.querySelectorAll('.sol-steps ol > li')) {
+    const kids = [...li.childNodes];
+    const isEq = (n) => n.nodeType === 1 && n.classList.contains('eq');
+    const blank = (n) => n.nodeType === 3 && !n.textContent.trim();
+    const first = kids.findIndex(isEq);
+    if (first <= 0) continue;
+    const lead = kids.slice(0, first);
+    if (lead.every(blank)) continue;
+    const rest = kids.slice(first);
+    if (!rest.every((n) => isEq(n) || blank(n))) continue;
+    const why = document.createElement('div');
+    why.className = 'st-why';
+    const eqs = document.createElement('div');
+    eqs.className = 'st-eqs';
+    lead.forEach((n) => why.appendChild(n));
+    rest.filter(isEq).forEach((n) => eqs.appendChild(n));
+    rest.filter(blank).forEach((n) => n.remove());
+    li.append(why, eqs);
+    li.classList.add('st-grid');
+    grid++;
+  }
+  for (const li of document.querySelectorAll('li.st-grid')) {
+    const why0 = li.querySelector('.st-why');
+    const tooWide = [...li.querySelectorAll('.st-eqs .eq')].some((el) => el.scrollWidth > el.clientWidth + 2)
+      || why0.scrollWidth > why0.clientWidth + 2
+      || [...why0.querySelectorAll('.m')].some((m) => m.getBoundingClientRect().width > why0.clientWidth);
+    const longWhy = why0.getBoundingClientRect().height > 4.6 * parseFloat(getComputedStyle(li).lineHeight || 20);
+    if (tooWide || longWhy) { li.classList.remove('st-grid'); li.classList.add('st-stack'); stacked++; }
+  }
+  return { grid, stacked };
+});
 
 const over = await pg.evaluate(() => {
   const out = [];
   for (const el of document.querySelectorAll('.eq')) if (el.scrollWidth > el.clientWidth + 3) out.push(['eq', el.dataset.tex, el.scrollWidth - el.clientWidth]);
   const W = document.body.clientWidth;
-  for (const el of document.querySelectorAll('.box, .example, .solution, .pcard, .diff, .hint, table, .chart, .graphs, .exam-grid')) {
+  for (const el of document.querySelectorAll('.box, .example, .solution, .pcard, .diff, table')) {
     const r = el.getBoundingClientRect();
     if (r.width > W + 1) out.push(['box', el.className, r.width - W]);
   }
+  for (const el of document.querySelectorAll('.pcard')) if (el.scrollWidth > el.clientWidth + 2) out.push(['card', el.id, el.scrollWidth - el.clientWidth]);
   return out;
 });
 const heads = await pg.evaluate(() => [...document.querySelectorAll('h1[id], h2[id]')].map((h) => {
   const num = h.querySelector('.num');
-  const pk = h.querySelector('.pk');
+  const pkEl = h.querySelector('.pk');
   let text = h.textContent;
   if (num) text = text.replace(num.textContent, num.textContent + ' · ');
-  if (pk) text = text.replace(pk.textContent, pk.textContent + ' · ');
+  if (pkEl) text = text.replace(pkEl.textContent, pkEl.textContent + ' · ');
+  if (h.dataset.plain) text = (pkEl ? pkEl.textContent + ' · ' : '') + h.dataset.plain;
   return { id: h.id, lvl: h.tagName, text: text.replace(/\s+/g, ' ').trim(), html: h.innerHTML, learn: !!h.closest('.pg-learn') };
 }));
 const opts = { path: PDF, preferCSSPageSize: true, printBackground: true, outline: true, tagged: true };
@@ -374,7 +442,7 @@ await pg.evaluate((heads) => {
   nav.innerHTML = heads.filter((h) => h.lvl === 'H1' || h.learn).map((h) => `<a class="toc-row toc-${h.lvl.toLowerCase()}" href="#${h.id}"><span class="toc-text">${h.html}</span><span class="toc-dots"></span><span class="toc-page" data-id="${h.id}">00</span></a>`).join('');
 }, heads);
 await pg.pdf(opts);
-// عناوين Chromium في الـ outline تطلع مقلوبة الكلمات بالعربي، فنربط بالترتيب بس (نفس ترتيب العناوين في الصفحة)
+// عناوين Chromium في الـ outline تطلع مقلوبة الكلمات بالعربي، فنربط بالترتيب بس
 const map = (flat) => {
   if (flat.length !== heads.length) throw new Error(`عدد عناصر الفهرس ${flat.length} ≠ العناوين ${heads.length}`);
   const res = {};
@@ -390,11 +458,13 @@ for (const k of Object.keys(pages1)) if (pages1[k] !== pages2[k]) console.warn('
 await browser.close();
 
 // نعيد كتابة الفهرس الجانبي (Bookmarks) بعناوين عربية صحيحة
-const outlineJson = path.join(OUT, 'html', 'outline-4.2.json');
+const outlineJson = path.join(OUT, 'html', 'outline-42.json');
 fs.writeFileSync(outlineJson, JSON.stringify(heads.map((h) => ({ title: h.text, level: h.lvl === 'H1' ? 1 : 2, page: pages2[h.id] })), null, 1));
 const { execFileSync } = await import('child_process');
 execFileSync('python3', [path.join(ROOT, 'build', 'outline.py'), PDF, outlineJson], { stdio: 'inherit' });
 
-console.log(`${path.basename(PDF)}: ${n} صفحة · أسئلة: ${byId.size} (سابقات ${counts.past}، أمثلة مذكرة ${counts.ne}، تمارين مذكرة ${counts.nx}) · التدريب ${practice.length}`);
+const sections = Object.fromEntries(heads.filter((h) => h.lvl === 'H1').map((h) => [h.text, pages2[h.id]]));
+console.log(`${path.basename(PDF)}: ${n} صفحة · أسئلة: ${byId.size} (فصلي ${counts.mid}، نهائي ${counts.fin}، فصلي أول ${counts.first}، أمثلة مذكرة ${counts.ne}، تمارين مذكرة ${counts.nx}، ومكررة ${dupOf.size}) · خطوات بعمودين ${layout.grid - layout.stacked}، بسطر كامل ${layout.stacked}`);
+console.log('بداية الأقسام:', JSON.stringify(sections));
 if (over.length) { console.log('تجاوز عرض:'); for (const o of over) console.log('  ', JSON.stringify(o)); }
-fs.writeFileSync(path.join(OUT, 'build-4.2-report.json'), JSON.stringify({ pages: n, overflow: over, toc: pages2 }, null, 2));
+fs.writeFileSync(path.join(OUT, 'build-42-report.json'), JSON.stringify({ pages: n, overflow: over, toc: pages2, layout }, null, 2));

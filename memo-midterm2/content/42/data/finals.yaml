@@ -1,0 +1,266 @@
+# أسئلة النهائي على 4.2 (1445 إلى 1447)
+# المشتقة: السؤال 1 فقرة 3 في أربع نهائيات. والتكامل: إكمال المربع في كل نهائي (السؤال 2).
+# وثلاث نهائيات جاء فيها الإكمال وطلع الجواب sin⁻¹ (من 3.4)، وواحد tan⁻¹: حطيناهم لأن شكلهم نفس 4.2 بالضبط.
+section: '4.2'
+slug: f42
+title: 'أسئلة النهائي'
+patterns:
+  - key: D2
+    questions:
+      - id: F451-1-3
+        marks: 2
+        page: 10
+        prompt: "Find $f'(x)$."
+        q: 'f(x)=\sinh^{-1}\big(3^{x}\big)+\ln\big|\tanh(4x)\big|'
+        solution: |
+          1. **الحد الأول:** الخارج $\sinh^{-1}$، والداخل $3^x$: مشتقته $3^x\ln3$ (الأسّية بأساس غير $e$ تجيب $\ln$ الأساس)، ومربعه $3^{2x}$:
+             $$\frac{d}{dx}\sinh^{-1}\big(3^x\big)=\frac{3^x\ln3}{\sqrt{1+3^{2x}}}$$
+          2. **الحد الثاني: $\ln$ فوق $\tanh$.** مشتقة $\ln|g|$ هي $\frac{g'}{g}$. ومشتقة $\tanh(4x)$ هي $4\sech^2(4x)$:
+             $$\frac{d}{dx}\ln\big|\tanh(4x)\big|=\frac{4\sech^2(4x)}{\tanh(4x)}$$
+        answer: |-
+          f'(x)=\frac{3^x\ln3}{\sqrt{1+3^{2x}}}+\frac{4\sech^2(4x)}{\tanh(4x)}
+        domain: 'x\ne0'
+        trick: |
+          تقدر تبسّط الحد الثاني لسطر: $\frac{\sech^2v}{\tanh v}=\frac{1}{\sinh v\cosh v}=\frac{2}{\sinh2v}$، فيصير $\frac{8}{\sinh8x}=8\csch(8x)$. مو مطلوب، بس يفيدك لو السؤال قال «بسّط».
+        check:
+          kind: deriv
+          f: 'asinh(3**x) + log(Abs(tanh(4*x)))'
+          ans: '3**x*log(3)/sqrt(1+3**(2*x)) + 4*sech(4*x)**2/tanh(4*x)'
+          samples: [-1.0, -0.3, 0.4, 1.2]
+
+      - id: F452-1-3
+        marks: 2
+        page: 26
+        prompt: "Find $f'(x)$."
+        q: 'f(x)=\cosh^{-1}\big(3^{2x-1}\big)+\log\Big|\csch\Big(\frac x2\Big)\Big|'
+        solution: |
+          1. **الحد الأول:** الخارج $\cosh^{-1}$، والداخل $3^{2x-1}$: مشتقته $3^{2x-1}\ln3\cdot2$، ومربعه $3^{4x-2}$ (أس على أس نضرب). تحت الجذر المربع ناقص 1:
+             $$\frac{d}{dx}\cosh^{-1}\big(3^{2x-1}\big)=\frac{2\ln3\cdot3^{2x-1}}{\sqrt{3^{4x-2}-1}}$$
+          2. **الحد الثاني: $\log$ (أساس 10) فوق $\csch$.** مشتقة $\log|g|$ هي $\frac{g'}{g\,\ln10}$. ومشتقة $\csch\frac x2$ هي $-\csch\frac x2\coth\frac x2\cdot\frac12$:
+             $$\frac{d}{dx}\log\Big|\csch\frac x2\Big|=\frac{-\frac12\csch\frac x2\coth\frac x2}{\csch\frac x2\cdot\ln10}$$
+          3. **نشطب $\csch\frac x2$** لأنه عامل فوق وتحت:
+             $$=-\frac{\coth\frac x2}{2\ln10}$$
+        answer: |-
+          f'(x)=\frac{2\ln3\cdot3^{2x-1}}{\sqrt{3^{4x-2}-1}}-\frac{\coth(x/2)}{2\ln10}
+        domain: 'x>\tfrac12'
+        domain_why: 'لأن مشتقة $\cosh^{-1}$ تبي داخلها أكبر من 1: $3^{2x-1}>1$، يعني $2x-1>0$.'
+        trick: |
+          أسرع: $\csch=\frac{1}{\sinh}$، فـ $\log|\csch v|=-\log|\sinh v|$، ومشتقتها $-\frac{\coth v\cdot v'}{\ln10}$ مباشرة، بدون شطب.
+        check:
+          kind: deriv
+          f: 'acosh(3**(2*x-1)) + log(Abs(csch(x/2)))/log(10)'
+          ans: '2*log(3)*3**(2*x-1)/sqrt(3**(4*x-2)-1) - coth(x/2)/(2*log(10))'
+          samples: [0.6, 1.0, 2.0]
+
+      - id: F461-1-3
+        marks: 2
+        page: 10
+        prompt: "Find $y'$."
+        q: 'y=\cosh^{-1}\big(3^{x^2-1}\big)+\log\big|\tanh(2x)\big|'
+        solution: |
+          1. **الحد الأول:** الخارج $\cosh^{-1}$، والداخل $3^{x^2-1}$: مشتقته $3^{x^2-1}\ln3\cdot2x$، ومربعه $3^{2x^2-2}$:
+             $$\frac{d}{dx}\cosh^{-1}\big(3^{x^2-1}\big)=\frac{2x\ln3\cdot3^{x^2-1}}{\sqrt{3^{2x^2-2}-1}}$$
+          2. **الحد الثاني: $\log$ فوق $\tanh$.** مشتقة $\log|g|$ هي $\frac{g'}{g\,\ln10}$، ومشتقة $\tanh(2x)$ هي $2\sech^2(2x)$:
+             $$\frac{d}{dx}\log\big|\tanh(2x)\big|=\frac{2\sech^2(2x)}{\tanh(2x)\,\ln10}$$
+        answer: |-
+          y'=\frac{2x\ln3\cdot3^{x^2-1}}{\sqrt{3^{2x^2-2}-1}}+\frac{2\sech^2(2x)}{\tanh(2x)\,\ln10}
+        domain: '|x|>1'
+        domain_why: 'لأن مشتقة $\cosh^{-1}$ تبي $3^{x^2-1}>1$، يعني $x^2>1$.'
+        trick: |
+          نفس تبسيط F451-1-3: $\frac{2\sech^2(2x)}{\tanh(2x)}=\frac{4}{\sinh(4x)}$.
+        check:
+          kind: deriv
+          f: 'acosh(3**(x**2-1)) + log(Abs(tanh(2*x)))/log(10)'
+          ans: '2*x*log(3)*3**(x**2-1)/sqrt(3**(2*x**2-2)-1) + 2*sech(2*x)**2/(tanh(2*x)*log(10))'
+          samples: [-2.0, -1.3, 1.3, 2.0]
+
+  - key: D3
+    questions:
+      - id: F462-1-3
+        marks: 2
+        page: 25
+        prompt: "Find $y'$."
+        q: 'y=\tanh\big(\sqrt{x}\big)+\sinh^{-1}\Big(\frac{2}{\sqrt{x}}\Big)'
+        solution: |
+          1. **الحد الأول:** الخارج $\tanh$، والداخل $\sqrt x$ ومشتقته $\frac{1}{2\sqrt x}$:
+             $$\frac{d}{dx}\tanh\sqrt x=\frac{\sech^2\sqrt x}{2\sqrt x}$$
+          2. **الحد الثاني:** الداخل مقلوب، بس الدالة $\sinh^{-1}$ (القلب يوديك لـ $\csch^{-1}$، أصعب). فنكتب المقلوب أس سالب ونشتق مباشرة: $\frac{2}{\sqrt x}=2x^{-1/2}$، ومشتقته $-x^{-3/2}$، ومربعه $\frac4x$:
+             $$\frac{d}{dx}\sinh^{-1}\frac{2}{\sqrt x}=\frac{-x^{-3/2}}{\sqrt{1+\frac4x}}$$
+          3. **نبسّط الجذر:** $\sqrt{1+\frac4x}=\frac{\sqrt{x+4}}{\sqrt x}$، و$x^{-3/2}=\frac{1}{x\sqrt x}$، فالـ $\sqrt x$ تنشطب:
+             $$\frac{-\frac{1}{x\sqrt x}}{\frac{\sqrt{x+4}}{\sqrt x}}=\frac{-1}{x\sqrt{x+4}}$$
+        answer: |-
+          y'=\frac{\sech^2\sqrt{x}}{2\sqrt{x}}-\frac{1}{x\sqrt{x+4}}
+        domain: 'x>0'
+        note: |
+          المفتاح وقف عند $-\dfrac{1}{x^{3/2}\sqrt{1+\frac4x}}$، وهو نفس الجواب قبل التبسيط.
+        check:
+          kind: deriv
+          f: 'tanh(sqrt(x)) + asinh(2/sqrt(x))'
+          ans: 'sech(sqrt(x))**2/(2*sqrt(x)) - 1/(x*sqrt(x+4))'
+          samples: [0.3, 1.0, 4.0]
+
+  - key: I1
+    questions:
+      - id: F452-2-1
+        marks: 3
+        page: 27
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{2}{\sqrt{4x^2+8x+20}}\,dx'
+        solution: |
+          1. **معامل $x^2$ مو 1:** نطلّع 4 عامل من تحت الجذر، و$\sqrt4=2$:
+             $$\sqrt{4x^2+8x+20}=\sqrt{4\big(x^2+2x+5\big)}=2\sqrt{x^2+2x+5}$$
+          2. **الـ 2 فوق تنشطب مع الـ 2 تحت.** ونكمّل المربع: القوس $(x+1)$، والثابت = القيمة لما $x=-1$:
+             $$1-2+5=4\quad\Rightarrow\quad x^2+2x+5=(x+1)^2+2^2$$
+             $$\int\frac{2\,dx}{2\sqrt{(x+1)^2+2^2}}=\int\frac{dx}{\sqrt{(x+1)^2+2^2}}$$
+          3. **جذر لحاله وجمع:** $\sinh^{-1}$، مع $f=x+1$ و$a=2$.
+        answer: |-
+          \sinh^{-1}\Big(\frac{x+1}{2}\Big)+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '2/sqrt(4*x**2+8*x+20)'
+          ans: 'asinh((x+1)/2)'
+          samples: [-5.0, -1.0, 0.5, 3.0]
+          identities:
+            - ['4*x**2+8*x+20', '4*((x+1)**2+4)']
+
+      - id: F471-2-1
+        marks: 2
+        page: 10
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{x^2-4x}}'
+        solution: |
+          1. **نكمّل المربع:** نص $-4$ هو $-2$، فالقوس $(x-2)$. والثابت = القيمة لما $x=2$:
+             $$4-8=-4\quad\Rightarrow\quad x^2-4x=(x-2)^2-2^2$$
+          2. **جذر لحاله، وطرح، والمربّع أول:** شكل $\cosh^{-1}$. بس المجال جهتين ($x<0$ أو $x>4$)، و$\cosh^{-1}$ تشتغل بس لما $f>a$. فناخذ الصيغة اللي تصح على الجهتين:
+             $$\int\frac{f'}{\sqrt{f^2-a^2}}\,dx=\ln\Big|f+\sqrt{f^2-a^2}\Big|+C$$
+          3. **نعوّض** $f=x-2$، و$f^2-a^2$ هو نفسه $x^2-4x$.
+        answer: |-
+          \ln\Big|x-2+\sqrt{x^2-4x}\Big|+C
+        domain: 'x\in(-\infty,0)\cup(4,\infty)'
+        fix: |
+          المفتاح كتب $\cosh^{-1}\big(\frac{x-2}{2}\big)+c$، وهذا يصح بس لما $x>4$. والسؤال يسمح بعد بـ $x<0$.
+        note: |
+          على جهة $x>4$ جواب المفتاح نفس جوابنا: الفرق ثابت ($\ln2$) يدخل في $C$.
+        check:
+          kind: indef
+          f: '1/sqrt(x**2-4*x)'
+          ans: 'log(Abs(x-2+sqrt(x**2-4*x)))'
+          samples: [-3.0, -0.5, 4.5, 8.0]
+          identities:
+            - ['x**2-4*x', '(x-2)**2-4']
+          key_wrong: 'acosh((x-2)/2)'
+          key_valid_on: [4.5, 8.0]
+          key_invalid_on: [-3.0, -0.5]
+
+      - id: F451-2-1
+        marks: 3
+        page: 11
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{2}{\sqrt{-x^2-6x}}\,dx'
+        solution: |
+          1. **نكمّل المربع:** بعد ما نطلّع إشارة $x^2$ تصير الحدود $x^2+6x$، ونص 6 هو 3، فالقوس $(x+3)$. والثابت = القيمة لما $x=-3$، والمربّع ياخذ إشارة $x^2$ (سالب):
+             $$-9+18=9\quad\Rightarrow\quad-x^2-6x=3^2-(x+3)^2$$
+          2. **نقرأ الشكل:** جذر لحاله، والثابت أول وبعده طرح ($a^2-f^2$): هذا شكل $\sin^{-1}$ من 3.4، **مو زائدي**:
+             $$\int\frac{f'}{\sqrt{a^2-f^2}}\,dx=\sin^{-1}\frac fa+C$$
+          3. **الـ 2 تطلع برّا،** و$f=x+3$، و$a=3$.
+        answer: |-
+          2\sin^{-1}\Big(\frac{x+3}{3}\Big)+C
+        domain: '-6<x<0'
+        check:
+          kind: indef
+          f: '2/sqrt(-x**2-6*x)'
+          ans: '2*asin((x+3)/3)'
+          samples: [-5.0, -3.0, -1.0]
+          identities:
+            - ['-x**2-6*x', '9-(x+3)**2']
+
+      - id: F461-2-1
+        marks: 3
+        page: 11
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{2}{\sqrt{-x^2+6x-8}}\,dx'
+        solution: |
+          1. **نكمّل المربع:** القوس $(x-3)$، والثابت = القيمة لما $x=3$، والمربّع سالب:
+             $$-9+18-8=1\quad\Rightarrow\quad-x^2+6x-8=1-(x-3)^2$$
+          2. **$a^2-f^2$ تحت جذر لحاله:** $\sin^{-1}$، مع $a=1$ و$f=x-3$.
+        answer: |-
+          2\sin^{-1}(x-3)+C
+        domain: '2<x<4'
+        check:
+          kind: indef
+          f: '2/sqrt(-x**2+6*x-8)'
+          ans: '2*asin(x-3)'
+          samples: [2.3, 3.0, 3.7]
+          identities:
+            - ['-x**2+6*x-8', '1-(x-3)**2']
+
+      - id: F462-2-1
+        marks: 3
+        page: 26
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\sqrt{-x^2-2x+8}}'
+        solution: |
+          1. **نكمّل المربع:** القوس $(x+1)$، والثابت = القيمة لما $x=-1$، والمربّع سالب:
+             $$-1+2+8=9\quad\Rightarrow\quad-x^2-2x+8=3^2-(x+1)^2$$
+          2. **$a^2-f^2$ تحت جذر لحاله:** $\sin^{-1}$، مع $a=3$ و$f=x+1$.
+        answer: |-
+          \sin^{-1}\Big(\frac{x+1}{3}\Big)+C
+        domain: '-4<x<2'
+        check:
+          kind: indef
+          f: '1/sqrt(-x**2-2*x+8)'
+          ans: 'asin((x+1)/3)'
+          samples: [-3.5, -1.0, 1.5]
+          identities:
+            - ['-x**2-2*x+8', '9-(x+1)**2']
+
+  - key: I2
+    questions:
+      - id: F472-2-6
+        marks: 3
+        page: 27
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{(x+3)\sqrt{x^2+6x+13}}'
+        solution: |
+          1. **نكمّل المربع:** القوس $(x+3)$، والثابت = القيمة لما $x=-3$:
+             $$9-18+13=4\quad\Rightarrow\quad x^2+6x+13=(x+3)^2+2^2$$
+          2. **$f=x+3$ برّا الجذر، وتحته جمع:** هذا شكل $\csch^{-1}$، مو $\sech^{-1}$:
+             $$\int\frac{f'}{f\sqrt{a^2+f^2}}\,dx=-\frac1a\csch^{-1}\frac{|f|}{a}+C$$
+          3. **نعوّض** $a=2$. والقيمة المطلقة لازم، لأن $x+3$ ممكن يكون سالب.
+        answer: |-
+          -\frac12\csch^{-1}\Big(\frac{|x+3|}{2}\Big)+C
+        domain: 'x\ne-3'
+        fix: |
+          المفتاح كتب $-\frac12\csch^{-1}\big(\frac{x+3}{2}\big)$ بدون قيمة مطلقة، وهذا يصح بس لما $x>-3$.
+        check:
+          kind: indef
+          f: '1/((x+3)*sqrt(x**2+6*x+13))'
+          ans: '-acsch(Abs(x+3)/2)/2'
+          samples: [-6.0, -3.5, -2.5, 1.0]
+          identities:
+            - ['x**2+6*x+13', '(x+3)**2+4']
+          key_wrong: '-acsch((x+3)/2)/2'
+          key_valid_on: [-2.5, 1.0]
+          key_invalid_on: [-6.0, -3.5]
+
+  - key: I3
+    questions:
+      - id: F472-2-2
+        marks: 2
+        page: 25
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{\sec x\tan x}{1+\sec^2x}\,dx'
+        solution: |
+          1. **وش المربّع؟** $f=\sec x$، ومشتقته $\sec x\tan x$، وموجودة فوق بالضبط.
+          2. **نقرأ الشكل:** ما فيه جذر، و**جمع** ($a^2+f^2$): هذا شكل $\tan^{-1}$ من 3.4، **مو زائدي**:
+             $$\int\frac{f'}{a^2+f^2}\,dx=\frac1a\tan^{-1}\frac fa+C$$
+          3. **نعوّض** $f=\sec x$ و$a=1$.
+        answer: |-
+          \tan^{-1}(\sec x)+C
+        domain: '\cos x\ne0'
+        check:
+          kind: indef
+          f: 'sec(x)*tan(x)/(1+sec(x)**2)'
+          ans: 'atan(sec(x))'
+          samples: [-2.0, -0.5, 0.7, 2.5, 4.0]

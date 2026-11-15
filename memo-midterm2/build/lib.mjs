@@ -238,7 +238,7 @@ export function makeMarkdown(ctx = {}) {
 }
 
 export function wrapIds(html) {
-  return html.replace(/\b([MF])4[5-7][12]-\d-\d\b/g, (m, k) => `<span class="qid${k === 'F' ? ' qid-fin' : ''}">${m}</span>`);
+  return html.replace(/\b([MFA])4[5-7][12]-\d-\d\b/g, (m, k) => `<span class="qid${k === 'F' ? ' qid-fin' : ''}">${m}</span>`);
 }
 
 export function qidChip(id, link) {

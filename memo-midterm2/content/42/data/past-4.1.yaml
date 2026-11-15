@@ -1,28 +1,25 @@
-# سؤال من 4.1 جاء في اختبار السنة الماضية (1447، الفصل الأول، الاختبار الثاني)
+# القسم 4.1: تكامل الدوال الزائدية (يجي مع 4.2)
+# أربعة من الفصلي الثاني، واثنين من الفصلي الأول (1447 الفصل الثاني، لما صار 4.1 فيه): رمزهم يبدأ بـ A.
+# الحل بدون u: قانون السلسلة بالعكس. الداخل ومشتقته موجودين، فنكامل الخارج والداخل يبقى زي ما هو.
 section: '4.1'
 slug: t41
 title: 'تكاملات 4.1 اللي تجي مع 4.2'
 patterns:
-  - key: T41
-    title: 'تكامل دالة زائدية مباشرة'
+  - key: H
+    title: 'تكامل دالة زائدية'
     questions:
       - id: M471-2-1
         marks: 2
         page: 5
         prompt: 'Evaluate the integral.'
         q: '\int x\tanh\big(4x^2-1\big)\,dx'
-        hint: |
-          الداخل $4x^2-1$ ومشتقته $8x$، و$x$ موجودة. وتذكّر:
-          $$\tanh u=\frac{\sinh u}{\cosh u}$$
         solution: |
-          1. الداخل $4x^2-1$، ومشتقته $8x$، و$x$ موجودة (ناقصها 8 بس):
-             $$u=4x^2-1,\qquad du=8x\,dx\quad\Rightarrow\quad x\,dx=\frac{du}{8}$$
-          2. نعوّض:
-             $$\int x\tanh\big(4x^2-1\big)\,dx=\frac18\int\tanh u\,du$$
-          3. نكتب $\tanh$ كسر. البسط مشتقة المقام، فالتكامل $\ln$:
-             $$\int\tanh u\,du=\int\frac{\sinh u}{\cosh u}\,du=\ln(\cosh u)+C$$
-             و$\cosh u>0$ دايم، فما نحتاج قيمة مطلقة.
-          4. نرجع لـ $x$:
+          1. **الداخل** $4x^2-1$، ومشتقته $8x$. وبرّا $x$، يعني ثُمن المشتقة:
+             $$x=\frac18\big(4x^2-1\big)'$$
+          2. **قانون السلسلة بالعكس:** المشتقة موجودة، فنكامل الدالة اللي برّا بس، والداخل يبقى زي ما هو:
+             $$\int x\tanh\big(4x^2-1\big)\,dx=\frac18\int\tanh(f)\,f'\,dx,\qquad f=4x^2-1$$
+          3. **تكامل $\tanh$:** $\tanh=\frac{\sinh}{\cosh}$، والبسط مشتقة المقام، فالتكامل $\ln$ المقام. و$\cosh$ موجب دايم، فما نحتاج قيمة مطلقة:
+             $$\int\tanh(f)\,f'\,dx=\ln(\cosh f)+C$$
         answer: |-
           \frac18\ln\big(\cosh(4x^2-1)\big)+C
         domain: 'x\in\mathbb{R}'
@@ -37,16 +34,11 @@ patterns:
         page: 22
         prompt: 'Evaluate the integral.'
         q: '\int\frac{\coth\big(\sqrt{x}\big)}{\sqrt{x}}\,dx'
-        hint: |
-          الداخل $\sqrt x$، ومشتقته فيها $\frac{1}{\sqrt x}$ اللي موجودة.
         solution: |
-          1. الداخل $\sqrt x$، ومشتقته $\frac{1}{2\sqrt x}$، و$\frac{1}{\sqrt x}$ موجودة (ناقصها $\frac12$):
-             $$u=\sqrt x,\qquad du=\frac{dx}{2\sqrt x}\quad\Rightarrow\quad\frac{dx}{\sqrt x}=2\,du$$
-          2. نعوّض:
-             $$\int\frac{\coth\sqrt x}{\sqrt x}\,dx=2\int\coth u\,du$$
-          3. $\coth u=\frac{\cosh u}{\sinh u}$، والبسط مشتقة المقام:
-             $$\int\coth u\,du=\ln|\sinh u|+C$$
-          4. نرجع لـ $x$:
+          1. **الداخل** $\sqrt x$، ومشتقته $\frac{1}{2\sqrt x}$. والسؤال فيه $\frac{1}{\sqrt x}$، يعني ضعف المشتقة:
+             $$\frac{1}{\sqrt x}=2\big(\sqrt x\big)'$$
+          2. **تكامل $\coth$:** $\coth=\frac{\cosh}{\sinh}$، والبسط مشتقة المقام، فالتكامل $\ln|\sinh|$:
+             $$\int\frac{\coth\sqrt x}{\sqrt x}\,dx=2\int\coth(f)\,f'\,dx=2\ln|\sinh f|+C$$
         answer: |-
           2\ln\big|\sinh\sqrt{x}\big|+C
         domain: 'x>0'
@@ -61,15 +53,11 @@ patterns:
         page: 5
         prompt: 'Evaluate the integral.'
         q: '\int\frac{\sech^2\big(x^{-2}\big)}{x^3}\,dx'
-        hint: |
-          الداخل $x^{-2}$، ومشتقته فيها $x^{-3}$ اللي موجودة.
         solution: |
-          1. نكتب $\frac{1}{x^3}=x^{-3}$. الداخل $x^{-2}$، ومشتقته $-2x^{-3}$:
-             $$u=x^{-2},\qquad du=-2x^{-3}\,dx\quad\Rightarrow\quad x^{-3}\,dx=-\frac{du}{2}$$
-          2. نعوّض:
-             $$\int\sech^2\big(x^{-2}\big)\,x^{-3}\,dx=-\frac12\int\sech^2u\,du$$
-          3. $\sech^2$ هي مشتقة $\tanh$، فتكاملها $\tanh$:
-             $$=-\frac12\tanh u+C$$
+          1. **الداخل** $x^{-2}$، ومشتقته $-2x^{-3}=-\frac{2}{x^3}$. والسؤال فيه $\frac{1}{x^3}$، يعني $-\frac12$ من المشتقة:
+             $$\frac{1}{x^3}=-\frac12\big(x^{-2}\big)'$$
+          2. **$\sech^2$ مشتقة $\tanh$،** فتكاملها $\tanh$:
+             $$\int\frac{\sech^2\big(x^{-2}\big)}{x^3}\,dx=-\frac12\int\sech^2(f)\,f'\,dx=-\frac12\tanh f+C$$
         answer: |-
           -\frac12\tanh\big(x^{-2}\big)+C
         domain: 'x\ne0'
@@ -84,15 +72,11 @@ patterns:
         page: 21
         prompt: 'Evaluate the integral.'
         q: '\int x^{-2}\csch^2\Big(\frac{1}{x}\Big)\,dx'
-        hint: |
-          الداخل $\frac1x$، ومشتقته $-\frac{1}{x^2}$ موجودة (ناقصها سالب).
         solution: |
-          1. الداخل $\frac1x$، ومشتقته $-\frac{1}{x^2}=-x^{-2}$، وموجودة ناقصها سالب:
-             $$u=\frac1x,\qquad du=-x^{-2}\,dx\quad\Rightarrow\quad x^{-2}\,dx=-du$$
-          2. نعوّض:
-             $$\int\csch^2\Big(\frac1x\Big)x^{-2}\,dx=-\int\csch^2u\,du$$
-          3. مشتقة $\coth$ هي $-\csch^2$، يعني تكامل $\csch^2$ هو $-\coth$:
-             $$-\int\csch^2u\,du=-\big(-\coth u\big)+C=\coth u+C$$
+          1. **الداخل** $\frac1x$، ومشتقته $-\frac{1}{x^2}=-x^{-2}$. والسؤال فيه $x^{-2}$، يعني سالب المشتقة:
+             $$x^{-2}=-\Big(\frac1x\Big)'$$
+          2. **مشتقة $\coth$ هي $-\csch^2$،** يعني تكامل $\csch^2$ هو $-\coth$. وسالب في سالب = موجب:
+             $$\int x^{-2}\csch^2\frac1x\,dx=-\int\csch^2(f)\,f'\,dx=-\big(-\coth f\big)+C$$
         answer: |-
           \coth\Big(\frac1x\Big)+C
         domain: 'x\ne0'
@@ -101,3 +85,43 @@ patterns:
           f: 'x**-2*csch(1/x)**2'
           ans: 'coth(1/x)'
           samples: [-2.0, -0.6, 0.6, 2.0]
+
+      - id: A472-3-3
+        marks: 1
+        page: 18
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{dx}{\csch x\,(1+\cosh x)}'
+        solution: |
+          1. **نكتب $\csch$ بـ $\sinh$:** $\csch x=\frac{1}{\sinh x}$، فمقلوبه $\sinh x$ يطلع فوق:
+             $$\frac{1}{\csch x\,(1+\cosh x)}=\frac{\sinh x}{1+\cosh x}$$
+          2. **البسط مشتقة المقام:** $(1+\cosh x)'=\sinh x$، و$\int\frac{f'}{f}\,dx=\ln|f|$. و$1+\cosh x>0$ دايم، فما نحتاج قيمة مطلقة.
+        answer: |-
+          \ln\big(1+\cosh x\big)+C
+        domain: 'x\ne0'
+        domain_why: 'لأن $\csch x$ ما تنعرّف عند $x=0$.'
+        note: |
+          المفتاح كتب $\ln|1+\cosh x|$، نفس الشي لأن اللي داخل موجب.
+        check:
+          kind: indef
+          f: '1/(csch(x)*(1+cosh(x)))'
+          ans: 'log(1+cosh(x))'
+          samples: [-2.0, -0.5, 0.5, 2.0]
+
+      - id: A472-3-4
+        marks: 1
+        page: 18
+        prompt: 'Evaluate the integral.'
+        q: '\int\frac{5^{\tanh x}}{\cosh^2x}\,dx'
+        solution: |
+          1. **$\frac{1}{\cosh^2x}=\sech^2x$، وهذي مشتقة $\tanh x$:** يعني الداخل (الأس $\tanh x$) ومشتقته موجودين:
+             $$\frac{5^{\tanh x}}{\cosh^2x}=5^{\tanh x}\cdot\big(\tanh x\big)'$$
+          2. **تكامل أسّية بأساس 5:** مشتقة $5^{f}$ هي $5^{f}\ln5\cdot f'$، فنقسم على $\ln5$:
+             $$\int5^{f}f'\,dx=\frac{5^{f}}{\ln5}+C$$
+        answer: |-
+          \frac{5^{\tanh x}}{\ln5}+C
+        domain: 'x\in\mathbb{R}'
+        check:
+          kind: indef
+          f: '5**tanh(x)/cosh(x)**2'
+          ans: '5**tanh(x)/log(5)'
+          samples: [-1.5, 0.0, 0.8, 2.0]

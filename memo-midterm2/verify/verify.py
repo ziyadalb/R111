@@ -403,6 +403,73 @@ def general_checks():
         anti('1/(x**Rational(1,3)+x**Rational(2,3))', '3*x**Rational(1,3) - 3*log(1+x**Rational(1,3))', tpos))
     rec('5.5 فهم: t³/(t²+1) = t − t/(t²+1)، وتكامله t²/2 − ½ln(t²+1)',
         sp.simplify(x**3 / (x**2 + 1) - (x - x / (x**2 + 1))) == 0 and anti('x**3/(x**2+1)', 'x**2/2 - log(x**2+1)/2', tpos))
+
+    # 22) 4.2: جدول الخانات التسع، وقواعد الحفظ، واختصارات المشتقات، واختصار «اضرب فوق وتحت»، وأجوبة أسئلة الفهم
+    def A(f_s, F_s, samples):
+        return check_antiderivative(f_s, F_s, samples)[0]
+
+    def D(f_s, d_s, samples):
+        return check_derivative(f_s, d_s, samples)[0]
+    rec('4.2 مشتقات الست: sinh⁻¹ وcosh⁻¹ وtanh⁻¹ وcoth⁻¹ (بدون سالب) وsech⁻¹ وcsch⁻¹ (مع abs)',
+        D('asinh(x)', '1/sqrt(1+x**2)', [-2.0, 0.5, 3.0]) and D('acosh(x)', '1/sqrt(x**2-1)', [1.2, 3.0])
+        and D('atanh(x)', '1/(1-x**2)', [-0.7, 0.3]) and D('acoth(x)', '1/(1-x**2)', [-3.0, 1.5, 4.0])
+        and D('asech(x)', '-1/(x*sqrt(1-x**2))', [0.2, 0.8]) and D('acsch(x)', '-1/(Abs(x)*sqrt(1+x**2))', [-2.0, -0.3, 0.4, 3.0]))
+    rec('4.1 مشتقات الست: cosh′ بدون سالب، وsech′ بسالب، والباقي مثل المثلثية',
+        D('sinh(x)', 'cosh(x)', [0.5]) and D('cosh(x)', 'sinh(x)', [0.5]) and D('tanh(x)', 'sech(x)**2', [0.5])
+        and D('coth(x)', '-csch(x)**2', [0.5]) and D('sech(x)', '-sech(x)*tanh(x)', [0.5]) and D('csch(x)', '-csch(x)*coth(x)', [0.5]))
+    rec('4.2 جدول الخانات: بدون جذر (tanh⁻¹ لما |f|<a، وcoth⁻¹ بنفس الإشارة لما |f|>a، وtan⁻¹)',
+        A('1/(4-x**2)', 'atanh(x/2)/2', [-1.5, 0.3, 1.8]) and A('1/(4-x**2)', 'acoth(x/2)/2', [-5.0, -2.5, 2.5, 5.0])
+        and not A('1/(4-x**2)', '-acoth(x/2)/2', [2.5]) and A('1/(4+x**2)', 'atan(x/2)/2', [-3.0, 0.5, 4.0]))
+    rec('4.2 جدول الخانات: جذر لحاله (sin⁻¹ وsinh⁻¹، وln على الجهتين لـ f²−a²)',
+        A('1/sqrt(4-x**2)', 'asin(x/2)', [-1.5, 0.3, 1.8]) and A('1/sqrt(x**2+4)', 'asinh(x/2)', [-3.0, 0.5, 4.0])
+        and A('1/sqrt(x**2-4)', 'log(Abs(x+sqrt(x**2-4)))', [-5.0, -2.5, 2.5, 5.0]))
+    rec('4.2 جدول الخانات: f برّا الجذر (sech⁻¹ وcsch⁻¹ بسالب، وsec⁻¹ بموجب، وكلها |f|)',
+        A('1/(x*sqrt(4-x**2))', '-asech(Abs(x)/2)/2', [-1.5, -0.3, 0.4, 1.8]) and A('1/(x*sqrt(x**2+4))', '-acsch(Abs(x)/2)/2', [-3.0, -0.4, 0.5, 4.0])
+        and A('1/(x*sqrt(x**2-4))', 'asec(Abs(x)/2)/2', [-5.0, -2.5, 2.5, 5.0]))
+    rec('4.2 خانة tanh⁻¹ على الجهتين: ∫f′/(a²−f²) = (1/(2a))ln abs((a+f)/(a−f))',
+        A('1/(25-x**2)', 'log(Abs((5+x)/(5-x)))/10', [-8.0, -2.0, 1.0, 7.0]) and A('exp(x)/(25-exp(2*x))', 'log(Abs((5+exp(x))/(5-exp(x))))/10', [-1.0, 1.0, 2.0]))
+    rec('4.2 اختصار: (sech⁻¹(kx))′ = −1/(x√(1−k²x²))، الـ k تنشطب (k=2، 3، 5)',
+        D('asech(2*x)', '-1/(x*sqrt(1-4*x**2))', [0.1, 0.4]) and D('asech(3*x)', '-1/(x*sqrt(1-9*x**2))', [0.1, 0.3]) and D('asech(5*x)', '-1/(x*sqrt(1-25*x**2))', [0.05, 0.15]))
+    rec('4.2 مشتقة ln فوق الزائدية: ln abs(sinh)→coth، ln cosh→tanh، ln abs(tanh)→2csch(2v)، ln abs(csch)→−coth',
+        D('log(Abs(sinh(x)))', 'coth(x)', [-1.0, 0.7]) and D('log(cosh(x))', 'tanh(x)', [-1.0, 0.7])
+        and D('log(Abs(tanh(x)))', '2*csch(2*x)', [-1.0, 0.7]) and D('log(Abs(csch(x)))', '-coth(x)', [-1.0, 0.7]))
+    rec('4.2 تبسيط: sech²v/tanh v = 2/sinh 2v، يعني 4sech²(4x)/tanh(4x) = 8csch(8x)',
+        sp.simplify((sp.sech(x)**2 / sp.tanh(x) - 2 / sp.sinh(2 * x)).rewrite(sp.exp)) == 0
+        and sp.simplify((4 * sp.sech(4 * x)**2 / sp.tanh(4 * x) - 8 * sp.csch(8 * x)).rewrite(sp.exp)) == 0)
+    rec('4.2 (tanh⁻¹(sin x))′ = sec x',
+        D('atanh(sin(x))', 'sec(x)', [-1.0, 0.4, 2.8, 4.0]))
+    rec('4.2 القلب: sech⁻¹w = cosh⁻¹(1/w) لما 0<w≤1، وcoth⁻¹w = tanh⁻¹(1/w) لما |w|>1، وcsch⁻¹(1/x) = sinh⁻¹x',
+        all(close(real_val(mp.asech(mp.mpf(w))), real_val(mp.acosh(1 / mp.mpf(w)))) for w in ['0.2', '0.7', '1'])
+        and all(close(real_val(mp.acoth(mp.mpf(w))), real_val(mp.atanh(1 / mp.mpf(w)))) for w in ['-3', '1.5', '4'])
+        and all(close(real_val(mp.acsch(1 / mp.mpf(w))), real_val(mp.asinh(mp.mpf(w)))) for w in ['-2', '0.5', '3']))
+    rec('4.2 اختصار «اضرب فوق وتحت»: ∫dx/√(e^{2kx}+a²) = −(1/(ka))csch⁻¹(e^{kx}/a)، و∫dx/√(a²−e^{2kx}) = −(1/(ka))sech⁻¹(e^{kx}/a)',
+        A('1/sqrt(exp(6*x)+1)', '-acsch(exp(3*x))/3', [-1.0, 0.5]) and A('1/sqrt(exp(2*x)+9)', '-acsch(exp(x)/3)/3', [-1.0, 0.5, 2.0])
+        and A('1/sqrt(9-exp(6*x))', '-asech(exp(3*x)/3)/9', [-1.0, 0.2]) and A('1/sqrt(4-exp(2*x))', '-asech(exp(x)/2)/2', [-1.0, 0.5]))
+    rec('4.2 اختصار «اضرب فوق وتحت»: ∫dx/(x√(x^{2n}+a²)) = −(1/(na))csch⁻¹(|x|ⁿ/a)، و∫dx/(x√(a²−x^{2n})) = −(1/(na))sech⁻¹(|x|ⁿ/a)',
+        A('1/(x*sqrt(x**6+25))', '-acsch(Abs(x)**3/5)/15', [-2.0, -0.6, 0.6, 2.0]) and A('1/(x*sqrt(x**4+9))', '-acsch(x**2/3)/6', [-2.0, 0.5])
+        and A('1/(x*sqrt(1-x**4))', '-asech(x**2)/2', [-0.8, -0.3, 0.3, 0.8]) and A('1/(x*sqrt(16-x**4))', '-asech(x**2/4)/8', [-1.5, 0.5]))
+    rec('4.2 الإكمال بسطر (الثابت = القيمة عند الرقم اللي يصفّر القوس): x²−8x+20، 5+4x−x²، −x²−6x، 4x²+8x+20',
+        sp.expand((x - 4)**2 + 4) == x**2 - 8 * x + 20 and sp.expand(9 - (x - 2)**2) == 5 + 4 * x - x**2
+        and sp.expand(9 - (x + 3)**2) == -x**2 - 6 * x and sp.expand(4 * ((x + 1)**2 + 4)) == 4 * x**2 + 8 * x + 20)
+    rec('4.2 فهم (الأساس): ∫dx/√(9+x²)، ∫dx/(9+x²)، ∫dx/√(9−x²)',
+        A('1/sqrt(9+x**2)', 'asinh(x/3)', [-2.0, 1.0]) and A('1/(9+x**2)', 'atan(x/3)/3', [-2.0, 1.0]) and A('1/sqrt(9-x**2)', 'asin(x/3)', [-2.0, 1.0]))
+    rec('4.2 فهم (المشتقات): cosh(x²)، tanh⁻¹(3x) وcoth⁻¹(3x)، sech⁻¹(5x)، cosh²(3x)، ln abs(sinh 2x)، log abs(cosh x)، csch⁻¹(3/x)',
+        D('cosh(x**2)', '2*x*sinh(x**2)', [0.5, 1.5]) and D('atanh(3*x)', '3/(1-9*x**2)', [-0.2, 0.1])
+        and D('acoth(3*x)', '3/(1-9*x**2)', [-1.0, 0.5, 2.0]) and D('asech(5*x)', '-1/(x*sqrt(1-25*x**2))', [0.05, 0.15])
+        and D('cosh(3*x)**2', '6*sinh(3*x)*cosh(3*x)', [-0.4, 0.6]) and D('log(Abs(sinh(2*x)))', '2*coth(2*x)', [-0.7, 0.9])
+        and D('log(cosh(x))/log(10)', 'tanh(x)/log(10)', [-0.7, 0.9]) and D('acsch(3/x)', '1/sqrt(x**2+9)', [-4.0, -0.5, 0.5, 4.0]))
+    rec('4.2 فهم (القلب): csch⁻¹(1/x) = sinh⁻¹x، sech⁻¹(1/x) = cosh⁻¹x لما x≥1',
+        all(close(real_val(mp.acsch(1 / mp.mpf(w))), real_val(mp.asinh(mp.mpf(w)))) for w in ['-3', '0.4', '2'])
+        and all(close(real_val(mp.asech(1 / mp.mpf(w))), real_val(mp.acosh(mp.mpf(w)))) for w in ['1', '1.5', '6']))
+    rec('4.2 فهم (التكاملات): الأنماط 4 إلى 7',
+        A('1/sqrt(x**2-8*x+20)', 'asinh((x-4)/2)', [-1.0, 4.0, 7.0]) and A('1/sqrt(5+4*x-x**2)', 'asin((x-2)/3)', [-0.5, 2.0, 4.5])
+        and A('1/((x+1)*sqrt(x**2+2*x+5))', '-acsch(Abs(x+1)/2)/2', [-4.0, -1.5, -0.5, 2.0])
+        and A('exp(x)/sqrt(exp(2*x)+4)', 'asinh(exp(x)/2)', [-1.0, 0.5, 2.0]) and A('cos(x)/(9-sin(x)**2)', 'atanh(sin(x)/3)/3', [-2.0, 0.5, 3.0])
+        and A('2*x/sqrt(x**4+1)', 'asinh(x**2)', [-1.5, 0.5, 2.0]) and A('1/sqrt(exp(2*x)+9)', '-acsch(exp(x)/3)/3', [-1.0, 1.0])
+        and A('1/(x*sqrt(1-x**4))', '-asech(x**2)/2', [-0.8, 0.3]))
+    rec('4.2 فهم (4.1): sinh(5x)، x·sech²(x²)، sinh x/cosh²x، coth x',
+        A('sinh(5*x)', 'cosh(5*x)/5', [-0.5, 0.7]) and A('x*sech(x**2)**2', 'tanh(x**2)/2', [-1.0, 0.6])
+        and A('sinh(x)/cosh(x)**2', '-sech(x)', [-1.0, 0.6]) and A('coth(x)', 'log(Abs(sinh(x)))', [-1.5, 0.6, 2.0]))
     return out
 
 
