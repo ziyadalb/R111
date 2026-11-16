@@ -1,0 +1,33 @@
+/* ===== ليلة الاختبار: نفس التصميم، أصغر شوي عشان كل شي يبان بنظرة ===== */
+@page { @top-right { content: "ريض 111 · ليلة الفصلي الثاني"; } }
+@page learn { @top-left { content: "ليلة الاختبار"; } }
+body { font-size: 10.2pt; }
+.pg-learn + .pg-learn { break-before: page; }
+.pg-learn > h1:last-of-type { break-before: auto; }
+h1 { margin-top: 0; }
+.lede { margin-bottom: 0.4em; }
+
+/* جدول الخريطة */
+.map-wrap table { font-size: 0.86em; }
+.map-wrap td, .map-wrap th { padding: 0.25em 0.4em; }
+.map-wrap td:nth-child(2), .map-wrap th:nth-child(2) { white-space: nowrap; text-align: center; }
+.map-wrap td:last-child, .map-wrap th:last-child { white-space: nowrap; text-align: center; }
+.box table { font-size: 0.95em; }
+
+/* تدريب أول حركة: عمودين، وكل سؤال في بطاقة */
+.drill ol { columns: 2; column-gap: 6mm; padding-inline-start: 1.4em; margin: 0.3em 0; }
+.drill li { break-inside: avoid; border: 1px solid var(--line); border-radius: 8px; padding: 0.15em 0.5em 0.6em; margin: 0 0 3mm; }
+.drill li .eq { margin: 0.15em 0; }
+.drill li::marker { color: var(--brand); font-weight: 700; }
+.drill li::after { content: ""; display: block; border-bottom: 1px dotted #b9c4cd; height: 1.6em; }
+
+/* الأجوبة */
+.answers ol { padding-inline-start: 1.4em; margin: 0.3em 0; }
+.answers li { break-inside: avoid; margin: 0 0 0.45em; padding-bottom: 0.35em; border-bottom: 1px dotted #c3ced7; }
+.answers li .eq { margin: 0.1em 0; }
+
+/* صفحة القوانين لازم تكفي صفحة وحدة */
+.s-10-laws { font-size: 0.9em; line-height: 1.55; }
+.s-10-laws .box { margin: 0.32em 0; }
+.s-10-laws .box-body ul { margin: 0.1em 0; }
+.s-10-laws .eq { margin: 0.12em 0; }
